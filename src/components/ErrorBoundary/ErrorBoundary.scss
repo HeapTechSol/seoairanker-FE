@@ -1,0 +1,32 @@
+.page-container-error {
+  height: 100%;
+
+  .error-detail {
+    position: absolute;
+    top: 20%;
+    left: 27%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    .title {
+      font-size: 2.5vw;
+      font-weight: 600;
+      color: colorMapper(error, main);
+    }
+    .error-description {
+      font-weight: 400;
+      font-size: 1vw;
+      color: colorMapper(error, main);
+    }
+  }
+  img {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    height: auto;
+    width: calc(100% / 4);
+    transform: translate(-50%, -50%);
+  }
+}

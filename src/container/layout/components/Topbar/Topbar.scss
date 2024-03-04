@@ -1,0 +1,34 @@
+.topbar-container {
+  height: 80px;
+  width: 100%;
+  padding: 0px 24px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid black;
+  position: relative;
+}
+
+.humbarger-icon {
+  width: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  position: absolute;
+  left: 5px;
+  .line {
+    transition: width 0.3s ease-in-out;
+    width: 100%;
+    height: 2px;
+    background: colorMapper(grayclr, 600);
+  }
+}
+
+.collapsed ~ .layout-right-section .topbar-container .humbarger-icon {
+  .line {
+    &:nth-of-type(even) {
+      transition: width 0.3s ease-in-out;
+      width: 70%;
+    }
+  }
+}

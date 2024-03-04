@@ -1,0 +1,67 @@
+@each $color in $colorType {
+  .radio-button-container.#{$color} {
+    display: inline-flex;
+    gap: 8px;
+
+    &.top {
+      flex-direction: column;
+    }
+
+    &.bottom {
+      flex-direction: column-reverse;
+    }
+
+    &.left {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &.right {
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    &:has(input:disabled) label{
+     color: colorMapper(grayclr, 400);
+    }
+
+    input[type='radio'] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 1.5em;
+      height: 1.5em;
+      border-radius: 50%;
+      outline: none;
+      border: 2px solid colorMapper($color, main);
+      position: relative;
+    }
+
+    input[type='radio']:disabled{
+      border-color: colorMapper(grayclr, 300);
+    }
+
+    input[type='radio']:before {
+      content: '';
+      display: block;
+      width: 0.8em;
+      height: 0.8em;
+      position: absolute;
+      top:50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+    }
+
+    input[type='radio']:checked:before {
+      background: colorMapper($color, main);
+    }
+
+    input[type='radio']:checked {
+      border-color: colorMapper($color, main);
+    }
+
+
+
+  }
+}

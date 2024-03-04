@@ -1,0 +1,103 @@
+.chip {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  &.lg {
+    padding: 12px 18px;
+    font-size: 18px;
+  }
+  &.md {
+    padding: 8px 14px;
+    font-size: 16px;
+  }
+  &.sm {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  &.end {
+    flex-direction: row;
+  }
+
+  &.start {
+    flex-direction: row-reverse;
+  }
+
+  &.bordered {
+    border-radius: 0;
+    border: 1px solid;
+  }
+
+  &.rounded {
+    border-radius: 7px;
+  }
+
+  &.circled {
+    border-radius: 30px;
+  }
+
+  &.bordered span {
+    border-radius: 0;
+    border: 1px solid;
+  }
+
+  &.rounded span {
+    border-radius: 7px;
+  }
+
+  &.circled span {
+    border-radius: 30px;
+  }
+
+  &.outlined {
+    background-color: transparent;
+  }
+
+  svg {
+    width: 1.2em;
+    height: 1.2em;
+  }
+
+  img {
+    width: 1em;
+    height: 1em;
+  }
+
+  @each $color in $colorType {
+    &.#{$color} span {
+      background: colorMapper($color, main) !important;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.12;
+      z-index: -1;
+    }
+
+    &.#{$color}.outlined svg path {
+      fill: colorMapper($color, main);
+    }
+
+    &.#{$color}.filled span {
+      background: colorMapper($color, main);
+      opacity: 1;
+    }
+
+    &.#{$color}.filled svg path {
+      fill: white;
+    }
+
+    &.#{$color}.filled img {
+      filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(54deg) brightness(105%) contrast(104%);
+    }
+
+    &.#{$color}.filled {
+      color: white;
+    }
+    &.#{$color}.outlined {
+      color: colorMapper($color, main);
+    }
+  }
+}

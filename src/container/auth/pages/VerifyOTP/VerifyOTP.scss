@@ -1,0 +1,25 @@
+.otp-input {
+  text-align: center;
+  font-size: 2em;
+  min-width: 40px;
+  max-width: 60px;
+  height: var(--otp-input-width);
+}
+
+@media (max-width: 480px) {
+  .otp-input {
+    --otp-input-width: 40px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .otp-input {
+    --otp-input-width: 50px;
+  }
+}
+
+@media (min-width: 769px) {
+  .otp-input {
+    --otp-input-width: 60px;
+  }
+}
