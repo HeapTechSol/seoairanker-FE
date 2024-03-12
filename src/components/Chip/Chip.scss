@@ -3,19 +3,22 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  line-height: 1.2;
   gap: 8px;
 
-  &.lg {
-    padding: 12px 18px;
-    font-size: 18px;
-  }
-  &.md {
-    padding: 8px 14px;
-    font-size: 16px;
-  }
   &.sm {
-    padding: 6px 10px;
+    padding: 3.25px 7px;
+    font-size: 13px;
+  }
+
+  &.md {
+    padding: 3.15px 10px;
     font-size: 14px;
+  }
+
+  &.lg {
+    padding: 3.76px 14px;
+    font-size: 15px;
   }
 
   &.end {
@@ -90,7 +93,14 @@
     }
 
     &.#{$color}.filled img {
-      filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(54deg) brightness(105%) contrast(104%);
+      filter: brightness(0)
+        saturate(100%)
+        invert(100%)
+        sepia(0%)
+        saturate(0%)
+        hue-rotate(54deg)
+        brightness(105%)
+        contrast(104%);
     }
 
     &.#{$color}.filled {

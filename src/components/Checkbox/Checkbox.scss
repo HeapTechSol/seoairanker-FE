@@ -1,7 +1,9 @@
 @each $color in $colorType {
   .checkbox-container.#{$color} {
     display: inline-flex;
+    cursor: pointer;
     gap: 8px;
+    line-height: 1.7;
 
     &.top {
       flex-direction: column;
@@ -26,12 +28,12 @@
       cursor: pointer;
     }
 
-    input[type='checkbox'] {
+    input[type="checkbox"] {
       appearance: none;
       cursor: pointer;
     }
 
-    input[type='checkbox'] {
+    input[type="checkbox"] {
       height: 1.5em;
       width: 1.5em;
       vertical-align: middle;
@@ -39,36 +41,36 @@
       position: relative;
     }
 
-    input[type='checkbox'] {
+    input[type="checkbox"] {
       -webkit-border-radius: 2px;
       border-radius: 2px;
     }
 
-    input[type='checkbox']:not(:disabled):hover {
+    input[type="checkbox"]:not(:disabled):hover {
       border-color: colorMapper($color, main);
     }
 
-    input[type='checkbox']:active:not(:disabled) {
+    input[type="checkbox"]:active:not(:disabled) {
       border-color: colorMapper($color, main);
     }
 
-    input[type='checkbox']:focus {
+    input[type="checkbox"]:focus {
       outline: none;
     }
 
-    input[type='checkbox']:checked {
+    input[type="checkbox"]:checked {
       border-color: colorMapper($color, main);
       background-color: colorMapper($color, main);
     }
 
-    input[type='checkbox']:checked:before {
-      content: '';
+    input[type="checkbox"]:checked:before {
+      content: "";
       position: absolute;
       top: -1px;
       left: -1px;
       width: 100%;
       height: 100%;
-      background: url('@/assets/icons/checkmark.svg') colorMapper($color, main);
+      background: url("@/assets/icons/checkmark.svg") colorMapper($color, main);
       background-repeat: no-repeat;
       background-size: 1em;
       background-position: center;
@@ -77,14 +79,15 @@
     }
 
     &.indeterminate {
-      input[type='checkbox']:before {
-        content: '';
+      input[type="checkbox"]:before {
+        content: "";
         position: absolute;
         top: -1px;
         left: -1px;
         width: 100%;
         height: 100%;
-        background: url('@/assets/icons/hyphen_icon.svg') colorMapper($color, main);
+        background: url("@/assets/icons/hyphen_icon.svg")
+          colorMapper($color, main);
         background-repeat: no-repeat;
         background-size: 1.2em;
         background-position: center;
@@ -93,7 +96,7 @@
       }
     }
 
-    input[type='checkbox']:disabled {
+    input[type="checkbox"]:disabled {
       border-color: colorMapper(grayclr, 400);
     }
 
@@ -101,18 +104,25 @@
       color: colorMapper(grayclr, 400);
     }
 
-    &.lg input,
-    label {
-      font-size: 18px;
+    &.sm > input {
+      font-size: 13px;
+    }
+    &.sm > label {
+      font-size: 13px;
     }
 
-    &.md input,
-    label {
+    &.md > input {
       font-size: 14px;
     }
-    &.sm input,
-    label {
-      font-size: 10px;
+    &.md > label {
+      font-size: 14px;
+    }
+
+    &.lg > input {
+      font-size: 15px;
+    }
+    &.lg > label {
+      font-size: 15px;
     }
   }
 }

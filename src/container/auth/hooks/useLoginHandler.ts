@@ -8,7 +8,7 @@ import { loginInitialValues } from "../utils";
 import { LoginSchema } from "@/utils/validations";
 import { LoginPayloadTypes } from "../pages/SignUp/types";
 import { AUTH, EXACT_ROUTES } from "@/constant/routes";
-import { COOCKIES_EXPIRATION_TIME } from "@/constant/constant";
+import { COOKIES_EXPIRATION_TIME } from "@/constant/constant";
 
 const { FORGET_PASSWORD } = EXACT_ROUTES;
 const { LOGIN } = AUTH;
@@ -31,7 +31,7 @@ const useLoginHandler = () => {
       const encryptedData = encryptData(credentials);
       setCookie("user", encryptedData, {
         path: LOGIN,
-        expires: COOCKIES_EXPIRATION_TIME,
+        expires: COOKIES_EXPIRATION_TIME,
       });
     } else {
       removeCookie("user", { path: LOGIN });

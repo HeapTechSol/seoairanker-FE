@@ -6,6 +6,7 @@
   }
   &.rowReverse {
     flex-direction: row-reverse;
+    justify-content: flex-end;
   }
   &.columnReverse {
     flex-direction: column-reverse;
@@ -39,5 +40,8 @@
   }
   &.align-end {
     align-items: flex-end;
+  }
+  &.wrap{
+    flex-wrap: wrap;
   }
 }

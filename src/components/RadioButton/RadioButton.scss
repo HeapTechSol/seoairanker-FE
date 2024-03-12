@@ -22,11 +22,11 @@
       justify-content: flex-end;
     }
 
-    &:has(input:disabled) label{
-     color: colorMapper(grayclr, 400);
+    &:has(input:disabled) label {
+      color: colorMapper(grayclr, 400);
     }
 
-    input[type='radio'] {
+    input[type="radio"] {
       -webkit-appearance: none;
       appearance: none;
       width: 1.5em;
@@ -37,31 +37,48 @@
       position: relative;
     }
 
-    input[type='radio']:disabled{
+    input[type="radio"]:disabled {
       border-color: colorMapper(grayclr, 300);
     }
 
-    input[type='radio']:before {
-      content: '';
+    input[type="radio"]:before {
+      content: "";
       display: block;
       width: 0.8em;
       height: 0.8em;
       position: absolute;
-      top:50%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       border-radius: 50%;
     }
 
-    input[type='radio']:checked:before {
+    input[type="radio"]:checked:before {
       background: colorMapper($color, main);
     }
 
-    input[type='radio']:checked {
+    input[type="radio"]:checked {
       border-color: colorMapper($color, main);
     }
+    &.sm > input {
+      font-size: 13px;
+    }
+    &.sm > label {
+      font-size: 13px;
+    }
 
+    &.md > input {
+      font-size: 14px;
+    }
+    &.md > label {
+      font-size: 14px;
+    }
 
-
+    &.lg > input {
+      font-size: 15px;
+    }
+    &.lg > label {
+      font-size: 15px;
+    }
   }
 }

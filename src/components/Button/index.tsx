@@ -1,11 +1,12 @@
-import { ButtonTypes } from "./types";
+import { KeyboardEvent } from "react";
 
 import LoadingIcon from "@/assets/icons/loader.gif";
 
 import { classMapper } from "@/utils/helper";
 
+import { ButtonTypes } from "./types";
+
 import "./Button.scss";
-import { KeyboardEvent } from "react";
 
 const Button = ({
   children,
@@ -21,8 +22,11 @@ const Button = ({
   type = "square",
   fullWidth = false,
   onClick,
+  borderRadius = false,
+  id = "",
 }: ButtonTypes) => {
   const classes = classMapper("btn", {
+    borderRadius: borderRadius,
     [size]: size,
     [variant]: variant,
     [className]: className,
@@ -49,7 +53,7 @@ const Button = ({
 
   const loader = !disabled && loading && <img src={LoadingIcon} />;
 
-  const onEnterPress = (e:KeyboardEvent<HTMLButtonElement>) => {
+  const onEnterPress = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === "Enter") {
       onClick?.(e);
     }
@@ -61,6 +65,8 @@ const Button = ({
       disabled={disabled}
       onClick={onClick}
       onKeyDown={onEnterPress}
+      id={id}
+      role="button"
     >
       {StartIcon && StartIconPassed}
       {children && !onlyIcon && children}

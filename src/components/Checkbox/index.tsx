@@ -32,7 +32,9 @@ const Checkbox = ({
   };
 
   return (
-    <div className={classes}>
+    <div
+      className={classes}
+    >
       {buttonLabel}
       <input
         tabIndex={0}

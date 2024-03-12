@@ -7,64 +7,42 @@
   align-items: center;
   justify-content: center;
   font-weight: 500;
-  letter-spacing: 1px;
   gap: 6px;
+  letter-spacing: 0.02857em;
+  line-height: 1.7;
 
   img,
-  rect {
-    height: 1em;
-    width: 1em;
+  rect,
+  svg {
+    height: 1.5em;
+    width: 1.5em;
   }
 
   &.sm {
-    padding: 6px 10px;
-    font-size: 14px;
+    padding: 4px 10px;
+    font-size: 13px;
   }
 
   &.md {
-    padding: 10px 16px;
-    font-size: 16px;
+    padding: 6px 16px;
+    font-size: 14px;
   }
 
   &.lg {
-    padding: 14px 22px;
-    font-size: 20px;
-  }
-
-  &.outlined.sm {
-    padding: 3px 9px;
-  }
-
-  &.outlined.md {
-    padding: 5px 15px;
-  }
-
-  &.outlined.lg {
-    padding: 7px 21px;
-  }
-
-  &.text.sm {
-    padding: 4px 5px;
-  }
-
-  &.text.md {
-    padding: 6px 8px;
-  }
-
-  &.text.lg {
-    padding: 8px 11px;
+    padding: 8px 22px;
+    font-size: 15px;
   }
 
   &.icon-button.sm {
-    padding: 3px;
+    padding: 5.3px;
   }
 
   &.icon-button.md {
-    padding: 5px;
+    padding: 7.9px;
   }
 
   &.icon-button.lg {
-    padding: 7px;
+    padding: 9.5px;
   }
 
   &.square {
@@ -72,7 +50,7 @@
   }
 
   &.borderRadius {
-    border-radius: 5px;
+    border-radius: 4px;
   }
 
   &.circle {
@@ -90,6 +68,7 @@
       box-shadow: 0px 3px 1px -2px colorMapper(grayclr, 400),
         0px 2px 2px 0px colorMapper(grayclr, 300),
         0px 1px 5px 0px colorMapper(grayclr, 300);
+      border: 1px solid colorMapper($color, main);
     }
     &.filled.#{$color} svg path {
       fill: white;

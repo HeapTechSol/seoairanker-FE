@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+body {
+  background-color: lightgray;
+}
+
+.rich-text-editor {
+  display: flex;
+  gap: 1px;
+
+  &-sidebar-tools {
+    max-width: 300px;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 24px;
+  }
+
+  &-container {
+    max-width: 991px;
+    width: 100%;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .toolbar {
+    padding: 16px;
+    background: #eee;
+  }
+  .toolbar .head {
+    display: flex;
+    grid-gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .toolbar .head > input {
+    max-width: 100px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    outline: none;
+  }
+  .toolbar .head select {
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  .toolbar .head .color {
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    grid-gap: 6px;
+    padding: 0 10px;
+  }
+  .toolbar .head .color span {
+    font-size: 14px;
+  }
+  .toolbar .head .color input {
+    border: none;
+    padding: 0;
+    width: 26px;
+    height: 26px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .toolbar .head .color input::-moz-color-swatch {
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+  }
+  .toolbar .btn-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    grid-gap: 10px;
+  }
+
+  #content {
+    padding: 16px 32px;
+    outline: none;
+    min-height: 30vh;
+    max-height: 60vh;
+    overflow: auto;
+  }
+  li {
+    list-style: inside;
+    margin-left: 3px;
+  }
+}

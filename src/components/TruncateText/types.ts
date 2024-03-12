@@ -1,4 +1,5 @@
 export type TruncateTextTypes = {
-  width:number;
+  width?:number;
+  line?:number;
   text:string;
 }

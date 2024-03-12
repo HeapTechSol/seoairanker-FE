@@ -1,7 +1,12 @@
-.truncate-text{
-	display: inline-block;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	width: inherit;
+.truncate-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+	@for $i from 1 through 20 {
+		&.truncate-text.line-#{$i} {
+			-webkit-line-clamp: $i;
+		}
+	}
 }

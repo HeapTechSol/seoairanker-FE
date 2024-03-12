@@ -1,14 +1,17 @@
-import { TruncateTextTypes } from './types';
+import { classMapper } from "@/utils/helper";
 
-import './TruncateText.scss';
+import { TruncateTextTypes } from "./types";
 
-const TruncateText = ({ text, width }: TruncateTextTypes) => {
-  const style = { width: `${width}px` };
+import "./TruncateText.scss";
+
+const TruncateText = ({ text, width, line }: TruncateTextTypes) => {
+  const classes = classMapper("truncate-text", { [`line-${line}`]: !!line });
+  const style = { width: line ? `${width}px` : "auto" };
 
   return (
-    <div className="truncate-text" style={style}>
-      {text}
-    </div>
+      <div className={classes} style={style}>
+        {text}
+      </div>
   );
 };
 

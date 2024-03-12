@@ -15,6 +15,7 @@ const Chip = ({
   text,
   iconPlacement = 'end',
   Icon,
+  className=''
 }: ChipPropsTypes) => {
   const chipStyleClasses = classMapper('chip', {
     bordered: bordered,
@@ -23,6 +24,7 @@ const Chip = ({
     [variant]: variant,
     [color]: color,
     [size]: size,
+    [className]: className,
     [iconPlacement]: iconPlacement,
     primary: true,
   });

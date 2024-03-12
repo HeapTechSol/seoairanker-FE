@@ -1,0 +1,17 @@
+.pagination-container {
+  display: flex;
+  list-style-type: none;
+  gap:12px;
+
+  .pagination-item {
+
+    &.dots:hover {
+      background-color: transparent;
+      cursor: default;
+    }
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+    }
+  }
+}
