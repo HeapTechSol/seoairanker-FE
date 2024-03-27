@@ -1,44 +1,41 @@
 import { menuTypes } from "@/container/layout/components/Menu/types";
+import { LEAVE } from "./routes";
+
+const { LEAVE_BALANCE, APPLY_LEAVE, PENDING_LEAVES } = LEAVE;
 
 export const sidebarMenuData: menuTypes[] = [
   {
-    name: 'Dashboard',
-    icon: 'icon',
-    path: '/dashboard',
+    name: "Dashboard",
+    icon: "icon",
+    path: "/dashboard",
     children: [
       {
-        name: 'About',
-        path: '/about',
+        name: "About",
+        path: "/about",
         children: [
-          { name: 'Old Bank', path: 'dashboard/about/oldbank' },
-          { name: 'New Bank', path: 'dashboard/about/newbank' },
+          { name: "Old Bank", path: "dashboard/about/oldbank" },
+          { name: "New Bank", path: "dashboard/about/newbank" },
         ],
       },
       {
-        name: 'Contact',
-        path: '/contact',
+        name: "Contact",
+        path: "/contact",
         children: [
-          { name: 'Old Bank', path: 'dashboard/contact/oldbank' },
-          { name: 'New Bank', path: 'dashboard/contact/newcontact' },
+          { name: "Old Bank", path: "dashboard/contact/oldbank" },
+          { name: "New Bank", path: "dashboard/contact/newcontact" },
         ],
       },
     ],
   },
   {
-    name: 'Student',
-    icon: 'icon',
-    path: '/student',
+    name: "Leave Management",
+    icon: "icon",
+    path: `${LEAVE_BALANCE} ${APPLY_LEAVE} ${PENDING_LEAVES}`,
     children: [
-      { name: 'Personal Information', path: '/student/personal' },
-      {
-        name: 'Bank Information',
-        path: 'bank',
-        children: [
-          { name: 'Old Bank', path: 'student/bank/newcontact' },
-          { name: 'New Bank', path: 'student/bank/newcontact' },
-        ],
-      },
+      { name: "Leave Balance", path: LEAVE_BALANCE },
+      { name: "Apply Leave", path: APPLY_LEAVE },
+      { name: "Pending Leaves ", path: PENDING_LEAVES },
     ],
   },
-  { name: 'Login', path: '/login', icon: 'icon' },
+  { name: "Login", path: "/login", icon: "icon" },
 ];

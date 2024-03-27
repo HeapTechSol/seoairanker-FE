@@ -1,73 +1,125 @@
-@each $color in $colorType {
-  .select-container.#{$color} {
-    position: relative;
-    line-height: 1.7;
+.select {
+  &.top {
+    legend {
+      display: none;
+    }
+  }
+  @each $color in $colorType {
+    .select-container.#{$color} {
+      position: relative;
+      line-height: 1.7;
 
-    .selected-options {
-      border: 1px solid colorMapper($color, main);
-      &.sm {
-        padding: 4px 10px;
-        height: 32.09px;
-        font-size: 13px;
-      }
+      .selected-options {
+        border: 1px solid colorMapper($color, main);
+        &.sm {
+          padding: 4px 10px;
+          height: 32.09px;
+          font-size: 13px;
+        }
 
-      &.md {
-        height: 37.8px;
-        padding: 6px 16px;
-        font-size: 14px;
-      }
+        &.md {
+          height: 37.8px;
+          padding: 6px 16px;
+          font-size: 14px;
+        }
 
-      &.lg {
-        height: 43.5px;
-        padding: 8px 22px;
-        font-size: 15px;
-      }
+        &.lg {
+          height: 43.5px;
+          padding: 8px 22px;
+          font-size: 15px;
+        }
+        legend {
+          position: absolute;
+          background: transparent;
+          top: 50%;
+          transform: translateY(-50%) translateX(0px);
+          font-weight: 400;
+          line-height: 12px;
+          font-size: 16px;
+          letter-spacing: 0.15px;
+          z-index: 2;
+          color: colorMapper(grayclr, 900);
+          transition: all 0.1s ease-in-out;
+        }
 
-      .selected-options-list {
-        .placeholder-text {
-          color: colorMapper(grayclr, 500);
+        &:has(~ .options-container.open) legend {
+          transition: all 0.1s ease-in-out;
+          top: 0%;
+          transform: translateY(-70%) translateX(-5px);
+          background: colorMapper(common, "white");
+          font-size: 12px;
+          padding: 0px 4px;
+          color: colorMapper($color, main);
+        }
+
+        &:has(.selected-options-list):has(.single-selected-option) legend {
+          transition: all 0.1s ease-in-out;
+          top: 0%;
+          transform: translateY(-70%) translateX(-5px);
+          background: colorMapper(common, "white");
+          font-size: 12px;
+          padding: 0px 4px;
+          color: colorMapper($color, main);
+        }
+
+        .selected-options-list {
+          .placeholder-text {
+            color: colorMapper(grayclr, 500);
+          }
+        }
+
+        .toggle-arrow-icon {
+          transition: all 0.3s ease-in-out;
+          width: 1em;
+          height: 1em;
+          margin-top: 0.5em;
+          appearance: none;
+          border-left: 7px solid transparent;
+          border-right: 7px solid transparent;
+          border-top: 7px solid colorMapper($color, main);
+          position: absolute;
+          right: 8px;
+          cursor: pointer;
+          z-index: 200;
+        }
+
+        .toggle-arrow-icon:checked {
+          transition: all 0.3s ease-in-out;
+          z-index: 200;
+        }
+
+        .excessive-width {
+          display: none;
         }
       }
 
-      .toggle-arrow-icon {
-        transition: all 0.3s ease-in-out;
-        width: 1em;
-        height: 1em;
-        margin-top: 0.5em;
-        appearance: none;
-        border-left: 7px solid transparent;
-        border-right: 7px solid transparent;
-        border-top: 7px solid colorMapper($color, main);
+      .options-container {
         position: absolute;
-        right: 8px;
-        cursor: pointer;
-        z-index: 200;
+        visibility: hidden;
+        opacity: 0;
       }
 
-      .toggle-arrow-icon:checked {
-        transition: all 0.3s ease-in-out;
-        z-index: 200;
-      }
-
-      .excessive-width {
-        display: none;
+      .options-container.open {
+        background-color: colorMapper($color, light);
+        padding: 16px;
+        visibility: visible;
+        opacity: 1;
+        position: absolute;
+        z-index: 9999;
+        width: 100%;
       }
     }
+  }
 
-    .options-container {
-      position: absolute;
-      visibility: hidden;
-      opacity: 0;
+  &:not(.top)
+    .selected-options:has(~ .options-container:not(.open)):has(:not(.single-selected-option)) {
+    .placeholder-text {
+      display: none;
     }
-
-    .options-container.open {
-      background-color: colorMapper($color, light);
-      padding: 16px;
-      visibility: visible;
-      opacity: 1;
-      position: absolute;
-      z-index: 9999;
-      width: 100%;
+  }
+  &.top .selected-options:has(~ .options-container:not(.open)):has(:not(.single-selected-option)) {
+    .placeholder-text {
+      display: inline;
     }
   }
 }

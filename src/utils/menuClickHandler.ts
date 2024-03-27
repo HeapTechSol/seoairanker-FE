@@ -11,6 +11,7 @@ import {
 } from './helper';
 
 export const menuClickHandler = (element: Element, menuRef: React.RefObject<HTMLDivElement>) => {
+
   const { subMenus, menuItems, elementsWithOpenClass, subMenusItems, subMenuHeadingWithActiveChild } = accessElements(menuRef);
 
   const menuId = getMenuId(element.parentNode as HTMLDivElement);
@@ -19,7 +20,7 @@ export const menuClickHandler = (element: Element, menuRef: React.RefObject<HTML
 
   const subMenuItemsWithActiveClass = filterByClassNameAndOpenClass(subMenus, menuId);
 
-  if (hasClass(element, 'menu-link' || 'submenu-list-link')) {
+  if (hasClass(element, 'menu-link') || hasClass(element,'submenu-list-link')) {
     if (hasClass(element, 'open')) {
       toggleCSSClass(element, 'open', 'remove');
     } else {
@@ -36,7 +37,7 @@ export const menuClickHandler = (element: Element, menuRef: React.RefObject<HTML
       toggleCSSClass(element, 'open', 'add');
 
       if (subMenuHeadingWithActiveChild) {
-        toggleCSSClass(subMenuHeadingWithActiveChild, 'open', 'add');
+        // toggleCSSClass(subMenuHeadingWithActiveChild, 'open', 'add');
         toggleCSSClass(subMenuHeadingWithActiveChild.nextSibling as HTMLDivElement, 'nested-list', 'add');
       }
     }

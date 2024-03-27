@@ -31,6 +31,8 @@ const Select = ({
   color = "primary",
   size = "sm",
   minWidth = 100,
+  title,
+  titlePosition = "inside",
   setValues,
 }: SelectProps) => {
   const selectedOptionsRef = useRef<HTMLDivElement>(null);
@@ -58,7 +60,7 @@ const Select = ({
       );
       if (alreadySelected)
         return setValues?.([
-          ...values.filter((val) => val.id !== selectedValue.id),
+          ...values?.filter((val) => val.id !== selectedValue.id),
         ]);
       setValues?.([...values, selectedValue]);
       return;
@@ -76,7 +78,7 @@ const Select = ({
   };
 
   const removeSelectedOption = (id: string) =>
-    setValues?.((values as OptionsType[]).filter((value) => value.id != id));
+    setValues?.((values as OptionsType[])?.filter((value) => value.id != id));
 
   const toggleOptionsList = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked)
@@ -120,7 +122,7 @@ const Select = ({
       );
       const selectContainer =
         selectContainerRef.current?.getBoundingClientRect();
-      const selectedOption = selectedOptionsCollection.filter(
+      const selectedOption = selectedOptionsCollection?.filter(
         (item) => !item.classList.contains("options-count")
       );
       const optionsInContainer = selectedOption?.filter(
@@ -148,8 +150,8 @@ const Select = ({
   }, [reSizeHandler, values]);
 
   const selected = Array.isArray(values)
-    ? values?.flatMap((val) => Options.filter((item) => item?.id === val?.id))
-    : Options.filter((item) => item.id === values?.id)[0];
+    ? values?.flatMap((val) => Options?.filter((item) => item?.id === val?.id))
+    : Options?.filter((item) => item.id === values?.id)[0];
   placeholder;
   const selectedOptions = Array.isArray(selected) ? (
     selected.map((item, idx) => (
@@ -165,7 +167,7 @@ const Select = ({
       />
     ))
   ) : (
-    <span>{selected?.label}</span>
+    <span className="single-selected-option">{selected?.label}</span>
   );
 
   const counter = !!warpedCounter && (
@@ -178,7 +180,7 @@ const Select = ({
     />
   );
 
-  const queriedOptions = Options.filter((item) =>
+  const queriedOptions = Options?.filter((item) =>
     item.label.toLowerCase().includes(query.label.toLowerCase())
   );
 
@@ -237,63 +239,80 @@ const Select = ({
       return <span className="placeholder-text">{placeholder}</span>;
   };
 
+  const topTitle = titlePosition === "top" && (
+    <label htmlFor={title}>{title}</label>
+  );
+
   return (
-    <div
-      className={containerStyleClasses}
-      ref={selectContainerRef}
-      style={{ minWidth: minWidth }}
+    <Flex
+      padding={0}
+      vertical
+      gap={8}
+      className={classMapper("select", {
+        [titlePosition]: titlePosition && title,
+      })}
     >
-      <Flex
-        padding={0}
-        align="center"
-        justify="between"
-        className={selectedOptionsContainerStyleClasses}
-        onClick={handleFocusOnInput}
+      {topTitle}
+      <div
+        className={containerStyleClasses}
+        ref={selectContainerRef}
+        style={{ minWidth: minWidth, width: "100%" }}
       >
-        <input
-          type="checkbox"
-          className="toggle-arrow-icon"
-          onChange={toggleOptionsList}
-          ref={inputToggleBtnRef}
-        />
         <Flex
           padding={0}
-          gap={5}
           align="center"
-          ref={selectedOptionsRef}
-          className="selected-options-list"
+          justify="between"
+          className={selectedOptionsContainerStyleClasses}
+          onClick={handleFocusOnInput}
         >
-          {isEmpty(selected) ? placeholderHandler() : selectedOptions} {counter}
-        </Flex>
-      </Flex>
-
-      <div className={"options-container"} ref={toggleOptionListRef}>
-        <Flex vertical gap={24} align="center">
-          {searchable && (
-            <Flex vertical gap={24} align="center">
-              <Flex justify="between" align="center">
-                <div className="option-list-header-title">Categories</div>
-                <Button size="md" onClick={closeOptionList} variant="text">
-                  X
-                </Button>
-              </Flex>
-              <Input
-                value={query.label}
-                onChange={onSearch}
-                name="query"
-                startIcon={SearchIcon}
-                size={size}
-                borderRadius
-              />
-            </Flex>
-          )}
-          <Flex vertical gap={12}>
-            {checkAllOption}
-            {optionsList}
+          {title && <legend>{title}</legend>}
+          <input
+            type="checkbox"
+            id={title}
+            className="toggle-arrow-icon"
+            onChange={toggleOptionsList}
+            ref={inputToggleBtnRef}
+          />
+          <Flex
+            padding={0}
+            gap={5}
+            align="center"
+            ref={selectedOptionsRef}
+            className="selected-options-list"
+          >
+            {isEmpty(selected) ? placeholderHandler() : selectedOptions}
+            {counter}
           </Flex>
         </Flex>
+
+        <div className={"options-container"} ref={toggleOptionListRef}>
+          <Flex vertical gap={24} align="center">
+            {searchable && (
+              <Flex vertical gap={24}>
+                <Flex justify="between" align="center">
+                  <div className="option-list-header-title">Categories</div>
+                  <Button size="md" onClick={closeOptionList} variant="text">
+                    X
+                  </Button>
+                </Flex>
+                <Input
+                  value={query.label}
+                  onChange={onSearch}
+                  name="query"
+                  startIcon={SearchIcon}
+                  size={size}
+                  borderRadius
+                />
+              </Flex>
+            )}
+            <Flex vertical gap={12}>
+              {checkAllOption}
+              {optionsList}
+            </Flex>
+          </Flex>
+        </div>
       </div>
-    </div>
+    </Flex>
   );
 };
 

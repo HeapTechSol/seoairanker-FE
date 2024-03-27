@@ -3,7 +3,7 @@ import Layout from "@/container/layout/Layout/Layout";
 import TestPage from "@/container/dashboard/pages/TestPage";
 
 import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
-import { AUTH } from "@/constant/routes";
+import { AUTH, LEAVE } from "@/constant/routes";
 
 const {
   LOGIN,
@@ -13,6 +13,8 @@ const {
   CHANGE_PASSWORD,
   FORGET_PASSWORD,
 } = AUTH;
+
+const { LEAVE_BALANCE, APPLY_LEAVE, LEAVE_DETAILS, PENDING_LEAVES } = LEAVE;
 
 export const routes = createBrowserRouter([
   {
@@ -25,14 +27,44 @@ export const routes = createBrowserRouter([
         element: <TestPage />,
       },
       {
-        path: "/dashboard/about/oldbank",
+        path: LEAVE_BALANCE,
         errorElement: <ErrorBoundary />,
-        element: <h2>About</h2>,
+        async lazy() {
+          const LeaveBalance = await import(
+            "../container/leaves/pages/LeaveBalance/LeaveBalance"
+          );
+          return { Component: LeaveBalance.default };
+        },
       },
       {
-        path: "/contact",
+        path: APPLY_LEAVE,
         errorElement: <ErrorBoundary />,
-        element: <h2>Contact</h2>,
+        async lazy() {
+          const ApplyForLeave = await import(
+            "../container/leaves/pages/ApplyForLeave/ApplyForLeave"
+          );
+          return { Component: ApplyForLeave.default };
+        },
+      },
+      {
+        path: LEAVE_DETAILS,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const LeaveDetails = await import(
+            "../container/leaves/pages/LeaveDetails/LeaveDetails"
+          );
+          return { Component: LeaveDetails.default };
+        },
+      },
+      {
+        path: PENDING_LEAVES,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const PendingLeaves = await import(
+            "../container/leaves/pages/PendingLeaves/PendingLeaves"
+          );
+          return { Component: PendingLeaves.default };
+        },
       },
     ],
   },

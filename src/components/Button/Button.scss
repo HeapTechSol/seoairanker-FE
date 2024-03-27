@@ -72,10 +72,12 @@
     }
     &.filled.#{$color} svg path {
       fill: white;
+      stroke: white;
     }
 
     &.outlined.#{$color} svg path {
       fill: colorMapper($color, main);
+      stroke: colorMapper($color, main);
     }
 
     &.outlined.#{$color} {
@@ -109,6 +111,7 @@
     &.filled.#{$color}:disabled {
       color: colorMapper(grayclr, 500);
       box-shadow: none;
+      border-color: colorMapper(grayclr, 300);
       background-color: colorMapper(grayclr, 300);
     }
 

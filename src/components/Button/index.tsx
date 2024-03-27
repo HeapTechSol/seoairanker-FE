@@ -22,17 +22,15 @@ const Button = ({
   type = "square",
   fullWidth = false,
   onClick,
-  borderRadius = false,
   id = "",
 }: ButtonTypes) => {
   const classes = classMapper("btn", {
-    borderRadius: borderRadius,
     [size]: size,
     [variant]: variant,
     [className]: className,
     [color]: color,
     fullWidth: fullWidth,
-    "icon-button": onlyIcon,
+    "icon-button": (StartIcon || EndIcon) && onlyIcon,
     [type]: type === "circle" && !onlyIcon ? false : true,
   });
 

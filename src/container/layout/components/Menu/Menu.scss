@@ -13,7 +13,7 @@
   gap: 5px;
   padding: 16px;
   min-width: 240px;
-  background: blue;
+  background: lightgray;
   left: 240px;
 
   &.nested-list {
@@ -211,4 +211,9 @@
 
 .menu .active {
   background-color: rgb(145, 145, 145);
+}
+
+.sidebar-menu-container:has(.submenu-list-link.active){
+  background-color: rgb(145, 145, 145);
+  
 }

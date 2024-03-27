@@ -7,9 +7,9 @@ export type InputTypes = {
   required?: boolean;
   error?: string;
   title?: string;
+  titlePosition?: "top" | "inside";
   size?: "sm" | "md" | "lg";
   value?: string | number;
-  titlePosition?: "top" | "inside";
   type?: "text" | "number" | "password" | "email";
   variant?: "outlined" | "underlined";
   color?: "primary" | "secondary" | "error" | "warning" | "info" | "success";

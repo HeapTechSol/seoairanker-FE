@@ -3,8 +3,8 @@ export type ColumnsTypes = {
   dataKey: string;
   sortKey?: string;
   width?: number;
-  textAlign?: 'center' | 'right';
-  fixed?: 'left' | 'right';
+  textAlign?: "center" | "right";
+  fixed?: "left" | "right";
   render?: (row: any, column: ColumnsTypes) => any;
 };
 

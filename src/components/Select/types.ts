@@ -17,5 +17,7 @@ export type SelectProps = {
   minWidth?:number;
   color?:ColorsTypes;
   size:SizeTypes;
+  title?: string;
+  titlePosition?: "top" | "inside";
   setValues: React.Dispatch<React.SetStateAction<OptionsType | OptionsType[]>>;
 };
