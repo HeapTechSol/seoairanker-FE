@@ -9,13 +9,6 @@ export const AUTH = {
   FORGET_PASSWORD: "forget_password",
 };
 
-export const LEAVE = {
-  LEAVE_BALANCE: "leave-balance",
-  APPLY_LEAVE: "apply-leave",
-  LEAVE_DETAILS: "leave-detail",
-  PENDING_LEAVES:'pending-leaves'
-};
-
 export const EXACT_ROUTES = {
   LOGIN: "/auth/login",
   SIGNUP: "/auth/signup",
@@ -25,8 +18,4 @@ export const EXACT_ROUTES = {
   VERIFY_OTP: "/auth/verify_otp",
   CHANGE_PASSWORD: "/auth/change_password",
   FORGET_PASSWORD: "/auth/forget_password",
-  LEAVE_BALANCE: "/leave_balance",
-  APPLY_LEAVE: "/apply_leave",
-  LEAVE_DETAILS: "/leave_detail",
-  PENDING_LEAVES: "/pending_leaves",
 };

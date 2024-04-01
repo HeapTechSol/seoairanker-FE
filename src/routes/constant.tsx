@@ -6,7 +6,7 @@ import AuthLayout from "@/container/layout/AuthLayout/AuthLayout";
 
 import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
 
-import { AUTH, LEAVE } from "@/constant/routes";
+import { AUTH } from "@/constant/routes";
 
 const {
   LOGIN,
@@ -17,8 +17,6 @@ const {
   FORGET_PASSWORD,
 } = AUTH;
 
-const { LEAVE_BALANCE, APPLY_LEAVE, LEAVE_DETAILS, PENDING_LEAVES } = LEAVE;
-
 export const routes = createBrowserRouter([
   {
     path: "/",
@@ -28,46 +26,6 @@ export const routes = createBrowserRouter([
         index: true,
         errorElement: <ErrorBoundary />,
         element: <TestPage />,
-      },
-      {
-        path: LEAVE_BALANCE,
-        errorElement: <ErrorBoundary />,
-        async lazy() {
-          const LeaveBalance = await import(
-            "../container/leaves/pages/LeaveBalance/LeaveBalance"
-          );
-          return { Component: LeaveBalance.default };
-        },
-      },
-      {
-        path: APPLY_LEAVE,
-        errorElement: <ErrorBoundary />,
-        async lazy() {
-          const ApplyForLeave = await import(
-            "../container/leaves/pages/ApplyForLeave/ApplyForLeave"
-          );
-          return { Component: ApplyForLeave.default };
-        },
-      },
-      {
-        path: LEAVE_DETAILS,
-        errorElement: <ErrorBoundary />,
-        async lazy() {
-          const LeaveDetails = await import(
-            "../container/leaves/pages/LeaveDetails/LeaveDetails"
-          );
-          return { Component: LeaveDetails.default };
-        },
-      },
-      {
-        path: PENDING_LEAVES,
-        errorElement: <ErrorBoundary />,
-        async lazy() {
-          const PendingLeaves = await import(
-            "../container/leaves/pages/PendingLeaves/PendingLeaves"
-          );
-          return { Component: PendingLeaves.default };
-        },
       },
     ],
   },
@@ -87,8 +45,8 @@ export const routes = createBrowserRouter([
         path: SIGNUP,
         errorElement: <ErrorBoundary />,
         async lazy() {
-          const Signup = await import("../container/auth/pages/SignUp/SignUp");
-          return { Component: Signup.default };
+          const SignUp = await import("../container/auth/pages/SignUp/SignUp");
+          return { Component: SignUp.default };
         },
       },
       {
