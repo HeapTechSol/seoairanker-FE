@@ -3,8 +3,12 @@ import { Controller } from "react-hook-form";
 import Flex from "@/components/Flex";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
+import Container from "@/components/Container/Container";
+import Typography from "@/components/Typography/Typography";
 
 import useResetPasswordHandler from "@/container/auth/hooks/useResetPasswordHandler";
+
+import { PasswordIcon } from "@/assets/icons/svgs";
 
 import "./ResetPassword.scss";
 
@@ -13,9 +17,9 @@ const ResetPassword = () => {
     useResetPasswordHandler();
 
   return (
-    <main className="auth-container">
+    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
       <Flex vertical gap={24} align="center" justify="center">
-        <h2>Reset Password</h2>
+        <Typography text="Reset Password" type="h2"/>
         <Flex vertical justify="center" gap={16}>
           <Controller
             name="password"
@@ -29,7 +33,8 @@ const ResetPassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  required
+                  StartIcon={PasswordIcon}
+                  placeholder="Enter your new password"
                 />
               );
             }}
@@ -47,7 +52,8 @@ const ResetPassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  required
+                  StartIcon={PasswordIcon}
+                  placeholder="Re-enter your password"
                 />
               );
             }}
@@ -63,7 +69,7 @@ const ResetPassword = () => {
           Reset Password
         </Button>
       </Flex>
-    </main>
+    </Container>
   );
 };
 

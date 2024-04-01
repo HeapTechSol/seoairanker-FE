@@ -1,10 +1,16 @@
+"use client";
+
 import { Controller } from "react-hook-form";
 
 import Flex from "@/components/Flex";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
+import Container from "@/components/Container/Container";
+import Typography from "@/components/Typography/Typography";
 
 import useForgetPasswordHandler from "@/container/auth/hooks/useForgetPasswordHandler";
+
+import { EmailIcon} from "@/assets/icons/svgs";
 
 import "./ForgetPassword.scss";
 
@@ -13,9 +19,9 @@ const ForgetPassword = () => {
     useForgetPasswordHandler();
 
   return (
-    <main className="auth-container">
+    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
       <Flex vertical gap={24} align="center" justify="center">
-        <h2>Forget Password</h2>
+        <Typography text="Forgot Password" type="h2"/>
         <Flex vertical justify="center" gap={16}>
           <Controller
             name="email"
@@ -29,7 +35,8 @@ const ForgetPassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  required
+                  StartIcon={EmailIcon}
+                  placeholder="Enter your email"
                 />
               );
             }}
@@ -45,7 +52,7 @@ const ForgetPassword = () => {
           Send OTP
         </Button>
       </Flex>
-    </main>
+    </Container>
   );
 };
 

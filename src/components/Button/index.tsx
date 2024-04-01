@@ -49,7 +49,9 @@ const Button = ({
     <img src={EndIcon as string} alt="button logo" />
   );
 
-  const loader = !disabled && loading && <img src={LoadingIcon} />;
+  const loader = !disabled && loading && (
+    <img src={LoadingIcon.src} alt="loading-icon" />
+  );
 
   const onEnterPress = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === "Enter") {

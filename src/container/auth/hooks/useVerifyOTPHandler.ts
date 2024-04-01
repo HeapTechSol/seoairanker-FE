@@ -1,7 +1,11 @@
+import { EXACT_ROUTES } from "@/constant/routes";
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
+const {RESET_PASSWORD} = EXACT_ROUTES
 
 const useVerifyOTPHandler = () => {
+  const navigate = useNavigate()
   const location = useLocation();
   const [timer, setTimer] = useState(1 * 60); // 5 minutes in seconds
   const [otpEnabled, setOtpEnabled] = useState(false);
@@ -34,6 +38,7 @@ const useVerifyOTPHandler = () => {
   const verifyOTPHandler = () => {
     try {
       console.log(Number(otp.join("")));
+      navigate(RESET_PASSWORD)
     } catch (error) {}
   };
 

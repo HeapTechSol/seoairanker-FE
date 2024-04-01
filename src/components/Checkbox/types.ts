@@ -1,11 +1,12 @@
 export type CheckboxTypes = {
+  name: string;
   label?: string;
-  labelPosition?: 'left' | 'right' | 'top' | 'bottom';
-  checked?: boolean;
   color?: string;
+  checked?: boolean;
   disabled?: boolean;
+  borderRadius?: boolean;
   indeterminate?: boolean;
-  size?: 'sm' | 'md' | 'lg';
-  name:string;
+  size?: "sm" | "md" | "lg";
+  labelPosition?: "left" | "right" | "top" | "bottom";
   onChange: (event: React.ChangeEvent<HTMLInputElement> | boolean) => void;
 };

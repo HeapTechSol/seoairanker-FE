@@ -1,11 +1,16 @@
+"use client";
+
 import { Controller } from "react-hook-form";
 
 import Flex from "@/components/Flex";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
-import Checkbox from "@/components/Checkbox";
+import Container from "@/components/Container/Container";
+import Typography from "@/components/Typography/Typography";
 
 import useLoginHandler from "@/container/auth/hooks/useLoginHandler";
+
+import { EmailIcon, PasswordIcon, GoogleIcon } from "@/assets/icons/svgs";
 
 import "./Login.scss";
 
@@ -14,16 +19,18 @@ const Login = () => {
     control,
     handleSubmit,
     loginHandler,
-    CookiesProvider,
+    onGoogleLogin,
+    onNoAccountClick,
     onForgetPasswordClick,
   } = useLoginHandler();
 
   return (
-    <CookiesProvider>
-      <main className="auth-container">
-        <Flex vertical gap={24} align="center" justify="center">
-          <h2>Log In</h2>
-          <Flex vertical justify="center" gap={16}>
+    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
+      <Flex vertical gap={24} className="auth-form-box">
+        <Typography text="Sign In" type="h2" />
+
+        <Flex vertical gap={16}>
+          <Flex vertical gap={4}>
             <Controller
               name="email"
               render={({
@@ -32,20 +39,30 @@ const Login = () => {
               }) => {
                 return (
                   <Input
+                    borderRadius
+                    type="email"
                     name="email"
                     title="Email"
-                    type="email"
+                    value={value}
                     titlePosition="top"
                     onChange={onChange}
-                    value={value}
+                    StartIcon={EmailIcon}
                     error={error?.message}
-                    required
+                    placeholder="Enter your email"
                   />
                 );
               }}
               control={control}
             />
-
+            <Typography
+              link
+              size="small"
+              color="primary"
+              text="Don't have an account?"
+              onClick={onNoAccountClick}
+            />
+          </Flex>
+          <Flex vertical gap={4}>
             <Controller
               name="password"
               render={({
@@ -54,51 +71,54 @@ const Login = () => {
               }) => {
                 return (
                   <Input
+                    borderRadius
+                    value={value}
+                    type="password"
                     name="password"
                     title="Password"
-                    type="password"
                     titlePosition="top"
                     onChange={onChange}
-                    value={value}
                     error={error?.message}
-                    required
+                    StartIcon={PasswordIcon}
+                    placeholder="Enter your password"
                   />
                 );
               }}
               control={control}
             />
-          </Flex>
 
-          <Flex align="center" justify="between">
-            <Controller
-              name="isRemember"
-              render={({ field: { onChange, value } }) => (
-                <Checkbox
-                  name="isRemember"
-                  label="Remember Me"
-                  labelPosition="right"
-                  onChange={onChange}
-                  checked={value}
-                />
-              )}
-              control={control}
+            <Typography
+              link
+              size="small"
+              color="primary"
+              text=" Forgot Password?"
+              onClick={onForgetPasswordClick}
             />
-            <p onClick={onForgetPasswordClick} tabIndex={0}>
-              Forgot Password?
-            </p>
           </Flex>
-
-          <Button
-            variant="filled"
-            fullWidth
-            size="lg"
-            onClick={handleSubmit(loginHandler)}
-          >
-            Log In
-          </Button>
         </Flex>
-      </main>
-    </CookiesProvider>
+
+        <Button
+          size="lg"
+          fullWidth
+          variant="filled"
+          type="borderRadius"
+          onClick={handleSubmit(loginHandler)}
+        >
+          Sign In
+        </Button>
+        <Button
+          size="lg"
+          fullWidth
+          color="error"
+          variant="filled"
+          type="borderRadius"
+          StartIcon={GoogleIcon}
+          onClick={() => onGoogleLogin()}
+        >
+          Sign in with Google
+        </Button>
+      </Flex>
+    </Container>
   );
 };
 

@@ -3,20 +3,25 @@ import { Controller } from "react-hook-form";
 import Flex from "@/components/Flex";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
+import Container from "@/components/Container/Container";
+import Typography from "@/components/Typography/Typography";
 
 import useChangePasswordHandler from "@/container/auth/hooks/useChangePasswordHandler";
+
+import { PasswordIcon } from "@/assets/icons/svgs";
 
 import "./ChangePassword.scss";
 
 const ChangePassword = () => {
-  const { control, handleSubmit, changePasswordHandler } = useChangePasswordHandler();
+  const { control, handleSubmit, changePasswordHandler } =
+    useChangePasswordHandler();
 
   return (
-    <main className="auth-container">
+    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
       <Flex vertical gap={24} align="center" justify="center">
-        <h2>Change Password</h2>
+        <Typography text="Change Password" type="h2" />
         <Flex vertical justify="center" gap={16}>
-        <Controller
+          <Controller
             name="oldPassword"
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
@@ -28,7 +33,8 @@ const ChangePassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  required
+                  StartIcon={PasswordIcon}
+                  placeholder="Enter your old password"
                 />
               );
             }}
@@ -46,7 +52,8 @@ const ChangePassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  required
+                  StartIcon={PasswordIcon}
+                  placeholder="Enter your new password"
                 />
               );
             }}
@@ -64,7 +71,8 @@ const ChangePassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  required
+                  StartIcon={PasswordIcon}
+                  placeholder="Re-enter your new password"
                 />
               );
             }}
@@ -80,7 +88,7 @@ const ChangePassword = () => {
           Change Password
         </Button>
       </Flex>
-    </main>
+    </Container>
   );
 };
 

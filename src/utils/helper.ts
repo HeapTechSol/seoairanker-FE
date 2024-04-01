@@ -1,7 +1,4 @@
-import CryptoJS from 'crypto-js'
-
-import { COOKIES_SECRET_KEY } from '@/constant/constant';
-import { ClassMapperArgsTpyes, RememberMeTypes } from './utilTypes';
+import { ClassMapperArgsTpyes } from './utilTypes';
 
 export const classMapper = (...args: ClassMapperArgsTpyes[]) => {
   const classesObject = new Map();
@@ -69,20 +66,6 @@ export const accessElements = (menuRef: React.RefObject<HTMLDivElement>) => {
 };
 
 export const isEmpty = (obj: any) => [Object, Array].includes((obj || {}).constructor) && !Object.entries(obj || {}).length;
-
-export const encryptData = (data: RememberMeTypes) => {
-  const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), COOKIES_SECRET_KEY).toString()
-  return ciphertext
-}
-
-export const decryptData = (data: string) => {
-  if (data) {
-    const bytes = CryptoJS.AES.decrypt(data, COOKIES_SECRET_KEY)
-    const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
-    return decryptedData
-  }
-  return {}
-}
 
 export const arrayGeneratorWithRange = (start:number, end:number) => {
   let length = end - start + 1;

@@ -9,7 +9,6 @@ export type SignupPayloadTypes = {
 export type LoginPayloadTypes = {
   email: string;
   password: string;
-  isRemember:boolean,
 };
 
 export type ResetPasswordPayloadTypes = {

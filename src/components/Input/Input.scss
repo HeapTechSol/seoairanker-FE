@@ -20,6 +20,14 @@
         transition: all 0.1s ease-in-out;
       }
 
+      svg path {
+        fill: colorMapper($color, main);
+        stroke: colorMapper($color, main);
+      }
+      svg circle {
+        stroke: colorMapper($color, main);
+      }
+
       input {
         line-height: 1.7;
         width: 100%;
@@ -133,8 +141,9 @@
       $margin-left: calc(28px + 1em);
 
       &.startIcon {
+        padding-left: 10px;
         input {
-          padding-left: 0px;
+          padding-left: 10px;
         }
         legend {
           transform: translateY(-50%) translateX($margin-left);
@@ -142,8 +151,9 @@
       }
 
       &.endIcon {
+        padding-right: 10px;
         input {
-          padding-right: 0px;
+          padding-right: 10px;
         }
       }
 
@@ -207,7 +217,7 @@
       }
 
       &.radius {
-        border-radius: 7px;
+        border-radius: 4px;
       }
 
       &:has(:not(legend)) {
@@ -232,7 +242,7 @@
 
   label {
     display: inline-block;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     position: relative;
   }
 

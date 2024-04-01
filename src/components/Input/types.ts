@@ -15,7 +15,7 @@ export type InputTypes = {
   color?: "primary" | "secondary" | "error" | "warning" | "info" | "success";
   borderRadius?: boolean;
   onChange?: (value: React.ChangeEvent) => void;
-  startIcon?: string;
-  endIcon?: string;
+  StartIcon?: string | JSX.Element;
+  EndIcon?: string | JSX.Element;
   hideIncrementNumber?: boolean;
 };

@@ -9,7 +9,6 @@ export const signupInitialValues = {
 export const loginInitialValues = {
   email: "",
   password: "",
-  isRemember: false,
 };
 
 export const resetPasswordInitialValues = {

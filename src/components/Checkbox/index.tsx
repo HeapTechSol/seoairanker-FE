@@ -1,26 +1,29 @@
 import { KeyboardEvent } from "react";
 
-import { classMapper } from "@/utils/helper";
 import { CheckboxTypes } from "./types";
+
+import { classMapper } from "@/utils/helper";
 
 import "./Checkbox.scss";
 
 const Checkbox = ({
-  label,
-  labelPosition = "left",
-  checked,
-  indeterminate = false,
-  disabled,
-  color = "primary",
-  size = "md",
-  onChange,
   name,
+  label,
+  checked,
+  disabled,
+  onChange,
+  size = "md",
+  color = "primary",
+  borderRadius = false,
+  indeterminate = false,
+  labelPosition = "left",
 }: CheckboxTypes) => {
   const classes = classMapper("checkbox-container", {
-    [labelPosition]: labelPosition,
-    [color]: color,
-    indeterminate: indeterminate,
     [size]: size,
+    [color]: color,
+    borderRadius: borderRadius,
+    indeterminate: indeterminate,
+    [labelPosition]: labelPosition,
   });
 
   const buttonLabel = label && <label htmlFor={label}>{label}</label>;
@@ -32,9 +35,7 @@ const Checkbox = ({
   };
 
   return (
-    <div
-      className={classes}
-    >
+    <div className={classes}>
       {buttonLabel}
       <input
         tabIndex={0}

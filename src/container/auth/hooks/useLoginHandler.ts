@@ -1,41 +1,24 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CookiesProvider, useCookies } from "react-cookie";
 
-import { decryptData, encryptData, isEmpty } from "@/utils/helper";
 import { loginInitialValues } from "../utils";
+import { EXACT_ROUTES } from "@/constant/routes";
 import { LoginSchema } from "@/utils/validations";
 import { LoginPayloadTypes } from "../pages/SignUp/types";
-import { AUTH, EXACT_ROUTES } from "@/constant/routes";
-import { COOKIES_EXPIRATION_TIME } from "@/constant/constant";
 
-const { FORGET_PASSWORD } = EXACT_ROUTES;
-const { LOGIN } = AUTH;
+const { FORGET_PASSWORD, SIGNUP } = EXACT_ROUTES;
 
 const useLoginHandler = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-
-  const decryptCookies = decryptData(cookies?.user);
 
   const { control, handleSubmit } = useForm({
-    defaultValues: isEmpty(decryptCookies)
-      ? loginInitialValues
-      : decryptCookies,
+    defaultValues: loginInitialValues,
     resolver: zodResolver(LoginSchema),
   });
 
   const loginHandler = (credentials: LoginPayloadTypes) => {
-    if (credentials?.isRemember) {
-      const encryptedData = encryptData(credentials);
-      setCookie("user", encryptedData, {
-        path: LOGIN,
-        expires: COOKIES_EXPIRATION_TIME,
-      });
-    } else {
-      removeCookie("user", { path: LOGIN });
-    }
     try {
       console.log(credentials);
     } catch (error) {
@@ -43,13 +26,26 @@ const useLoginHandler = () => {
     }
   };
 
+  const onNoAccountClick = () => navigate(SIGNUP);
+
   const onForgetPasswordClick = () => navigate(FORGET_PASSWORD);
+
+  const onGoogleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => console.log("token Response", tokenResponse),
+    onError: (errorResponse) => {
+      console.log(errorResponse);
+    },
+    onNonOAuthError: (nonOAuthError) => {
+      console.log(nonOAuthError);
+    },
+  });
 
   return {
     control,
     handleSubmit,
     loginHandler,
-    CookiesProvider,
+    onGoogleLogin,
+    onNoAccountClick,
     onForgetPasswordClick,
   };
 };

@@ -1,10 +1,15 @@
+"use client";
+
 import Flex from "@/components/Flex";
+import Button from "@/components/Button";
+import Container from "@/components/Container/Container";
+import Typography from "@/components/Typography/Typography";
+
+import { EMAIL_DELIVERY_CONFIRMATION } from "@/constant/constant";
 
 import useVerifyOTPHandler from "@/container/auth/hooks/useVerifyOTPHandler";
 
 import "./VerifyOTP.scss";
-import { EMAIL_DELIVERY_CONFIRMATION } from "@/constant/constant";
-import Button from "@/components/Button";
 
 const VerifyOTP = () => {
   const {
@@ -23,17 +28,15 @@ const VerifyOTP = () => {
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     const val = e.clipboardData.getData("text").substring(0, 1);
-    console.log("val=>", val)
-    handleChange(val);
+    handleChange(val, 0);
   };
 
-
   return (
-    <main className="auth-container">
+    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
       <Flex vertical gap={24} align="center">
         <Flex vertical gap={12} align="center">
-          <h2>Verify Your Account</h2>
-          <p>{EMAIL_DELIVERY_CONFIRMATION(location?.state?.email || "")}</p>
+          <Typography text="Verify Your Account" type="h2" />
+          <Typography text={EMAIL_DELIVERY_CONFIRMATION(location.state?.email)} />
         </Flex>
         <Flex gap={4} justify="center">
           {otp.map((digit, index) => (
@@ -45,9 +48,11 @@ const VerifyOTP = () => {
               onPaste={handlePaste}
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
-              ref={(reference) =>
-                (otpBoxReference.current[index] = reference as HTMLInputElement)
-              }
+              ref={(reference) => {
+                if (reference)
+                  otpBoxReference.current[index] =
+                    reference as HTMLInputElement;
+              }}
             />
           ))}
         </Flex>
@@ -55,18 +60,22 @@ const VerifyOTP = () => {
           Verify OTP
         </Button>
         <Flex align="center" justify="center" gap={25}>
-          <p>Still not received OTP?</p>
-          {!!(minutes || seconds) && (
-            <span>
-              {minutes}:{seconds}
-            </span>
-          )}
+          <Typography text="Still not received OTP?" />
+          <Typography
+            text={
+              !!(minutes || seconds) && (
+                <span>
+                  {minutes}:{seconds}
+                </span>
+              )
+            }
+          />
           <Button size="sm" disabled={!otpEnabled}>
-            Reset OTP
+            Resend OTP
           </Button>
         </Flex>
       </Flex>
-    </main>
+    </Container>
   );
 };
 

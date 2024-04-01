@@ -1,12 +1,12 @@
 export const AUTH = {
   LOGIN: "login",
   SIGNUP: "signup",
-  PERMISSION_DENIED: "permission-denied",
+  PERMISSION_DENIED: "permission_denied",
   UNAUTHORIZED: "unauthorized",
-  RESET_PASSWORD: "reset-password",
-  VERIFY_OTP: "verify-otp",
-  CHANGE_PASSWORD: "change-password",
-  FORGET_PASSWORD: "forget-password",
+  RESET_PASSWORD: "reset_password",
+  VERIFY_OTP: "verify_otp",
+  CHANGE_PASSWORD: "change_password",
+  FORGET_PASSWORD: "forget_password",
 };
 
 export const LEAVE = {
@@ -17,16 +17,16 @@ export const LEAVE = {
 };
 
 export const EXACT_ROUTES = {
-  LOGIN: "/login",
-  SIGNUP: "/signup",
-  PERMISSION_DENIED: "/permission-denied",
+  LOGIN: "/auth/login",
+  SIGNUP: "/auth/signup",
+  PERMISSION_DENIED: "/permission_denied",
   UNAUTHORIZED: "/unauthorized",
-  RESET_PASSWORD: "/reset-password",
-  VERIFY_OTP: "/verify-otp",
-  CHANGE_PASSWORD: "/change-password",
-  FORGET_PASSWORD: "/forget-password",
-  LEAVE_BALANCE: "/leave-balance",
-  APPLY_LEAVE: "/apply-leave",
-  LEAVE_DETAILS: "/leave-detail",
-  PENDING_LEAVES: "/pending-leaves",
+  RESET_PASSWORD: "/auth/reset_password",
+  VERIFY_OTP: "/auth/verify_otp",
+  CHANGE_PASSWORD: "/auth/change_password",
+  FORGET_PASSWORD: "/auth/forget_password",
+  LEAVE_BALANCE: "/leave_balance",
+  APPLY_LEAVE: "/apply_leave",
+  LEAVE_DETAILS: "/leave_detail",
+  PENDING_LEAVES: "/pending_leaves",
 };

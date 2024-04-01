@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef } from "react";
 
 import { InputTypes } from "./types";
@@ -21,8 +23,8 @@ const Input = ({
   color = "primary",
   borderRadius = false,
   hideIncrementNumber = false,
-  startIcon,
-  endIcon,
+  StartIcon,
+  EndIcon,
   onChange,
 }: InputTypes) => {
   const inputRef = useRef<HTMLFieldSetElement>(null);
@@ -37,21 +39,24 @@ const Input = ({
     { [color]: color },
     { "hide-number-increment": hideIncrementNumber },
     { radius: borderRadius && variant !== "underlined" },
-    { startIcon: startIcon },
-    { endIcon: endIcon },
+    { startIcon: !!StartIcon },
+    { endIcon: !!EndIcon },
     { required: required && title }
   );
 
-  const iconStart = startIcon && (
-    <span className="input-icon">
-      <img src={startIcon} alt="" />
-    </span>
+  const isStartSvgIcon =
+    typeof StartIcon === "object" && StartIcon?.type === "svg";
+  const StartIconPassed = isStartSvgIcon ? (
+    StartIcon
+  ) : (
+    <img src={StartIcon as string} alt="button logo" />
   );
 
-  const iconEnd = endIcon && (
-    <span className="input-icon">
-      <img src={endIcon} alt="" />
-    </span>
+  const isEndSvgIcon = typeof EndIcon === "object" && EndIcon?.type === "svg";
+  const EndIconPassed = isEndSvgIcon ? (
+    EndIcon
+  ) : (
+    <img src={EndIcon as string} alt="button logo" />
   );
 
   const topTitle = titlePosition === "top" && (
@@ -67,7 +72,7 @@ const Input = ({
       {topTitle}
       <fieldset className={classes} ref={inputRef} disabled={disabled}>
         {title && <legend>{title}</legend>}
-        {iconStart}
+        {StartIcon && StartIconPassed}
         <input
           autoComplete="new-password"
           id={title}
@@ -84,7 +89,7 @@ const Input = ({
           onFocus={() => inputRef.current?.classList.add("focused")}
           onChange={onChange}
         />
-        {iconEnd}
+        {EndIcon && EndIconPassed}
       </fieldset>
       {errorMessage}
     </div>
