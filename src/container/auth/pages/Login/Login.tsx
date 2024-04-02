@@ -25,7 +25,12 @@ const Login = () => {
   } = useLoginHandler();
 
   return (
-    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
+    <Container
+      boxShadow
+      borderRadius
+      width={100}
+      padding={"40px 80px"}
+    >
       <Flex vertical gap={24} className="auth-form-box">
         <Typography text="Sign In" type="h2" />
 
@@ -98,7 +103,7 @@ const Login = () => {
         </Flex>
 
         <Button
-          size="lg"
+          size="md"
           fullWidth
           variant="filled"
           type="borderRadius"
@@ -107,7 +112,7 @@ const Login = () => {
           Sign In
         </Button>
         <Button
-          size="lg"
+          size="md"
           fullWidth
           color="error"
           variant="filled"

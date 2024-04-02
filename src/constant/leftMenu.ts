@@ -1,7 +1,4 @@
 import { menuTypes } from "@/container/layout/components/Menu/types";
-import { LEAVE } from "./routes";
-
-const { LEAVE_BALANCE, APPLY_LEAVE, PENDING_LEAVES } = LEAVE;
 
 export const sidebarMenuData: menuTypes[] = [
   {
@@ -25,16 +22,6 @@ export const sidebarMenuData: menuTypes[] = [
           { name: "New Bank", path: "dashboard/contact/newcontact" },
         ],
       },
-    ],
-  },
-  {
-    name: "Leave Management",
-    icon: "icon",
-    path: `${LEAVE_BALANCE} ${APPLY_LEAVE} ${PENDING_LEAVES}`,
-    children: [
-      { name: "Leave Balance", path: LEAVE_BALANCE },
-      { name: "Apply Leave", path: APPLY_LEAVE },
-      { name: "Pending Leaves ", path: PENDING_LEAVES },
     ],
   },
   { name: "Login", path: "/login", icon: "icon" },

@@ -26,15 +26,21 @@ const SignUp = () => {
     useSignUpHandler();
 
   return (
-    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
+    <Container
+      width={100}
+      boxShadow
+      borderRadius
+      padding={"40px 80px"}
+    >
       <Flex vertical gap={24}>
         <Typography text="Sign Up" type="h2" />
-        <Flex vertical justify="center" gap={16}>
+        <Flex vertical justify="center" gap={10}>
           <Controller
             name="firstName"
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="firstName"
                   title="First Name"
                   titlePosition="top"
@@ -53,6 +59,7 @@ const SignUp = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="lastName"
                   title="Last Name"
                   titlePosition="top"
@@ -71,6 +78,7 @@ const SignUp = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="email"
                   title="Email"
                   type="email"
@@ -91,6 +99,7 @@ const SignUp = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="password"
                   title="Password"
                   type="password"
@@ -110,6 +119,7 @@ const SignUp = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="confirmPassword"
                   title="Confirm Password"
                   type="password"
@@ -134,13 +144,14 @@ const SignUp = () => {
         <Button
           variant="filled"
           fullWidth
-          size="lg"
+          size="md"
+          type="borderRadius"
           onClick={handleSubmit(signUpHandler)}
         >
           Sign Up
         </Button>
         <Button
-          size="lg"
+          size="md"
           fullWidth
           color="error"
           variant="filled"

@@ -17,15 +17,21 @@ const ResetPassword = () => {
     useResetPasswordHandler();
 
   return (
-    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
+    <Container
+      width={100}
+      boxShadow
+      borderRadius
+      padding={"40px 80px"}
+    >
       <Flex vertical gap={24} align="center" justify="center">
-        <Typography text="Reset Password" type="h2"/>
+        <Typography text="Reset Password" type="h2" />
         <Flex vertical justify="center" gap={16}>
           <Controller
             name="password"
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="password"
                   title="New Password"
                   type="password"
@@ -45,6 +51,7 @@ const ResetPassword = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="confirmPassword"
                   title="Confirm Password"
                   type="password"
@@ -63,7 +70,8 @@ const ResetPassword = () => {
         <Button
           variant="filled"
           fullWidth
-          size="lg"
+          size="md"
+          type="borderRadius"
           onClick={handleSubmit(resetPasswordHandler)}
         >
           Reset Password

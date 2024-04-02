@@ -5,12 +5,11 @@ import { ColorsTypes } from "@/utils/commonTypes";
 import "./Container.scss";
 
 type ContainerTypes = {
-  center?: boolean;
+  className?: string;
   boxShadow?: boolean;
   color?: ColorsTypes;
   fullHeight?: boolean;
   transparent?: boolean;
-  customClasses?: string;
   borderRadius?: boolean;
   width?: "auto" | number;
   contentCenter?: boolean;
@@ -22,25 +21,23 @@ type ContainerTypes = {
 const Container = ({
   padding,
   children,
-  center = false,
+  className = "",
   width = "auto",
   boxShadow = false,
   maxWidth = "auto",
   color = "primary",
-  customClasses = "",
   transparent = false,
   borderRadius = false,
   contentCenter = false,
-  fullHeight = false
+  fullHeight = false,
 }: ContainerTypes) => {
   const containerCSSClasses = classMapper("container", {
-    fullHeight:fullHeight,
-    center: center,
+    fullHeight: fullHeight,
     contentCenter: contentCenter,
     [color]: color,
     boxShadow: boxShadow,
     transparent: transparent,
-    [customClasses]: customClasses,
+    [className]: className,
     borderRadius: borderRadius,
   });
 
@@ -51,19 +48,9 @@ const Container = ({
   };
 
   return (
-    <>
-      {center ? (
-        <div className="centered-container">
-          <div className={containerCSSClasses} style={containerStyles}>
-            {children}
-          </div>
-        </div>
-      ) : (
-        <div className={containerCSSClasses} style={containerStyles}>
-          {children}
-        </div>
-      )}
-    </>
+    <div className={containerCSSClasses} style={containerStyles}>
+      {children}
+    </div>
   );
 };
 

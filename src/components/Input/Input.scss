@@ -256,7 +256,7 @@
 
   .error-text {
     color: colorMapper(error, main);
-    margin-left: 14px;
+    margin-left: 0px;
     font-size: 12px;
     margin-top: 3px;
   }
@@ -266,6 +266,28 @@
     input::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .input-field-container {
+    .input-field {
+      font-size: 13px !important;
+      height: 32.09px !important;
+      input {
+        padding: 4px 10px !important;
+      }
+
+      img,
+      svg {
+        height: 1.5em !important;
+        width: 1.5em !important;
+      }
+
+      legend {
+        font-size: 1em !important;
+      }
     }
   }
 }

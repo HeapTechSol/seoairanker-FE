@@ -32,11 +32,18 @@ const VerifyOTP = () => {
   };
 
   return (
-    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
+    <Container
+      width={100}
+      boxShadow
+      borderRadius
+      padding={"40px 80px"}
+    >
       <Flex vertical gap={24} align="center">
         <Flex vertical gap={12} align="center">
           <Typography text="Verify Your Account" type="h2" />
-          <Typography text={EMAIL_DELIVERY_CONFIRMATION(location.state?.email)} />
+          <Typography
+            text={EMAIL_DELIVERY_CONFIRMATION(location.state?.email)}
+          />
         </Flex>
         <Flex gap={4} justify="center">
           {otp.map((digit, index) => (
@@ -56,10 +63,20 @@ const VerifyOTP = () => {
             />
           ))}
         </Flex>
-        <Button disabled={disabled} onClick={verifyOTPHandler}>
+        <Button
+          disabled={disabled}
+          onClick={verifyOTPHandler}
+          type="borderRadius"
+          size="md"
+        >
           Verify OTP
         </Button>
-        <Flex align="center" justify="center" gap={25}>
+        <Flex
+          align="center"
+          justify="center"
+          gap={25}
+          className="reset-otp-control"
+        >
           <Typography text="Still not received OTP?" />
           <Typography
             text={
@@ -70,7 +87,7 @@ const VerifyOTP = () => {
               )
             }
           />
-          <Button size="sm" disabled={!otpEnabled}>
+          <Button size="sm" disabled={!otpEnabled} type="borderRadius">
             Resend OTP
           </Button>
         </Flex>

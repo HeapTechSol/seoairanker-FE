@@ -10,7 +10,7 @@ import Typography from "@/components/Typography/Typography";
 
 import useForgetPasswordHandler from "@/container/auth/hooks/useForgetPasswordHandler";
 
-import { EmailIcon} from "@/assets/icons/svgs";
+import { EmailIcon } from "@/assets/icons/svgs";
 
 import "./ForgetPassword.scss";
 
@@ -19,15 +19,21 @@ const ForgetPassword = () => {
     useForgetPasswordHandler();
 
   return (
-    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
+    <Container
+      width={100}
+      boxShadow
+      borderRadius
+      padding={"40px 80px"}
+    >
       <Flex vertical gap={24} align="center" justify="center">
-        <Typography text="Forgot Password" type="h2"/>
+        <Typography text="Forgot Password" type="h2" />
         <Flex vertical justify="center" gap={16}>
           <Controller
             name="email"
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="email"
                   title="Email"
                   type="email"
@@ -46,7 +52,8 @@ const ForgetPassword = () => {
         <Button
           variant="filled"
           fullWidth
-          size="lg"
+          size="md"
+          type="borderRadius"
           onClick={handleSubmit(forgetPasswordHandler)}
         >
           Send OTP

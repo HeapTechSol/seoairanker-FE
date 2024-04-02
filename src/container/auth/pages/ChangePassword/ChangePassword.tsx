@@ -17,7 +17,12 @@ const ChangePassword = () => {
     useChangePasswordHandler();
 
   return (
-    <Container center width={70} boxShadow borderRadius padding={"40px 80px"}>
+    <Container
+      width={100}
+      boxShadow
+      borderRadius
+      padding={"40px 80px"}
+    >
       <Flex vertical gap={24} align="center" justify="center">
         <Typography text="Change Password" type="h2" />
         <Flex vertical justify="center" gap={16}>
@@ -26,6 +31,7 @@ const ChangePassword = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="oldPassword"
                   title="Old Password"
                   type="password"
@@ -45,6 +51,7 @@ const ChangePassword = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="password"
                   title="New Password"
                   type="password"
@@ -64,6 +71,7 @@ const ChangePassword = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
+                  borderRadius
                   name="confirmPassword"
                   title="Confirm Password"
                   type="password"
@@ -82,7 +90,8 @@ const ChangePassword = () => {
         <Button
           variant="filled"
           fullWidth
-          size="lg"
+          size="md"
+          type="borderRadius"
           onClick={handleSubmit(changePasswordHandler)}
         >
           Change Password

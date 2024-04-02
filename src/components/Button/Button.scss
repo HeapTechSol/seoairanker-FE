@@ -65,7 +65,8 @@
     &.filled.#{$color} {
       background: colorMapper($color, main);
       color: colorMapper($color, contrastText);
-      box-shadow: 0px 3px 1px -2px colorMapper(grayclr, 400),
+      box-shadow:
+        0px 3px 1px -2px colorMapper(grayclr, 400),
         0px 2px 2px 0px colorMapper(grayclr, 300),
         0px 1px 5px 0px colorMapper(grayclr, 300);
       border: 1px solid colorMapper($color, main);
@@ -95,7 +96,8 @@
 
     &.filled.#{$color}:hover {
       background-color: colorMapper($color, dark);
-      box-shadow: 0px 2px 4px -1px colorMapper(grayclr, 400),
+      box-shadow:
+        0px 2px 4px -1px colorMapper(grayclr, 400),
         0px 4px 5px 0px colorMapper(grayclr, 300),
         0px 1px 10px 0px colorMapper(grayclr, 300);
     }
@@ -125,6 +127,20 @@
     &.text.#{$color}:disabled {
       color: colorMapper(grayclr, 500);
       background-color: transparent;
+    }
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .btn.lg,
+  .btn.md {
+    padding: 4px 10px;
+    font-size: 13px;
+
+    img,
+    svg {
+      height: 1.5em;
+      width: 1.5em;
     }
   }
 }

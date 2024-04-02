@@ -10,6 +10,10 @@
   .otp-input {
     --otp-input-width: 40px;
   }
+  .reset-otp-control {
+    flex-direction: column;
+    gap: 0px !important;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
