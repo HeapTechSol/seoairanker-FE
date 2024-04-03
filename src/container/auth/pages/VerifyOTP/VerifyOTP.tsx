@@ -32,16 +32,12 @@ const VerifyOTP = () => {
   };
 
   return (
-    <Container
-      width={100}
-      boxShadow
-      borderRadius
-      padding={"40px 80px"}
-    >
+    <Container width={100} boxShadow borderRadius padding={"40px 80px"}>
       <Flex vertical gap={24} align="center">
         <Flex vertical gap={12} align="center">
           <Typography text="Verify Your Account" type="h2" />
           <Typography
+            textAlign="center"
             text={EMAIL_DELIVERY_CONFIRMATION(location.state?.email)}
           />
         </Flex>

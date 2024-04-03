@@ -4,7 +4,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import Flex from "@/components/Flex";
 import Container from "@/components/Container/Container";
 
-import {SeodeIcon} from "@/assets/icons/svgs"
+import { SeodeIcon } from "@/assets/icons/svgs";
 
 import "./AuthLayout.scss";
 
@@ -30,8 +30,8 @@ const AuthLayout = () => {
           className="auth-form-section"
           padding={"0px 130px"}
         >
-          <Flex vertical gap={10}>
-            {SeodeIcon}
+          <Flex vertical gap={10} align="center">
+            <Flex>{SeodeIcon}</Flex>
             <Outlet />
           </Flex>
         </Container>

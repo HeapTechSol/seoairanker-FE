@@ -7,21 +7,23 @@ import { element } from "@/utils/typographyTypeHandler";
 import "./Typography.scss";
 
 type Props = {
-  text: string | JSX.Element | React.ReactNode;
   link?: boolean;
   color?: ColorsTypes;
   onClick?: () => void;
   size?: "lg" | "md" | "sm";
+  textAlign?: "left" | "center" | "right";
+  text: string | JSX.Element | React.ReactNode;
   type?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "body-text";
 };
 
 const Typography = ({
   text,
-  size='md',
   link,
   onClick,
-  type = "body-text",
+  size = "md",
   color = "common",
+  textAlign = "left",
+  type = "body-text",
 }: Props) => {
   const elementType = {
     "body-text": "body-text",
@@ -34,9 +36,10 @@ const Typography = ({
   };
 
   const typographyCSSClasses = classMapper(elementType[type], {
-    [`${elementType[type]}--${size}`]: size,
-    [color]: color,
     link: link,
+    [color]: color,
+    [textAlign]: textAlign,
+    [`${elementType[type]}--${size}`]: size,
   });
 
   return <>{element({ type, typographyCSSClasses, onClick, text })}</>;

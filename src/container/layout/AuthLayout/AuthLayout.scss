@@ -15,14 +15,11 @@
       }
       .auth-form-section {
         width: 100% !important;
-        .container {
-          width: 80% !important;
-        }
+       
       }
       @media screen and (max-width: 800px) {
         .auth-form-section {
           .container {
-            width: 90% !important;
             padding: 20px !important;
           }
         }
@@ -40,7 +37,6 @@
           .auth-form-section {
             padding: 10px !important;
             .container {
-              width: 100% !important;
               padding: 10px !important;
             }
           }
