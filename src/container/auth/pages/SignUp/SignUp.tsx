@@ -26,12 +26,7 @@ const SignUp = () => {
     useSignUpHandler();
 
   return (
-    <Container
-      width={100}
-      boxShadow
-      borderRadius
-      padding={"40px 80px"}
-    >
+    <Container width={100} boxShadow borderRadius padding={"40px 80px"}>
       <Flex vertical gap={24}>
         <Typography text="Sign Up" type="h2" />
         <Flex vertical justify="center" gap={10}>

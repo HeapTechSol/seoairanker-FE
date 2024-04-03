@@ -11,13 +11,13 @@ type Props = {
   link?: boolean;
   color?: ColorsTypes;
   onClick?: () => void;
-  size?: "large" | "medium" | "small";
+  size?: "lg" | "md" | "sm";
   type?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "body-text";
 };
 
 const Typography = ({
   text,
-  size,
+  size='md',
   link,
   onClick,
   type = "body-text",
