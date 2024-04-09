@@ -1,10 +1,14 @@
+import { ColorsTypes, SizeTypes } from "@/utils/commonTypes";
+
 export type RadioButtonTypes = {
-    label?: string;
-    labelPosition?: 'left' | 'right' | 'top' | 'bottom';
-    checked?: boolean;
-    color?: string;
-    disabled?:boolean;
-    name?:string;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  };
-  
+  id?: string;
+  restricted?:boolean;
+  name?: string;
+  size?: SizeTypes;
+  checked?: boolean;
+  disabled?: boolean;
+  color?: ColorsTypes;
+  label?: string | JSX.Element | React.ReactNode;
+  labelPosition?: "left" | "right" | "top" | "bottom";
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};

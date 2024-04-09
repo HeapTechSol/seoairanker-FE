@@ -30,6 +30,7 @@ const Button = ({
     [className]: className,
     [color]: color,
     fullWidth: fullWidth,
+    pointer: !!onClick,
     "icon-button": (StartIcon || EndIcon) && onlyIcon,
     [type]: type === "circle" && !onlyIcon ? false : true,
   });

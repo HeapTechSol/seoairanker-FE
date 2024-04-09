@@ -1,5 +1,4 @@
 .btn {
-  cursor: pointer;
   border: none;
   outline: none;
   font-weight: 500;
@@ -74,7 +73,8 @@
         0px 1px 5px 0px colorMapper(grayclr, 300);
       border: 1px solid colorMapper($color, main);
     }
-    &.filled.#{$color} svg path {
+    &.filled.#{$color} svg path,
+    circle {
       fill: white;
       stroke: white;
     }
@@ -94,10 +94,10 @@
     &.text.#{$color} {
       background: transparent;
       color: colorMapper($color, main);
-      border: none;
+      border: 1px solid transparent;
     }
 
-    &.filled.#{$color}:hover {
+    &.filled.pointer.#{$color}:hover {
       background-color: colorMapper($color, dark);
       box-shadow:
         0px 2px 4px -1px colorMapper(grayclr, 400),
@@ -105,12 +105,12 @@
         0px 1px 10px 0px colorMapper(grayclr, 300);
     }
 
-    &.outlined.#{$color}:hover {
+    &.outlined.pointer.#{$color}:hover {
       background-color: colorMapper($color, light);
       border: 1px solid colorMapper($color, main);
     }
 
-    &.text.#{$color}:hover {
+    &.text.pointer.#{$color}:hover {
       background-color: colorMapper($color, light);
     }
     &.filled.#{$color}:disabled {
@@ -131,6 +131,9 @@
       color: colorMapper(grayclr, 500);
       background-color: transparent;
     }
+  }
+  &.pointer {
+    cursor: pointer;
   }
 }
 

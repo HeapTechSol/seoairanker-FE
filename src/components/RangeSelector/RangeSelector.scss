@@ -1,0 +1,66 @@
+@each $color in $colorType {
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+
+    &.range-color-#{$color} {
+      background-color: colorMapper($color, light);
+    }
+
+    &.sm {
+      height: 3px;
+    }
+    &.md {
+      height: 6px;
+    }
+    &.lg {
+      height: 9px;
+    }
+
+    &.thumb-color-#{$color}::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 50%;
+      background-color: colorMapper($color, main);
+      cursor: pointer;
+    }
+
+    &.thumb-color-#{$color}::-moz-range-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 50%;
+      background-color: colorMapper($color, main);
+      cursor: pointer;
+    }
+
+    &.sm::-webkit-slider-thumb {
+      width: 20px;
+      height: 20px;
+    }
+    &.md::-webkit-slider-thumb {
+      width: 25px;
+      height: 25px;
+    }
+    &.lg::-webkit-slider-thumb {
+      width: 30px;
+      height: 30px;
+    }
+    &.sm::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+    }
+    &.md::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+    }
+    &.lg::-moz-range-thumb {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}

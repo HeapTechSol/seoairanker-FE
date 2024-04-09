@@ -1,25 +1,41 @@
-import { classMapper } from '@/utils/helper';
-import { RadioButtonTypes } from './types';
+import { classMapper } from "@/utils/helper";
+import { RadioButtonTypes } from "./types";
 
-import './RadioButton.scss';
+import "./RadioButton.scss";
 
 const RadioButton = ({
+  id,
+  name,
   label,
-  labelPosition = 'left',
   checked,
   disabled,
-  name,
-  color = 'primary',
   onChange,
+  restricted=false,
+  size = "md",
+  color = "primary",
+  labelPosition = "left",
 }: RadioButtonTypes) => {
-  const classes = classMapper('radio-button-container', { [labelPosition]: labelPosition, [color]: color });
+  const classes = classMapper("radio-button-container", {
+    [labelPosition]: labelPosition,
+    [color]: color,
+    [size]: size,
+    pointer: !!onChange,
+    restricted: restricted,
+  });
 
-  const buttonLabel = label && <label htmlFor={label}>{label}</label>;
+  const buttonLabel = label && <label htmlFor={id}>{label}</label>;
 
   return (
     <div className={classes}>
       {buttonLabel}
-      <input id={label} type="radio" checked={checked} onChange={onChange} disabled={disabled} name={name}/>
+      <input
+        id={id}
+        type="radio"
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        name={name}
+      />
     </div>
   );
 };

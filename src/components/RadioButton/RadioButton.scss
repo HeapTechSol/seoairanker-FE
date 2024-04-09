@@ -41,7 +41,12 @@
       border-color: colorMapper(grayclr, 300);
     }
 
-    input[type="radio"]:before {
+    input[type="radio"]:checked {
+      border-color: colorMapper($color, main);
+      background-color: colorMapper($color, main);
+    }
+
+    input[type="radio"]:checked:before {
       content: "";
       display: block;
       width: 0.8em;
@@ -50,16 +55,18 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      border-radius: 50%;
+      background-image: url("@/assets/icons/checkmark.svg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
-    input[type="radio"]:checked:before {
-      background: colorMapper($color, main);
+    &.restricted input[type="radio"]:checked:before {
+      width: 1em;
+      height: 1em;
+      background-image: url("@/assets/icons/cancel_icon.svg");
     }
 
-    input[type="radio"]:checked {
-      border-color: colorMapper($color, main);
-    }
     &.sm > input {
       font-size: 13px;
     }
@@ -79,6 +86,11 @@
     }
     &.lg > label {
       font-size: 15px;
+    }
+    &.pointer,
+    label,
+    input {
+      cursor: pointer;
     }
   }
 }

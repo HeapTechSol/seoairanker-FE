@@ -94,6 +94,19 @@
   }
 }
 
+.heading-one,
+.heading-two,
+.heading-three,
+.heading-four,
+.heading-five,
+.heading-six {
+  @each $color in $colorType {
+    &.#{$color} {
+      color: colorMapper($color, main);
+    }
+  }
+}
+
 .body-text {
   font-size: 0.875rem;
   font-style: normal;
@@ -130,6 +143,6 @@
     text-align: right;
   }
   &.left {
-    text-align: right;
+    text-align: left;
   }
 }
