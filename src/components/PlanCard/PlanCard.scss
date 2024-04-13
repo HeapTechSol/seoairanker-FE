@@ -5,3 +5,15 @@
     stroke: white;
   }
 }
+
+
+@media screen and (max-width: 650px) {
+  .plan-card {
+    padding: 20px !important;
+  }
+}
+@media screen and (max-width: 290px) {
+  .plan-card {
+    padding: 10px !important;
+  }
+}

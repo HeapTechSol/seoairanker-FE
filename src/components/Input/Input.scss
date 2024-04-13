@@ -53,7 +53,7 @@
       }
 
       &.sm {
-        font-size: 13px;
+        font-size: 0.8125rem;
         height: 32.09px;
         input {
           padding: 4px 10px;
@@ -70,7 +70,7 @@
       }
 
       &.md {
-        font-size: 14px;
+        font-size: 0.875rem;
         height: 37.8px;
 
         input {
@@ -89,7 +89,7 @@
       }
 
       &.lg {
-        font-size: 15px;
+        font-size: 0.9375rem;
         height: 43.5px;
 
         input {
@@ -273,7 +273,7 @@
 @media screen and (max-width: 570px) {
   .input-field-container {
     .input-field {
-      font-size: 13px !important;
+      font-size: 0.8125rem !important;
       height: 32.09px !important;
       input {
         padding: 4px 10px !important;

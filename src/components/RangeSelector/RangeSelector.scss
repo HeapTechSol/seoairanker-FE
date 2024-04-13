@@ -1,66 +1,104 @@
-@each $color in $colorType {
-  .slider {
-    -webkit-appearance: none;
-    width: 100%;
-    border-radius: 5px;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: 0.2s;
-    transition: opacity 0.2s;
+.range-selector {
+  width: 100%;
+  padding-top: 40px;
+  position: relative;
+  @each $color in $colorType {
+    &.#{$color} {
+      span {
+        position: absolute;
+        top: 10px;
+        min-width: 25px;
+        min-height: 25px;
+        border-radius: 100%;
+        background: colorMapper(grayclr, 100);
+        box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.06);
+        color: colorMapper($color, main);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.8125rem;
 
-    &.range-color-#{$color} {
-      background-color: colorMapper($color, light);
+        &::after {
+          content: "";
+          position: absolute;
+          top: calc(100% - 2px);
+          width: 0;
+          height: 0;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 6px solid colorMapper(grayclr, 100);;
+          box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.06);
+        }
+      }
     }
 
-    &.sm {
-      height: 3px;
-    }
-    &.md {
-      height: 6px;
-    }
-    &.lg {
-      height: 9px;
-    }
-
-    &.thumb-color-#{$color}::-webkit-slider-thumb {
+    .slider {
       -webkit-appearance: none;
-      appearance: none;
-      border-radius: 50%;
-      background-color: colorMapper($color, main);
-      cursor: pointer;
-    }
+      width: 100%;
+      border-radius: 5px;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: 0.2s;
+      transition: opacity 0.2s;
 
-    &.thumb-color-#{$color}::-moz-range-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      border-radius: 50%;
-      background-color: colorMapper($color, main);
-      cursor: pointer;
-    }
+      &.range-color-#{$color} {
+        background-color: colorMapper($color, light);
+      }
 
-    &.sm::-webkit-slider-thumb {
-      width: 20px;
-      height: 20px;
-    }
-    &.md::-webkit-slider-thumb {
-      width: 25px;
-      height: 25px;
-    }
-    &.lg::-webkit-slider-thumb {
-      width: 30px;
-      height: 30px;
-    }
-    &.sm::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-    }
-    &.md::-moz-range-thumb {
-      width: 25px;
-      height: 25px;
-    }
-    &.lg::-moz-range-thumb {
-      width: 30px;
-      height: 30px;
+      &.sm {
+        height: 3px;
+      }
+      &.md {
+        height: 6px;
+      }
+      &.lg {
+        height: 9px;
+      }
+
+      &.thumb-color-#{$color}::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        border-radius: 50%;
+        background-color: colorMapper($color, main);
+        cursor: pointer;
+      }
+
+      &.thumb-color-#{$color}::-moz-range-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        border-radius: 50%;
+        background-color: colorMapper($color, main);
+        cursor: pointer;
+      }
+
+      &.sm::-webkit-slider-thumb {
+        width: 20px;
+        height: 20px;
+      }
+      &.md::-webkit-slider-thumb {
+        width: 25px;
+        height: 25px;
+      }
+      &.lg::-webkit-slider-thumb {
+        width: 30px;
+        height: 30px;
+      }
+      &.sm::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+      }
+      &.md::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+      }
+      &.lg::-moz-range-thumb {
+        width: 30px;
+        height: 30px;
+      }
     }
   }
+}
+
+.range-selector {
+  position: relative;
 }

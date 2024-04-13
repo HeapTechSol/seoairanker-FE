@@ -6,7 +6,7 @@ import AuthLayout from "@/container/layout/AuthLayout/AuthLayout";
 
 import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
 
-import { AUTH } from "@/constant/routes";
+import { AUTH, BILLING } from "@/constant/routes";
 
 const {
   LOGIN,
@@ -17,6 +17,8 @@ const {
   FORGET_PASSWORD,
 } = AUTH;
 
+const { PLANS } = BILLING;
+
 export const routes = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +28,16 @@ export const routes = createBrowserRouter([
         index: true,
         errorElement: <ErrorBoundary />,
         element: <TestPage />,
+      },
+      {
+        path: PLANS,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const Pricing = await import(
+            "../container/billing/pages/Pricing/Pricing"
+          );
+          return { Component: Pricing.default };
+        },
       },
     ],
   },

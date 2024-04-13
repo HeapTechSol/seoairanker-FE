@@ -12,6 +12,7 @@ const RadioButton = ({
   onChange,
   restricted=false,
   size = "md",
+  readOnly=false,
   color = "primary",
   labelPosition = "left",
 }: RadioButtonTypes) => {
@@ -35,6 +36,7 @@ const RadioButton = ({
         onChange={onChange}
         disabled={disabled}
         name={name}
+        readOnly={readOnly}
       />
     </div>
   );

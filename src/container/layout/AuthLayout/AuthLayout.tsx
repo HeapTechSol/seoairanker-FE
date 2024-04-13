@@ -26,6 +26,7 @@ const AuthLayout = () => {
         </Container>
         <Container
           width={50}
+          fullHeight
           contentCenter
           className="auth-form-section"
           padding={"0px 130px"}

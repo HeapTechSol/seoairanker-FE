@@ -1,133 +1,167 @@
+import { Control, Controller } from "react-hook-form";
+
 import Flex from "../Flex";
 import Button from "../Button";
 import RadioButton from "../RadioButton";
 import Divider from "../Divider/Divider";
 import Container from "../Container/Container";
 import Typography from "../Typography/Typography";
+import RangeSelector from "../RangeSelector/RangeSelector";
+
+import {
+  PlanDefaultValuesTypes,
+  PlanTypes,
+  strongTextGenerator,
+} from "@/constant/plans";
+
+import { currencyConverter } from "@/utils/helper";
 
 import "./PlanCard.scss";
-import { ColorsTypes } from "@/utils/commonTypes";
+
+export type PlanCard = PlanTypes & {
+  control: Control<PlanDefaultValuesTypes>;
+  handleSubmit: () => void;
+  duration:"Monthly" | "Year"
+};
 
 const PlanCard = ({
   type = "",
   description = "",
-  color="primary",
+  color = "primary",
+  buttonColor = "primary",
   Icon,
   amount,
-  sites,
-  teamMembers,
-  keywords,
-  page,
-  metaDescriptions,
-  metaTitles,
-  keywordsRanking,
-  crawalPages,
+  addOnInfo,
+  generalInfo,
+  detailsInfo,
   isAPIAccess,
-  crawalSchedule
-  
-}: {
-  type: string;
-  color:ColorsTypes,
-  description: string;
-  Icon:string | JSX.Element
-  amount:string
-}) => {
+  crawlSchedule,
+  buttonText = "",
+  planType = "basic",
+  control,
+  duration='Monthly',
+  handleSubmit,
+}: PlanCard) => {
   return (
     <Container boxShadow borderRadius padding={40} className="plan-card">
       <Flex vertical gap={20}>
         <Flex gap={20} justify="between" align="center">
           <Typography color={color} type="h1" size="lg" text={type} />
-          <Button
-            size="lg"
-            onlyIcon
-            color={color}
-            type="borderRadius"
-            StartIcon={Icon}
-          />
+          {Icon}
         </Flex>
         <Typography size="lg" textAlign="left" text={description} />
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex gap={20} vertical>
         <Flex gap={4}>
-          <Typography type="h1" size="lg" text={`$${amount}`} />
-          <sup>/ Month</sup>
+          <Typography
+            type="h1"
+            size="lg"
+            text={`$${currencyConverter(amount)}`}
+          />
+          <sup>/ {duration}</sup>
         </Flex>
         <Flex vertical gap={8}>
-          <RadioButton
-            size="sm"
-            checked
-            label="5 Sites"
-            labelPosition="right"
-          />
-          <RadioButton
-            size="sm"
-            checked
-            label="5 Team Members"
-            labelPosition="right"
-          />
-          <RadioButton
-            size="sm"
-            checked
-            label="500 Keywords"
-            labelPosition="right"
-          />
-          <RadioButton
-            size="sm"
-            checked
-            label="1,250 Pages"
-            labelPosition="right"
-          />
+          {generalInfo.map((item, index) => (
+            <RadioButton
+              readOnly
+              size="lg"
+              checked
+              label={`${item.amount} ${item.text}`}
+              labelPosition="right"
+              key={`${index}generalInfo`}
+            />
+          ))}
         </Flex>
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex vertical gap={8}>
-        <RadioButton
-          size="sm"
-          checked
-          label="AI JSON-LD Schemas for $0.02 per schema"
-          labelPosition="right"
-        />
-        <RadioButton
-          size="sm"
-          checked
-          label={'500 AI Meta Descriptions included, then $0.01 per descriptio'}
-          labelPosition="right"
-        />
-        <RadioButton
-          size="sm"
-          checked
-          label="500 AI Meta Titles included, then $0.01 per title"
-          labelPosition="right"
-        />
-        <RadioButton
-          size="sm"
-          checked
-          label="2,500 Keyword Rankings Updates included, then $0.01 per update"
-          labelPosition="right"
-        />
-        <RadioButton
-          size="sm"
-          checked
-          label="7,500 Page Crawls included, then $0.01 per crawl"
-          labelPosition="right"
-        />
+        {detailsInfo.map((item, index) => (
+          <RadioButton
+            readOnly
+            size="lg"
+            checked
+            label={
+              <>
+                {strongTextGenerator(currencyConverter(item.amount)) || ""}{" "}
+                {item.text}
+              </>
+            }
+            labelPosition="right"
+            key={`${index}detailsInfo`}
+          />
+        ))}
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex vertical gap={8}>
         <RadioButton
+          readOnly
           checked
-          size="sm"
+          size="lg"
           restricted
-          color="error"
-          label="API Access"
+          color={isAPIAccess ? "primary" : "error"}
+          label={`API Access`}
           labelPosition="right"
         />
         <RadioButton
+          readOnly
           checked
-          size="sm"
-          label="Weekly Crawl Interval"
+          size="lg"
+          label={`${crawlSchedule} Crawl Interval`}
           labelPosition="right"
+        />
+      </Flex>
+      <Divider color="warning" margin={30} />
+      <Flex vertical gap={32}>
+        {addOnInfo?.map((item, index) => (
+          <Flex vertical gap={12} key={`${index}addOnInfo`}>
+            <RadioButton
+              readOnly
+              checked
+              size="lg"
+              label={item.text}
+              labelPosition="right"
+            />
+
+            <Controller
+              name={`${planType}.${item.key}`}
+              render={({ field: { onChange, value } }) => {
+                return (
+                  <RangeSelector
+                    value={value}
+                    onChange={(e) =>
+                      onChange((e.target as HTMLInputElement).value)
+                    }
+                    size="sm"
+                    thumbColor="common"
+                    max={item.max}
+                    min={0}
+                    step={item.step}
+                  />
+                );
+              }}
+              control={control}
+            />
+          </Flex>
+        ))}
+        <Controller
+          name={"selectedPlan"}
+          render={({ field: { onChange } }) => {
+            return (
+              <Button
+                size="lg"
+                type="borderRadius"
+                color={buttonColor}
+                onClick={() => {
+                  onChange(planType);
+                  handleSubmit();
+                }}
+              >
+                {buttonText}
+              </Button>
+            );
+          }}
+          control={control}
         />
       </Flex>
     </Container>

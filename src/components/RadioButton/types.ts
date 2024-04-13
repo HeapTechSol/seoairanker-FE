@@ -8,6 +8,7 @@ export type RadioButtonTypes = {
   checked?: boolean;
   disabled?: boolean;
   color?: ColorsTypes;
+  readOnly?:boolean
   label?: string | JSX.Element | React.ReactNode;
   labelPosition?: "left" | "right" | "top" | "bottom";
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;

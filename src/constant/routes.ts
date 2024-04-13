@@ -9,6 +9,10 @@ export const AUTH = {
   FORGET_PASSWORD: "forget_password",
 };
 
+export const BILLING = {
+  PLANS:'plans'
+}
+
 export const EXACT_ROUTES = {
   LOGIN: "/auth/login",
   SIGNUP: "/auth/signup",
@@ -18,4 +22,5 @@ export const EXACT_ROUTES = {
   VERIFY_OTP: "/auth/verify_otp",
   CHANGE_PASSWORD: "/auth/change_password",
   FORGET_PASSWORD: "/auth/forget_password",
+  BILLING_PLANS: "/billing/plans",
 };

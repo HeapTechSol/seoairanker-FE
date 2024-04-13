@@ -14,19 +14,19 @@
         &.sm {
           padding: 4px 10px;
           height: 32.09px;
-          font-size: 13px;
+          font-size: 0.8125rem;
         }
 
         &.md {
           height: 37.8px;
           padding: 6px 16px;
-          font-size: 14px;
+          font-size: 0.875rem;
         }
 
         &.lg {
           height: 43.5px;
           padding: 8px 22px;
-          font-size: 15px;
+          font-size: 0.9375rem;
         }
         legend {
           position: absolute;
@@ -36,7 +36,7 @@
           font-weight: 400;
           line-height: 12px;
           font-size: 16px;
-          letter-spacing: 0.15px;
+          letter-spacing: 0.0.9375rem;
           z-index: 2;
           color: colorMapper(grayclr, 900);
           transition: all 0.1s ease-in-out;

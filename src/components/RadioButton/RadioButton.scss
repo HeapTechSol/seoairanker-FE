@@ -61,34 +61,39 @@
       background-position: center;
     }
 
-    &.restricted input[type="radio"]:checked:before {
+    &.restricted:not(.primary) input[type="radio"]:checked:before {
       width: 1em;
       height: 1em;
       background-image: url("@/assets/icons/cancel_icon.svg");
     }
 
     &.sm > input {
-      font-size: 13px;
+      font-size: 0.8125rem;
+      min-width: 16px;
+      min-height: 16px;
     }
     &.sm > label {
-      font-size: 13px;
+      font-size: 0.8125rem;
     }
 
     &.md > input {
-      font-size: 14px;
+      font-size: 0.875rem;
+      min-width: 20px;
+      min-height: 20px;
     }
     &.md > label {
-      font-size: 14px;
+      font-size: 0.875rem;
     }
 
     &.lg > input {
-      font-size: 15px;
+      font-size: 0.9375rem;
+      min-width: 24px;
+      min-height: 24px;
     }
     &.lg > label {
-      font-size: 15px;
+      font-size: 0.9375rem;
     }
-    &.pointer,
-    label,
+    &.pointer > label,
     input {
       cursor: pointer;
     }
