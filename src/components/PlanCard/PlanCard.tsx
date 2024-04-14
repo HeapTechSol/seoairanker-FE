@@ -21,7 +21,7 @@ import "./PlanCard.scss";
 export type PlanCard = PlanTypes & {
   control: Control<PlanDefaultValuesTypes>;
   handleSubmit: () => void;
-  duration:"Monthly" | "Year"
+  duration: "Monthly" | "Year";
 };
 
 const PlanCard = ({
@@ -39,7 +39,7 @@ const PlanCard = ({
   buttonText = "",
   planType = "basic",
   control,
-  duration='Monthly',
+  duration = "Monthly",
   handleSubmit,
 }: PlanCard) => {
   return (
@@ -144,26 +144,27 @@ const PlanCard = ({
             />
           </Flex>
         ))}
-        <Controller
-          name={"selectedPlan"}
-          render={({ field: { onChange } }) => {
-            return (
-              <Button
-                size="lg"
-                type="borderRadius"
-                color={buttonColor}
-                onClick={() => {
-                  onChange(planType);
-                  handleSubmit();
-                }}
-              >
-                {buttonText}
-              </Button>
-            );
-          }}
-          control={control}
-        />
       </Flex>
+      <Controller
+        name={"selectedPlan"}
+        render={({ field: { onChange } }) => {
+          return (
+            <Button
+              size="lg"
+              fullWidth
+              type="borderRadius"
+              color={buttonColor}
+              onClick={() => {
+                onChange(planType);
+                handleSubmit();
+              }}
+            >
+              {buttonText}
+            </Button>
+          );
+        }}
+        control={control}
+      />
     </Container>
   );
 };

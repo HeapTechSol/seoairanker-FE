@@ -5,7 +5,7 @@ export type ColumnsTypes = {
   width?: number;
   textAlign?: "center" | "right";
   fixed?: "left" | "right";
-  render?: (row: any, column: ColumnsTypes) => any;
+  render?: (value: any, row: any, column: ColumnsTypes) => any;
 };
 
 export type TableDataCellTypes = {

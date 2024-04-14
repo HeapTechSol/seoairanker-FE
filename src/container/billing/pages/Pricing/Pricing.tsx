@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useForm, useWatch } from "react-hook-form";
 
 import Flex from "@/components/Flex";
@@ -14,10 +15,15 @@ import {
   addOnInfoTypes,
 } from "@/constant/plans";
 
-import "./Pricing.scss";
 import Grid from "@/components/Grid/Grid";
 
+import "./Pricing.scss";
+import { EXACT_ROUTES } from "@/constant/routes";
+
+const { CHECKOUT } = EXACT_ROUTES;
+
 const Pricing = () => {
+  const navigate = useNavigate();
   const { control, handleSubmit } = useForm({
     defaultValues: planDefaultValues as PlanDefaultValuesTypes,
   });
@@ -41,6 +47,7 @@ const Pricing = () => {
   };
 
   const formPayload = (values: PlanDefaultValuesTypes) => {
+    navigate(CHECKOUT);
     console.log(values[values.selectedPlan], values.selectedPlan);
   };
 

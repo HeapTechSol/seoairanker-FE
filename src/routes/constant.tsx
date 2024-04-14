@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import Layout from "@/container/layout/Layout/Layout";
-import TestPage from "@/container/dashboard/pages/TestPage";
 import AuthLayout from "@/container/layout/AuthLayout/AuthLayout";
 
 import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
@@ -17,7 +16,7 @@ const {
   FORGET_PASSWORD,
 } = AUTH;
 
-const { PLANS } = BILLING;
+const { PLANS, PAYMENT_HISTORY, CHECKOUT } = BILLING;
 
 export const routes = createBrowserRouter([
   {
@@ -27,7 +26,12 @@ export const routes = createBrowserRouter([
       {
         index: true,
         errorElement: <ErrorBoundary />,
-        element: <TestPage />,
+        async lazy() {
+          const HomePage = await import(
+            "../container/dashboard/pages/HomePage"
+          );
+          return { Component: HomePage.default };
+        },
       },
       {
         path: PLANS,
@@ -37,6 +41,26 @@ export const routes = createBrowserRouter([
             "../container/billing/pages/Pricing/Pricing"
           );
           return { Component: Pricing.default };
+        },
+      },
+      {
+        path: PAYMENT_HISTORY,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const PaymentHistory = await import(
+            "../container/billing/pages/PaymentHistory/PaymentHistory"
+          );
+          return { Component: PaymentHistory.default };
+        },
+      },
+      {
+        path: CHECKOUT,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const Checkout = await import(
+            "../container/billing/pages/Checkout/Checkout"
+          );
+          return { Component: Checkout.default };
         },
       },
     ],

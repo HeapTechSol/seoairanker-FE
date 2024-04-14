@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 export type FlexPropsTypes = {
   vertical?: boolean;
   gap?: number;
-  padding?: number;
+  padding?: number | string;
   rowReverse?: boolean;
   columnReverse?: boolean;
   justify?: "between" | "center" | "evenly" | "start" | "end";

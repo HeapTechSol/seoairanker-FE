@@ -6,19 +6,18 @@ import { FlexPropsTypes } from "./types";
 
 import "./Flex.scss";
 
-
 const Flex = React.forwardRef<HTMLDivElement, FlexPropsTypes>((props, ref) => {
   const {
     vertical = false,
     gap = 0,
-    padding=0,
+    padding = 0,
     rowReverse = false,
     columnReverse = false,
     justify,
     align,
     children,
     className,
-    wrap=false,
+    wrap = false,
     onClick,
   } = props;
   const flexClasses = classMapper(`flex-container`, {
@@ -31,10 +30,10 @@ const Flex = React.forwardRef<HTMLDivElement, FlexPropsTypes>((props, ref) => {
     wrap: wrap,
   });
 
-  const contentGap = !!gap && { gap: `${gap}px` }
-  const flexPadding = !!padding && {padding:`${padding}px`};
+  const contentGap = !!gap && { gap: `${gap}px` };
+  const flexPadding = { padding: padding ?? undefined };
 
-  const inlineStyle = {...contentGap, ...flexPadding};
+  const inlineStyle = { ...contentGap, ...flexPadding };
 
   return (
     <div

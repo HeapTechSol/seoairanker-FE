@@ -1,5 +1,13 @@
 .plan-card {
   min-width: 270px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .btn{
+    margin-top: 70px;
+  }
 
   svg line,rect {
     stroke: white;

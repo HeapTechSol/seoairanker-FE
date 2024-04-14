@@ -10,8 +10,10 @@ export const AUTH = {
 };
 
 export const BILLING = {
-  PLANS:'plans'
-}
+  PLANS: "plans",
+  PAYMENT_HISTORY: "payment-history",
+  CHECKOUT: "checkout",
+};
 
 export const EXACT_ROUTES = {
   LOGIN: "/auth/login",
@@ -22,5 +24,7 @@ export const EXACT_ROUTES = {
   VERIFY_OTP: "/auth/verify_otp",
   CHANGE_PASSWORD: "/auth/change_password",
   FORGET_PASSWORD: "/auth/forget_password",
-  BILLING_PLANS: "/billing/plans",
+  BILLING_PLANS: "/plans",
+  PAYMENT_HISTORY: "/payment-history",
+  CHECKOUT: "/checkout",
 };

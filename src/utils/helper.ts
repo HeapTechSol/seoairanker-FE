@@ -25,18 +25,18 @@ export const toggleCSSClasses = (
   elements: Element[],
   className: string,
   action: "remove" | "add"
-) => elements.forEach((item) => item?.classList[action](className));
+) => elements?.forEach((item) => item?.classList[action](className));
 
 export const toggleCSSClass = (
   element: Element | null,
   className: string,
   action: "remove" | "add"
-) => (element as Element).classList[action](className);
+) => (element as Element)?.classList[action](className);
 
 export const getMenuId = (menu: Element) => menu.id;
 
 export const hasClass = (element: Element, className: string) =>
-  element.classList.contains(className);
+  element.classList?.contains(className);
 
 export const filterById = (elements: Element[], id: string) =>
   elements.filter((item) => !id?.includes(getMenuId(item)));

@@ -1,5 +1,3 @@
-"use client";
-
 import { Controller } from "react-hook-form";
 
 import Flex from "@/components/Flex";
@@ -15,7 +13,8 @@ import {
   EmailIcon,
   PasswordIcon,
   GoogleIcon,
-  PersonIcon,
+  MaleHeadIcon,
+
 } from "@/assets/icons/svgs";
 
 import "./SignUp.scss";
@@ -42,7 +41,7 @@ const SignUp = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={PersonIcon}
+                  StartIcon={MaleHeadIcon}
                   placeholder="First Name"
                 />
               );
@@ -61,7 +60,7 @@ const SignUp = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={PersonIcon}
+                  StartIcon={MaleHeadIcon}
                   placeholder="Last Name"
                 />
               );

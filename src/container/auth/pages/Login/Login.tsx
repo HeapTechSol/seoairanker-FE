@@ -61,7 +61,7 @@ const Login = () => {
             />
             <Typography
               link
-              size="small"
+              size="sm"
               color="primary"
               text="Don't have an account?"
               onClick={onNoAccountClick}
@@ -94,7 +94,7 @@ const Login = () => {
 
             <Typography
               link
-              size="small"
+              size="sm"
               color="primary"
               text=" Forgot Password?"
               onClick={onForgetPasswordClick}

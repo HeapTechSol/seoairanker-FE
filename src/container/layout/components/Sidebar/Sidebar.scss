@@ -5,7 +5,8 @@
   padding: 24px 16px;
   border-right: 1px solid black;
   transition: all 0.3s ease-in-out;
-  position: relative;
+  position: fixed;
+  left: 0;
   white-space: nowrap;
   &.collapsed {
     transition: all 0.3s ease-in-out;
@@ -18,6 +19,17 @@
         min-width: calc(240px - 32px);
       }
     }
+  }
+
+  &.minimized {
+    display:none;
+  }
+
+  &.overlay{
+    display: block;
+    z-index: 99999;
+    margin-top: 80px;
+    background-color: white;
   }
 
   &-menu {
