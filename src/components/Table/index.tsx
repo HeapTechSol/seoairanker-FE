@@ -12,10 +12,11 @@ import "./Table.scss";
 const Table = (props: TableProps) => {
   const { tableRef } = useTableScroll();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const isExpandableRow = (data: any) =>
     props.expandable &&
     props.onRowSelection?.selectedRowKeys?.includes(
-      data[props.rowKey as string]
+      data[props.rowKey as string],
     );
 
   return (
@@ -32,7 +33,7 @@ const Table = (props: TableProps) => {
                 }
                 onChange={() =>
                   props.onRowSelection?.onChange(
-                    props.data.map((item) => item[props.rowKey as string])
+                    props.data.map((item) => item[props.rowKey as string]),
                   )
                 }
               />
@@ -59,12 +60,12 @@ const Table = (props: TableProps) => {
                     <Checkbox
                       name="selector"
                       checked={props.onRowSelection?.selectedRowKeys.includes(
-                        data[props.rowKey as string]
+                        data[props.rowKey as string],
                       )}
                       onChange={() =>
                         props.onRowSelection?.onChange(
                           data[props.rowKey as string],
-                          data
+                          data,
                         )
                       }
                     />

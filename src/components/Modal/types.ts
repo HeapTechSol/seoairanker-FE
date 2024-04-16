@@ -11,6 +11,11 @@ export type ModalProps = {
   onCancel: () => void;
   show: boolean;
   className?: string;
-  footerLocation?: 'space-between' | 'left' | 'right' | 'right-no-bar' | 'left-no-bar';
+  footerLocation?:
+    | "space-between"
+    | "left"
+    | "right"
+    | "right-no-bar"
+    | "left-no-bar";
   header?: boolean;
 };

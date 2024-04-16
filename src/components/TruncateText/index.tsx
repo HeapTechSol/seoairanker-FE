@@ -9,9 +9,9 @@ const TruncateText = ({ text, width, line }: TruncateTextTypes) => {
   const style = { width: line ? `${width}px` : "auto" };
 
   return (
-      <div className={classes} style={style}>
-        {text}
-      </div>
+    <div className={classes} style={style}>
+      {text}
+    </div>
   );
 };
 

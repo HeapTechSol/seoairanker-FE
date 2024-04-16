@@ -2,10 +2,10 @@ import { EXACT_ROUTES } from "@/constant/routes";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const {RESET_PASSWORD} = EXACT_ROUTES
+const { RESET_PASSWORD } = EXACT_ROUTES;
 
 const useVerifyOTPHandler = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
   const [timer, setTimer] = useState(1 * 60); // 5 minutes in seconds
   const [otpEnabled, setOtpEnabled] = useState(false);
@@ -18,7 +18,7 @@ const useVerifyOTPHandler = () => {
 
   const handleChange = (value: string, index: number) => {
     if (Number.isNaN(Number(value))) return;
-    let newArr = [...otp];
+    const newArr = [...otp];
     newArr[index] = value;
     setOtp(newArr);
     if (value && index < numberOfDigits - 1) {
@@ -26,6 +26,7 @@ const useVerifyOTPHandler = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleBackspaceAndEnter = (e: any, index: number) => {
     if (e.key === "Backspace" && !e.target.value && index > 0) {
       otpBoxReference.current[index - 1].focus();
@@ -38,8 +39,10 @@ const useVerifyOTPHandler = () => {
   const verifyOTPHandler = () => {
     try {
       console.log(Number(otp.join("")));
-      navigate(RESET_PASSWORD)
-    } catch (error) {}
+      navigate(RESET_PASSWORD);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const startTimer = () => {

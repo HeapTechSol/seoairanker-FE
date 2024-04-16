@@ -1,26 +1,26 @@
-import { classMapper } from '@/utils/helper';
-import './Tooltip.scss';
+import { classMapper } from "@/utils/helper";
+import "./Tooltip.scss";
 
 export type TooltipTypes = {
   children: React.ReactNode | JSX.Element;
   title: React.ReactNode | JSX.Element | string;
   placement:
-    | 'topleft'
-    | 'topcenter'
-    | 'topright'
-    | 'lefttop'
-    | 'leftcenter'
-    | 'leftbottom'
-    | 'righttop'
-    | 'rightcenter'
-    | 'rightbottom'
-    | 'bottomleft'
-    | 'bottomcenter'
-    | 'bottomright';
+    | "topleft"
+    | "topcenter"
+    | "topright"
+    | "lefttop"
+    | "leftcenter"
+    | "leftbottom"
+    | "righttop"
+    | "rightcenter"
+    | "rightbottom"
+    | "bottomleft"
+    | "bottomcenter"
+    | "bottomright";
 };
 
 const Tooltip = ({ children, title, placement }: TooltipTypes) => {
-  const classes = classMapper('tooltip-container', { [placement]: placement });
+  const classes = classMapper("tooltip-container", { [placement]: placement });
   return (
     <div className={classes}>
       <div className="tooltip-container-title">{title}</div>

@@ -1,7 +1,10 @@
 import { useLayoutEffect, useState, useEffect } from "react";
 
 const useResizeObserver = (): { width: number; height: number } => {
-  const [windowSize, setWindowSize] = useState<{ width: number; height: number }>({
+  const [windowSize, setWindowSize] = useState<{
+    width: number;
+    height: number;
+  }>({
     width: 0,
     height: 0,
   });

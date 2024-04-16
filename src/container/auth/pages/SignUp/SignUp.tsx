@@ -14,7 +14,6 @@ import {
   PasswordIcon,
   GoogleIcon,
   MaleHeadIcon,
-
 } from "@/assets/icons/svgs";
 
 import "./SignUp.scss";

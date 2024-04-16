@@ -1,18 +1,22 @@
-import { classMapper } from '@/utils/helper';
+import { classMapper } from "@/utils/helper";
 
-import { ToggleButtonTypes } from './types';
+import { ToggleButtonTypes } from "./types";
 
-import './ToggleButton.scss';
+import "./ToggleButton.scss";
 
 const ToggleButton = ({
   label,
-  labelPosition = 'left',
+  labelPosition = "left",
   checked,
   disabled = false,
-  color = 'primary',
+  color = "primary",
   onChange,
 }: ToggleButtonTypes) => {
-  const classes = classMapper('switch-container', { [labelPosition]: labelPosition, [color]: color, disabled: disabled });
+  const classes = classMapper("switch-container", {
+    [labelPosition]: labelPosition,
+    [color]: color,
+    disabled: disabled,
+  });
 
   const buttonLabel = label && (
     <label className="label" htmlFor={label}>
@@ -24,7 +28,13 @@ const ToggleButton = ({
     <div className={classes}>
       {buttonLabel}
       <div className="switch" onClick={onChange}>
-        <input className="toggle-input" id={label} type="checkbox" checked={checked} disabled={disabled} />
+        <input
+          className="toggle-input"
+          id={label}
+          type="checkbox"
+          checked={checked}
+          disabled={disabled}
+        />
         <label className="slider" htmlFor="toggle"></label>
       </div>
     </div>

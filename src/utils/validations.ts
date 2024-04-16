@@ -32,15 +32,15 @@ export const SignUpSchema: z.ZodType<SignupPayloadTypes> = z
         SchemaConstants.firstName.minCount,
         minCountMessage(
           registerBuyerLabel.firstName,
-          SchemaConstants.firstName.minCount
-        )
+          SchemaConstants.firstName.minCount,
+        ),
       )
       .max(
         SchemaConstants.firstName.maxCount,
         maxCountMessage(
           registerBuyerLabel.firstName,
-          SchemaConstants.firstName.minCount
-        )
+          SchemaConstants.firstName.minCount,
+        ),
       ),
     lastName: z
       .string()
@@ -50,15 +50,15 @@ export const SignUpSchema: z.ZodType<SignupPayloadTypes> = z
         SchemaConstants.lastName.minCount,
         minCountMessage(
           registerBuyerLabel.lastName,
-          SchemaConstants.lastName.minCount
-        )
+          SchemaConstants.lastName.minCount,
+        ),
       )
       .max(
         SchemaConstants.lastName.maxCount,
         maxCountMessage(
           registerBuyerLabel.lastName,
-          SchemaConstants.lastName.minCount
-        )
+          SchemaConstants.lastName.minCount,
+        ),
       ),
 
     email: z.string().min(1, requiredMessage(registerBuyerLabel.email)).email({
@@ -72,15 +72,15 @@ export const SignUpSchema: z.ZodType<SignupPayloadTypes> = z
         SchemaConstants.password.minCount,
         minCountMessage(
           registerBuyerLabel.password,
-          SchemaConstants.password.minCount
-        )
+          SchemaConstants.password.minCount,
+        ),
       )
       .max(
         SchemaConstants.password.maxCount,
         maxCountMessage(
           registerBuyerLabel.password,
-          SchemaConstants.password.maxCount
-        )
+          SchemaConstants.password.maxCount,
+        ),
       ),
     confirmPassword: z
       .string()
@@ -110,15 +110,15 @@ export const ResetPasswordSchema: z.ZodType<ResetPasswordPayloadTypes> = z
         SchemaConstants.password.minCount,
         minCountMessage(
           registerBuyerLabel.password,
-          SchemaConstants.password.minCount
-        )
+          SchemaConstants.password.minCount,
+        ),
       )
       .max(
         SchemaConstants.password.maxCount,
         maxCountMessage(
           registerBuyerLabel.password,
-          SchemaConstants.password.maxCount
-        )
+          SchemaConstants.password.maxCount,
+        ),
       ),
     confirmPassword: z
       .string()
@@ -140,15 +140,15 @@ export const ChangePasswordSchema: z.ZodType<ChangePasswordPayloadTypes> = z
         SchemaConstants.password.minCount,
         minCountMessage(
           registerBuyerLabel.password,
-          SchemaConstants.password.minCount
-        )
+          SchemaConstants.password.minCount,
+        ),
       )
       .max(
         SchemaConstants.password.maxCount,
         maxCountMessage(
           registerBuyerLabel.password,
-          SchemaConstants.password.maxCount
-        )
+          SchemaConstants.password.maxCount,
+        ),
       ),
     password: z
       .string()
@@ -158,15 +158,15 @@ export const ChangePasswordSchema: z.ZodType<ChangePasswordPayloadTypes> = z
         SchemaConstants.password.minCount,
         minCountMessage(
           registerBuyerLabel.password,
-          SchemaConstants.password.minCount
-        )
+          SchemaConstants.password.minCount,
+        ),
       )
       .max(
         SchemaConstants.password.maxCount,
         maxCountMessage(
           registerBuyerLabel.password,
-          SchemaConstants.password.maxCount
-        )
+          SchemaConstants.password.maxCount,
+        ),
       ),
     confirmPassword: z
       .string()
@@ -186,8 +186,8 @@ export const ForgetPasswordSchema: z.ZodType<ForgetPasswordPayloadTypes> =
   });
 
 export const VerifyOTPSchema: z.ZodType<VerifyOTPPayloadTypes> = z.object({
-  p1: z.string().min(1, "").max(1,""),
-  p2: z.string().min(1, "").max(1,""),
-  p3: z.string().min(1, "").max(1,""),
-  p4: z.string().min(1, "").max(1,""),
+  p1: z.string().min(1, "").max(1, ""),
+  p2: z.string().min(1, "").max(1, ""),
+  p3: z.string().min(1, "").max(1, ""),
+  p4: z.string().min(1, "").max(1, ""),
 });

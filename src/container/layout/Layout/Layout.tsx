@@ -26,11 +26,11 @@ const Layout = () => {
     }
   }, [width]);
 
-  const isLogged = false
+  const isLogged = false;
 
   return (
     <div className="layout-container">
-     {isLogged &&  <Sidebar sidebarRef={sidebarRef} />}
+      {isLogged && <Sidebar sidebarRef={sidebarRef} />}
       <div className="layout-right-section">
         <Topbar sidebarRef={sidebarRef} />
         <div className="layout-right-section-menu">

@@ -1,8 +1,8 @@
 export type ToggleButtonTypes = {
   label?: string;
-  labelPosition?: 'left' | 'right' | 'top' | 'bottom';
+  labelPosition?: "left" | "right" | "top" | "bottom";
   checked?: boolean;
   color?: string;
-  disabled?:boolean;
+  disabled?: boolean;
   onChange?: () => void;
 };

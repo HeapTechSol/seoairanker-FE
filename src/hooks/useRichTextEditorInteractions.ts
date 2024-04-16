@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect } from "react";
 
 const useRichTextEditorInteractions = () => {
-  
   const formatDoc = (key: string, value: string | null = null) => {
     if (value) {
       document.execCommand(key, false, value);
@@ -18,24 +17,24 @@ const useRichTextEditorInteractions = () => {
   };
 
   const addImageOrLink = (url: string) => {
-    var img = document.createElement("img");
+    const img = document.createElement("img");
     img.src = url;
     img.draggable = true;
-    var editor = document.getElementById("content");
+    const editor = document.getElementById("content");
     editor?.appendChild(img);
   };
 
   const addImage = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-        const reader = new FileReader();
-        reader.onload = (e: ProgressEvent<FileReader>) => {
-            const url = e.target?.result as string;
-            addImageOrLink(url);
-        };
-        reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const url = e.target?.result as string;
+        addImageOrLink(url);
+      };
+      reader.readAsDataURL(file);
     }
-};
+  };
 
   useEffect(() => {
     const showCode = document.getElementById("show-code") as HTMLButtonElement;

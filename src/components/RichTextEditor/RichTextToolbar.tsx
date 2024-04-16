@@ -5,7 +5,6 @@ import FormattingSelection from "./FormattingSelection";
 import useRichTextEditorInteractions from "@/hooks/useRichTextEditorInteractions";
 
 const RichTextToolbar = () => {
-  
   const { formatDoc, addLink, addImage } = useRichTextEditorInteractions();
 
   return (

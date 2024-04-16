@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import DogImage from 'assets/images/unauthorized.png';
+import DogImage from "assets/images/unauthorized.png";
 
-import './UnAuthorized.scss';
+import "./UnAuthorized.scss";
 
 const UnAuthorized = () => {
   return (
@@ -14,7 +14,7 @@ const UnAuthorized = () => {
           You are <span>Unauthorized</span> to access this page
         </div>
         <div className="redirection-guide">
-          please return to homepage by clicking <Link to={'/'}>here</Link>
+          please return to homepage by clicking <Link to={"/"}>here</Link>
         </div>
       </div>
     </div>

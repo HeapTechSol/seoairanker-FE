@@ -10,6 +10,7 @@ export const SchemaConstants = {
   password: {
     minCount: 8,
     maxCount: 100,
-    invalidPassword: 'Password should contain one uppercase letter and one special character.',
+    invalidPassword:
+      "Password should contain one uppercase letter and one special character.",
   },
-}
+};

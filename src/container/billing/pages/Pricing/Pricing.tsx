@@ -33,7 +33,7 @@ const Pricing = () => {
   const totalAmount = (
     planType: PlansTitles,
     amount: number,
-    addOnInfo: addOnInfoTypes[]
+    addOnInfo: addOnInfoTypes[],
   ) => {
     return (
       ((values[planType]?.extra_sites || 0) / addOnInfo[0].step) *
@@ -76,7 +76,7 @@ const Pricing = () => {
                         amount={totalAmount(
                           item.planType,
                           item.amount,
-                          item.addOnInfo
+                          item.addOnInfo,
                         )}
                         Icon={item.Icon}
                         color={item.color}
@@ -112,7 +112,7 @@ const Pricing = () => {
                         amount={totalAmount(
                           item.planType,
                           item.amount,
-                          item.addOnInfo
+                          item.addOnInfo,
                         )}
                         Icon={item.Icon}
                         color={item.color}

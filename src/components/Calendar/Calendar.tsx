@@ -21,7 +21,7 @@ const weeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const Calendar = ({
   onChange,
 }: {
-  onChange: (val: Date, val1: Date) => void
+  onChange: (val: Date, val1: Date) => void;
 }) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
@@ -89,7 +89,7 @@ const Calendar = ({
     }
 
     const startDateIndex = Array.from(items).indexOf(
-      startDateElement as HTMLElement
+      startDateElement as HTMLElement,
     );
 
     for (

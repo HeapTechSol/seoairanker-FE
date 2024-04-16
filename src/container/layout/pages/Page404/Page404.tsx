@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import DogImage from '@/assets/images/404.png';
+import DogImage from "@/assets/images/404.png";
 
-import './Page404.scss';
+import "./Page404.scss";
 
 const Page404 = () => {
   return (
@@ -12,7 +12,7 @@ const Page404 = () => {
         <div className="title">404</div>
         <div className="description-404">Oops, page not found</div>
         <div className="redirection-guide">
-          please return to homepage by clicking <Link to={'/'}>here</Link>
+          please return to homepage by clicking <Link to={"/"}>here</Link>
         </div>
       </div>
     </div>

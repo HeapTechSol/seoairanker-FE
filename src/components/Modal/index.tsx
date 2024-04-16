@@ -1,16 +1,16 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
-import Button from '@/components/Button';
-import Loader from '@/components/Loader';
+import Button from "@/components/Button";
+import Loader from "@/components/Loader";
 
-import { ModalProps } from './types';
+import { ModalProps } from "./types";
 
-import './Modal.scss';
+import "./Modal.scss";
 
 const Modal = ({
   title,
-  cancelText = '',
-  OkText = '',
+  cancelText = "",
+  OkText = "",
   footer = true,
   header = true,
   contentLoading,
@@ -21,15 +21,20 @@ const Modal = ({
   show,
   children,
   className,
-  footerLocation = 'right',
+  footerLocation = "right",
 }: ModalProps) => {
   const bubbleRef = useRef<HTMLDivElement>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const outSideClick = (e: any) => {
     e.stopPropagation();
-    if (e.target.classList[0] === 'modal-container') {
-      if (bubbleRef.current && [...bubbleRef.current.classList].includes('bubble')) bubbleRef.current.classList.remove('bubble');
-      setTimeout(() => bubbleRef.current?.classList.add('bubble'), 0);
+    if (e.target.classList[0] === "modal-container") {
+      if (
+        bubbleRef.current &&
+        [...bubbleRef.current.classList].includes("bubble")
+      )
+        bubbleRef.current.classList.remove("bubble");
+      setTimeout(() => bubbleRef.current?.classList.add("bubble"), 0);
     }
   };
 
@@ -42,13 +47,17 @@ const Modal = ({
   );
 
   const submitButton = OkText && (
-    <Button variant="filled" loading={requestLoading} onClick={() => onSubmit()}>
+    <Button
+      variant="filled"
+      loading={requestLoading}
+      onClick={() => onSubmit()}
+    >
       {OkText}
     </Button>
   );
 
   const footerContent = footer && (
-    <div className={`modal-footer ${footerLocation || ''}`}>
+    <div className={`modal-footer ${footerLocation || ""}`}>
       {cancelButton} {submitButton}
     </div>
   );
@@ -56,13 +65,16 @@ const Modal = ({
   const headerContent = header && (
     <div className="modal-header">
       <div className="modal-header_title">{modalTitle}</div>
-      <div className="modal-header_icon" onClick={() => setShowModel(false)}></div>
+      <div
+        className="modal-header_icon"
+        onClick={() => setShowModel(false)}
+      ></div>
     </div>
   );
 
   return (
     <div
-      className={`modal-container ${show ? 'show' : 'hide'} ${className || ''}`}
+      className={`modal-container ${show ? "show" : "hide"} ${className || ""}`}
       onClick={(e) => outSideClick(e)}
       ref={bubbleRef}
     >

@@ -41,7 +41,7 @@ const Input = ({
     { radius: borderRadius && variant !== "underlined" },
     { startIcon: !!StartIcon },
     { endIcon: !!EndIcon },
-    { required: required && title }
+    { required: required && title },
   );
 
   const isStartSvgIcon =

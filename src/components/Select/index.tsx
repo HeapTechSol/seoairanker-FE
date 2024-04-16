@@ -54,20 +54,29 @@ const Select = ({
 
   const selectHandler = (selectedValue: OptionsType) => {
     if (query) setQuery({ label: "", value: "" });
+
     if (multiple && Array.isArray(values)) {
       const alreadySelected = values.find(
-        (value) => value.id === selectedValue.id
+        (value) => value.id === selectedValue.id,
       );
-      if (alreadySelected)
-        return setValues?.([
-          ...values?.filter((val) => val.id !== selectedValue.id),
+
+      if (alreadySelected) {
+        setValues?.([
+          ...(values?.filter((val) => val.id !== selectedValue.id) ?? []),
         ]);
-      setValues?.([...values, selectedValue]);
+        return;
+      }
+
+      setValues?.([...(values ?? []), selectedValue]);
       return;
     }
+
     setValues?.(selectedValue);
-    if (inputToggleBtnRef.current)
+
+    if (inputToggleBtnRef.current) {
       toggleCSSClass(toggleOptionListRef.current, "open", "remove");
+    }
+
     optionsListToggler(false);
   };
 
@@ -110,6 +119,7 @@ const Select = ({
     optionsListToggler(false);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSearch = (e: any) => {
     if (!searchable) return e.preventDefault();
     setQuery({ label: e.target.value, value: e.target.value });
@@ -118,23 +128,25 @@ const Select = ({
   const reSizeHandler = useCallback(() => {
     if (selectedOptionsRef.current && selectContainerRef.current) {
       const selectedOptionsCollection = Array.from(
-        selectedOptionsRef.current.children
+        selectedOptionsRef.current.children,
       );
       const selectContainer =
         selectContainerRef.current?.getBoundingClientRect();
       const selectedOption = selectedOptionsCollection?.filter(
-        (item) => !item.classList.contains("options-count")
+        (item) => !item.classList.contains("options-count"),
       );
       const optionsInContainer = selectedOption?.filter(
-        (elm) => elm.getBoundingClientRect().right < selectContainer.right - 140
+        (elm) =>
+          elm.getBoundingClientRect().right < selectContainer.right - 140,
       );
       toggleCSSClasses(optionsInContainer, "excessive-width", "remove");
       const optionsOutContainer = selectedOption?.filter(
-        (elm) => elm.getBoundingClientRect().right > selectContainer.right - 140
+        (elm) =>
+          elm.getBoundingClientRect().right > selectContainer.right - 140,
       );
       toggleCSSClasses(optionsOutContainer, "excessive-width", "add");
       setWarpedCounter(
-        document.getElementsByClassName("excessive-width")?.length
+        document.getElementsByClassName("excessive-width")?.length,
       );
     }
   }, [selectedOptionsRef]);
@@ -147,6 +159,7 @@ const Select = ({
     return () => {
       window.removeEventListener("resize", reSizeHandler);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reSizeHandler, values]);
 
   const selected = Array.isArray(values)
@@ -181,7 +194,7 @@ const Select = ({
   );
 
   const queriedOptions = Options?.filter((item) =>
-    item.label.toLowerCase().includes(query.label.toLowerCase())
+    item.label.toLowerCase().includes(query.label.toLowerCase()),
   );
 
   const singleOptionsList = queriedOptions.map((opt, idx) => (
@@ -202,7 +215,7 @@ const Select = ({
         key={`${opt.label}${idx}`}
         name={opt.label}
         checked={(values as OptionsType[])?.some(
-          (value) => value.id === opt.id
+          (value) => value.id === opt.id,
         )}
         onChange={() => selectHandler(opt)}
         label={opt?.label}
@@ -299,7 +312,7 @@ const Select = ({
                   value={query.label}
                   onChange={onSearch}
                   name="query"
-                  startIcon={SearchIcon}
+                  StartIcon={SearchIcon}
                   size={size}
                   borderRadius
                 />

@@ -4,6 +4,7 @@ type CellPropsTypes = {
   onClick?: () => void;
   onMouseEnter?: (e: React.SyntheticEvent) => void;
   onMouseOut?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children?: any;
 };
 
@@ -14,7 +15,7 @@ const Cell = ({
   children,
   onMouseEnter,
   onMouseOut,
-  className='',
+  className = "",
 }: CellPropsTypes) => {
   return (
     <div

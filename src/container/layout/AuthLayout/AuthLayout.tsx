@@ -32,7 +32,7 @@ const AuthLayout = () => {
           padding={"0px 130px"}
         >
           <Flex vertical gap={80} align="center">
-            <Flex >
+            <Flex>
               <img height={40} src={SeodeIcon} alt="" />
             </Flex>
             <Outlet />

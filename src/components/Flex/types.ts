@@ -10,7 +10,7 @@ export type FlexPropsTypes = {
   align?: "between" | "center" | "evenly" | "start" | "end";
   children: JSX.Element | ReactNode | string;
   className?: string;
-  wrap?:boolean;
+  wrap?: boolean;
   onClick?: (val: React.SyntheticEvent) => void;
   ref: React.Ref<HTMLDivElement>;
 };

@@ -18,7 +18,7 @@ export const toolbarButtonList = [
   { buttonAction: "insertUnorderedList", buttonIcon: "bx bx-list-ul" },
   { buttonAction: "addLink", buttonIcon: "bx bx-link" },
   { buttonAction: "unlink", buttonIcon: "bx bx-unlink" },
-  { buttonAction: "showCode", buttonIcon: "bx bx-code", id:'show-code' },
+  { buttonAction: "showCode", buttonIcon: "bx bx-code", id: "show-code" },
   { buttonAction: "insertImage", buttonIcon: "bx bx-image" },
 ];
 
@@ -31,7 +31,7 @@ export const toolbarSelectsOptionsList = {
     { value: "h4", text: "Heading 4" },
     { value: "h5", text: "Heading 5" },
     { value: "h6", text: "Heading 6" },
-    { value: "p", text: "Paragraph" }
+    { value: "p", text: "Paragraph" },
   ],
   fontSizeOptions: [
     { value: "", text: "Select Font Size", hidden: true },
@@ -41,8 +41,8 @@ export const toolbarSelectsOptionsList = {
     { value: "4", text: "Medium" },
     { value: "5", text: "Large" },
     { value: "6", text: "Extra Large" },
-    { value: "7", text: "Big" }
-  ]
+    { value: "7", text: "Big" },
+  ],
 };
 
-export const DOTS = '...';
+export const DOTS = "...";

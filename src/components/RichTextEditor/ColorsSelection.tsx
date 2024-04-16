@@ -1,6 +1,6 @@
 import { RichTextEditorFunctionTypes } from "./types";
 
-const ColorsSelection = ({formatDoc}:RichTextEditorFunctionTypes) => {
+const ColorsSelection = ({ formatDoc }: RichTextEditorFunctionTypes) => {
   return (
     <>
       <div className="color">

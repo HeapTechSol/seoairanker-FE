@@ -25,12 +25,7 @@ const Login = () => {
   } = useLoginHandler();
 
   return (
-    <Container
-      boxShadow
-      borderRadius
-      width={100}
-      padding={"40px 80px"}
-    >
+    <Container boxShadow borderRadius width={100} padding={"40px 80px"}>
       <Flex vertical gap={24} className="auth-form-box">
         <Typography text="Sign In" type="h2" />
 

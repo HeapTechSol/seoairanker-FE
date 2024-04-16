@@ -2,7 +2,7 @@ export interface menuTypes {
   name: string;
   icon?: string;
   path: string;
-  children?:menuTypes[]
+  children?: menuTypes[];
 }
 
 export type MenuPropsTypes = {
@@ -10,4 +10,4 @@ export type MenuPropsTypes = {
   className?: string;
   index: string;
   clickHandler: (value: React.MouseEvent) => void;
-}
+};

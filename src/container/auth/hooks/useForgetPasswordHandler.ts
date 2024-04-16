@@ -19,7 +19,9 @@ const useForgetPasswordHandler = () => {
   const forgetPasswordHandler = (values: ForgetPasswordPayloadTypes) => {
     try {
       navigate(VERIFY_OTP, { state: { email: values?.email } });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return { control, handleSubmit, forgetPasswordHandler };

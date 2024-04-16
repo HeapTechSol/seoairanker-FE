@@ -1,30 +1,30 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 export type steps = {
   title: ReactNode;
   stepLabel: string;
-  component: ReactNode
-}
+  component: ReactNode;
+};
 
 export type StepProps = {
   children: ReactNode;
   completed: boolean;
   active: boolean;
   label?: string;
-  onClick: () => void
+  onClick: () => void;
 };
 
 export type StepperProps = {
-  orientation: 'horizontal' | 'vertical';
-  labelPosition?: 'right' | 'top' | 'bottom';
-  steps: steps[],
+  orientation: "horizontal" | "vertical";
+  labelPosition?: "right" | "top" | "bottom";
+  steps: steps[];
   requestLoading?: boolean;
-  componentControl?:boolean;
+  componentControl?: boolean;
   isEdit?: boolean;
-  color: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' ;
-  submitHandler:()=>void;
-  handleForwardButtonPress?:()=>void
-  handlePreviousButtonPress?:()=>void
-  handleStepButtonPress?:(index:number)=>void
-  activeStepper?:number;
+  color: "primary" | "secondary" | "error" | "warning" | "info" | "success";
+  submitHandler: () => void;
+  handleForwardButtonPress?: () => void;
+  handlePreviousButtonPress?: () => void;
+  handleStepButtonPress?: (index: number) => void;
+  activeStepper?: number;
 };

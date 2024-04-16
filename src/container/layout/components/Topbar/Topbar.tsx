@@ -70,10 +70,18 @@ const Topbar = ({
             {/* <Typography type="h4" textAlign="center" text="Seode Icon"/> */}
           </Flex>
           <Flex justify="center">
-            <Button size="lg" variant="text" onClick={() => navigate(BILLING_PLANS)}>
+            <Button
+              size="lg"
+              variant="text"
+              onClick={() => navigate(BILLING_PLANS)}
+            >
               Pricing
             </Button>
-            <Button size="lg" variant="text" onClick={() => navigate(PAYMENT_HISTORY)}>
+            <Button
+              size="lg"
+              variant="text"
+              onClick={() => navigate(PAYMENT_HISTORY)}
+            >
               Payment History
             </Button>
           </Flex>

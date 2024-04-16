@@ -7,7 +7,7 @@ const SidebarTools = () => {
         onDragStart={(e) => {
           e.dataTransfer.setData(
             "text/plain",
-            (e.target as HTMLButtonElement).id
+            (e.target as HTMLButtonElement).id,
           );
         }}
       >

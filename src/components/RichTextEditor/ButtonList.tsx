@@ -10,16 +10,12 @@ const ButtonList = ({
   formatDoc,
   addImage,
 }: RichTextEditorFunctionTypes) => {
-
   return (
     <div className="btn-toolbar">
       {toolbarButtonList.map((button, index) => (
         <>
           {button.buttonAction === "insertImage" ? (
-            <InsertImageButton
-              addImage={addImage}
-              button={button}
-            />
+            <InsertImageButton addImage={addImage} button={button} />
           ) : (
             <Button
               borderRadius

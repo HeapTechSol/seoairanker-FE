@@ -10,9 +10,9 @@ const RadioButton = ({
   checked,
   disabled,
   onChange,
-  restricted=false,
+  restricted = false,
   size = "md",
-  readOnly=false,
+  readOnly = false,
   color = "primary",
   labelPosition = "left",
 }: RadioButtonTypes) => {

@@ -13,10 +13,10 @@ export type SelectProps = {
   searchable?: boolean;
   selectAllOption?: boolean;
   loading?: boolean;
-  onScroll?:(value:boolean)=>void;
-  minWidth?:number;
-  color?:ColorsTypes;
-  size:SizeTypes;
+  onScroll?: (value: boolean) => void;
+  minWidth?: number;
+  color?: ColorsTypes;
+  size: SizeTypes;
   title?: string;
   titlePosition?: "top" | "inside";
   setValues: React.Dispatch<React.SetStateAction<OptionsType | OptionsType[]>>;

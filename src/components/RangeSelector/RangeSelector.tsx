@@ -7,7 +7,7 @@ const RangeSelector = ({
   onChange,
   min = 0,
   max = 100,
-  step=10,
+  step = 10,
   value = 0,
   size = "md",
   thumbColor = "primary",
@@ -31,13 +31,13 @@ const RangeSelector = ({
   const rangeSelectorCSSClasses = classMapper("range-selector", {
     [thumbColor]: thumbColor,
   });
-  
-  const percentage = (value/max) * 100
+
+  const percentage = (value / max) * 100;
   return (
     <div className={rangeSelectorCSSClasses}>
       <span
         style={{
-          left:`calc(${percentage}% - ${percentage / 4}px)`
+          left: `calc(${percentage}% - ${percentage / 4}px)`,
         }}
         id="counterOutput"
       >

@@ -24,13 +24,13 @@ export const classMapper = (...args: ClassMapperArgsTpyes[]) => {
 export const toggleCSSClasses = (
   elements: Element[],
   className: string,
-  action: "remove" | "add"
+  action: "remove" | "add",
 ) => elements?.forEach((item) => item?.classList[action](className));
 
 export const toggleCSSClass = (
   element: Element | null,
   className: string,
-  action: "remove" | "add"
+  action: "remove" | "add",
 ) => (element as Element)?.classList[action](className);
 
 export const getMenuId = (menu: Element) => menu.id;
@@ -59,7 +59,7 @@ export const filterByClassNameAndOpenClass = (arr: Element[], id: string) => {
   const elementsWithMatchedIdAndOpenClass = arr.filter(
     (item) =>
       id?.includes(getMenuId(item)) &&
-      hasClass(item.firstElementChild as Element, "open")
+      hasClass(item.firstElementChild as Element, "open"),
   );
   return firstChild(elementsWithMatchedIdAndOpenClass);
 };
@@ -72,7 +72,7 @@ export const accessElements = (menuRef: React.RefObject<HTMLDivElement>) => {
   const subMenusItems = getElements(ref, "submenu-list-link");
   const subMenuItemWithActiveClass = getElement(
     ref,
-    "submenu-list-link.active"
+    "submenu-list-link.active",
   );
 
   const subMenuWithActiveClass =
@@ -80,7 +80,7 @@ export const accessElements = (menuRef: React.RefObject<HTMLDivElement>) => {
 
   const subMenuHeadingWithActiveChild = getElement(
     subMenuWithActiveClass as Element,
-    "submenu-heading"
+    "submenu-heading",
   );
 
   return {
@@ -91,13 +91,13 @@ export const accessElements = (menuRef: React.RefObject<HTMLDivElement>) => {
     subMenuHeadingWithActiveChild,
   };
 };
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isEmpty = (obj: any) =>
   [Object, Array].includes((obj || {}).constructor) &&
   !Object.entries(obj || {}).length;
 
 export const arrayGeneratorWithRange = (start: number, end: number) => {
-  let length = end - start + 1;
+  const length = end - start + 1;
   return Array.from({ length }, (_, idx) => idx + start);
 };
 

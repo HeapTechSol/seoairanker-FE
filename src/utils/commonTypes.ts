@@ -9,6 +9,6 @@ export type ColorsTypes =
   | "success"
   | "common";
 export type OnClickTypes = (
-  event: React.MouseEvent | KeyboardEvent<HTMLButtonElement>
+  event: React.MouseEvent | KeyboardEvent<HTMLButtonElement>,
 ) => void;
 export type SizeTypes = "sm" | "md" | "lg";

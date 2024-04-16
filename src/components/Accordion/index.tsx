@@ -1,20 +1,24 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
-import { classMapper } from '@/utils/helper';
+import { classMapper } from "@/utils/helper";
 
-import { AccordionTypes } from './types';
+import { AccordionTypes } from "./types";
 
-import './Accordion.scss';
+import "./Accordion.scss";
 
-const Accordion = ({ description, title, color = 'primary', arrowIcon=false }: AccordionTypes) => {
-  
+const Accordion = ({
+  description,
+  title,
+  color = "primary",
+  arrowIcon = false,
+}: AccordionTypes) => {
   const accordionRef = useRef<HTMLDivElement>(null);
 
   const clickHandler = () => {
-    if (accordionRef.current) accordionRef.current.classList.toggle('open');
+    if (accordionRef.current) accordionRef.current.classList.toggle("open");
   };
 
-  const classes = classMapper('accordion-container', { [color]: color });
+  const classes = classMapper("accordion-container", { [color]: color });
 
   return (
     <div className={classes} ref={accordionRef}>

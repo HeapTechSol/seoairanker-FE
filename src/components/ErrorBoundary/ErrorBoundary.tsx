@@ -1,8 +1,8 @@
-import { useRouteError } from 'react-router-dom';
+import { useRouteError } from "react-router-dom";
 
-import DogImage from '@/assets/images/error.png';
+import DogImage from "@/assets/images/error.png";
 
-import './ErrorBoundary.scss';
+import "./ErrorBoundary.scss";
 
 const ErrorBoundary = () => {
   const error = useRouteError();
@@ -12,7 +12,7 @@ const ErrorBoundary = () => {
       <img src={DogImage} alt="" />
       <div className="error-detail">
         <div className="title">Something went wrong</div>
-        <div className='error-description'>{(error as Error)?.message}</div>
+        <div className="error-description">{(error as Error)?.message}</div>
       </div>
     </div>
   );

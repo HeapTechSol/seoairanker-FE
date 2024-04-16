@@ -44,11 +44,14 @@ const Pagination = ({
     onPageChange(currentPage - 1);
   };
 
-  let lastPage =
+  const lastPage =
     paginationRange && paginationRange[(paginationRange?.length || 0) - 1];
 
   return (
-    <Flex rowReverse={showSizeChanger?.rowReverse || showPageInput?.rowReverse} gap={24}>
+    <Flex
+      rowReverse={showSizeChanger?.rowReverse || showPageInput?.rowReverse}
+      gap={24}
+    >
       {showSizeChanger && (
         <Select
           size={size}

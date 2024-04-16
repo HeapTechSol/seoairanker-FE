@@ -1,23 +1,23 @@
-import { ChipPropsTypes } from './types';
+import { ChipPropsTypes } from "./types";
 
-import { classMapper } from '@/utils/helper';
+import { classMapper } from "@/utils/helper";
 
-import './Chip.scss';
+import "./Chip.scss";
 
 const Chip = ({
   bordered = false,
   rounded = false,
   circled = false,
-  variant = 'outlined',
+  variant = "outlined",
   onClick,
-  color = 'primary',
-  size = 'md',
+  color = "primary",
+  size = "md",
   text,
-  iconPlacement = 'end',
+  iconPlacement = "end",
   Icon,
-  className=''
+  className = "",
 }: ChipPropsTypes) => {
-  const chipStyleClasses = classMapper('chip', {
+  const chipStyleClasses = classMapper("chip", {
     bordered: bordered,
     rounded: rounded,
     circled: circled,
@@ -29,8 +29,12 @@ const Chip = ({
     primary: true,
   });
 
-  const isSvgIcon = typeof Icon === 'object' && Icon.type === 'svg';
-  const IconPassed = isSvgIcon ? Icon : <img src={Icon as string} alt="tag logo" />;
+  const isSvgIcon = typeof Icon === "object" && Icon.type === "svg";
+  const IconPassed = isSvgIcon ? (
+    Icon
+  ) : (
+    <img src={Icon as string} alt="tag logo" />
+  );
 
   return (
     <span className={chipStyleClasses} onClick={onClick}>

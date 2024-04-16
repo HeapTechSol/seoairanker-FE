@@ -59,7 +59,7 @@ const detailsInfoGenerator = (
   perDescription: number,
   perTitle: number,
   perUpdate: number,
-  perCrawl: number
+  perCrawl: number,
 ) => {
   return [
     {
@@ -137,7 +137,7 @@ export const monthlyPlans: PlanTypes[] = [
       0.01,
       0.01,
       0.01,
-      0.01
+      0.01,
     ),
     addOnInfo: addsOnInfoGenerator({
       extra_sites: 39.0,
@@ -171,7 +171,7 @@ export const monthlyPlans: PlanTypes[] = [
       0.01,
       0.01,
       0.01,
-      0.01
+      0.01,
     ),
     addOnInfo: addsOnInfoGenerator({
       extra_sites: 29.0,
@@ -206,7 +206,7 @@ export const monthlyPlans: PlanTypes[] = [
       0.01,
       0.01,
       0.01,
-      0.01
+      0.01,
     ),
     addOnInfo: addsOnInfoGenerator({
       extra_sites: 19.0,
@@ -243,7 +243,7 @@ export const yearlyPlans: PlanTypes[] = [
       0.1,
       0.1,
       0.01,
-      0.01
+      0.01,
     ),
     addOnInfo: addsOnInfoGenerator({
       extra_sites: 390.0,
@@ -277,7 +277,7 @@ export const yearlyPlans: PlanTypes[] = [
       0.09,
       0.09,
       0.01,
-      0.01
+      0.01,
     ),
     addOnInfo: addsOnInfoGenerator({
       extra_sites: 290.0,
@@ -312,7 +312,7 @@ export const yearlyPlans: PlanTypes[] = [
       0.08,
       0.08,
       0.01,
-      0.01
+      0.01,
     ),
     addOnInfo: addsOnInfoGenerator({
       extra_sites: 190.0,

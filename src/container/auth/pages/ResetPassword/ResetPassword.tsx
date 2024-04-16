@@ -17,12 +17,7 @@ const ResetPassword = () => {
     useResetPasswordHandler();
 
   return (
-    <Container
-      width={100}
-      boxShadow
-      borderRadius
-      padding={"40px 80px"}
-    >
+    <Container width={100} boxShadow borderRadius padding={"40px 80px"}>
       <Flex vertical gap={24} align="center" justify="center">
         <Typography text="Reset Password" type="h2" />
         <Flex vertical justify="center" gap={16}>
