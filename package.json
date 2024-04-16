@@ -1,0 +1,71 @@
+{
+  "name": "seode",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "author": "heapTechSol",
+  "license": "ISC",
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite preview",
+    "build": "tsc && vite build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@react-oauth/google": "^0.12.1",
+    "@stripe/react-stripe-js": "^2.7.0",
+    "@stripe/stripe-js": "^3.3.0",
+    "date-fns": "^3.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.0",
+    "react-router-dom": "^6.22.2",
+    "sass": "^1.71.1",
+    "storybook": "^8.0.4",
+    "vite-plugin-svgr": "^4.2.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^1.2.25",
+    "@storybook/addon-essentials": "^8.0.4",
+    "@storybook/addon-interactions": "^8.0.4",
+    "@storybook/addon-links": "^8.0.4",
+    "@storybook/addon-onboarding": "^8.0.4",
+    "@storybook/blocks": "^8.0.4",
+    "@storybook/builder-vite": "^8.0.4",
+    "@storybook/react": "^8.0.4",
+    "@storybook/react-vite": "^8.0.4",
+    "@storybook/test": "^8.0.4",
+    "@tanstack/eslint-plugin-query": "^5.28.11",
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.56",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "eslint-plugin-storybook": "^0.8.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4"
+  },
+  "engines": {
+    "node": "18",
+    "npm": ">=8"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write ."
+    ],
+    "src/**/*.{js,jsx,ts,tsx,json}": [
+      "eslint --max-warnings=0"
+    ]
+  }
+}

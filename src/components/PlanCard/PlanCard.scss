@@ -1,0 +1,27 @@
+.plan-card {
+  min-width: 270px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .btn{
+    margin-top: 70px;
+  }
+
+  svg line,rect {
+    stroke: white;
+  }
+}
+
+
+@media screen and (max-width: 650px) {
+  .plan-card {
+    padding: 20px !important;
+  }
+}
+@media screen and (max-width: 290px) {
+  .plan-card {
+    padding: 10px !important;
+  }
+}

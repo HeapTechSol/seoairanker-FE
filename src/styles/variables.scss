@@ -1,0 +1,13 @@
+$colorType: primary, secondary, error, warning, info, success, common, grayclr;
+
+:root {
+  @each $outer, $outerName in $muiTheme {
+    @each $inner, $innerColor in $outerName {
+      --color-#{$outer}-#{$inner}: #{$innerColor};
+    }
+  }
+}
+
+@function colorMapper($type, $colorName) {
+  @return var(--color-#{$type}-#{$colorName});
+}

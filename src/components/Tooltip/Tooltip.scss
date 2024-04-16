@@ -1,0 +1,232 @@
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+
+    &-title {
+        position: absolute;
+        visibility: hidden;
+        opacity: 0;
+        height: 0px;
+    }
+
+    &:hover {
+        .tooltip-container-title {
+            position: absolute;
+            display: block;
+            visibility: visible;
+            opacity: 1;
+            padding: 6px 8px;
+            height: auto;
+            background: black;
+            bottom: calc(100% + 13px);
+            color: white;
+            border-radius: 3px;
+            height: fit-content;
+
+            &::before {
+                content: "";
+                position: absolute;
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-top: 7px solid black;
+                bottom: -7px;
+                left: 10%;
+            }
+        }
+
+    }
+
+    &.topleft:hover {
+        .tooltip-container-title {
+            &::before {
+                left: 10%;
+            }
+        }
+    }
+
+    &.topcenter:hover {
+        .tooltip-container-title {
+            &::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    }
+
+    &.topright:hover {
+        .tooltip-container-title {
+            &::before {
+                right: 10%;
+                left: auto;
+            }
+        }
+    }
+
+    // Left
+
+    &.lefttop:hover {
+        .tooltip-container-title {
+            top: 50%;
+            transform: translateY(-50%);
+            right: calc(100% + 13px);
+
+            &::before {
+                border-top: 7px solid transparent;
+                border-bottom: 7px solid transparent;
+                border-left: 7px solid black;
+                border-right: none;
+                left: 100%;
+                top: 10%;
+                bottom: auto;
+            }
+        }
+    }
+
+    &.leftcenter:hover {
+        .tooltip-container-title {
+            top: 50%;
+            transform: translateY(-50%);
+            right: calc(100% + 13px);
+
+            &::before {
+                border-top: 7px solid transparent;
+                border-bottom: 7px solid transparent;
+                border-left: 7px solid black;
+                border-right: none;
+                left: 100%;
+                top: 50%;
+                transform: translateY(-50%);
+                bottom: auto;
+            }
+        }
+    }
+
+    &.leftbottom:hover {
+        .tooltip-container-title {
+            top: 50%;
+            transform: translateY(-50%);
+            right: calc(100% + 13px);
+
+            &::before {
+                border-top: 7px solid transparent;
+                border-bottom: 7px solid transparent;
+                border-left: 7px solid black;
+                border-right: none;
+                left: 100%;
+                bottom: 10%;
+            }
+        }
+    }
+
+    // Right
+
+    &.righttop:hover {
+        .tooltip-container-title {
+            top: 50%;
+            transform: translateY(-50%);
+            left: calc(100% + 13px);
+
+            &::before {
+                border-top: 7px solid transparent;
+                border-bottom: 7px solid transparent;
+                border-right: 7px solid black;
+                right: 100%;
+                left: auto;
+                top: 10%;
+                bottom: auto;
+            }
+        }
+    }
+
+    &.rightcenter:hover {
+        .tooltip-container-title {
+            top: 50%;
+            transform: translateY(-50%);
+            left: calc(100% + 13px);
+
+            &::before {
+                border-top: 7px solid transparent;
+                border-bottom: 7px solid transparent;
+                border-right: 7px solid black;
+                right: 100%;
+                left: auto;
+                top: 50%;
+                transform: translateY(-50%);
+                bottom: auto;
+            }
+        }
+    }
+
+    &.rightbottom:hover {
+        .tooltip-container-title {
+            top: 50%;
+            transform: translateY(-50%);
+            left: calc(100% + 13px);
+
+            &::before {
+                border-top: 7px solid transparent;
+                border-bottom: 7px solid transparent;
+                border-right: 7px solid black;
+                right: 100%;
+                left: auto;
+                bottom: 10%;
+            }
+        }
+    }
+
+    // Bottom
+
+    &.bottomleft:hover {
+        .tooltip-container-title {
+            top: calc(100% + 13px);
+            bottom: auto;
+
+            &::before {
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-bottom: 7px solid black;
+                border-top: none;
+                top: -7px;
+                bottom: auto;
+            }
+        }
+    }
+
+    &.bottomcenter:hover {
+        .tooltip-container-title {
+            top: calc(100% + 13px);
+            bottom: auto;
+
+            &::before {
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-bottom: 7px solid black;
+                border-top: none;
+                top: -7px;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: auto;
+            }
+        }
+    }
+
+    &.bottomright:hover {
+        .tooltip-container-title {
+            top: calc(100% + 13px);
+            bottom: auto;
+
+            &::before {
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-bottom: 7px solid black;
+                border-top: none;
+                top: -7px;
+                right: 10%;
+                left: auto;
+                bottom: auto;
+            }
+        }
+    }
+
+    // &:has(.tooltip-container-content):has(.)?
+}

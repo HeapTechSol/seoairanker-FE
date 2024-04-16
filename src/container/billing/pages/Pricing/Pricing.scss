@@ -1,0 +1,43 @@
+.plans-cards {
+  padding: 60px 250px;
+}
+
+.pricing-tabs {
+  padding: 5px 10px;
+  border-radius: 99px;
+  border: 1px solid #0084ff;
+  gap: 8px;
+  .btn {
+    border-radius: 99px;
+    min-height: auto;
+    padding: 5px 32px;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .plans-cards {
+    padding: 20px 40px;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  .plans-cards {
+    padding: 10px 20px;
+  }
+  .plan-card-flex {
+    .grid-container {
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .plans-cards {
+    padding: 10px 0px;
+  }
+  .plan-card-flex {
+    .grid-container {
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    }
+  }
+}

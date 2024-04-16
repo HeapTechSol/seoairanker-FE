@@ -1,0 +1,48 @@
+.layout-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  .layout-right-section {
+    width: 100%;
+    &-menu {
+    }
+  }
+
+  .layout-right-section-menu {
+    margin-top: 80px;
+  }
+
+  &:has(.sidebar-container):not(:has(.collapsed)) :not(:has(.minimized)) {
+    .layout-right-section {
+      width: calc(100% - 240px);
+      margin-left: 240px;
+      transition: all 0.3s ease-in-out;
+      .topbar-container {
+        width: calc(100% - 240px);
+        transition: all 0.3s ease-in-out;
+      }
+    }
+  }
+  &:has(.collapsed) {
+    .layout-right-section {
+      width: calc(100% - 80px);
+      margin-left: 80px;
+      transition: all 0.3s ease-in-out;
+      .topbar-container {
+        width: calc(100% - 80px);
+        transition: all 0.3s ease-in-out;
+      }
+    }
+  }
+  &:has(.minimized) {
+    .layout-right-section {
+      width: 100%;
+      margin-left: 0px;
+      transition: all 0.3s ease-in-out;
+      .topbar-container {
+        width: 100%;
+        transition: all 0.3s ease-in-out;
+      }
+    }
+  }
+}

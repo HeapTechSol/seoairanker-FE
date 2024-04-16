@@ -1,0 +1,75 @@
+.calendar-container {
+  width: 500px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+
+  .calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .calendar-control{
+      border: 1px solid transparent;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    &:hover{
+      cursor: pointer;
+      border: 1px solid red;
+      border-radius: 5px;
+    }
+    }
+  }
+
+  .week-cells-row {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    .week-cells {
+      font-weight: bold;
+    }
+  }
+
+  .cell{
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px 0px;
+
+
+    .date-cells {
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      &:not(.startDate, .endDate):hover {
+        border: 1px solid red;
+        border-radius: 5px;
+        color: black;
+      }
+    }
+
+    .startDate,
+    .endDate,
+    .activeBetween {
+      background: red;
+      border: 1px solid red;
+      border-radius: 5px;
+      color: white;
+    }
+
+    .hovered-with-active-cell {
+      border: 1px solid red;
+      border-radius: 5px;
+      color: black;
+    }
+  }
+}

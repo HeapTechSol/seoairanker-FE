@@ -1,0 +1,148 @@
+.heading-one {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+  &--lg {
+    font-size: 1.625rem;
+  }
+  &--md {
+    font-size: 1.5rem;
+  }
+  &--sm {
+    font-size: 1.375rem;
+  }
+}
+
+.heading-two {
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  &--lg {
+    font-size: 1.375rem;
+  }
+  &--md {
+    font-size: 1.25rem;
+  }
+  &--sm {
+    font-size: 1.125rem;
+  }
+}
+
+.heading-three {
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  &--lg {
+    font-size: 1.25rem;
+  }
+  &--md {
+    font-size: 1.125rem;
+  }
+  &--sm {
+    font-size: 1rem;
+  }
+}
+
+.heading-four {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  &--lg {
+    font-size: 1.125rem;
+  }
+  &--md {
+    font-size: 1rem;
+  }
+  &--sm {
+    font-size: 0.875rem;
+  }
+}
+
+.heading-five {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 125.2%;
+  &--lg {
+    font-size: 1.125rem;
+  }
+  &--md {
+    font-size: 1rem;
+  }
+  &--sm {
+    font-size: 0.875rem;
+  }
+}
+
+.heading-six {
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  &--lg {
+    font-size: 1rem;
+  }
+  &--md {
+    font-size: 0.875rem;
+  }
+  &--sm {
+    font-size: 0.75rem;
+  }
+}
+
+.heading-one,
+.heading-two,
+.heading-three,
+.heading-four,
+.heading-five,
+.heading-six {
+  @each $color in $colorType {
+    &.#{$color} {
+      color: colorMapper($color, main);
+    }
+  }
+}
+
+.body-text {
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  &--lg {
+    font-size: 1rem;
+    line-height: 22px;
+  }
+  &--md {
+    font-size: 0.875rem;
+    line-height: 20px;
+  }
+  &--sm {
+    font-size: 0.75rem;
+    line-height: 18px;
+  }
+
+  @each $color in $colorType {
+    &.#{$color} {
+      color: colorMapper($color, main);
+    }
+  }
+
+  &.link {
+    cursor: pointer;
+    align-self: flex-start;
+  }
+
+  &.center {
+    text-align: center;
+  }
+  &.right {
+    text-align: right;
+  }
+  &.left {
+    text-align: left;
+  }
+}

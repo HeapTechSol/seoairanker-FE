@@ -1,0 +1,293 @@
+.input-field-container {
+  line-height: 1.7;
+  @each $color in $colorType {
+    .input-field.#{$color} {
+      display: flex;
+      align-items: center;
+      position: relative;
+      border-color: colorMapper(grayclr, 200);
+      legend {
+        position: absolute;
+        background: transparent;
+        top: 50%;
+        transform: translateY(-50%) translateX(14px);
+        font-weight: 400;
+        line-height: 12px;
+        font-size: 16px;
+        letter-spacing: 0.15px;
+        z-index: 2;
+        color: colorMapper(grayclr, 900);
+        transition: all 0.1s ease-in-out;
+      }
+
+      svg path {
+        fill: colorMapper($color, main);
+        stroke: colorMapper($color, main);
+      }
+      svg circle {
+        stroke: colorMapper($color, main);
+      }
+
+      input {
+        line-height: 1.7;
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        background: transparent;
+        &::placeholder {
+          transition: all 0.1s ease-in-out;
+          color: colorMapper(grayclr, 500);
+        }
+      }
+
+      .input-icon {
+        padding: 0px 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          height: 1em;
+          width: 1em;
+        }
+      }
+
+      &.sm {
+        font-size: 0.8125rem;
+        height: 32.09px;
+        input {
+          padding: 4px 10px;
+        }
+
+        img {
+          height: 1.5em;
+          width: 1.5em;
+        }
+
+        legend {
+          font-size: 1em;
+        }
+      }
+
+      &.md {
+        font-size: 0.875rem;
+        height: 37.8px;
+
+        input {
+          padding: 6px 16px;
+          font-size: 1em;
+        }
+
+        img {
+          height: 1.5em;
+          width: 1.5em;
+        }
+
+        legend {
+          font-size: 1em;
+        }
+      }
+
+      &.lg {
+        font-size: 0.9375rem;
+        height: 43.5px;
+
+        input {
+          padding: 8px 22px;
+          font-size: 1em;
+        }
+
+        img {
+          height: 1.5em;
+          width: 1.5em;
+        }
+
+        legend {
+          font-size: 1em;
+        }
+      }
+
+      &.focused:not(.top) {
+        legend {
+          transition: all 0.1s ease-in-out;
+          top: 0%;
+          transform: translateY(-70%) translateX(5px);
+          background: colorMapper(common, "white");
+          font-size: 12px;
+          padding: 0px 4px;
+          color: colorMapper($color, main);
+        }
+      }
+
+      &:not(.top):not(.focused):has(legend) {
+        input::placeholder {
+          transition: all 0.1s ease-in-out;
+          color: transparent;
+        }
+      }
+
+      &.outlined.focused {
+        border-color: colorMapper($color, main); //color
+      }
+
+      &.outlined:hover {
+        border-color: colorMapper(grayclr, 400);
+      }
+
+      &.outlined.focused:hover {
+        border-color: colorMapper($color, main); //color
+      }
+
+      $margin-left: calc(28px + 1em);
+
+      &.startIcon {
+        padding-left: 10px;
+        input {
+          padding-left: 10px;
+        }
+        legend {
+          transform: translateY(-50%) translateX($margin-left);
+        }
+      }
+
+      &.endIcon {
+        padding-right: 10px;
+        input {
+          padding-right: 10px;
+        }
+      }
+
+      &.top {
+        legend {
+          display: none;
+        }
+      }
+
+      &.error.focused {
+        border-color: colorMapper(error, main);
+        legend {
+          color: colorMapper(error, main);
+        }
+      }
+      &.error:hover {
+        border-color: colorMapper(error, main);
+      }
+      &.error.focused:hover {
+        border-color: colorMapper(error, main);
+      }
+
+      &.required legend::after {
+        content: "*";
+        color: colorMapper(warning, main);
+        position: absolute;
+        right: -12px;
+        font-size: 20px;
+      }
+
+      &.required.focused legend::after {
+        right: 0px;
+      }
+
+      &.required.focused {
+        legend {
+          padding-right: 12px;
+        }
+      }
+
+      &.underlined {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        input {
+          padding-bottom: 4px;
+          padding-left: 0px;
+        }
+        legend {
+          transform: translateY(-50%) translateX(0px);
+        }
+      }
+
+      &.underlined.focused {
+        border-color: colorMapper($color, main);
+        legend {
+          transform: translateY(-50%) translateX(0px);
+          padding-left: 0px;
+          color: colorMapper($color, main);
+        }
+      }
+
+      &.radius {
+        border-radius: 4px;
+      }
+
+      &:has(:not(legend)) {
+        input::placeholder {
+          color: colorMapper(grayclr, 500);
+        }
+      }
+
+      &:disabled {
+        background: colorMapper(grayclr, 300);
+
+        legend {
+          color: colorMapper(grayclr, 500);
+        }
+      }
+
+      &:disabled:hover {
+        border-color: colorMapper(grayclr, 100);
+      }
+    }
+  }
+
+  label {
+    display: inline-block;
+    margin-bottom: 4px;
+    position: relative;
+  }
+
+  &:has(.required) label::after {
+    content: "*";
+    color: colorMapper(warning, main);
+    position: absolute;
+    right: -15px;
+    font-size: 20px;
+  }
+
+  .error-text {
+    color: colorMapper(error, main);
+    margin-left: 0px;
+    font-size: 12px;
+    margin-top: 3px;
+  }
+
+  .hide-number-increment {
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .input-field-container {
+    .input-field {
+      font-size: 0.8125rem !important;
+      height: 32.09px !important;
+      input {
+        padding: 4px 10px !important;
+      }
+
+      img,
+      svg {
+        height: 1.5em !important;
+        width: 1.5em !important;
+      }
+
+      legend {
+        font-size: 1em !important;
+      }
+    }
+  }
+}

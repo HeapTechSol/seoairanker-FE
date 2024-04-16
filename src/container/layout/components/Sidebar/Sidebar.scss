@@ -1,0 +1,42 @@
+.sidebar-container {
+  min-width: 240px;
+  width: 240px;
+  height: 100%;
+  padding: 24px 16px;
+  border-right: 1px solid black;
+  transition: all 0.3s ease-in-out;
+  position: fixed;
+  left: 0;
+  white-space: nowrap;
+  &.collapsed {
+    transition: all 0.3s ease-in-out;
+    min-width: 80px;
+    width: 80px;
+
+    .submenu-list {
+      min-width: 240px;
+      &.nested-list {
+        min-width: calc(240px - 32px);
+      }
+    }
+  }
+
+  &.minimized {
+    display:none;
+  }
+
+  &.overlay{
+    display: block;
+    z-index: 99999;
+    margin-top: 80px;
+    background-color: white;
+  }
+
+  &-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+    margin-top: 300px;
+  }
+}

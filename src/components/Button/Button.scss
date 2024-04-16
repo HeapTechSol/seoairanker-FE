@@ -1,0 +1,161 @@
+.btn {
+  border: none;
+  outline: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  gap: 6px;
+  letter-spacing: 0.02857em;
+  line-height: 1.7;
+  white-space:nowrap;
+
+  img,
+  rect,
+  svg {
+    height: 1.3em;
+    width: 1.3em;
+  }
+
+  &.sm {
+    padding: 4px 10px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    min-height: 32.09px;
+  }
+
+  &.md {
+    padding: 6px 16px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    min-height: 37.5px;
+  }
+
+  &.lg {
+    padding: 8px 22px;
+    font-size: 0.9375rem;
+    font-weight: 900;
+    min-height: 43.5px;
+  }
+
+  &.icon-button.sm {
+    padding: 5.3px;
+  }
+
+  &.icon-button.md {
+    padding: 7.9px;
+  }
+
+  &.icon-button.lg {
+    padding: 9.5px;
+  }
+
+  &.square {
+    border-radius: 0px;
+  }
+
+  &.borderRadius {
+    border-radius: 4px;
+  }
+
+  &.circle {
+    border-radius: 50%;
+  }
+
+  &.fullWidth {
+    width: 100%;
+  }
+
+  @each $color in $colorType {
+    &.filled.#{$color} {
+      background: colorMapper($color, main);
+      color: colorMapper($color, contrastText);
+      box-shadow:
+        0px 3px 1px -2px colorMapper(grayclr, 400),
+        0px 2px 2px 0px colorMapper(grayclr, 300),
+        0px 1px 5px 0px colorMapper(grayclr, 300);
+      border: 1px solid colorMapper($color, main);
+    }
+    &.filled.#{$color} svg path,
+    circle {
+      fill: white;
+      stroke: white;
+    }
+
+    &.outlined.#{$color} svg path {
+      fill: colorMapper($color, main);
+      stroke: colorMapper($color, main);
+    }
+
+    &.text.#{$color} svg path {
+      fill: colorMapper($color, main);
+      stroke: colorMapper($color, main);
+    }
+
+    &.outlined.#{$color} {
+      border: 1px solid colorMapper($color, main);
+      background: transparent;
+      color: colorMapper($color, main);
+      box-shadow: none;
+    }
+
+    &.text.#{$color} {
+      background: transparent;
+      color: colorMapper($color, main);
+      border: 1px solid transparent;
+    }
+
+    &.filled.pointer.#{$color}:hover {
+      background-color: colorMapper($color, dark);
+      box-shadow:
+        0px 2px 4px -1px colorMapper(grayclr, 400),
+        0px 4px 5px 0px colorMapper(grayclr, 300),
+        0px 1px 10px 0px colorMapper(grayclr, 300);
+    }
+
+    &.outlined.pointer.#{$color}:hover {
+      background-color: colorMapper($color, light);
+      border: 1px solid colorMapper($color, main);
+    }
+
+    &.text.pointer.#{$color}:hover {
+      background-color: colorMapper($color, light);
+    }
+    &.filled.#{$color}:disabled {
+      color: colorMapper(grayclr, 500);
+      box-shadow: none;
+      border-color: colorMapper(grayclr, 300);
+      background-color: colorMapper(grayclr, 300);
+    }
+
+    &.outlined.#{$color}:disabled {
+      color: colorMapper(grayclr, 500);
+      border-color: colorMapper(grayclr, 300);
+      background-color: transparent;
+      pointer-events: none;
+    }
+
+    &.text.#{$color}:disabled {
+      color: colorMapper(grayclr, 500);
+      background-color: transparent;
+    }
+  }
+  &.pointer {
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .btn.lg,
+  .btn.md {
+    padding: 4px 10px;
+    font-size: 0.8125rem;
+
+    img,
+    svg {
+      height: 1.5em;
+      width: 1.5em;
+    }
+  }
+}

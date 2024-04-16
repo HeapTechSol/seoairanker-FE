@@ -1,0 +1,9 @@
+.divider {
+  width: 100%;
+  height: 0.5px;
+  @each $color in $colorType {
+    &.#{$color} {
+      background-color: colorMapper($color, main);
+    }
+  }
+}
