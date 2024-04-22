@@ -3,4 +3,6 @@ export type AccordionTypes = {
   title: string | JSX.Element;
   color?: "primary" | "secondary" | "error" | "warning" | "info" | "success";
   arrowIcon?: boolean;
+  onTitleClick?: boolean;
+  CustomIcon?:JSX.Element | React.ReactNode
 };

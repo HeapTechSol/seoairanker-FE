@@ -22,7 +22,7 @@
   }
 
   &.disabled label {
-    color: colorMapper(grayclr, 400);
+    color: colorMapper(grayClr, 400);
   }
 
   .switch {
@@ -42,8 +42,7 @@
         width: 50px;
         height: 24px;
         transition: background-color 0.3s linear;
-        background-color: colorMapper(grayclr, 100);
-        box-shadow: inset 0px 1.44px 1.92px 0.72px rgba(0, 0, 0, 0.1);
+        background-color: colorMapper($color, light);
         border-radius: 12px;
 
         .slider {
@@ -62,7 +61,7 @@
             border-radius: 50%;
             top: 2px;
             left: 2px;
-            background-color: colorMapper(secondary, main);
+            background-color: colorMapper($color, main);
             box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
           }
         }
@@ -83,11 +82,11 @@
 
         &:has(.toggle-input:checked) .slider::before {
           transition: all 0.3s linear;
-          background-color: colorMapper(grayclr, 50);
+          background-color: colorMapper(grayClr, 50);
         }
 
         .toggle-input:disabled + .slider::before {
-          background-color: colorMapper(grayclr, 400);
+          background-color: colorMapper(grayClr, 400);
         }
       }
     }

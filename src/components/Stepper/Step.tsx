@@ -12,7 +12,8 @@ const Step = ({ children, completed, active, label, onClick }: StepProps) => {
 
   return (
     <div className={classes} onClick={onClick}>
-      <span className="step">{children}</span> {labelText}
+      <span className="step">{labelText}</span> 
+      {children && <span className="step-label">{children}</span> }
     </div>
   );
 };

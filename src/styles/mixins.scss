@@ -4,7 +4,7 @@
   justify-content: center;
 }
 
-@mixin selfCenter($position:"absolute") {
+@mixin selfCenter($position: "absolute") {
   position: $position;
   top: 50%;
   left: 50%;
@@ -19,4 +19,12 @@
 @mixin horizontalCenter() {
   display: flex;
   align-items: center;
+}
+
+@mixin flex($justify: flex-start, $align: flex-start, $dir: row, $gap: 0px) {
+  display: flex;
+  flex-direction: $dir;
+  justify-content: $justify;
+  align-items: $align;
+  gap: $gap;
 }

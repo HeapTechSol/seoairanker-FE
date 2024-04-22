@@ -1,6 +1,5 @@
 .range-selector {
   width: 100%;
-  padding-top: 40px;
   position: relative;
   @each $color in $colorType {
     &.#{$color} {

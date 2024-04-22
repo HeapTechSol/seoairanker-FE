@@ -10,6 +10,7 @@ const RangeSelector = ({
   step = 10,
   value = 0,
   size = "md",
+  isInfoChip = true,
   thumbColor = "primary",
   rangeColor = "primary",
 }: {
@@ -19,6 +20,7 @@ const RangeSelector = ({
   max?: number;
   value?: number;
   size?: SizeTypes;
+  isInfoChip?: boolean;
   thumbColor?: ColorsTypes;
   rangeColor?: ColorsTypes;
 }) => {
@@ -33,16 +35,24 @@ const RangeSelector = ({
   });
 
   const percentage = (value / max) * 100;
+
+  // const selectedRange = ((value - min) / (max - min)) * 100;
+
   return (
-    <div className={rangeSelectorCSSClasses}>
-      <span
-        style={{
-          left: `calc(${percentage}% - ${percentage / 4}px)`,
-        }}
-        id="counterOutput"
-      >
-        {value}
-      </span>
+    <div
+      className={rangeSelectorCSSClasses}
+      style={{ paddingTop: isInfoChip ? "40px" : "" }}
+    >
+      {isInfoChip && (
+        <span
+          style={{
+            left: `calc(${percentage}% - ${percentage / 4}px)`,
+          }}
+          id="counterOutput"
+        >
+          {value}
+        </span>
+      )}
       <input
         className={sliderCSSClasses}
         id="myRange"
@@ -51,15 +61,8 @@ const RangeSelector = ({
         min={min}
         step={step}
         type="range"
-        // onFocus={() => {
-        //   const elm = document.getElementById("counterOutput")
-        //   if(elm) elm.style.visibility = "visible"
-        // }}
-        // onBlur={() => {
-        //   const elm = document.getElementById("counterOutput")
-        //   if(elm) elm.style.visibility = "hidden"
-        // }}
         onChange={onChange}
+        // style={{background:`linear-gradient(to right, green 0%, green ${selectedRange}%, #DEE2E6 ${selectedRange}%, #DEE2E6 100%)`}}
       />
     </div>
   );

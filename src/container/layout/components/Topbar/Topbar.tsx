@@ -17,7 +17,15 @@ import SeodeIcon from "@/assets/images/seode.png";
 
 import "./Topbar.scss";
 
-const { LOGIN, SIGNUP, BILLING_PLANS, PAYMENT_HISTORY } = EXACT_ROUTES;
+const {
+  LOGIN,
+  SIGNUP,
+  BILLING_PLANS,
+  PAYMENT_HISTORY,
+  BILLING_DETAIL,
+  RECOMMENDATIONS,
+  ADD_SITE,
+} = EXACT_ROUTES;
 
 const Topbar = ({
   sidebarRef,
@@ -67,7 +75,6 @@ const Topbar = ({
               onClick={() => navigate("/")}
               style={{ cursor: "pointer" }}
             />
-            {/* <Typography type="h4" textAlign="center" text="Seode Icon"/> */}
           </Flex>
           <Flex justify="center">
             <Button
@@ -83,6 +90,23 @@ const Topbar = ({
               onClick={() => navigate(PAYMENT_HISTORY)}
             >
               Payment History
+            </Button>
+            <Button
+              size="lg"
+              variant="text"
+              onClick={() => navigate(BILLING_DETAIL)}
+            >
+              Billing Details
+            </Button>
+            <Button
+              size="lg"
+              variant="text"
+              onClick={() => navigate(RECOMMENDATIONS)}
+            >
+              Recommendations
+            </Button>
+            <Button size="lg" variant="text" onClick={() => navigate(ADD_SITE)}>
+              Add Site
             </Button>
           </Flex>
           <Flex justify="end" gap={16}>

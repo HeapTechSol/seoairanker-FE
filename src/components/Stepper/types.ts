@@ -1,3 +1,4 @@
+import { ColorsTypes } from "@/utils/commonTypes";
 import { ReactNode } from "react";
 
 export type steps = {
@@ -15,14 +16,14 @@ export type StepProps = {
 };
 
 export type StepperProps = {
-  orientation: "horizontal" | "vertical";
+  orientation?: "horizontal" | "vertical";
   labelPosition?: "right" | "top" | "bottom";
   steps: steps[];
   requestLoading?: boolean;
   componentControl?: boolean;
   isEdit?: boolean;
-  color: "primary" | "secondary" | "error" | "warning" | "info" | "success";
-  submitHandler: () => void;
+  color?: ColorsTypes
+  submitHandler?: () => void;
   handleForwardButtonPress?: () => void;
   handlePreviousButtonPress?: () => void;
   handleStepButtonPress?: (index: number) => void;

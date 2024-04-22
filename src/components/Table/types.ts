@@ -5,14 +5,19 @@ export type ColumnsTypes = {
   width?: number;
   textAlign?: "center" | "right";
   fixed?: "left" | "right";
+  skip?:number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  render?: (value: any, row: any, column: ColumnsTypes) => any;
+  render?: (value: any, row: any, index:number, column: ColumnsTypes) => any;
+  onCell?: (value: any, row: any, index:number, column: ColumnsTypes) => any;
 };
 
 export type TableDataCellTypes = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   row: any;
   column: ColumnsTypes;
+  index:number
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onCell?:(value: any, row: any, index:number, column: ColumnsTypes) => any;
 };
 
 export type TableHeadingCellTypes = {

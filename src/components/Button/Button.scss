@@ -72,9 +72,9 @@
       background: colorMapper($color, main);
       color: colorMapper($color, contrastText);
       box-shadow:
-        0px 3px 1px -2px colorMapper(grayclr, 400),
-        0px 2px 2px 0px colorMapper(grayclr, 300),
-        0px 1px 5px 0px colorMapper(grayclr, 300);
+        0px 3px 1px -2px colorMapper(grayClr, 400),
+        0px 2px 2px 0px colorMapper(grayClr, 300),
+        0px 1px 5px 0px colorMapper(grayClr, 300);
       border: 1px solid colorMapper($color, main);
     }
     &.filled.#{$color} svg path,
@@ -109,9 +109,9 @@
     &.filled.pointer.#{$color}:hover {
       background-color: colorMapper($color, dark);
       box-shadow:
-        0px 2px 4px -1px colorMapper(grayclr, 400),
-        0px 4px 5px 0px colorMapper(grayclr, 300),
-        0px 1px 10px 0px colorMapper(grayclr, 300);
+        0px 2px 4px -1px colorMapper(grayClr, 400),
+        0px 4px 5px 0px colorMapper(grayClr, 300),
+        0px 1px 10px 0px colorMapper(grayClr, 300);
     }
 
     &.outlined.pointer.#{$color}:hover {
@@ -123,21 +123,21 @@
       background-color: colorMapper($color, light);
     }
     &.filled.#{$color}:disabled {
-      color: colorMapper(grayclr, 500);
+      color: colorMapper(grayClr, 500);
       box-shadow: none;
-      border-color: colorMapper(grayclr, 300);
-      background-color: colorMapper(grayclr, 300);
+      border-color: colorMapper(grayClr, 300);
+      background-color: colorMapper(grayClr, 300);
     }
 
     &.outlined.#{$color}:disabled {
-      color: colorMapper(grayclr, 500);
-      border-color: colorMapper(grayclr, 300);
+      color: colorMapper(grayClr, 500);
+      border-color: colorMapper(grayClr, 300);
       background-color: transparent;
       pointer-events: none;
     }
 
     &.text.#{$color}:disabled {
-      color: colorMapper(grayclr, 500);
+      color: colorMapper(grayClr, 500);
       background-color: transparent;
     }
   }

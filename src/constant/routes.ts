@@ -11,8 +11,14 @@ export const AUTH = {
 
 export const BILLING = {
   PLANS: "plans",
-  PAYMENT_HISTORY: "payment-history",
   CHECKOUT: "checkout",
+  PAYMENT_HISTORY: "payment-history",
+  BILLING_DETAIL: "billing-detail",
+};
+
+export const SITES = {
+  RECOMMENDATIONS: "recommendations",
+  ADD_SITE: "add-site",
 };
 
 export const EXACT_ROUTES = {
@@ -27,4 +33,7 @@ export const EXACT_ROUTES = {
   BILLING_PLANS: "/plans",
   PAYMENT_HISTORY: "/payment-history",
   CHECKOUT: "/checkout",
+  BILLING_DETAIL: "/billing-detail",
+  RECOMMENDATIONS: `/${SITES.RECOMMENDATIONS}`,
+  ADD_SITE: `/${SITES.ADD_SITE}`,
 };

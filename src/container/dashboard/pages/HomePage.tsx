@@ -1,12 +1,11 @@
+import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
 
 import "./HomePage.scss";
 
-import Container from "@/components/Container/Container";
-
 const HomePage = () => {
   return (
-    <Container contentCenter fullHeight className="home-page">
+    <Container contentCenter fullHeight className="home-page" width={100}>
       <Typography type="h1" text="Landing Page is Under Maintenance" />
     </Container>
   );
