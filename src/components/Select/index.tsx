@@ -57,7 +57,7 @@ const Select = ({
 
     if (multiple && Array.isArray(values)) {
       const alreadySelected = values.find(
-        (value) => value.id === selectedValue.id,
+        (value) => value.id === selectedValue.id
       );
 
       if (alreadySelected) {
@@ -128,25 +128,23 @@ const Select = ({
   const reSizeHandler = useCallback(() => {
     if (selectedOptionsRef.current && selectContainerRef.current) {
       const selectedOptionsCollection = Array.from(
-        selectedOptionsRef.current.children,
+        selectedOptionsRef.current.children
       );
       const selectContainer =
         selectContainerRef.current?.getBoundingClientRect();
       const selectedOption = selectedOptionsCollection?.filter(
-        (item) => !item.classList.contains("options-count"),
+        (item) => !item.classList.contains("options-count")
       );
       const optionsInContainer = selectedOption?.filter(
-        (elm) =>
-          elm.getBoundingClientRect().right < selectContainer.right - 140,
+        (elm) => elm.getBoundingClientRect().right < selectContainer.right - 140
       );
       toggleCSSClasses(optionsInContainer, "excessive-width", "remove");
       const optionsOutContainer = selectedOption?.filter(
-        (elm) =>
-          elm.getBoundingClientRect().right > selectContainer.right - 140,
+        (elm) => elm.getBoundingClientRect().right > selectContainer.right - 140
       );
       toggleCSSClasses(optionsOutContainer, "excessive-width", "add");
       setWarpedCounter(
-        document.getElementsByClassName("excessive-width")?.length,
+        document.getElementsByClassName("excessive-width")?.length
       );
     }
   }, [selectedOptionsRef]);
@@ -194,7 +192,7 @@ const Select = ({
   );
 
   const queriedOptions = Options?.filter((item) =>
-    item.label.toLowerCase().includes(query.label.toLowerCase()),
+    item.label.toLowerCase().includes(query.label.toLowerCase())
   );
 
   const singleOptionsList = queriedOptions.map((opt, idx) => (
@@ -215,7 +213,7 @@ const Select = ({
         key={`${opt.label}${idx}`}
         name={opt.label}
         checked={(values as OptionsType[])?.some(
-          (value) => value.id === opt.id,
+          (value) => value.id === opt.id
         )}
         onChange={() => selectHandler(opt)}
         label={opt?.label}
@@ -258,7 +256,6 @@ const Select = ({
 
   return (
     <Flex
-      padding={0}
       vertical
       gap={8}
       className={classMapper("select", {
@@ -272,7 +269,6 @@ const Select = ({
         style={{ minWidth: minWidth, width: "100%" }}
       >
         <Flex
-          padding={0}
           align="center"
           justify="between"
           className={selectedOptionsContainerStyleClasses}
@@ -287,7 +283,7 @@ const Select = ({
             ref={inputToggleBtnRef}
           />
           <Flex
-            padding={0}
+            padding={"0px 8px"}
             gap={5}
             align="center"
             ref={selectedOptionsRef}
@@ -318,7 +314,7 @@ const Select = ({
                 />
               </Flex>
             )}
-            <Flex vertical gap={12}>
+            <Flex vertical gap={12} onClick={(e)=>console.log(e)}>
               {checkAllOption}
               {optionsList}
             </Flex>

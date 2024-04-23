@@ -1,18 +1,21 @@
-import { classMapper } from "@/utils/helper";
 import { Fragment, useRef, useState } from "react";
 
-import "./Stepper.scss";
-import { StepperProps } from "./types";
-import Button from "../Button";
 import Step from "./Step";
+import Button from "../Button";
+
+import { classMapper } from "@/utils/helper";
+
+import { StepperProps } from "./types";
+
+import "./Stepper.scss";
 
 const Stepper = ({
-  orientation,
+  orientation='horizontal',
   labelPosition = "right",
   steps,
   requestLoading,
   isEdit,
-  color,
+  color='primary',
   submitHandler,
   handleForwardButtonPress,
   handlePreviousButtonPress,
@@ -41,8 +44,8 @@ const Stepper = ({
     setActiveStep((prevStep) => (prevStep > 0 ? prevStep - 1 : prevStep));
   };
 
-  const stepClickHanlder = (index: number) => {
-    if (!componentControl) {
+  const stepClickHandler = (index: number) => {
+    if (!componentControl) {URL
       handleStepButtonPress?.(index);
       return;
     }
@@ -68,7 +71,7 @@ const Stepper = ({
                 label={step.stepLabel}
                 completed={isEdit ? true : currentStep > index}
                 active={currentStep === index}
-                onClick={() => (isEdit ? stepClickHanlder(index) : null)}
+                onClick={() => (isEdit ? stepClickHandler(index) : null)}
               >
                 {step.title}
               </Step>
@@ -89,6 +92,7 @@ const Stepper = ({
           <Button
             variant="outlined"
             onClick={handleBack}
+            type="borderRadius"
             disabled={!currentStep || requestLoading}
           >
             Back
@@ -96,6 +100,7 @@ const Stepper = ({
 
           <Button
             variant="filled"
+            type="borderRadius"
             onClick={
               !requestLoading
                 ? lastStep

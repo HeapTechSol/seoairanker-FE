@@ -10,9 +10,10 @@ const TableDataCell = (props: TableDataCellTypes) => {
   });
 
   return (
-    <td className={classes}>
+    
+    <td className={classes} {...column?.onCell?.(row[column.dataKey], row, props.index, column)}>
       {column?.render
-        ? column.render?.(row[column.dataKey], row, column)
+        ? column.render?.(row[column.dataKey], row, props.index, column)
         : row[column.dataKey]}
     </td>
   );

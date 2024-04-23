@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+
 import TableDataCell from "./TableDataCell";
 import TableHeadingCell from "./TableHeadingCell";
 import useTableScroll from "@/hooks/useTableScroll";
@@ -76,6 +77,7 @@ const Table = (props: TableProps) => {
                 <TableDataCell
                   row={data}
                   column={column}
+                  index={index}
                   key={`${column.header}${index}`}
                 />
               ))}

@@ -16,7 +16,7 @@ export type SelectProps = {
   onScroll?: (value: boolean) => void;
   minWidth?: number;
   color?: ColorsTypes;
-  size: SizeTypes;
+  size?: SizeTypes;
   title?: string;
   titlePosition?: "top" | "inside";
   setValues: React.Dispatch<React.SetStateAction<OptionsType | OptionsType[]>>;

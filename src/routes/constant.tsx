@@ -5,7 +5,7 @@ import AuthLayout from "@/container/layout/AuthLayout/AuthLayout";
 
 import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
 
-import { AUTH, BILLING } from "@/constant/routes";
+import { AUTH, BILLING, SITES } from "@/constant/routes";
 
 const {
   LOGIN,
@@ -16,7 +16,8 @@ const {
   FORGET_PASSWORD,
 } = AUTH;
 
-const { PLANS, PAYMENT_HISTORY, CHECKOUT } = BILLING;
+const { PLANS, PAYMENT_HISTORY, CHECKOUT, BILLING_DETAIL } = BILLING;
+const {RECOMMENDATIONS, ADD_SITE} = SITES
 
 export const routes = createBrowserRouter([
   {
@@ -54,6 +55,16 @@ export const routes = createBrowserRouter([
         },
       },
       {
+        path: BILLING_DETAIL,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const BillingDetails = await import(
+            "../container/billing/pages/BillingDetail/BillingDetail"
+          );
+          return { Component: BillingDetails.default };
+        },
+      },
+      {
         path: CHECKOUT,
         errorElement: <ErrorBoundary />,
         async lazy() {
@@ -61,6 +72,26 @@ export const routes = createBrowserRouter([
             "../container/billing/pages/Checkout/Checkout"
           );
           return { Component: Checkout.default };
+        },
+      },
+      {
+        path: RECOMMENDATIONS,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const Recommendations = await import(
+            "../container/sites/pages/Recommendations/Recommendations"
+          );
+          return { Component: Recommendations.default };
+        },
+      },
+      {
+        path: ADD_SITE,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const AddSite = await import(
+            "../container/sites/pages/AddSiteWizard/AddSiteWizard"
+          );
+          return { Component: AddSite.default };
         },
       },
     ],

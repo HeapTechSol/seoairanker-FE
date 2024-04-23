@@ -1,6 +1,7 @@
 import Chip from "@/components/Chip";
 import Flex from "@/components/Flex";
 import Table from "@/components/Table";
+import Grid from "@/components/Grid/Grid";
 import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
 
@@ -12,7 +13,6 @@ import {
 } from "@/assets/icons/svgs";
 
 import "./PaymentHistory.scss";
-import Grid from "@/components/Grid/Grid";
 
 const PaymentHistory = () => {
   const status = {
@@ -89,7 +89,7 @@ const PaymentHistory = () => {
     },
   ];
   return (
-    <Flex vertical gap={40} padding={"60px 250px"}>
+    <Flex vertical gap={40}>
       <Grid>
         <Container
           borderRadius
@@ -129,7 +129,7 @@ const PaymentHistory = () => {
             {SearchIcon}
             <Flex vertical gap={8}>
               <Typography type="h3" text="Keyword Searches" />
-              <Typography text="15 of 250" />
+              <Typography text="100 of 250" />
             </Flex>
           </Flex>
         </Container>
@@ -143,7 +143,7 @@ const PaymentHistory = () => {
             {PagesIcon}
             <Flex vertical gap={8}>
               <Typography type="h3" text="Pages" />
-              <Typography text="15 of 250" />
+              <Typography text="130 of 250" />
             </Flex>
           </Flex>
         </Container>

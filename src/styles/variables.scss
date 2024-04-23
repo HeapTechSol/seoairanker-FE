@@ -1,4 +1,4 @@
-$colorType: primary, secondary, error, warning, info, success, common, grayclr;
+$colorType: primary, secondary, error, warning, info, success, common, grayClr;
 
 :root {
   @each $outer, $outerName in $muiTheme {

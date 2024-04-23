@@ -107,6 +107,17 @@
   }
 }
 
+.heading-one,
+.heading-two,
+.heading-three,
+.heading-four,
+.heading-five,
+.heading-six {
+ &.inline{
+  display: inline;
+ }
+}
+
 .body-text {
   font-size: 0.875rem;
   font-style: normal;
@@ -144,5 +155,8 @@
   }
   &.left {
     text-align: left;
+  }
+  &.inline {
+    display: inline;
   }
 }
