@@ -24,6 +24,7 @@ const Pagination = ({
   showSizeChanger,
   showPageInput,
   size = "sm",
+  justify="end"
 }: PaginationPropsTypes) => {
   const paginationRange = usePagination({
     currentPage,
@@ -51,6 +52,7 @@ const Pagination = ({
     <Flex
       rowReverse={showSizeChanger?.rowReverse || showPageInput?.rowReverse}
       gap={24}
+      justify={justify}
     >
       {showSizeChanger && (
         <Select

@@ -11,6 +11,7 @@ import { GlobalICON, SeodeIcon } from "@/assets/icons/svgs";
 
 import "./AddSite.scss";
 
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddSite = ({ control }: { control: Control<any> }) => {
   const pages = useWatch({ control, name: "pages" });
   return (
@@ -59,7 +60,7 @@ const AddSite = ({ control }: { control: Control<any> }) => {
           />
 
           <Typography
-            text={`Current Limit: ${pages >= 10500 ? "unlimited" : pages}, 10500 Included in your plan`}
+            text={`Current Limit: ${pages >= 10500 ? "unlimited" : pages || ''} 10500 Included in your plan`}
           />
           <Flex align="center" gap={16}>
             <Controller

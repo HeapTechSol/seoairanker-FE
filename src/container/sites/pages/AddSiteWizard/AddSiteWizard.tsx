@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import Stepper from "@/components/Stepper";
 import Container from "@/components/Container/Container";
 import AddSite from "@/container/sites/components/AddSite/AddSite";
+import AddKeywords from "@/container/sites/components/AddKeywords/AddKeywords";
+import KeywordsInfo from "@/container/sites/components/KeywordsInfo/KeywordsInfo";
 import AddSiteDetails from "@/container/sites/components/AddSiteDetails/AddSiteDetails";
 
 import "./AddSiteWizard.scss";
@@ -24,12 +26,12 @@ const AddSiteWizard = () => {
     {
       title: "Keywords",
       stepLabel: "3",
-      component: <h1>Explore Site</h1>,
+      component: <KeywordsInfo/>,
     },
     {
       title: "Automation",
       stepLabel: "4",
-      component: <h1>Explore Site</h1>,
+      component: <AddKeywords/>,
     },
     {
       title: "Install",

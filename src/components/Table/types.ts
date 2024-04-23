@@ -8,6 +8,7 @@ export type ColumnsTypes = {
   skip?:number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   render?: (value: any, row: any, index:number, column: ColumnsTypes) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onCell?: (value: any, row: any, index:number, column: ColumnsTypes) => any;
 };
 
