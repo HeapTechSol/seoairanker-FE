@@ -2,6 +2,7 @@ import { Control, Controller, useWatch } from "react-hook-form";
 
 import Flex from "@/components/Flex";
 import Input from "@/components/Input";
+import Divider from "@/components/Divider/Divider";
 import ToggleButton from "@/components/ToggleButton";
 import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
@@ -26,6 +27,7 @@ const AddSite = ({ control }: { control: Control<any> }) => {
         {SeodeIcon}
         <Flex vertical gap={16}>
           <Typography text="What's your domain name?" type="h3" />
+          <Divider/>
           <Typography text="Copy your site URL here. We will run a preliminary scan, then begin to optimize your SEO performance." />
 
           <Controller

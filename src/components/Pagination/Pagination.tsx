@@ -53,6 +53,7 @@ const Pagination = ({
       rowReverse={showSizeChanger?.rowReverse || showPageInput?.rowReverse}
       gap={24}
       justify={justify}
+      align="center"
     >
       {showSizeChanger && (
         <Select

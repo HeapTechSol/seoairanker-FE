@@ -1,11 +1,12 @@
 import { Control, Controller, useWatch } from "react-hook-form";
 
 import Flex from "@/components/Flex";
+import Select from "@/components/Select";
+import Divider from "@/components/Divider/Divider";
 import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
 
 import { SeodeIcon } from "@/assets/icons/svgs";
-import Select from "@/components/Select";
 
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddSiteDetails = ({ control }: { control: Control<any> }) => {
@@ -22,6 +23,7 @@ const AddSiteDetails = ({ control }: { control: Control<any> }) => {
         {SeodeIcon}
         <Flex vertical gap={16}>
           <Typography text={`Tell us about ${siteUrl ?? ""}`} type="h3" />
+          <Divider/>
           <Typography text="Some info about your business and traffic will help us tailor our recommendations to your needs." />
           <Controller
             render={({ field: { onChange, value } }) => (

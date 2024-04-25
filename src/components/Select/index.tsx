@@ -258,6 +258,7 @@ const Select = ({
     <Flex
       vertical
       gap={8}
+      align="start"
       className={classMapper("select", {
         [titlePosition]: titlePosition && title,
       })}

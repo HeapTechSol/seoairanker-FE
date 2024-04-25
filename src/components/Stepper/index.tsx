@@ -110,7 +110,7 @@ const Stepper = ({
             }
             loading={requestLoading}
           >
-            {lastStep ? "Submit" : "Next"}
+            {lastStep ? "Finished" : "Next"}
           </Button>
         </div>
       </div>
