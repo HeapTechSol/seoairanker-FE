@@ -1,4 +1,6 @@
 import React from "react";
+import { toast } from "react-toastify";
+
 import { ClassMapperArgsTpyes } from "./utilTypes";
 
 export const classMapper = (...args: ClassMapperArgsTpyes[]) => {
@@ -105,11 +107,15 @@ export const arrayGeneratorWithRange = (start: number, end: number) => {
 export const currencyConverter = (amount: number) =>
   amount ? amount?.toLocaleString("en-US", { style: "decimal" }) : "";
 
-export const handleCopyClick = (e: React.MouseEvent) => {
+export const handleCopyClick = (e: any) => {
   const el = document.createElement("textarea");
   el.value = (e.target as HTMLParagraphElement).textContent as string;
   document.body.appendChild(el);
   el.select();
   document.execCommand("copy");
   document.body.removeChild(el);
+  toast.success("Copied", {
+    position: "bottom-left",
+    autoClose: 1000,
+    });
 };

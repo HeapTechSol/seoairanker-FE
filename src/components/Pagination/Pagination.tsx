@@ -1,4 +1,5 @@
 import Flex from "../Flex";
+import Input from "../Input";
 import Select from "../Select";
 import Button from "../Button";
 
@@ -6,13 +7,11 @@ import { classMapper } from "@/utils/helper";
 
 import { usePagination } from "@/hooks/usePagination";
 
-import { OptionsType } from "../Select/types";
 import { PaginationPropsTypes } from "./types";
 
 import { DOTS } from "@/constant/constant";
 
 import "./Pagination.scss";
-import Input from "../Input";
 
 const Pagination = ({
   onPageChange,
@@ -54,13 +53,14 @@ const Pagination = ({
       gap={24}
       justify={justify}
       align="center"
+      className="pagination-properties"
     >
       {showSizeChanger && (
         <Select
           size={size}
-          values={{ label: `${pageSize}`, id: `${pageSize}` }}
+          values={String(pageSize)}
           setValues={(val) =>
-            showSizeChanger?.onPageSizeChange?.(val as OptionsType)
+            showSizeChanger?.onPageSizeChange?.(val as string)
           }
           Options={showSizeChanger?.pageSizeOptions}
           placeholder="Select Page Size"

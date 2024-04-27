@@ -17,7 +17,7 @@ import {
 
 import useHandleClickOutSide from "@/hooks/useHandleClickOutSide";
 
-import { OptionsType, SelectProps } from "./types";
+import { SelectProps } from "./types";
 
 import "./Select.scss";
 
@@ -34,6 +34,7 @@ const Select = ({
   title,
   titlePosition = "inside",
   setValues,
+  error = "",
 }: SelectProps) => {
   const selectedOptionsRef = useRef<HTMLDivElement>(null);
   const inputToggleBtnRef = useRef<HTMLInputElement>(null);
@@ -52,17 +53,15 @@ const Select = ({
     if (inputToggleBtnRef.current) inputToggleBtnRef.current.checked = state;
   };
 
-  const selectHandler = (selectedValue: OptionsType) => {
-    if (query) setQuery({ label: "", value: "" });
+  const selectHandler = (selectedValue: string) => {
+    if (!isEmpty(query)) setQuery({ label: "", value: "" });
 
     if (multiple && Array.isArray(values)) {
-      const alreadySelected = values.find(
-        (value) => value.id === selectedValue.id
-      );
+      const alreadySelected = values.find((value) => value === selectedValue);
 
       if (alreadySelected) {
         setValues?.([
-          ...(values?.filter((val) => val.id !== selectedValue.id) ?? []),
+          ...(values?.filter((val) => val !== selectedValue) ?? []),
         ]);
         return;
       }
@@ -81,13 +80,13 @@ const Select = ({
   };
 
   const checkAll = () => {
-    if ((values as OptionsType[])?.length != Options?.length)
-      return setValues?.(Options);
+    if (values?.length != Options?.length)
+      return setValues?.(Options?.map((item) => item.id));
     setValues?.([]);
   };
 
   const removeSelectedOption = (id: string) =>
-    setValues?.((values as OptionsType[])?.filter((value) => value.id != id));
+    setValues?.((values as string[])?.filter((value) => value != id));
 
   const toggleOptionsList = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked)
@@ -161,8 +160,8 @@ const Select = ({
   }, [reSizeHandler, values]);
 
   const selected = Array.isArray(values)
-    ? values?.flatMap((val) => Options?.filter((item) => item?.id === val?.id))
-    : Options?.filter((item) => item.id === values?.id)[0];
+    ? values?.flatMap((val) => Options?.filter((item) => item?.id === val))
+    : Options?.filter((item) => item.id === values)[0];
   placeholder;
   const selectedOptions = Array.isArray(selected) ? (
     selected.map((item, idx) => (
@@ -195,16 +194,18 @@ const Select = ({
     item.label.toLowerCase().includes(query.label.toLowerCase())
   );
 
-  const singleOptionsList = queriedOptions.map((opt, idx) => (
-    <label
-      style={{ cursor: "pointer" }}
-      htmlFor={opt?.id + idx}
-      key={`${idx}${opt?.id}`}
-      onClick={() => selectHandler(opt)}
-    >
-      {opt?.label}
-    </label>
-  ));
+  const singleOptionsList = queriedOptions.map((opt, idx) => {
+    return (
+      <label
+        className={`single-option ${(values || "")?.includes(opt.id) ? "single-option-active" : ""}`}
+        htmlFor={opt?.id + idx}
+        key={`${idx}${opt?.id}`}
+        onClick={() => selectHandler(opt.id)}
+      >
+        {opt?.label}
+      </label>
+    );
+  });
 
   const multipleOptionsList =
     multiple &&
@@ -212,10 +213,8 @@ const Select = ({
       <Checkbox
         key={`${opt.label}${idx}`}
         name={opt.label}
-        checked={(values as OptionsType[])?.some(
-          (value) => value.id === opt.id
-        )}
-        onChange={() => selectHandler(opt)}
+        checked={(values as string[])?.some((value) => value === opt.id)}
+        onChange={() => selectHandler(opt?.id)}
         label={opt?.label}
         labelPosition="right"
         size={size}
@@ -226,12 +225,11 @@ const Select = ({
     <Checkbox
       name={"All"}
       onChange={checkAll}
-      checked={(values as OptionsType[])?.length == Options?.length}
+      checked={values?.length == Options?.length}
       label="All"
       labelPosition="right"
       indeterminate={
-        ((values as OptionsType[])?.length ? true : false) &&
-        (values as OptionsType[])?.length !== Options?.length
+        (values?.length ? true : false) && values?.length !== Options?.length
       }
       size={size}
     />
@@ -315,12 +313,13 @@ const Select = ({
                 />
               </Flex>
             )}
-            <Flex vertical gap={12} onClick={(e)=>console.log(e)}>
+            <Flex vertical>
               {checkAllOption}
               {optionsList}
             </Flex>
           </Flex>
         </div>
+        {error && <p className="error-text">{error}</p>}
       </div>
     </Flex>
   );

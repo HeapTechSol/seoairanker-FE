@@ -22,6 +22,7 @@ const Stepper = ({
   handleStepButtonPress,
   activeStepper,
   componentControl = true,
+  minHeight="100%"
 }: StepperProps) => {
   const stepActionRef = useRef<HTMLDivElement>(null);
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -84,7 +85,7 @@ const Stepper = ({
       </div>
 
       <div className="component-controls">
-        <div className="stepper-components">
+        <div className="stepper-components" style={{minHeight:minHeight}}>
           {steps ? steps[currentStep]?.component : ""}
         </div>
 

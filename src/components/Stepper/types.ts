@@ -28,4 +28,5 @@ export type StepperProps = {
   handlePreviousButtonPress?: () => void;
   handleStepButtonPress?: (index: number) => void;
   activeStepper?: number;
+  minHeight?:string
 };

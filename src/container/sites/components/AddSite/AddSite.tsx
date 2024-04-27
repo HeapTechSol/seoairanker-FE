@@ -14,7 +14,9 @@ import "./AddSite.scss";
 
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddSite = ({ control }: { control: Control<any> }) => {
+
   const pages = useWatch({ control, name: "pages" });
+  
   return (
     <Container
       width={100}
@@ -31,7 +33,7 @@ const AddSite = ({ control }: { control: Control<any> }) => {
           <Typography text="Copy your site URL here. We will run a preliminary scan, then begin to optimize your SEO performance." />
 
           <Controller
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value }, fieldState:{error} }) => (
               <Input
                 StartIcon={GlobalICON}
                 name="site_url"
@@ -40,6 +42,7 @@ const AddSite = ({ control }: { control: Control<any> }) => {
                 placeholder="Enter your Site URL"
                 value={value}
                 onChange={onChange}
+                error={error ? error.message : ''}
               />
             )}
             name="site_url"

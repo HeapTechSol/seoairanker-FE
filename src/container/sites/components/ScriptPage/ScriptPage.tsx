@@ -6,6 +6,7 @@ import Typography from "@/components/Typography/Typography";
 import { handleCopyClick } from "@/utils/helper";
 
 import { SeodeIcon } from "@/assets/icons/svgs";
+import Button from "@/components/Button";
 
 const ScriptPage = () => {
   const code = `
@@ -23,7 +24,7 @@ const ScriptPage = () => {
     >
       <Flex vertical gap={32} align="center">
         {SeodeIcon}
-        <Flex vertical gap={16}>
+        <Flex vertical gap={16} align="start">
           <Typography text={`How to Install Seode on Your Site`} type="h3" />
           <Divider />
           <ol style={{ paddingLeft: "40px" }}>
@@ -50,7 +51,7 @@ const ScriptPage = () => {
           </ol>
           <pre
             className="alert alert-light"
-            style={{ padding: "0px 40px" }}
+            style={{ padding: "0px 40px", cursor: "pointer" }}
             onClick={handleCopyClick}
           >
             <code
@@ -64,7 +65,6 @@ const ScriptPage = () => {
               }}
             />
           </pre>
-
           <Typography text="Note: The only changes to your site will be from Recommendations you review and approve." />
           <Typography
             text={
@@ -75,6 +75,12 @@ const ScriptPage = () => {
               </>
             }
           />
+          <Flex justify="end">
+
+          <Button variant="outlined" size="sm" onClick={handleCopyClick} type="borderRadius">
+            Click to copy the code
+          </Button>
+          </Flex>
         </Flex>
       </Flex>
     </Container>

@@ -81,6 +81,7 @@ const AddKeywords = () => {
           <Typography text="Click on any suggestion to add it to your list of keywords. Don't overthink it, you can always add and and remove keywords" />
           <Typography text="If your site is new or still under construction, the keywords suggestion may not be accurate. Just click 'Next' for now, and we will add more keywords later." />
           <Typography text="You'll be able to add you own (with local targeting) later on, but let's start with these." />
+          <Flex vertical gap={32} align="end">
           <Table columns={columns} data={data} />
           <Pagination
             pageSize={10}
@@ -96,6 +97,7 @@ const AddKeywords = () => {
               onPageSizeChange: () => console.log("page size changing"),
             }}
           />
+          </Flex>
         </Flex>
       </Flex>
     </Container>
