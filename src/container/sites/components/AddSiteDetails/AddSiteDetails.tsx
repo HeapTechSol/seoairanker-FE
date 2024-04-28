@@ -5,13 +5,13 @@ import Select from "@/components/Select";
 import Divider from "@/components/Divider/Divider";
 import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
+import CountryFlag from "@/components/CountryFlag/CountryFlag";
 
 import { SeodeIcon } from "@/assets/icons/svgs";
 
-import languages from "@/constant/lanuages";
+import languages from "@/constant/languages";
 
 import "./AddSiteDetails.scss";
-import CountryFlag from "@/components/CountryFlag/CountryFlag";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddSiteDetails = ({ control }: { control: Control<any> }) => {

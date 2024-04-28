@@ -14,10 +14,24 @@ const {
   VERIFY_OTP,
   CHANGE_PASSWORD,
   FORGET_PASSWORD,
+  BASE: AUTH_BASE,
 } = AUTH;
 
-const { PLANS, PAYMENT_HISTORY, CHECKOUT, BILLING_DETAIL } = BILLING;
-const {RECOMMENDATIONS, ADD_SITE} = SITES
+const {
+  PLANS,
+  PAYMENT_HISTORY,
+  CHECKOUT,
+  BILLING_DETAIL,
+  BASE: BILLING_BASE,
+} = BILLING;
+
+const {
+  RECOMMENDATIONS,
+  ADD_SITE,
+  SITES_DASHBOARD,
+  ADD_SITES_NEW_KEYWORDS,
+  BASE: SITES_BASE,
+} = SITES;
 
 export const routes = createBrowserRouter([
   {
@@ -34,6 +48,12 @@ export const routes = createBrowserRouter([
           return { Component: HomePage.default };
         },
       },
+    ],
+  },
+  {
+    path: BILLING_BASE,
+    element: <Layout />,
+    children: [
       {
         path: PLANS,
         errorElement: <ErrorBoundary />,
@@ -74,6 +94,12 @@ export const routes = createBrowserRouter([
           return { Component: Checkout.default };
         },
       },
+    ],
+  },
+  {
+    path: SITES_BASE,
+    element: <Layout />,
+    children: [
       {
         path: RECOMMENDATIONS,
         errorElement: <ErrorBoundary />,
@@ -94,10 +120,30 @@ export const routes = createBrowserRouter([
           return { Component: AddSite.default };
         },
       },
+      {
+        path: SITES_DASHBOARD,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const SitesDashboard = await import(
+            "../container/sites/pages/SitesDashboard/SitesDashboard"
+          );
+          return { Component: SitesDashboard.default };
+        },
+      },
+      {
+        path: ADD_SITES_NEW_KEYWORDS,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const AddNewKeywords = await import(
+            "../container/sites/pages/AddNewKeywords/AddNewKeywords"
+          );
+          return { Component: AddNewKeywords.default };
+        },
+      },
     ],
   },
   {
-    path: "/auth",
+    path: AUTH_BASE,
     element: <AuthLayout />,
     children: [
       {

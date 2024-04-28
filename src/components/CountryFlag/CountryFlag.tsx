@@ -15,16 +15,18 @@ const CountryFlag = ({
   onChange,
   size = "md",
   color = "primary",
+  placeholder=""
 }: {
   label?: string;
   value: string;
   error?: string;
   color?: ColorsTypes;
   size?: "sm" | "md" | "lg";
+  placeholder?:string;
   onChange: (val: string) => void;
 }) => {
   const countrySelectClasses = classMapper("country-select", {
-    size: size,
+    [size]: size,
     [color]: color,
   });
   return (
@@ -32,6 +34,7 @@ const CountryFlag = ({
       <Flex vertical gap={8}>
         {label && <label htmlFor={"country"}>{label}</label>}
         <ReactFlagsSelect
+          placeholder={placeholder}
           id="country"
           selected={value}
           onSelect={(code) => onChange(code)}

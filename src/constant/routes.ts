@@ -1,15 +1,17 @@
 export const AUTH = {
+  BASE: "/auth",
   LOGIN: "login",
   SIGNUP: "signup",
-  PERMISSION_DENIED: "permission_denied",
+  VERIFY_OTP: "verify_otp",
   UNAUTHORIZED: "unauthorized",
   RESET_PASSWORD: "reset_password",
-  VERIFY_OTP: "verify_otp",
   CHANGE_PASSWORD: "change_password",
   FORGET_PASSWORD: "forget_password",
+  PERMISSION_DENIED: "permission_denied",
 };
 
 export const BILLING = {
+  BASE: "/billing",
   PLANS: "plans",
   CHECKOUT: "checkout",
   PAYMENT_HISTORY: "payment-history",
@@ -17,23 +19,30 @@ export const BILLING = {
 };
 
 export const SITES = {
-  RECOMMENDATIONS: "recommendations",
+  BASE: "/sites",
   ADD_SITE: "add-site",
+  RECOMMENDATIONS: "recommendations",
+  SITES_DASHBOARD: "dashboard",
+  ADD_SITES_NEW_KEYWORDS: "add-new-keywords",
 };
 
 export const EXACT_ROUTES = {
-  LOGIN: "/auth/login",
-  SIGNUP: "/auth/signup",
-  PERMISSION_DENIED: "/permission_denied",
-  UNAUTHORIZED: "/unauthorized",
-  RESET_PASSWORD: "/auth/reset_password",
-  VERIFY_OTP: "/auth/verify_otp",
-  CHANGE_PASSWORD: "/auth/change_password",
-  FORGET_PASSWORD: "/auth/forget_password",
-  BILLING_PLANS: "/plans",
-  PAYMENT_HISTORY: "/payment-history",
-  CHECKOUT: "/checkout",
-  BILLING_DETAIL: "/billing-detail",
-  RECOMMENDATIONS: `/${SITES.RECOMMENDATIONS}`,
-  ADD_SITE: `/${SITES.ADD_SITE}`,
+  LOGIN: `${AUTH.BASE}/${AUTH.LOGIN}`,
+  SIGNUP: `${AUTH.BASE}/${AUTH.SIGNUP}`,
+  VERIFY_OTP: `${AUTH.BASE}/${AUTH.VERIFY_OTP}`,
+  UNAUTHORIZED: `${AUTH.BASE}/${AUTH.UNAUTHORIZED}`,
+  RESET_PASSWORD: `${AUTH.BASE}/${AUTH.RESET_PASSWORD}`,
+  PERMISSION_DENIED: `${AUTH.BASE}/${AUTH.PERMISSION_DENIED}`,
+  CHANGE_PASSWORD: `${AUTH.BASE}/${AUTH.CHANGE_PASSWORD}`,
+  FORGET_PASSWORD: `${AUTH.BASE}/${AUTH.FORGET_PASSWORD}`,
+
+  BILLING_PLANS: `${BILLING.BASE}/${BILLING.PLANS}`,
+  CHECKOUT: `${BILLING.BASE}/${BILLING.CHECKOUT}`,
+  BILLING_DETAIL: `${BILLING.BASE}/${BILLING.BILLING_DETAIL}`,
+  PAYMENT_HISTORY: `${BILLING.BASE}/${BILLING.PAYMENT_HISTORY}`,
+
+  ADD_SITE: `${SITES.BASE}/${SITES.ADD_SITE}`,
+  RECOMMENDATIONS: `${SITES.BASE}/${SITES.RECOMMENDATIONS}`,
+  SITES_DASHBOARD: `${SITES.BASE}/${SITES.SITES_DASHBOARD}`,
+  ADD_SITES_NEW_KEYWORDS: `${SITES.BASE}/${SITES.ADD_SITES_NEW_KEYWORDS}`,
 };

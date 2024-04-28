@@ -1,0 +1,18 @@
+.add-new-keywords-container {
+  .recommended-keywords-table-container {
+    background-color: white;
+  }
+  .manual-keywords-form {
+    background-color: white;
+    height: 100%;
+    label {
+      font-size: 14px;
+    }
+  }
+
+  @media screen and (max-width: 1875px) {
+    .container-screens {
+      flex-direction: column;
+    }
+  }
+}

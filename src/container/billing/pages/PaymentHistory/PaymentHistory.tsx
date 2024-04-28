@@ -9,7 +9,7 @@ import {
   CrawlIcon,
   PagesIcon,
   PersonIcon,
-  SearchIcon,
+  SearchIconWithFilledBackground,
 } from "@/assets/icons/svgs";
 
 import "./PaymentHistory.scss";
@@ -126,7 +126,7 @@ const PaymentHistory = () => {
           className="payment-history-card"
         >
           <Flex align="center" gap={24}>
-            {SearchIcon}
+            {SearchIconWithFilledBackground}
             <Flex vertical gap={8}>
               <Typography type="h3" text="Keyword Searches" />
               <Typography text="100 of 250" />

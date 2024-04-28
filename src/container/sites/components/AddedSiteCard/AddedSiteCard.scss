@@ -1,0 +1,24 @@
+.added-site-info-container {
+  background-color: white;
+
+  .alert-message {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14px;
+    white-space:nowrap;
+  }
+  .recommendations-info {
+    padding: 12px 20px;
+  }
+}
+
+.site-info-card {
+  width: 100%;
+  .site-link {
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: colorMapper(info, main);
+  }
+}

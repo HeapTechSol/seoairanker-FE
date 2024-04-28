@@ -113,9 +113,13 @@
 .heading-four,
 .heading-five,
 .heading-six {
- &.inline{
-  display: inline;
- }
+  &.link {
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  &.inline {
+    display: inline;
+  }
 }
 
 .body-text {

@@ -9,12 +9,14 @@ const TableHeadingCell = (props: TableHeadingCellTypes) => {
 
   const columnWidth = {
     width: `${column?.width ? column?.width + "%" : "auto"}`,
+    ...props?.tableHeadingStyle,
   };
 
   const classes = classMapper("table-heading-cell", {
     [column?.textAlign as string]: column?.textAlign,
     [`fixed-${column.fixed}`]: column.fixed,
   });
+
   const sortClasses = classMapper("sorting-order-icons", {
     [props?.order as string]: props?.order ? true : false,
   });

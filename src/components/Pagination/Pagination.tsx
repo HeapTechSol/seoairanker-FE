@@ -23,7 +23,8 @@ const Pagination = ({
   showSizeChanger,
   showPageInput,
   size = "sm",
-  justify="end"
+  justify = "end",
+  noCount = false,
 }: PaginationPropsTypes) => {
   const paginationRange = usePagination({
     currentPage,
@@ -81,6 +82,17 @@ const Pagination = ({
           [className || ""]: className,
         })}
       >
+        {noCount && (
+          <Button
+            size={size}
+            variant="text"
+            onClick={() => onPageChange(1)}
+            disabled={currentPage === 1}
+            borderRadius
+          >
+            First
+          </Button>
+        )}
         <Button
           size={size}
           variant="text"
@@ -90,30 +102,31 @@ const Pagination = ({
         >
           Prev
         </Button>
-        {paginationRange?.map((pageNumber, index) => {
-          if (pageNumber === DOTS) {
+        {!noCount &&
+          paginationRange?.map((pageNumber, index) => {
+            if (pageNumber === DOTS) {
+              return (
+                <div
+                  key={`${pageNumber}${index}`}
+                  className="pagination-item dots"
+                >
+                  &#8230;
+                </div>
+              );
+            }
             return (
-              <div
-                key={`${pageNumber}${index}`}
-                className="pagination-item dots"
+              <Button
+                size={size}
+                variant={pageNumber === currentPage ? "outlined" : "text"}
+                onClick={() => onPageChange(pageNumber as number)}
+                borderRadius
+                key={pageNumber}
+                color={pageNumber === currentPage ? "primary" : "secondary"}
               >
-                &#8230;
-              </div>
+                {pageNumber}
+              </Button>
             );
-          }
-          return (
-            <Button
-              size={size}
-              variant={pageNumber === currentPage ? "outlined" : "text"}
-              onClick={() => onPageChange(pageNumber as number)}
-              borderRadius
-              key={pageNumber}
-              color={pageNumber === currentPage ? "primary" : "secondary"}
-            >
-              {pageNumber}
-            </Button>
-          );
-        })}
+          })}
 
         <Button
           size={size}
@@ -124,6 +137,17 @@ const Pagination = ({
         >
           Next
         </Button>
+        {noCount && (
+          <Button
+            size={size}
+            variant="text"
+            onClick={() => onPageChange(lastPage as number)}
+            disabled={currentPage === lastPage}
+            borderRadius
+          >
+            Last
+          </Button>
+        )}
       </div>
     </Flex>
   );

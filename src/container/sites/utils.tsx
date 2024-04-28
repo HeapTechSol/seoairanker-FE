@@ -7,7 +7,10 @@ import KeywordsInfo from "@/container/sites/components/KeywordsInfo/KeywordsInfo
 import AddSiteDetails from "@/container/sites/components/AddSiteDetails/AddSiteDetails";
 import RecommendationInfo from "@/container/sites/components/RecommendationsInfo/RecommendationInfo";
 
+import { ColumnsTypes } from "@/components/Table/types";
 import { CommonValidations } from "@/utils/commonValidations";
+
+import { PercentageCircleIcon, WatchIcon } from "@/assets/icons/svgs";
 
 const { requiredMessage } = CommonValidations;
 
@@ -20,6 +23,13 @@ export const ADD_SITE_WIZARD_DEFAULT_VALUES = {
   preferred_language: "",
 };
 
+export const ADD_KEYWORDS_DEFAULT_VALUES = {
+  country: "",
+  language: "",
+  schedule: "",
+  local: false,
+};
+
 export const ADD_SITE_WIZARD_VALIDATIONS = [
   z.object({
     site_url: z
@@ -27,7 +37,7 @@ export const ADD_SITE_WIZARD_VALIDATIONS = [
         invalid_type_error: requiredMessage("Site URL"),
         required_error: requiredMessage("Site URL"),
       })
-      .url({message:"Site URL is invalid"})
+      .url({ message: "Site URL is invalid" })
       .min(5, requiredMessage("Site URL")),
     pages: z.number().optional(),
     jsonSchemas: z.boolean().optional(),
@@ -60,6 +70,30 @@ export const ADD_SITE_WIZARD_VALIDATIONS = [
   z.object({}).optional(),
 ];
 
+export const ADD_KEYWORDS_VALIDATIONS = z
+  .object({
+    country: z
+      .string({
+        invalid_type_error: requiredMessage("Country"),
+        required_error: requiredMessage("Country"),
+      })
+      .min(5, requiredMessage("Country")),
+    language: z
+      .string({
+        invalid_type_error: requiredMessage("Language"),
+        required_error: requiredMessage("Language"),
+      })
+      .min(2, requiredMessage("Language")),
+    schedule: z
+      .string({
+        invalid_type_error: requiredMessage("Schedule"),
+        required_error: requiredMessage("Schedule"),
+      })
+      .min(2, requiredMessage("Schedule")),
+      local:z.boolean().optional()
+  })
+  .optional();
+
 export const steps = (control: any) => [
   {
     title: "Add Site",
@@ -90,5 +124,105 @@ export const steps = (control: any) => [
     title: "Install",
     stepLabel: "6",
     component: <ScriptPage />,
+  },
+];
+
+export const KEYWORDS_COLUMN: ColumnsTypes[] = [
+  { header: "NAME", dataKey: "name", sortKey: "name" },
+  { header: "CURRENT POSITION", dataKey: "position", sortKey: "position" },
+  {
+    header: "MONTHLY SEARCHES",
+    dataKey: "monthly_searches",
+    sortKey: "monthly_searches",
+  },
+  {
+    header: "COST PER CLICK",
+    dataKey: "cost_per_click",
+    sortKey: "cost_per_click",
+  },
+  {
+    header: "SCORE",
+    dataKey: "score",
+    textAlign: "center",
+    sortKey: "score",
+    render: (value: string) =>
+      value === "waiting" ? (
+        WatchIcon
+      ) : (
+        <PercentageCircleIcon percentage={value} />
+      ),
+  },
+];
+
+export const KEYWORDS_DATA = [
+  {
+    name: "portfolio websites",
+    position: "79",
+    monthly_searches: "30",
+    cost_per_click: "$6.02",
+    score: "waiting",
+  },
+  {
+    name: "search optimization",
+    position: "N/A",
+    monthly_searches: "1,35,000",
+    cost_per_click: "$4.23",
+    score: "waiting",
+  },
+  {
+    name: "elit fitness",
+    position: "92",
+    monthly_searches: "720",
+    cost_per_click: "$1.42",
+    score: "70",
+  },
+  {
+    name: "search engine marketing",
+    position: "N/A",
+    monthly_searches: "5,50,000",
+    cost_per_click: "$2.39",
+    score: "100",
+  },
+  {
+    name: "portfolio websites",
+    position: "79",
+    monthly_searches: "30",
+    cost_per_click: "$6.02",
+    score: "waiting",
+  },
+  {
+    name: "search optimization",
+    position: "N/A",
+    monthly_searches: "1,35,000",
+    cost_per_click: "$4.23",
+    score: "waiting",
+  },
+  {
+    name: "elit fitness",
+    position: "92",
+    monthly_searches: "720",
+    cost_per_click: "$1.42",
+    score: "70",
+  },
+  {
+    name: "search engine marketing",
+    position: "N/A",
+    monthly_searches: "5,50,000",
+    cost_per_click: "$2.39",
+    score: "100",
+  },
+  {
+    name: "portfolio websites",
+    position: "79",
+    monthly_searches: "30",
+    cost_per_click: "$6.02",
+    score: "waiting",
+  },
+  {
+    name: "search optimization",
+    position: "N/A",
+    monthly_searches: "1,35,000",
+    cost_per_click: "$4.23",
+    score: "waiting",
   },
 ];

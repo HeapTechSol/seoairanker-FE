@@ -6,7 +6,7 @@ import Input from "../Input";
 import Button from "../Button";
 import Checkbox from "../Checkbox";
 
-import SearchIcon from "@/assets/icons/search_icon.svg";
+import SearchIconWithFilledBackground from "@/assets/icons/search_icon.svg";
 
 import {
   classMapper,
@@ -282,7 +282,6 @@ const Select = ({
             ref={inputToggleBtnRef}
           />
           <Flex
-            padding={"0px 8px"}
             gap={5}
             align="center"
             ref={selectedOptionsRef}
@@ -307,7 +306,7 @@ const Select = ({
                   value={query.label}
                   onChange={onSearch}
                   name="query"
-                  StartIcon={SearchIcon}
+                  StartIcon={SearchIconWithFilledBackground}
                   size={size}
                   borderRadius
                 />
