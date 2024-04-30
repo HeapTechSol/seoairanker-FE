@@ -17,9 +17,10 @@ export type PaginationPropsTypes = {
   pageSize: number;
   className?: string;
   size?: SizeTypes;
+  noCount?:boolean
   justify?: "center" | "start" | "end";
   showSizeChanger?: {
-    onPageSizeChange: (val: OptionsType | OptionsType[]) => void;
+    onPageSizeChange: (val: string) => void;
     rowReverse?: boolean;
     pageSizeOptions: OptionsType[];
   };

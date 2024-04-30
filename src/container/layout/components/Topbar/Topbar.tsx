@@ -20,11 +20,14 @@ import "./Topbar.scss";
 const {
   LOGIN,
   SIGNUP,
-  BILLING_PLANS,
-  PAYMENT_HISTORY,
-  BILLING_DETAIL,
-  RECOMMENDATIONS,
   ADD_SITE,
+  SITES_PAGES,
+  BILLING_PLANS,
+  BILLING_DETAIL,
+  PAYMENT_HISTORY,
+  RECOMMENDATIONS,
+  SITES_DASHBOARD,
+  ADD_SITES_NEW_KEYWORDS,
 } = EXACT_ROUTES;
 
 const Topbar = ({
@@ -107,6 +110,27 @@ const Topbar = ({
             </Button>
             <Button size="lg" variant="text" onClick={() => navigate(ADD_SITE)}>
               Add Site
+            </Button>
+            <Button
+              size="lg"
+              variant="text"
+              onClick={() => navigate(SITES_DASHBOARD)}
+            >
+              Sites Dashboard
+            </Button>
+            <Button
+              size="lg"
+              variant="text"
+              onClick={() => navigate(ADD_SITES_NEW_KEYWORDS)}
+            >
+              Add Site New Keywords
+            </Button>
+            <Button
+              size="lg"
+              variant="text"
+              onClick={() => navigate(SITES_PAGES)}
+            >
+              Site Pages
             </Button>
           </Flex>
           <Flex justify="end" gap={16}>

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import Topbar from "../components/Topbar/Topbar";
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -30,6 +31,7 @@ const Layout = () => {
 
   return (
     <div className="layout-container">
+      <ToastContainer />
       {isLogged && <Sidebar sidebarRef={sidebarRef} />}
       <div className="layout-right-section">
         <Topbar sidebarRef={sidebarRef} />

@@ -254,13 +254,6 @@
     font-size: 20px;
   }
 
-  .error-text {
-    color: colorMapper(error, main);
-    margin-left: 0px;
-    font-size: 12px;
-    margin-top: 3px;
-  }
-
   .hide-number-increment {
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {

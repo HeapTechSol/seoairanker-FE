@@ -2,6 +2,7 @@ import { Control, Controller, useWatch } from "react-hook-form";
 
 import Flex from "@/components/Flex";
 import Input from "@/components/Input";
+import Divider from "@/components/Divider/Divider";
 import ToggleButton from "@/components/ToggleButton";
 import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
@@ -13,7 +14,9 @@ import "./AddSite.scss";
 
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddSite = ({ control }: { control: Control<any> }) => {
+
   const pages = useWatch({ control, name: "pages" });
+  
   return (
     <Container
       width={100}
@@ -26,10 +29,11 @@ const AddSite = ({ control }: { control: Control<any> }) => {
         {SeodeIcon}
         <Flex vertical gap={16}>
           <Typography text="What's your domain name?" type="h3" />
+          <Divider/>
           <Typography text="Copy your site URL here. We will run a preliminary scan, then begin to optimize your SEO performance." />
 
           <Controller
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value }, fieldState:{error} }) => (
               <Input
                 StartIcon={GlobalICON}
                 name="site_url"
@@ -38,6 +42,7 @@ const AddSite = ({ control }: { control: Control<any> }) => {
                 placeholder="Enter your Site URL"
                 value={value}
                 onChange={onChange}
+                error={error ? error.message : ''}
               />
             )}
             name="site_url"

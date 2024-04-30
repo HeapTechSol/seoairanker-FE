@@ -1,0 +1,61 @@
+.country-select {
+  &.sm #rfs-btn {
+    padding: 4px 10px;
+    height: 32.09px;
+    font-size: 0.8125rem;
+  }
+
+  &.md #rfs-btn {
+    height: 37.8px;
+    padding: 6px 16px;
+    font-size: 0.875rem;
+  }
+
+  &.lg #rfs-btn {
+    height: 43.5px;
+    padding: 8px 22px;
+    font-size: 0.9375rem;
+  }
+  &.sm .ReactFlagsSelect-module_flagsSelect__2pfa2 {
+    height: 32.09px;
+    font-size: 0.8125rem;
+  }
+
+  &.md .ReactFlagsSelect-module_flagsSelect__2pfa2 {
+    height: 37.8px;
+    font-size: 0.875rem;
+  }
+
+  &.lg .ReactFlagsSelect-module_flagsSelect__2pfa2 {
+    height: 43.5px;
+    font-size: 0.9375rem;
+  }
+
+  @each $color in $colorType {
+    &.#{$color} .ReactFlagsSelect-module_flagsSelect__2pfa2 {
+      padding: 0px;
+      border: 1px solid colorMapper($color, main);
+      border-radius: 4px;
+      button {
+        border: none;
+        .ReactFlagsSelect-module_selectValue__152eS {
+          padding: 0px;
+          color: black;
+          font-family: 'inter', sans-serif;
+        }
+        &::after {
+          border-top: 7px solid colorMapper($color, main);
+          border-left: 7px solid transparent;
+          border-right: 7px solid transparent;
+          border-bottom: 0;
+        }
+      }
+      .ReactFlagsSelect-module_selectOptions__3LNBJ {
+        border: 2px solid colorMapper($color, light);
+        .ReactFlagsSelect-module_selectOption__3pcgW:hover {
+          background-color: colorMapper($color, light);
+        }
+      }
+    }
+  }
+}

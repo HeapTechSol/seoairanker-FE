@@ -15,10 +15,10 @@
           display: inline-block;
           width: 30px;
           height: 14px;
-          position: absolute;
-          top: 50%;
-          right: 14px;
-          transform: translateY(-50%);
+          position: relative;
+          // top: 50%;
+          // right: 14px;
+          // transform: translateY(-50%);
 
           &::before {
             content: '';
@@ -89,12 +89,10 @@
 
 .fixed-left {
 	position: relative;
-  background-color: white;
   z-index: 9999;
 }
 
 .fixed-right {
 	position: relative;
-  background-color: white;
   z-index: 9999;
 }

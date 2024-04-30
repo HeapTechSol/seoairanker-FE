@@ -17,7 +17,7 @@ const Table = (props: TableProps) => {
   const isExpandableRow = (data: any) =>
     props.expandable &&
     props.onRowSelection?.selectedRowKeys?.includes(
-      data[props.rowKey as string],
+      data[props.rowKey as string]
     );
 
   return (
@@ -32,9 +32,10 @@ const Table = (props: TableProps) => {
                   props.data.length ==
                   props.onRowSelection.selectedRowKeys.length
                 }
+                borderRadius
                 onChange={() =>
                   props.onRowSelection?.onChange(
-                    props.data.map((item) => item[props.rowKey as string]),
+                    props.data.map((item) => item[props.rowKey as string])
                   )
                 }
               />
@@ -44,6 +45,7 @@ const Table = (props: TableProps) => {
           {props.columns?.map((column, index) => (
             <TableHeadingCell
               column={column}
+              tableHeadingStyle={props.style?.tableHeadingStyle}
               {...props}
               key={`${column.header}${index}`}
             />
@@ -61,12 +63,13 @@ const Table = (props: TableProps) => {
                     <Checkbox
                       name="selector"
                       checked={props.onRowSelection?.selectedRowKeys.includes(
-                        data[props.rowKey as string],
+                        data[props.rowKey as string]
                       )}
+                      borderRadius
                       onChange={() =>
                         props.onRowSelection?.onChange(
                           data[props.rowKey as string],
-                          data,
+                          data
                         )
                       }
                     />
@@ -78,6 +81,8 @@ const Table = (props: TableProps) => {
                   row={data}
                   column={column}
                   index={index}
+                  {...props}
+                  tableCellStyle={props.style?.tableCellStyle}
                   key={`${column.header}${index}`}
                 />
               ))}

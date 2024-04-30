@@ -31,7 +31,7 @@ const Flex = React.forwardRef<HTMLDivElement, FlexPropsTypes>((props, ref) => {
   });
 
   const contentGap = !!gap && { gap: `${gap}px` };
-  const flexPadding = { padding: padding ?? undefined };
+  const flexPadding = { padding: padding ? padding : undefined };
 
   const inlineStyle = { ...contentGap, ...flexPadding };
 

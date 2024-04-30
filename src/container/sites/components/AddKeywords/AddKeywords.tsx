@@ -4,20 +4,20 @@ import {
   WatchIcon,
 } from "@/assets/icons/svgs";
 import Container from "@/components/Container/Container";
+import Divider from "@/components/Divider/Divider";
 import Flex from "@/components/Flex";
 import Pagination from "@/components/Pagination/Pagination";
 import Table from "@/components/Table";
 import Typography from "@/components/Typography/Typography";
 
 type ColumnTypes = {
-  header:string;
-  dataKey:string;
-  textAlign?:'right' | 'center',
-  render?:(value:string)=>void
-}
+  header: string;
+  dataKey: string;
+  textAlign?: "right" | "center";
+  render?: (value: string) => void;
+};
 
 const AddKeywords = () => {
-
   const columns: ColumnTypes[] = [
     { header: "KEYWORD", dataKey: "keyword" },
     { header: "CURRENT POSITION", dataKey: "position" },
@@ -77,16 +77,27 @@ const AddKeywords = () => {
         {SeodeIcon}
         <Flex vertical gap={16}>
           <Typography text={`Add Your Keywords`} type="h3" />
+          <Divider/>
           <Typography text="Click on any suggestion to add it to your list of keywords. Don't overthink it, you can always add and and remove keywords" />
           <Typography text="If your site is new or still under construction, the keywords suggestion may not be accurate. Just click 'Next' for now, and we will add more keywords later." />
           <Typography text="You'll be able to add you own (with local targeting) later on, but let's start with these." />
+          <Flex vertical gap={32} align="end">
           <Table columns={columns} data={data} />
           <Pagination
             pageSize={10}
             currentPage={1}
             totalCount={75}
             onPageChange={() => console.log("onPage Change")}
+            showSizeChanger={{
+              pageSizeOptions: [
+                { label: "10", id: "10" },
+                { label: "25", id: "25" },
+                { label: "50", id: "50" },
+              ],
+              onPageSizeChange: () => console.log("page size changing"),
+            }}
           />
+          </Flex>
         </Flex>
       </Flex>
     </Container>

@@ -8,7 +8,7 @@ export type OptionsType = {
 export type SelectProps = {
   Options: OptionsType[];
   placeholder?: string;
-  values: OptionsType[] | OptionsType;
+  values: string | string[];
   multiple?: boolean;
   searchable?: boolean;
   selectAllOption?: boolean;
@@ -19,5 +19,6 @@ export type SelectProps = {
   size?: SizeTypes;
   title?: string;
   titlePosition?: "top" | "inside";
-  setValues: React.Dispatch<React.SetStateAction<OptionsType | OptionsType[]>>;
+  error?:string;
+  setValues: React.Dispatch<React.SetStateAction<string | string[]>>;
 };

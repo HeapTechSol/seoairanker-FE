@@ -14,7 +14,7 @@ type Props = {
   textAlign?: "left" | "center" | "right";
   text: string | JSX.Element | React.ReactNode;
   type?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "body-text";
-  inline?:boolean
+  inline?: boolean;
 };
 
 const Typography = ({
@@ -25,7 +25,7 @@ const Typography = ({
   color = "common",
   textAlign = "left",
   type = "body-text",
-  inline=false,
+  inline = false,
 }: Props) => {
   const elementType = {
     "body-text": "body-text",
@@ -42,10 +42,19 @@ const Typography = ({
     [color]: color,
     [textAlign]: textAlign,
     [`${elementType[type]}--${size}`]: size,
-    inline:inline
+    inline: inline,
   });
 
-  return <>{element({ type, typographyCSSClasses, onClick, text })}</>;
+  return (
+    <>
+      {element({
+        type,
+        typographyCSSClasses,
+        onClick,
+        text,
+      })}
+    </>
+  );
 };
 
 export default Typography;

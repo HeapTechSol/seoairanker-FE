@@ -1,3 +1,6 @@
+import React from "react";
+import { toast } from "react-toastify";
+
 import { ClassMapperArgsTpyes } from "./utilTypes";
 
 export const classMapper = (...args: ClassMapperArgsTpyes[]) => {
@@ -24,13 +27,13 @@ export const classMapper = (...args: ClassMapperArgsTpyes[]) => {
 export const toggleCSSClasses = (
   elements: Element[],
   className: string,
-  action: "remove" | "add",
+  action: "remove" | "add"
 ) => elements?.forEach((item) => item?.classList[action](className));
 
 export const toggleCSSClass = (
   element: Element | null,
   className: string,
-  action: "remove" | "add",
+  action: "remove" | "add"
 ) => (element as Element)?.classList[action](className);
 
 export const getMenuId = (menu: Element) => menu.id;
@@ -59,7 +62,7 @@ export const filterByClassNameAndOpenClass = (arr: Element[], id: string) => {
   const elementsWithMatchedIdAndOpenClass = arr.filter(
     (item) =>
       id?.includes(getMenuId(item)) &&
-      hasClass(item.firstElementChild as Element, "open"),
+      hasClass(item.firstElementChild as Element, "open")
   );
   return firstChild(elementsWithMatchedIdAndOpenClass);
 };
@@ -72,7 +75,7 @@ export const accessElements = (menuRef: React.RefObject<HTMLDivElement>) => {
   const subMenusItems = getElements(ref, "submenu-list-link");
   const subMenuItemWithActiveClass = getElement(
     ref,
-    "submenu-list-link.active",
+    "submenu-list-link.active"
   );
 
   const subMenuWithActiveClass =
@@ -80,7 +83,7 @@ export const accessElements = (menuRef: React.RefObject<HTMLDivElement>) => {
 
   const subMenuHeadingWithActiveChild = getElement(
     subMenuWithActiveClass as Element,
-    "submenu-heading",
+    "submenu-heading"
   );
 
   return {
@@ -103,3 +106,17 @@ export const arrayGeneratorWithRange = (start: number, end: number) => {
 
 export const currencyConverter = (amount: number) =>
   amount ? amount?.toLocaleString("en-US", { style: "decimal" }) : "";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const handleCopyClick = (e: any) => {
+  const el = document.createElement("textarea");
+  el.value = (e.target as HTMLParagraphElement).textContent as string;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand("copy");
+  document.body.removeChild(el);
+  toast.success("Copied", {
+    position: "bottom-left",
+    autoClose: 1000,
+    });
+};
