@@ -21,6 +21,7 @@ const {
   LOGIN,
   SIGNUP,
   ADD_SITE,
+  SITES_PAGES,
   BILLING_PLANS,
   BILLING_DETAIL,
   PAYMENT_HISTORY,
@@ -123,6 +124,13 @@ const Topbar = ({
               onClick={() => navigate(ADD_SITES_NEW_KEYWORDS)}
             >
               Add Site New Keywords
+            </Button>
+            <Button
+              size="lg"
+              variant="text"
+              onClick={() => navigate(SITES_PAGES)}
+            >
+              Site Pages
             </Button>
           </Flex>
           <Flex justify="end" gap={16}>

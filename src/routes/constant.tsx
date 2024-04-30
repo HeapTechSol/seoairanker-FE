@@ -19,15 +19,16 @@ const {
 
 const {
   PLANS,
-  PAYMENT_HISTORY,
   CHECKOUT,
   BILLING_DETAIL,
+  PAYMENT_HISTORY,
   BASE: BILLING_BASE,
 } = BILLING;
 
 const {
-  RECOMMENDATIONS,
   ADD_SITE,
+  SITES_PAGES,
+  RECOMMENDATIONS,
   SITES_DASHBOARD,
   ADD_SITES_NEW_KEYWORDS,
   BASE: SITES_BASE,
@@ -138,6 +139,16 @@ export const routes = createBrowserRouter([
             "../container/sites/pages/AddNewKeywords/AddNewKeywords"
           );
           return { Component: AddNewKeywords.default };
+        },
+      },
+      {
+        path: SITES_PAGES,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const SitePages = await import(
+            "../container/sites/pages/SitePages/SitePages"
+          );
+          return { Component: SitePages.default };
         },
       },
     ],

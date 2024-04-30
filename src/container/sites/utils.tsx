@@ -77,7 +77,7 @@ export const ADD_KEYWORDS_VALIDATIONS = z
         invalid_type_error: requiredMessage("Country"),
         required_error: requiredMessage("Country"),
       })
-      .min(5, requiredMessage("Country")),
+      .min(2, requiredMessage("Country")),
     language: z
       .string({
         invalid_type_error: requiredMessage("Language"),
@@ -225,4 +225,46 @@ export const KEYWORDS_DATA = [
     cost_per_click: "$4.23",
     score: "waiting",
   },
+];
+
+export const PAGES_COLUMN: ColumnsTypes[] = [
+  { header: "PATH", dataKey: "path", sortKey: "path" },
+  { header: "DEPTH", dataKey: "depth", sortKey: "depth" },
+  {
+    header: "Lang",
+    dataKey: "lang",
+    sortKey: "lang",
+  },
+  {
+    header: "Last Crawl",
+    dataKey: "date",
+    sortKey: "date",
+  },
+  {
+    header: "WIDGET",
+    dataKey: "widget",
+    textAlign: "center",
+    sortKey: "widget",
+  },
+  {
+    header: "ACTIONS",
+    dataKey: "widget",
+    render: (value: string) =>
+      value === "waiting" ? (
+        WatchIcon
+      ) : (
+        <PercentageCircleIcon percentage={value} />
+      ),
+  },
+];
+
+export const PAGES_DATA = [
+  {
+    path: " /din-kubik",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+  
 ];

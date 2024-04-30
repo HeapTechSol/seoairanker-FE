@@ -32,6 +32,7 @@ const Table = (props: TableProps) => {
                   props.data.length ==
                   props.onRowSelection.selectedRowKeys.length
                 }
+                borderRadius
                 onChange={() =>
                   props.onRowSelection?.onChange(
                     props.data.map((item) => item[props.rowKey as string])
@@ -64,6 +65,7 @@ const Table = (props: TableProps) => {
                       checked={props.onRowSelection?.selectedRowKeys.includes(
                         data[props.rowKey as string]
                       )}
+                      borderRadius
                       onChange={() =>
                         props.onRowSelection?.onChange(
                           data[props.rowKey as string],
