@@ -107,6 +107,7 @@ export const arrayGeneratorWithRange = (start: number, end: number) => {
 export const currencyConverter = (amount: number) =>
   amount ? amount?.toLocaleString("en-US", { style: "decimal" }) : "";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleCopyClick = (e: any) => {
   const el = document.createElement("textarea");
   el.value = (e.target as HTMLParagraphElement).textContent as string;

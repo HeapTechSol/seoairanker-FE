@@ -94,6 +94,7 @@ export const ADD_KEYWORDS_VALIDATIONS = z
   })
   .optional();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const steps = (control: any) => [
   {
     title: "Add Site",

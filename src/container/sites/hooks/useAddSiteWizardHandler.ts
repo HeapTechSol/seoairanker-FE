@@ -21,7 +21,9 @@ const useAddSiteWizardHandler = () => {
 
   const stepsCount = steps(control)?.length;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleNext = (values: any) => {
+    console.log(values)
     if (currentStep >= stepsCount) return;
     setCurrentStep((prev) => prev + 1);
   };
