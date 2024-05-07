@@ -15,5 +15,7 @@ export type ButtonTypes = {
   onClick?: OnClickTypes;
   fullWidth?: boolean;
   borderRadius?: boolean;
+  noPadding?: boolean;
+  fill?: boolean;
   id?: string;
 };

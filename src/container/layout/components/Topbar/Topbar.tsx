@@ -16,18 +16,11 @@ import { MaleHeadIcon } from "@/assets/icons/svgs";
 import SeodeIcon from "@/assets/images/seode.png";
 
 import "./Topbar.scss";
+import Typography from "@/components/Typography/Typography";
 
 const {
   LOGIN,
   SIGNUP,
-  ADD_SITE,
-  SITES_PAGES,
-  BILLING_PLANS,
-  BILLING_DETAIL,
-  PAYMENT_HISTORY,
-  RECOMMENDATIONS,
-  SITES_DASHBOARD,
-  ADD_SITES_NEW_KEYWORDS,
 } = EXACT_ROUTES;
 
 const Topbar = ({
@@ -80,58 +73,7 @@ const Topbar = ({
             />
           </Flex>
           <Flex justify="center">
-            <Button
-              size="lg"
-              variant="text"
-              onClick={() => navigate(BILLING_PLANS)}
-            >
-              Pricing
-            </Button>
-            <Button
-              size="lg"
-              variant="text"
-              onClick={() => navigate(PAYMENT_HISTORY)}
-            >
-              Payment History
-            </Button>
-            <Button
-              size="lg"
-              variant="text"
-              onClick={() => navigate(BILLING_DETAIL)}
-            >
-              Billing Details
-            </Button>
-            <Button
-              size="lg"
-              variant="text"
-              onClick={() => navigate(RECOMMENDATIONS)}
-            >
-              Recommendations
-            </Button>
-            <Button size="lg" variant="text" onClick={() => navigate(ADD_SITE)}>
-              Add Site
-            </Button>
-            <Button
-              size="lg"
-              variant="text"
-              onClick={() => navigate(SITES_DASHBOARD)}
-            >
-              Sites Dashboard
-            </Button>
-            <Button
-              size="lg"
-              variant="text"
-              onClick={() => navigate(ADD_SITES_NEW_KEYWORDS)}
-            >
-              Add Site New Keywords
-            </Button>
-            <Button
-              size="lg"
-              variant="text"
-              onClick={() => navigate(SITES_PAGES)}
-            >
-              Site Pages
-            </Button>
+        <Typography text="There will be menu"/>
           </Flex>
           <Flex justify="end" gap={16}>
             <Button

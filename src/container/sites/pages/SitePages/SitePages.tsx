@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import Flex from "@/components/Flex";
 import Table from "@/components/Table";
 import Divider from "@/components/Divider/Divider";
@@ -7,28 +9,16 @@ import Pagination from "@/components/Pagination/Pagination";
 
 import { PAGES_COLUMN, PAGES_DATA } from "@/container/sites/utils";
 
+import { rowSelectionHandler } from "@/components/Table/helper";
+
 import "./SitePages.scss";
-import { useState } from "react";
 
 const SitePages = () => {
+  
   const [selectedRowKeys, SetSelectedRowKeys] = useState<string[]>([]);
 
-  const rowSelectionHandler = (
-    alreadySelectedKeys: string[],
-    newSelectedKey: string | string[]
-  ) => {
-    if (Array.isArray(newSelectedKey)) {
-      if (alreadySelectedKeys.length == newSelectedKey.length) return [];
-      return newSelectedKey;
-    }
-    if (alreadySelectedKeys.includes(newSelectedKey))
-      return alreadySelectedKeys.filter((item) => item != newSelectedKey);
-    return [...alreadySelectedKeys, newSelectedKey];
-  };
-
-  console.log("selectedRowKeys",selectedRowKeys)
   return (
-    <Container className="add-new-keywords-container">
+    <Container className="site-pages-container">
       <Flex vertical gap={16}>
         <Typography text="Pages on www.dinakubik.se" type="h1" />
         <Divider color="warning" />
@@ -37,7 +27,8 @@ const SitePages = () => {
             borderRadius
             boxShadow
             padding={"40px"}
-            className="recommended-keywords-table-container"
+            className="site-pages-table-container"
+            width={100}
           >
             <Flex vertical gap={16}>
               <Typography text="Found Pages" type="h2" />
@@ -63,7 +54,7 @@ const SitePages = () => {
                   },
                 }}
                 onRowSelection={{
-                  type: "chekbox",
+                  type: "checkbox",
                   selectedRowKeys,
                   onChange: (newSelectedKeys: string | string[]) => {
                     SetSelectedRowKeys((prev) =>

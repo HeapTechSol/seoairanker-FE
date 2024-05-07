@@ -2,14 +2,14 @@
   border: none;
   outline: none;
   font-weight: 500;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 500;
   gap: 6px;
   letter-spacing: 0.02857em;
   line-height: 1.7;
-  white-space:nowrap;
+  white-space: nowrap;
 
   img,
   rect,
@@ -67,6 +67,11 @@
     width: 100%;
   }
 
+  &.noPadding {
+    padding: 0px !important;
+    min-height: auto !important;
+  }
+
   @each $color in $colorType {
     &.filled.#{$color} {
       background: colorMapper($color, main);
@@ -79,18 +84,27 @@
     }
     &.filled.#{$color} svg path,
     circle {
-      fill: white;
       stroke: white;
     }
 
     &.outlined.#{$color} svg path {
-      fill: colorMapper($color, main);
       stroke: colorMapper($color, main);
     }
 
     &.text.#{$color} svg path {
-      fill: colorMapper($color, main);
       stroke: colorMapper($color, main);
+    }
+
+    &.fill.text.#{$color} svg path {
+      fill: colorMapper($color, main);
+    }
+
+    &.fill.outlined.#{$color} svg path {
+      fill: colorMapper($color, main);
+    }
+    
+    &.fill.filled.#{$color} svg path {
+      fill: white;
     }
 
     &.outlined.#{$color} {

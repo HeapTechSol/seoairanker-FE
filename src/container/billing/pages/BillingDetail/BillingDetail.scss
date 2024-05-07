@@ -1,0 +1,15 @@
+.billing-details-container {
+  background-color: white;
+  &.lg {
+    flex: 2;
+  }
+  &.sub-container{
+    flex: 1;
+  }
+}
+
+.right-section {
+  &.sm {
+    flex: 1.7;
+  }
+}

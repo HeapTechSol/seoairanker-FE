@@ -148,7 +148,7 @@ const PaymentHistory = () => {
           </Flex>
         </Container>
       </Grid>
-      <Flex padding={20} vertical gap={32} className="payment-history-listing">
+      <Flex padding={40} vertical gap={32} className="payment-history-listing">
         <Typography text="Payment History" type="h1" size="lg" />
         <Table columns={columns} data={data} />
       </Flex>

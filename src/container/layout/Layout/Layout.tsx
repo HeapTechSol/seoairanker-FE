@@ -27,11 +27,11 @@ const Layout = () => {
     }
   }, [width]);
 
-  const isLogged = false;
+  const isLogged = true;
 
   return (
     <div className="layout-container">
-      <ToastContainer />
+      <ToastContainer rtl={false}/>
       {isLogged && <Sidebar sidebarRef={sidebarRef} />}
       <div className="layout-right-section">
         <Topbar sidebarRef={sidebarRef} />

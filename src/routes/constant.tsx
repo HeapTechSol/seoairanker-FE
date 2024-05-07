@@ -22,6 +22,7 @@ const {
   CHECKOUT,
   BILLING_DETAIL,
   PAYMENT_HISTORY,
+  UPCOMING_INVOICES,
   BASE: BILLING_BASE,
 } = BILLING;
 
@@ -30,6 +31,7 @@ const {
   SITES_PAGES,
   RECOMMENDATIONS,
   SITES_DASHBOARD,
+  SITE_ACCESS_KEYS,
   ADD_SITES_NEW_KEYWORDS,
   BASE: SITES_BASE,
 } = SITES;
@@ -95,6 +97,16 @@ export const routes = createBrowserRouter([
           return { Component: Checkout.default };
         },
       },
+      {
+        path: UPCOMING_INVOICES,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const UpComingInvoices = await import(
+            "../container/billing/pages/UpComingInvoices/UpComingInvoices"
+          );
+          return { Component: UpComingInvoices.default };
+        },
+      },
     ],
   },
   {
@@ -149,6 +161,16 @@ export const routes = createBrowserRouter([
             "../container/sites/pages/SitePages/SitePages"
           );
           return { Component: SitePages.default };
+        },
+      },
+      {
+        path: SITE_ACCESS_KEYS,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const APIKeys = await import(
+            "../container/sites/pages/APIKeys/APIKeys"
+          );
+          return { Component: APIKeys.default };
         },
       },
     ],

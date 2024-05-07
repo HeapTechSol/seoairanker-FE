@@ -60,6 +60,7 @@ const SitesDashboard = () => {
             color="error"
             variant="text"
             StartIcon={DeleteIcon}
+            fill
             onClick={() => console.log("clicked")}
           />
         </Flex>

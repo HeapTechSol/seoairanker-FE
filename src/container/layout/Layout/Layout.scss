@@ -8,7 +8,9 @@
 
   .layout-right-section-menu {
     margin-top: 80px;
-    padding: 40px 250px;
+    padding: 40px 80px;
+    width: calc(100% - 240px);
+    margin-left: 240px;
   }
 
   &:has(.sidebar-container):not(:has(.collapsed)) :not(:has(.minimized)) {
@@ -30,6 +32,10 @@
       .topbar-container {
         width: calc(100% - 80px);
         transition: all 0.3s ease-in-out;
+      }
+      .layout-right-section-menu {
+        width: calc(100% - 80px);
+        margin-left: 80px;
       }
     }
   }

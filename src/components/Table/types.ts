@@ -34,6 +34,7 @@ export type OnSortType = (sortKey: string, order: string | null) => void;
 export type RowSelectionType = {
   type: string;
   selectedRowKeys: string[];
+  allRowsOpenedByDefault?:boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (newSelectedKeys: string | string[], data?: any) => void;
 };

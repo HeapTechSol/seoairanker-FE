@@ -1,6 +1,6 @@
 type typographyType = {
   type: string;
-  onClick?: () => void;
+  onClick?: (e:React.SyntheticEvent) => void;
   text: string | JSX.Element | React.ReactNode;
   typographyCSSClasses: string;
 };
