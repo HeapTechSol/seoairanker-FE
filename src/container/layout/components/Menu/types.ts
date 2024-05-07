@@ -1,6 +1,6 @@
 export interface menuTypes {
   name: string;
-  icon?: string;
+  icon?: string | JSX.Element;
   path: string;
   children?: menuTypes[];
 }

@@ -1,13 +1,16 @@
 .sidebar-container {
   min-width: 240px;
   width: 240px;
-  height: 100%;
+  height: calc(100% - 80px);
+  margin-top: 80px;
   padding: 24px 16px;
-  border-right: 1px solid black;
+  // border-right: 1px solid black;
+  background-color: white;
   transition: all 0.3s ease-in-out;
   position: fixed;
   left: 0;
   white-space: nowrap;
+  z-index: 9999999;
   &.collapsed {
     transition: all 0.3s ease-in-out;
     min-width: 80px;

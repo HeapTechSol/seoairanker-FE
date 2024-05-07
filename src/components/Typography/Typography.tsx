@@ -9,7 +9,7 @@ import "./Typography.scss";
 type Props = {
   link?: boolean;
   color?: ColorsTypes;
-  onClick?: () => void;
+  onClick?: (e:React.SyntheticEvent) => void;
   size?: "lg" | "md" | "sm";
   textAlign?: "left" | "center" | "right";
   text: string | JSX.Element | React.ReactNode;

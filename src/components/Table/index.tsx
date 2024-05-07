@@ -1,12 +1,11 @@
 import { Fragment } from "react";
 
+import Checkbox from "../Checkbox";
 import TableDataCell from "./TableDataCell";
 import TableHeadingCell from "./TableHeadingCell";
 import useTableScroll from "@/hooks/useTableScroll";
 
 import { TableProps } from "./types";
-
-import Checkbox from "../Checkbox";
 
 import "./Table.scss";
 
@@ -24,7 +23,7 @@ const Table = (props: TableProps) => {
     <table className="table" ref={tableRef}>
       <thead>
         <tr>
-          {props.onRowSelection && props.onRowSelection.type && (
+          {props.onRowSelection && props.onRowSelection.type === "checkbox" && (
             <th className="optional-table-cell fixed-left">
               <Checkbox
                 name="selector"
@@ -57,39 +56,41 @@ const Table = (props: TableProps) => {
         {props.data.map((data, index) => (
           <Fragment key={`${data.id}${index}`}>
             <tr>
-              {props.onRowSelection && props.onRowSelection.type && (
-                <td className="optional-table-cell fixed-left">
-                  {
-                    <Checkbox
-                      name="selector"
-                      checked={props.onRowSelection?.selectedRowKeys.includes(
-                        data[props.rowKey as string]
-                      )}
-                      borderRadius
-                      onChange={() =>
-                        props.onRowSelection?.onChange(
-                          data[props.rowKey as string],
-                          data
-                        )
-                      }
-                    />
-                  }
-                </td>
-              )}
-              {props.columns?.map((column, index) => (
+              {props.onRowSelection &&
+                props.onRowSelection.type === "checkbox" && (
+                  <td className="optional-table-cell fixed-left">
+                    {
+                      <Checkbox
+                        name="selector"
+                        checked={props.onRowSelection?.selectedRowKeys.includes(
+                          data[props.rowKey as string]
+                        )}
+                        borderRadius
+                        onChange={() =>
+                          props.onRowSelection?.onChange(
+                            data[props.rowKey as string],
+                            data
+                          )
+                        }
+                      />
+                    }
+                  </td>
+                )}
+              {props.columns?.map((column, colIndex) => (
                 <TableDataCell
                   row={data}
                   column={column}
                   index={index}
                   {...props}
                   tableCellStyle={props.style?.tableCellStyle}
-                  key={`${column.header}${index}`}
+                  key={`${column.header}${colIndex}`}
                 />
               ))}
             </tr>
 
-            {isExpandableRow(data) && (
-              <tr>{props.expandable?.expandedRowRender?.(data)}</tr>
+            {(props.onRowSelection?.allRowsOpenedByDefault ||
+              isExpandableRow(data)) && (
+              <>{props.expandable?.expandedRowRender?.(data)}</>
             )}
           </Fragment>
         ))}

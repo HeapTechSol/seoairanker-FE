@@ -44,6 +44,7 @@ const AddedSiteCard = () => {
               size="sm"
               color="error"
               variant="text"
+              fill
               StartIcon={DeleteIcon}
               onClick={() => console.log("clicked")}
             />

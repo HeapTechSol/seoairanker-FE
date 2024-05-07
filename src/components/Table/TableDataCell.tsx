@@ -10,8 +10,11 @@ const TableDataCell = (props: TableDataCellTypes) => {
   });
 
   return (
-    
-    <td className={classes} {...column?.onCell?.(row[column.dataKey], row, props.index, column)} style={props?.tableCellStyle}>
+    <td
+      className={classes}
+      {...column?.onCell?.(row[column.dataKey], row, props.index, column)}
+      style={props?.tableCellStyle}
+    >
       {column?.render
         ? column.render?.(row[column.dataKey], row, props.index, column)
         : row[column.dataKey]}

@@ -2,8 +2,6 @@ import { Link, useLocation } from "react-router-dom";
 
 import { MenuPropsTypes, menuTypes } from "./types";
 
-import HeartIcon from "@/assets/icons/heart.svg";
-
 import { classMapper } from "@/utils/helper";
 
 import "./Menu.scss";
@@ -25,7 +23,7 @@ const Menu = ({ menu, index, clickHandler, className }: MenuPropsTypes) => {
 
   const subMenuHeading = (
     <div className={subMenuHeadingClass} onClick={clickHandler}>
-      {menu.icon && <img src={HeartIcon} className="no-pointer" />}
+      {menu.icon && <span className="menu-icon">{menu.icon}</span>}
       <span className="submenu-heading-title no-pointer">
         {menu.name as string}
       </span>
@@ -74,7 +72,7 @@ const Menu = ({ menu, index, clickHandler, className }: MenuPropsTypes) => {
 
   const menuItem = (
     <Link to={menu.path} className={menuItemsClass} onClick={clickHandler}>
-      {menu.icon && <img src={HeartIcon} className="no-pointer" />}
+      {menu.icon && <span className="menu-icon">{menu.icon}</span>}
       <span className="menu-link-title no-pointer">{menu.name as string}</span>
     </Link>
   );

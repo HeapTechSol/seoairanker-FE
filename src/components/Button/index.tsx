@@ -21,6 +21,8 @@ const Button = ({
   onlyIcon = false,
   type = "square",
   fullWidth = false,
+  noPadding = false,
+  fill = false,
   onClick,
   id = "",
 }: ButtonTypes) => {
@@ -33,6 +35,8 @@ const Button = ({
     pointer: !!onClick,
     "icon-button": (StartIcon || EndIcon) && onlyIcon,
     [type]: type === "circle" && !onlyIcon ? false : true,
+    noPadding: noPadding,
+    fill:fill
   });
 
   const isStartSvgIcon =

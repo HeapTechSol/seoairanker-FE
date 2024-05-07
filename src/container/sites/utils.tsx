@@ -10,7 +10,17 @@ import RecommendationInfo from "@/container/sites/components/RecommendationsInfo
 import { ColumnsTypes } from "@/components/Table/types";
 import { CommonValidations } from "@/utils/commonValidations";
 
-import { PercentageCircleIcon, WatchIcon } from "@/assets/icons/svgs";
+import {
+  BlockIcon,
+  EyeIcon,
+  PercentageCircleIcon,
+  ReloadIcon,
+  SunLight,
+  WatchIcon,
+} from "@/assets/icons/svgs";
+import Flex from "@/components/Flex";
+import Button from "@/components/Button";
+import Typography from "@/components/Typography/Typography";
 
 const { requiredMessage } = CommonValidations;
 
@@ -90,11 +100,11 @@ export const ADD_KEYWORDS_VALIDATIONS = z
         required_error: requiredMessage("Schedule"),
       })
       .min(2, requiredMessage("Schedule")),
-      local:z.boolean().optional()
+    local: z.boolean().optional(),
   })
   .optional();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const steps = (control: any) => [
   {
     title: "Add Site",
@@ -244,28 +254,160 @@ export const PAGES_COLUMN: ColumnsTypes[] = [
   {
     header: "WIDGET",
     dataKey: "widget",
-    textAlign: "center",
     sortKey: "widget",
+    textAlign: "center",
+    render: () => (
+      <Button
+        StartIcon={BlockIcon}
+        onlyIcon
+        noPadding
+        variant="text"
+        color="error"
+      />
+    ),
   },
   {
     header: "ACTIONS",
     dataKey: "widget",
-    render: (value: string) =>
-      value === "waiting" ? (
-        WatchIcon
-      ) : (
-        <PercentageCircleIcon percentage={value} />
-      ),
+    textAlign: "center",
+    render: () => (
+      <Flex gap={12} align="center" justify="center">
+        <Button
+          StartIcon={EyeIcon}
+          onlyIcon
+          noPadding
+          variant="text"
+          color="info"
+        />
+        <Button
+          StartIcon={ReloadIcon}
+          onlyIcon
+          noPadding
+          variant="text"
+          color="info"
+          fill
+        />
+        <Button
+          StartIcon={SunLight}
+          onlyIcon
+          noPadding
+          variant="text"
+          color="info"
+        />
+      </Flex>
+    ),
   },
 ];
 
 export const PAGES_DATA = [
   {
-    path: " /din-kubik",
+    path: " /din-abc",
     depth: "0",
     lang: "EN",
     date: "04/25/2024	",
     widget: "waiting",
   },
-  
+  {
+    path: " /din-abcd",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+  {
+    path: " /din-bcda",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+  {
+    path: " /din-defg",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+  {
+    path: " /din-ghij",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+  {
+    path: " /din-klmn",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+  {
+    path: " /din-nmlk",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+  {
+    path: " /din-xyz",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+  {
+    path: " /din-yxz",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+  {
+    path: " /din-zxy",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+  {
+    path: " /din-klmno",
+    depth: "0",
+    lang: "EN",
+    date: "04/25/2024	",
+    widget: "waiting",
+  },
+];
+
+export const API_KEYS_COLUMN = [
+  {
+    header: "SECRET TOKEN",
+    dataKey: "token",
+    render: (text: string) => (
+      <Typography
+        color="info"
+        text="Click to Reveal"
+        link
+        onClick={(e) => {
+          if (text === (e.target as HTMLParagraphElement).innerText) {
+            (e.target as HTMLParagraphElement).innerText = "Click to Reveal";
+          } else {
+            (e.target as HTMLParagraphElement).innerText = text;
+          }
+          (e.target as HTMLParagraphElement).classList.toggle("info");
+        }}
+      />
+    ),
+  },
+  { header: "LAST USED", dataKey: "last_used" },
+  {
+    header: "Action",
+    dataKey: "",
+    render: () => <Typography color="info" text="Revoke" link />,
+  },
+];
+
+export const API_KEYS_DATA = [
+  { token: "9110645ab94067380b431c610ef26fbc", last_used: "3 months ago" },
+  { token: "9110645ab94067380b431c610ef26fbc", last_used: "2 months ago" },
 ];
