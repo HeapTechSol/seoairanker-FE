@@ -1,15 +1,33 @@
+import { classMapper } from "@/utils/helper";
+import { ColorsTypes } from "@/utils/commonTypes";
+
 import "./ProgressIndicator.scss";
 
 const ProgressIndicator = ({
   max = 100,
   value = 50,
+  color = "primary",
 }: {
   max: number;
   value: number;
+  color?: ColorsTypes;
 }) => {
+
+  const progressContainerCSSClasses = classMapper("progress-section", {
+    [color]: color,
+  });
+
   return (
-    <div className="progress-section" data-aos="fade-left" data-aos-once="true">
-      <progress className="progress progress3" max={max} value={value}></progress>
+    <div
+      className={progressContainerCSSClasses}
+      data-aos="fade-left"
+      data-aos-once="true"
+    >
+      <progress
+        className="progress progress3"
+        max={max}
+        value={value}
+      ></progress>
     </div>
   );
 };

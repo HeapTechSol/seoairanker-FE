@@ -114,6 +114,7 @@ const Login = () => {
           type="borderRadius"
           StartIcon={GoogleIcon}
           onClick={() => onGoogleLogin()}
+          fill
         >
           Sign in with Google
         </Button>

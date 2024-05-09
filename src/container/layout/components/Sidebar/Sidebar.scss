@@ -4,7 +4,6 @@
   height: calc(100% - 80px);
   margin-top: 80px;
   padding: 24px 16px;
-  // border-right: 1px solid black;
   background-color: white;
   transition: all 0.3s ease-in-out;
   position: fixed;
@@ -40,6 +39,6 @@
     flex-direction: column;
     gap: 5px;
     position: relative;
-    margin-top: 300px;
+    margin-top: 16px;
   }
 }

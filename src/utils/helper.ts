@@ -110,7 +110,10 @@ export const currencyConverter = (amount: number) =>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleCopyClick = (e: any) => {
   const el = document.createElement("textarea");
-  el.value = (e.target as HTMLParagraphElement).textContent as string;
+  el.value =
+    typeof e === "string"
+      ? e
+      : ((e.target as HTMLParagraphElement).textContent as string);
   document.body.appendChild(el);
   el.select();
   document.execCommand("copy");
@@ -118,5 +121,5 @@ export const handleCopyClick = (e: any) => {
   toast.success("Copied", {
     position: "bottom-left",
     autoClose: 1000,
-    });
+  });
 };

@@ -30,6 +30,10 @@
     left: 80px;
   }
 }
+.collapsed .open ~ .submenu-list {
+  left: 80px;
+}
+
 
 .submenu-heading,
 .menu-link,

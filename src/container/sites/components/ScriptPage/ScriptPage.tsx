@@ -77,7 +77,7 @@ const ScriptPage = () => {
           />
           <Flex justify="end">
 
-          <Button variant="outlined" size="sm" onClick={handleCopyClick} type="borderRadius">
+          <Button variant="outlined" size="sm" onClick={()=>handleCopyClick(code)} type="borderRadius">
             Click to copy the code
           </Button>
           </Flex>

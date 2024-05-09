@@ -24,9 +24,16 @@ const Sidebar = ({
   });
 
   const dropDownHandler = async (e: React.MouseEvent) => {
-    const element = e.target as HTMLDivElement;
+    let element = e.target as HTMLDivElement;
     if (menuRef && menuRef.current) {
-      menuClickHandler(element, menuRef);
+      if (["svg", "path", "img"]?.includes(element.nodeName)) {
+        menuClickHandler(
+          element.closest(".submenu-heading") as HTMLDivElement,
+          menuRef
+        );
+      } else {
+        menuClickHandler(element, menuRef);
+      }
     }
   };
 

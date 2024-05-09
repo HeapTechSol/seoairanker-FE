@@ -9,6 +9,7 @@ import {
 
 import Flex from "@/components/Flex";
 import Button from "@/components/Button";
+import Typography from "@/components/Typography/Typography";
 
 import { EXACT_ROUTES } from "@/constant/routes";
 import { MaleHeadIcon } from "@/assets/icons/svgs";
@@ -16,7 +17,6 @@ import { MaleHeadIcon } from "@/assets/icons/svgs";
 import SeodeIcon from "@/assets/images/seode.png";
 
 import "./Topbar.scss";
-import Typography from "@/components/Typography/Typography";
 
 const {
   LOGIN,
