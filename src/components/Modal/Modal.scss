@@ -43,7 +43,7 @@
                 position: absolute;
                 left: 0;
                 top: 43px;
-                box-shadow: 0 0 0.5px 0.5px colorMapper(grayclr, 200);
+                box-shadow: 0 0 0.5px 0.5px colorMapper(grayClr, 200);
             }
 
             &_title {
@@ -65,7 +65,7 @@
                     position: absolute;
                     width: 10px;
                     height: 12px;
-                    border-left: 2px solid colorMapper(grayclr,600);
+                    border-left: 2px solid colorMapper(grayClr,600);
                     transform: rotate(45deg);
                     top: 8px;
                     left: 8px;
@@ -76,7 +76,7 @@
                     position: absolute;
                     width: 10px;
                     height: 12px;
-                    border-right: 2px solid colorMapper(grayclr,600);
+                    border-right: 2px solid colorMapper(grayClr,600);
                     transform: rotate(-45deg);
                     top: 8px;
                     left: 1px;
@@ -135,7 +135,7 @@
                 position: absolute;
                 left: 0;
                 bottom: 65px;
-                box-shadow: 0 0 0.5px 0.5px colorMapper(grayclr, 200);
+                box-shadow: 0 0 0.5px 0.5px colorMapper(grayClr, 200);
             }
         }
     }

@@ -16,19 +16,19 @@ import { MaleHeadIcon } from "@/assets/icons/svgs";
 
 import SeodeIcon from "@/assets/images/seode.png";
 
-import "./Topbar.scss";
+import "./TopBar.scss";
+import { useAppSelector } from "@/api/store";
 
-const {
-  LOGIN,
-  SIGNUP,
-} = EXACT_ROUTES;
+const { LOGIN, SIGNUP } = EXACT_ROUTES;
 
-const Topbar = ({
+const TopBar = ({
   sidebarRef,
 }: {
   sidebarRef: React.RefObject<HTMLDivElement>;
 }) => {
   const navigate = useNavigate();
+
+  const user = useAppSelector((state) => state.auth.user);
 
   const sidebarToggleHandler = () => {
     if (sidebarRef.current) {
@@ -73,21 +73,25 @@ const Topbar = ({
             />
           </Flex>
           <Flex justify="center">
-        <Typography text="There will be menu"/>
+            <Typography text="There will be menu" />
           </Flex>
           <Flex justify="end" gap={16}>
-            <Button
-              type="borderRadius"
-              color="info"
-              variant="text"
-              StartIcon={MaleHeadIcon}
-              onClick={() => navigate(LOGIN)}
-            >
-              Login
-            </Button>
-            <Button type="borderRadius" onClick={() => navigate(SIGNUP)}>
-              Sign Up
-            </Button>
+            {!user?.access_token && (
+              <>
+                <Button
+                  type="borderRadius"
+                  color="info"
+                  variant="text"
+                  StartIcon={MaleHeadIcon}
+                  onClick={() => navigate(LOGIN)}
+                >
+                  Login
+                </Button>
+                <Button type="borderRadius" onClick={() => navigate(SIGNUP)}>
+                  Sign Up
+                </Button>
+              </>
+            )}
           </Flex>
         </Flex>
       </div>
@@ -95,4 +99,4 @@ const Topbar = ({
   );
 };
 
-export default Topbar;
+export default TopBar;

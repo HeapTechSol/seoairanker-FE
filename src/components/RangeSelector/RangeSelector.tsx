@@ -12,7 +12,8 @@ const RangeSelector = ({
   size = "md",
   isInfoChip = true,
   thumbColor = "primary",
-  rangeColor = "primary",
+  filledRangeColor = "primary",
+  emptyRangeColor = "primary",
 }: {
   onChange?: (value: React.ChangeEvent) => void;
   min?: number;
@@ -23,10 +24,12 @@ const RangeSelector = ({
   isInfoChip?: boolean;
   thumbColor?: ColorsTypes;
   rangeColor?: ColorsTypes;
+  filledRangeColor?: ColorsTypes;
+  emptyRangeColor?: ColorsTypes;
 }) => {
   const sliderCSSClasses = classMapper("slider", {
     [`thumb-color-${thumbColor}`]: thumbColor,
-    [`range-color-${rangeColor}`]: rangeColor,
+    // [`range-color-${rangeColor}`]: rangeColor,
     [size]: size,
   });
 
@@ -36,7 +39,7 @@ const RangeSelector = ({
 
   const percentage = (value / max) * 100;
 
-  // const selectedRange = ((value - min) / (max - min)) * 100;
+  const selectedRange = ((value - min) / (max - min)) * 100;
 
   return (
     <div
@@ -62,7 +65,9 @@ const RangeSelector = ({
         step={step}
         type="range"
         onChange={onChange}
-        // style={{background:`linear-gradient(to right, green 0%, green ${selectedRange}%, #DEE2E6 ${selectedRange}%, #DEE2E6 100%)`}}
+        style={{
+          background: `linear-gradient(to right, var(--color-${filledRangeColor}-main) 0%, var(--color-${filledRangeColor}-main) ${selectedRange}%, var(--color-${emptyRangeColor}-light) ${selectedRange}%, var(--color-${emptyRangeColor}-light) 100%)`,
+        }}
       />
     </div>
   );

@@ -28,6 +28,7 @@ const {
 
 const {
   ADD_SITE,
+  SITES_LIST,
   SITES_PAGES,
   RECOMMENDATIONS,
   SITES_DASHBOARD,
@@ -113,6 +114,16 @@ export const routes = createBrowserRouter([
     path: SITES_BASE,
     element: <Layout />,
     children: [
+      {
+        path: SITES_LIST,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const SitesList = await import(
+            "../container/sites/pages/AllSites/AllSites"
+          );
+          return { Component: SitesList.default };
+        },
+      },
       {
         path: RECOMMENDATIONS,
         errorElement: <ErrorBoundary />,

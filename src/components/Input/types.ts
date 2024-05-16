@@ -14,7 +14,7 @@ export type InputTypes = {
   variant?: "outlined" | "underlined";
   color?: "primary" | "secondary" | "error" | "warning" | "info" | "success";
   borderRadius?: boolean;
-  onChange?: (value: React.ChangeEvent) => void;
+  onChange?: (value: React.ChangeEvent<HTMLInputElement>) => void;
   StartIcon?: string | JSX.Element;
   EndIcon?: string | JSX.Element;
   hideIncrementNumber?: boolean;

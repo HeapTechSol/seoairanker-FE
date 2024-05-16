@@ -20,8 +20,13 @@ import "./SignUp.scss";
 
 const SignUp = () => {
   const { onGoogleLogin } = useLoginHandler();
-  const { control, handleSubmit, signUpHandler, alreadyHaveAccountClick } =
-    useSignUpHandler();
+  const {
+    control,
+    isLoading,
+    handleSubmit,
+    signUpHandler,
+    alreadyHaveAccountClick,
+  } = useSignUpHandler();
 
   return (
     <Container width={100} boxShadow borderRadius padding={"40px 80px"}>
@@ -29,7 +34,7 @@ const SignUp = () => {
         <Typography text="Sign Up" type="h2" />
         <Flex vertical justify="center" gap={10}>
           <Controller
-            name="firstName"
+            name="firstname"
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
@@ -48,7 +53,7 @@ const SignUp = () => {
             control={control}
           />
           <Controller
-            name="lastName"
+            name="lastname"
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
@@ -138,6 +143,7 @@ const SignUp = () => {
           variant="filled"
           fullWidth
           size="md"
+          loading={isLoading}
           type="borderRadius"
           onClick={handleSubmit(signUpHandler)}
         >

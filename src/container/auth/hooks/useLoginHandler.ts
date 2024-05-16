@@ -1,28 +1,36 @@
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { loginInitialValues } from "../utils";
+import { ErrorTypes } from "@/utils/commonTypes";
 import { EXACT_ROUTES } from "@/constant/routes";
 import { LoginSchema } from "@/utils/validations";
+import { useLazySignInQuery } from "../api/authAPI";
 import { LoginPayloadTypes } from "../pages/SignUp/types";
+import { useDispatch } from "react-redux";
+import { setUser } from "../authSlice";
 
 const { FORGET_PASSWORD, SIGNUP } = EXACT_ROUTES;
 
 const useLoginHandler = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch()
+  const [signIn, { isFetching: isLoading }] = useLazySignInQuery();
   const { control, handleSubmit } = useForm({
     defaultValues: loginInitialValues,
     resolver: zodResolver(LoginSchema),
   });
 
-  const loginHandler = (credentials: LoginPayloadTypes) => {
+  const loginHandler = async (credentials: LoginPayloadTypes) => {
     try {
-      console.log(credentials);
+      const data = await signIn(credentials).unwrap()
+      dispatch(setUser(data))
+      navigate('/')
     } catch (error) {
-      console.log(error);
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message);
     }
   };
 
@@ -42,6 +50,7 @@ const useLoginHandler = () => {
 
   return {
     control,
+    isLoading,
     handleSubmit,
     loginHandler,
     onGoogleLogin,

@@ -17,6 +17,7 @@ import "./Login.scss";
 const Login = () => {
   const {
     control,
+    isLoading,
     handleSubmit,
     loginHandler,
     onGoogleLogin,
@@ -100,6 +101,7 @@ const Login = () => {
         <Button
           size="md"
           fullWidth
+          loading={isLoading}
           variant="filled"
           type="borderRadius"
           onClick={handleSubmit(loginHandler)}

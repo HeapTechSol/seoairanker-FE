@@ -21,4 +21,17 @@ export type ColorsTypes =
 export type OnClickTypes = (
   event: React.MouseEvent | KeyboardEvent<HTMLButtonElement>
 ) => void;
+
 export type SizeTypes = "sm" | "md" | "lg";
+
+export type MaybeNull<Type> = null | Type
+
+export type ErrorTypes = {
+  data: {
+    message: string
+  }
+}
+
+export type APIResponseMessage = {
+  message:string
+}

@@ -1,7 +1,7 @@
 import Stepper from "@/components/Stepper";
 import Container from "@/components/Container/Container";
 
-import useAddSiteWizardHandler from "@/container/sites/hooks/useAddSiteWizardHandler";
+import useHandleSitesLogic from "@/container/sites/hooks/useHandleSitesLogic";
 
 import { steps } from "@/container/sites/utils";
 
@@ -14,7 +14,7 @@ const AddSiteWizard = () => {
     submitHandler,
     handleForwardButtonPress,
     handlePreviousButtonPress,
-  } = useAddSiteWizardHandler();
+  } = useHandleSitesLogic();
 
   return (
     <Container borderRadius boxShadow className="add-site-wizard">

@@ -13,8 +13,8 @@ const Modal = ({
   OkText = "",
   footer = true,
   header = true,
-  contentLoading,
-  requestLoading,
+  contentLoading=false,
+  requestLoading=false,
   setShowModel,
   onSubmit,
   onCancel = () => setShowModel(false),
@@ -22,6 +22,7 @@ const Modal = ({
   children,
   className,
   footerLocation = "right",
+  OkButtonProperties,
 }: ModalProps) => {
   const bubbleRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +42,12 @@ const Modal = ({
   const modalTitle = title && title;
 
   const cancelButton = cancelText && (
-    <Button variant="outlined" onClick={() => onCancel()}>
+    <Button
+      variant="outlined"
+      onClick={() => onCancel()}
+      size="sm"
+      type="borderRadius"
+    >
       {cancelText}
     </Button>
   );
@@ -51,6 +57,9 @@ const Modal = ({
       variant="filled"
       loading={requestLoading}
       onClick={() => onSubmit()}
+      type="borderRadius"
+      size="sm"
+      {...OkButtonProperties}
     >
       {OkText}
     </Button>

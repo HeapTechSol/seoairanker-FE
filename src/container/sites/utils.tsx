@@ -25,12 +25,12 @@ import Typography from "@/components/Typography/Typography";
 const { requiredMessage } = CommonValidations;
 
 export const ADD_SITE_WIZARD_DEFAULT_VALUES = {
-  site_url: "",
-  pages: 0,
-  jsonSchemas: false,
-  business_type: "",
-  search_country: "",
-  preferred_language: "",
+  siteUrl: "",
+  pages: 10500,
+  jsonSchemas: true,
+  businessType: "",
+  country: "",
+  language: "",
 };
 
 export const ADD_KEYWORDS_DEFAULT_VALUES = {
@@ -42,7 +42,7 @@ export const ADD_KEYWORDS_DEFAULT_VALUES = {
 
 export const ADD_SITE_WIZARD_VALIDATIONS = [
   z.object({
-    site_url: z
+    siteUrl: z
       .string({
         invalid_type_error: requiredMessage("Site URL"),
         required_error: requiredMessage("Site URL"),
@@ -54,19 +54,19 @@ export const ADD_SITE_WIZARD_VALIDATIONS = [
   }),
   z
     .object({
-      business_type: z
+      businessType: z
         .string({
           invalid_type_error: requiredMessage("Business type"),
           required_error: requiredMessage("Business type"),
         })
         .min(5, requiredMessage("Business type")),
-      search_country: z
+      country: z
         .string({
           invalid_type_error: requiredMessage("Search Country"),
           required_error: requiredMessage("Search Country"),
         })
         .min(2, requiredMessage("Search Country")),
-      preferred_language: z
+      language: z
         .string({
           invalid_type_error: requiredMessage("Language"),
           required_error: requiredMessage("Language"),

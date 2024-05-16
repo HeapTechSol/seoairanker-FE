@@ -36,7 +36,7 @@ const AddSite = ({ control }: { control: Control<any> }) => {
             render={({ field: { onChange, value }, fieldState:{error} }) => (
               <Input
                 StartIcon={GlobalICON}
-                name="site_url"
+                name="siteUrl"
                 title="URL"
                 titlePosition="top"
                 placeholder="Enter your Site URL"
@@ -45,7 +45,7 @@ const AddSite = ({ control }: { control: Control<any> }) => {
                 error={error ? error.message : ''}
               />
             )}
-            name="site_url"
+            name="siteUrl"
             control={control}
           />
           <Typography text="Limit the number of pages to crawl. This allows you to distribute the global per-team limit across your sites." />
@@ -58,6 +58,8 @@ const AddSite = ({ control }: { control: Control<any> }) => {
                 min={0}
                 step={250}
                 max={10500}
+                filledRangeColor="primary"
+                emptyRangeColor="secondary"
               />
             )}
             name="pages"

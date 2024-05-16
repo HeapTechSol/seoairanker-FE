@@ -24,7 +24,7 @@ const {
 
 export const SignUpSchema: z.ZodType<SignupPayloadTypes> = z
   .object({
-    firstName: z
+    firstname: z
       .string()
       .min(1, requiredMessage(registerBuyerLabel.firstName))
       .regex(ALPHABETS_REGEX, onlyAlphabets(registerBuyerLabel.firstName))
@@ -42,7 +42,7 @@ export const SignUpSchema: z.ZodType<SignupPayloadTypes> = z
           SchemaConstants.firstName.minCount,
         ),
       ),
-    lastName: z
+    lastname: z
       .string()
       .min(1, requiredMessage(registerBuyerLabel.lastName))
       .regex(ALPHABETS_REGEX, onlyAlphabets(registerBuyerLabel.lastName))
@@ -96,7 +96,7 @@ export const LoginSchema: z.ZodType<LoginPayloadTypes> = z.object({
   email: z.string().min(1, requiredMessage(registerBuyerLabel.email)).email({
     message: invalidEmail,
   }),
-  isRemember: z.boolean(),
+  isRemember: z.boolean().optional(),
   password: z.string().min(1, requiredMessage(registerBuyerLabel.password)),
 });
 

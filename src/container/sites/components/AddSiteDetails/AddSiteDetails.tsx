@@ -49,7 +49,7 @@ const AddSiteDetails = ({ control }: { control: Control<any> }) => {
                 error={error ? error.message : ""}
               />
             )}
-            name="business_type"
+            name="businessType"
             control={control}
           />
           <Controller
@@ -61,7 +61,7 @@ const AddSiteDetails = ({ control }: { control: Control<any> }) => {
                 error={error?.message}
               />
             )}
-            name="search_country"
+            name="country"
             control={control}
           />
           <Controller
@@ -80,7 +80,7 @@ const AddSiteDetails = ({ control }: { control: Control<any> }) => {
                 error={error ? error.message : ""}
               />
             )}
-            name="preferred_language"
+            name="language"
             control={control}
           />
         </Flex>

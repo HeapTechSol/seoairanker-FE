@@ -1,6 +1,6 @@
 import { menuTypes } from "@/container/layout/components/Menu/types";
 import { EXACT_ROUTES, SITES, BILLING } from "./routes";
-import { LocationIcon, MaleHeadIcon, SettingIcon } from "@/assets/icons/svgs";
+import { LocationIcon, SettingIcon } from "@/assets/icons/svgs";
 
 const {
   ADD_SITE,
@@ -15,8 +15,7 @@ const {
   BILLING_DETAIL,
   PAYMENT_HISTORY,
   UPCOMING_INVOICES,
-
-  LOGIN
+  SITES_LIST,
 } = EXACT_ROUTES;
 
 export const sidebarMenuData: menuTypes[] = [
@@ -28,6 +27,10 @@ export const sidebarMenuData: menuTypes[] = [
       {
         name: "Add Site",
         path: ADD_SITE,
+      },
+      {
+        name: "All Sites",
+        path: SITES_LIST,
       },
       {
         name: "Site Pages",
@@ -78,5 +81,4 @@ export const sidebarMenuData: menuTypes[] = [
       },
     ],
   },
-  { name: "Login", path: LOGIN, icon: MaleHeadIcon},
 ];

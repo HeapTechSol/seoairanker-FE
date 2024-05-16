@@ -5,11 +5,13 @@ import Divider from "@/components/Divider/Divider";
 import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
 
-import { API_KEYS_COLUMN, API_KEYS_DATA } from "../../utils";
+import { API_KEYS_COLUMN, API_KEYS_DATA } from "@/container/sites/utils";
+
+import "./APIKeys.scss"
 
 const APIKeys = () => {
   return (
-    <Container className="site-pages-container">
+    <Container className="api-keys-container">
       <Flex vertical gap={16}>
         <Typography text="Sites’s API Keys" type="h1" />
         <Divider color="warning" />
