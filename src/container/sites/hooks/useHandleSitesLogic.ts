@@ -3,7 +3,11 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { steps, ADD_SITE_WIZARD_DEFAULT_VALUES, ADD_SITE_WIZARD_VALIDATIONS } from "../utils";
+import {
+  steps,
+  ADD_SITE_WIZARD_DEFAULT_VALUES,
+  ADD_SITE_WIZARD_VALIDATIONS,
+} from "../utils";
 
 import {
   useAddSiteMutation,
@@ -34,7 +38,6 @@ const useHandleSitesLogic = () => {
 
   const stepsCount = steps(control)?.length;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleNext = async () => {
     if (currentStep >= stepsCount) return;
     setCurrentStep((prev) => prev + 1);
@@ -65,11 +68,14 @@ const useHandleSitesLogic = () => {
     }
   };
 
-  const handleDeleteSite = async (id: number, setShowModel:React.Dispatch<React.SetStateAction<boolean>>) => {
+  const handleDeleteSite = async (
+    id: number,
+    setShowModel: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
     try {
       const response = await deleteSite(id).unwrap();
-      toast.success(response?.message, {autoClose:1000});
-      setShowModel(false)
+      toast.success(response?.message, { autoClose: 1000 });
+      setShowModel(false);
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message)
         toast.error((error as ErrorTypes)?.data?.message);
@@ -84,7 +90,7 @@ const useHandleSitesLogic = () => {
   return {
     control,
     isLoading,
-    sitesList,
+    sitesList:sitesList?.result || [],
     currentStep,
     getSitesList,
     submitHandler,

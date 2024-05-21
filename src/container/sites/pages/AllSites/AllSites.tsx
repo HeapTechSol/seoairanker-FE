@@ -29,10 +29,11 @@ const AllSites = () => {
 
   const [show, setShowModel] = useState(false);
   const [siteId, setSiteId] = useState<number>();
-  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     getSitesList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const columns: ColumnsTypes[] = [
@@ -64,7 +65,7 @@ const AllSites = () => {
       dataKey: "businessType",
       sortKey: "businessType",
     },
-    { header: "Date", dataKey: "createdat", sortKey: "createdat" },
+    { header: "Date", dataKey: "createdAt", sortKey: "createdAt" },
     {
       header: "",
       dataKey: "action",
@@ -95,11 +96,15 @@ const AllSites = () => {
     },
   ];
 
-  const onSiteSearch= (e:ChangeEvent<HTMLInputElement>) =>{
-    setSearchQuery(e.target.value)
-  }
+  const onSiteSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
-  const filteredSitesList = sitesList?.filter((site)=>(site.siteUrl?.toLowerCase()).includes(searchQuery.toLowerCase()))
+  const filteredSitesList = sitesList?.filter((site) => {
+    if (site.siteUrl)
+      site.siteUrl?.toLowerCase().includes(searchQuery.toLowerCase());
+    return true
+  });
 
   return (
     <Container borderRadius boxShadow className="sites-history">
@@ -107,7 +112,11 @@ const AllSites = () => {
         <Typography type="h3" text="Added Site List" />
         <Typography text="You can add new site by clicking add new site button below the list." />
         <Divider color="warning" />
-        <Input name="search_site" placeholder="Search" onChange={onSiteSearch}/>
+        <Input
+          name="search_site"
+          placeholder="Search"
+          onChange={onSiteSearch}
+        />
         <Flex vertical gap={32} align="end">
           <Table columns={columns} data={filteredSitesList || []} />
           <Button

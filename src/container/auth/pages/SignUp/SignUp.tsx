@@ -34,7 +34,7 @@ const SignUp = () => {
         <Typography text="Sign Up" type="h2" />
         <Flex vertical justify="center" gap={10}>
           <Controller
-            name="firstname"
+            name="firstName"
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input
@@ -53,7 +53,7 @@ const SignUp = () => {
             control={control}
           />
           <Controller
-            name="lastname"
+            name="lastName"
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Input

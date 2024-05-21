@@ -55,7 +55,7 @@ const Button = ({
   );
 
   const loader = !disabled && loading && (
-    <img src={LoadingIcon.src} alt="loading-icon" />
+    <img src={LoadingIcon} alt="loading-icon" />
   );
 
   const onEnterPress = (e: KeyboardEvent<HTMLButtonElement>) => {

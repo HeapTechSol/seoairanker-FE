@@ -1,8 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { loadStripe } from "@stripe/stripe-js";
 import { useForm, useWatch } from "react-hook-form";
 
 import Flex from "@/components/Flex";
 import Tabs from "@/components/Tabs/Tabs";
+import Grid from "@/components/Grid/Grid";
 import PlanCard from "@/components/PlanCard/PlanCard";
 import Container from "@/components/Container/Container";
 
@@ -15,25 +18,57 @@ import {
   addOnInfoTypes,
 } from "@/constant/plans";
 
-import Grid from "@/components/Grid/Grid";
+import useStripeHandling, { CheckoutPayload } from "@/container/billing/hooks/useStripeHandling";
 
 import "./Pricing.scss";
-import { EXACT_ROUTES } from "@/constant/routes";
-
-const { CHECKOUT } = EXACT_ROUTES;
 
 const Pricing = () => {
-  const navigate = useNavigate();
-  const { control, handleSubmit } = useForm({
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState("");
+  const { control, setValue, handleSubmit } = useForm({
     defaultValues: planDefaultValues as PlanDefaultValuesTypes,
   });
 
   const values = useWatch({ control });
 
+  const { handleCheckout } = useStripeHandling();
+
+  const payNow = async (values: PlanDefaultValuesTypes) => {
+    try {
+      setIsLoading(true);
+      setSelectedPlan(values.selectedPlan);
+      const extraToping = values[values.selectedPlan];
+      const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISH_KEY);
+      const body: CheckoutPayload = {
+        interval: "month",
+        plan_id: values.selectedPlan,
+        plan_name: `${values.selectedPlan?.toLocaleUpperCase()} Plan`,
+        base_price: values.totalAmount,
+        additional_properties: Object.entries(extraToping)?.map(
+          ([key, value]) => ({
+            name: key,
+            price: value,
+          })
+        ),
+      };
+
+      const response = await handleCheckout(body);
+      setIsLoading(false);
+      setSelectedPlan("");
+      await stripe?.redirectToCheckout({
+        sessionId: response?.data?.sessionId,
+      });
+    } catch (error) {
+      setIsLoading(false);
+      setSelectedPlan("");
+      toast.error("Something went wrong to load stripe checkout");
+    }
+  };
+
   const totalAmount = (
     planType: PlansTitles,
     amount: number,
-    addOnInfo: addOnInfoTypes[],
+    addOnInfo: addOnInfoTypes[]
   ) => {
     return (
       ((values[planType]?.extra_sites || 0) / addOnInfo[0].step) *
@@ -46,13 +81,8 @@ const Pricing = () => {
     );
   };
 
-  const formPayload = (values: PlanDefaultValuesTypes) => {
-    navigate(CHECKOUT);
-    console.log(values[values.selectedPlan], values.selectedPlan);
-  };
-
   const submitForm = () => {
-    handleSubmit(formPayload)();
+    handleSubmit(payNow)();
   };
 
   return (
@@ -76,8 +106,9 @@ const Pricing = () => {
                         amount={totalAmount(
                           item.planType,
                           item.amount,
-                          item.addOnInfo,
+                          item.addOnInfo
                         )}
+                        setValue={setValue}
                         Icon={item.Icon}
                         color={item.color}
                         type={item.type}
@@ -92,6 +123,7 @@ const Pricing = () => {
                         buttonText={item.buttonText}
                         buttonColor={item.buttonColor}
                         planType={item.planType}
+                        loading={isLoading && item.planType === selectedPlan}
                       />
                     ))}
                   </Grid>
@@ -112,8 +144,9 @@ const Pricing = () => {
                         amount={totalAmount(
                           item.planType,
                           item.amount,
-                          item.addOnInfo,
+                          item.addOnInfo
                         )}
+                        setValue={setValue}
                         Icon={item.Icon}
                         color={item.color}
                         type={item.type}
@@ -128,6 +161,7 @@ const Pricing = () => {
                         buttonText={item.buttonText}
                         buttonColor={item.buttonColor}
                         planType={item.planType}
+                        loading={isLoading}
                       />
                     ))}
                   </Grid>

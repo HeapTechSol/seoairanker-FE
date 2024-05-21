@@ -27,7 +27,7 @@ const useLoginHandler = () => {
   const loginHandler = async (credentials: LoginPayloadTypes) => {
     try {
       const data = await signIn(credentials).unwrap()
-      dispatch(setUser(data))
+      dispatch(setUser(data.result))
       navigate('/')
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message);
