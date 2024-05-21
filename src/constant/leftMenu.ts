@@ -10,7 +10,6 @@ const {
   SITE_ACCESS_KEYS,
   ADD_SITES_NEW_KEYWORDS,
 
-  CHECKOUT,
   PLANS,
   BILLING_DETAIL,
   PAYMENT_HISTORY,
@@ -59,10 +58,6 @@ export const sidebarMenuData: menuTypes[] = [
     icon: SettingIcon,
     path: BILLING.BASE,
     children: [
-      {
-        name: "Checkout",
-        path: CHECKOUT,
-      },
       {
         name: "Plans",
         path: PLANS,

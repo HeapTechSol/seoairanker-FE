@@ -1,13 +1,15 @@
 export type UserTypes = {
-  firstName: string;
-  lastName: string;
-  email: string;
   access_token: string;
+  user: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
 };
 
 export type SignUpTypes = {
-  message:string
-}
+  message: string;
+};
 
 export type LoginPayload = {
   email: string;
@@ -15,8 +17,8 @@ export type LoginPayload = {
 };
 
 export type SignUpPayload = {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 };

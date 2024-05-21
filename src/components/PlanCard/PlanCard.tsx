@@ -1,4 +1,4 @@
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, UseFormSetValue } from "react-hook-form";
 
 import Flex from "../Flex";
 import Button from "../Button";
@@ -20,8 +20,10 @@ import "./PlanCard.scss";
 
 export type PlanCard = PlanTypes & {
   control: Control<PlanDefaultValuesTypes>;
+  setValue: UseFormSetValue<PlanDefaultValuesTypes>;
   handleSubmit: () => void;
   duration: "Monthly" | "Year";
+  loading: boolean;
 };
 
 const PlanCard = ({
@@ -39,6 +41,8 @@ const PlanCard = ({
   buttonText = "",
   planType = "basic",
   control,
+  setValue,
+  loading = false,
   duration = "Monthly",
   handleSubmit,
 }: PlanCard) => {
@@ -154,8 +158,10 @@ const PlanCard = ({
               fullWidth
               type="borderRadius"
               color={buttonColor}
+              loading={loading}
               onClick={() => {
                 onChange(planType);
+                setValue("totalAmount", amount);
                 handleSubmit();
               }}
             >

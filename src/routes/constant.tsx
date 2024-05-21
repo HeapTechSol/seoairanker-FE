@@ -19,7 +19,6 @@ const {
 
 const {
   PLANS,
-  CHECKOUT,
   BILLING_DETAIL,
   PAYMENT_HISTORY,
   UPCOMING_INVOICES,
@@ -86,16 +85,6 @@ export const routes = createBrowserRouter([
             "../container/billing/pages/BillingDetail/BillingDetail"
           );
           return { Component: BillingDetails.default };
-        },
-      },
-      {
-        path: CHECKOUT,
-        errorElement: <ErrorBoundary />,
-        async lazy() {
-          const Checkout = await import(
-            "../container/billing/pages/Checkout/Checkout"
-          );
-          return { Component: Checkout.default };
         },
       },
       {

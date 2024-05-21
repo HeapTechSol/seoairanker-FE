@@ -15,7 +15,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
       }),
       invalidatesTags: ["sitesList"],
     }),
-    getSites: builder.query<SitesAPIResponse[],void>({
+    getSites: builder.query<{result:SitesAPIResponse[]},void>({
       query: () => ({
         url: SITES_LIST,
         method: "GET",
