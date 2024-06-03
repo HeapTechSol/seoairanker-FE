@@ -1,10 +1,8 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "./store";
-import type {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-} from "@reduxjs/toolkit/query";
+import type * as query from "@reduxjs/toolkit/query";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+import { setUser } from "@/container/auth/authSlice";
 
 let isError = false;
 
@@ -19,16 +17,16 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-export const baseQueryWithReAuth: BaseQueryFn<
-  string | FetchArgs,
+export const baseQueryWithReAuth: query.BaseQueryFn<
+  string | query.FetchArgs,
   unknown,
-  FetchBaseQueryError
+  query.FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   const result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === 401) {
     if (!isError) {
-      // api.dispatch(setUserAuth({ authToken: '', user: null }))
+      api.dispatch(setUser(null))
       isError = true;
     }
   } else {

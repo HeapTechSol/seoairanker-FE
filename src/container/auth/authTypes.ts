@@ -1,6 +1,7 @@
 export type UserTypes = {
   access_token: string;
   user: {
+    id:string
     firstName: string;
     lastName: string;
     email: string;

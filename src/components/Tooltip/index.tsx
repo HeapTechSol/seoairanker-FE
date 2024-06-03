@@ -1,30 +1,40 @@
-import { classMapper } from "@/utils/helper";
-import "./Tooltip.scss";
+import React, { useState, ReactNode, useRef, useEffect } from 'react';
+import './Tooltip.scss';
 
-export type TooltipTypes = {
-  children: React.ReactNode | JSX.Element;
-  title: React.ReactNode | JSX.Element | string;
-  placement:
-    | "topleft"
-    | "topcenter"
-    | "topright"
-    | "lefttop"
-    | "leftcenter"
-    | "leftbottom"
-    | "righttop"
-    | "rightcenter"
-    | "rightbottom"
-    | "bottomleft"
-    | "bottomcenter"
-    | "bottomright";
-};
+interface TooltipProps {
+  content: ReactNode;
+  children: ReactNode;
+}
 
-const Tooltip = ({ children, title, placement }: TooltipTypes) => {
-  const classes = classMapper("tooltip-container", { [placement]: placement });
+const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
+  const [visible, setVisible] = useState(false);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseEnter = () => {
+    setVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setVisible(false);
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
+        setVisible(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
   return (
-    <div className={classes}>
-      <div className="tooltip-container-title">{title}</div>
-      <div className="tooltip-container-content">{children}</div>
+    <div className="tooltip-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={tooltipRef}>
+      {children}
+      {visible && <div className="tooltip-content">{content}</div>}
     </div>
   );
 };

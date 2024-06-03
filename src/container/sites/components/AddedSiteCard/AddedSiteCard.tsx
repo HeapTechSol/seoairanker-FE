@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Chip from "@/components/Chip";
 import Flex from "@/components/Flex";
@@ -7,11 +7,22 @@ import Divider from "@/components/Divider/Divider";
 import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
 
+import { EXACT_ROUTES } from "@/constant/routes";
+import { SitesAPIResponse } from "@/container/sites/sitesTypes";
 import { DeleteIcon, SettingIcon, TopRightIcon } from "@/assets/icons/svgs";
 
 import "./AddedSiteCard.scss";
 
-const AddedSiteCard = () => {
+const { SITE_DETAILS_PAGE } = EXACT_ROUTES;
+
+const AddedSiteCard = ({
+  site,
+  onClick,
+}: {
+  site: SitesAPIResponse;
+  onClick: () => void;
+}) => {
+  const navigate = useNavigate();
   return (
     <Container
       borderRadius
@@ -21,13 +32,17 @@ const AddedSiteCard = () => {
     >
       <Flex vertical className="site-info-card" gap={16}>
         <Flex className="site-info" justify="between" align="center">
-          <Flex gap={8}>
-            <img
-              src="https://alliai-images.s3.us-east-2.amazonaws.com/3aN882UedT4fkAWGgxEr2PGT?response-content-disposition=inline%3B%20filename%3D%22favicon.png%22%3B%20filename%2A%3DUTF-8%27%27favicon.png&response-content-type=image%2Fpng&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA56WHDN3QMILRGVFM%2F20240427%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20240427T141315Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=f575e3193a8617dcd7c737fe3bb7d72199697534725a0cb7527050a1a92158a3"
-              alt=""
-            />
+          <Flex
+            gap={8}
+            onClick={() =>
+              navigate(SITE_DETAILS_PAGE, {
+                state: { siteId: site.id, siteUrl: site.siteUrl },
+              })
+            }
+          >
+            <img src="" alt="" />
             <Link to="" className="site-link">
-              www.dinakubik.se
+              {site?.siteUrl || ""}
             </Link>
           </Flex>
           <Flex className="site-info-controls" justify="end" align="center">
@@ -46,7 +61,7 @@ const AddedSiteCard = () => {
               variant="text"
               fill
               StartIcon={DeleteIcon}
-              onClick={() => console.log("clicked")}
+              onClick={onClick}
             />
           </Flex>
         </Flex>

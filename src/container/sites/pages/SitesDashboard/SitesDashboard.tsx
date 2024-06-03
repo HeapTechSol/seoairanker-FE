@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import Flex from "@/components/Flex";
@@ -7,31 +8,44 @@ import Button from "@/components/Button";
 import Divider from "@/components/Divider/Divider";
 import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
-import Pagination from "@/components/Pagination/Pagination";
+// import Pagination from "@/components/Pagination/Pagination";
 import AddedSiteCard from "@/container/sites/components/AddedSiteCard/AddedSiteCard";
 
 import { EXACT_ROUTES } from "@/constant/routes";
 
-import { DeleteIcon, SearchIcon, SettingIcon } from "@/assets/icons/svgs";
+import { DeleteIcon, SearchIcon, SettingIcon, WarningIcon } from "@/assets/icons/svgs";
+
+import useHandleSitesLogic from "@/container/sites/hooks/useHandleSitesLogic";
 
 import "./SitesDashboard.scss";
+import Modal from "@/components/Modal";
 
 const { ADD_SITE } = EXACT_ROUTES;
 
 const SitesDashboard = () => {
   const navigate = useNavigate();
-  type ColumnTypes = {
-    header: string;
-    dataKey: string;
-    sortKey?: string;
-    textAlign?: "right" | "center";
-    render?: (value: string) => void;
-  };
-  const columns: ColumnTypes[] = [
+
+  const [siteId, setSiteId] = useState<number>();
+  const [isShowDeleteModal,setIsShowDeleteModal] = useState<boolean>(false)
+
+  const { getSitesList, sitesList, handleDeleteSite, deleteSideLoading } =
+    useHandleSitesLogic();
+
+  useEffect(() => {
+    getSitesList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const deleteSite = (id:number)=>{
+    setSiteId(id);
+    setIsShowDeleteModal(true);
+  }
+
+  const columns= [
     {
       header: "Sites",
-      dataKey: "sites",
-      sortKey: "sites",
+      dataKey: "siteUrl",
+      sortKey: "siteUrl",
 
       render: (value) => (
         <Link to="">
@@ -39,12 +53,11 @@ const SitesDashboard = () => {
         </Link>
       ),
     },
-    { header: "Date", dataKey: "date", sortKey: "date" },
+    { header: "Date", dataKey: "createdAt", sortKey: "createdAt" },
     {
       header: "",
       dataKey: "action",
-
-      render: () => (
+      render: (_, record) => (
         <Flex className="site-info-controls" justify="end" align="center">
           <Button
             onlyIcon
@@ -61,59 +74,18 @@ const SitesDashboard = () => {
             variant="text"
             StartIcon={DeleteIcon}
             fill
-            onClick={() => console.log("clicked")}
+            onClick={() => deleteSite(record.id)}
           />
         </Flex>
       ),
     },
   ];
-  const data = [
-    {
-      sites: "portfolio websites",
-      date: "	04-08-24",
-    },
-    {
-      sites: "search optimization",
-      date: "	04-16-24",
-    },
-    {
-      sites: "elit fitness",
-      date: "	04-25-24",
-    },
-    {
-      sites: "search engine marketing",
-      date: "	03-10-24",
-    },
-    {
-      sites: "search engine marketing",
-      date: "	03-10-24",
-    },
-    {
-      sites: "search engine marketing",
-      date: "	03-10-24",
-    },
-    {
-      sites: "search engine marketing",
-      date: "	03-10-24",
-    },
-    {
-      sites: "search engine marketing",
-      date: "	03-10-24",
-    },
-    {
-      sites: "search engine marketing",
-      date: "	03-10-24",
-    },
-    {
-      sites: "search engine marketing",
-      date: "	03-10-24",
-    },
-  ];
+
   return (
     <Container className="sites-dashboard">
       <Flex vertical gap={24}>
-        <Typography text="Seode's Dashboard" type="h1"/>
-        <Divider color="warning"/>
+        <Typography text="Seode's Dashboard" type="h1" />
+        <Divider color="warning" />
         <Container className="sites-dashboard-header" borderRadius boxShadow>
           <Flex justify="between">
             <Input
@@ -132,22 +104,13 @@ const SitesDashboard = () => {
         </Container>
         <Flex gap={16}>
           <Flex vertical gap={16}>
-            <AddedSiteCard />
-            <AddedSiteCard />
-            <AddedSiteCard />
-            <AddedSiteCard />
-            <AddedSiteCard />
-            <AddedSiteCard />
-            <AddedSiteCard />
-            <AddedSiteCard />
-            <AddedSiteCard />
-            <AddedSiteCard />
-            <Pagination
+            {sitesList?.map(site=> <AddedSiteCard site={site} onClick = {()=>deleteSite(site.id)}/>)}
+            {/* <Pagination
               pageSize={10}
               currentPage={1}
               totalCount={75}
               onPageChange={() => console.log("onPage Change")}
-            />
+            /> */}
           </Flex>
           <Container borderRadius boxShadow className="sites-history">
             <Flex vertical gap={16} align="start">
@@ -156,14 +119,14 @@ const SitesDashboard = () => {
               <Divider color="warning" />
               <Input name="search_site" placeholder="Search" />
               <Divider color="warning" />
-              <Table columns={columns} data={data} />
-              <Pagination
+              <Table columns={columns} data={sitesList || []} />
+              {/* <Pagination
                 pageSize={10}
                 currentPage={1}
                 totalCount={75}
                 noCount
                 onPageChange={() => console.log("onPage Change")}
-              />
+              /> */}
               <Button
                 onClick={() => navigate(ADD_SITE)}
                 size="sm"
@@ -175,8 +138,24 @@ const SitesDashboard = () => {
           </Container>
         </Flex>
       </Flex>
+      <Modal
+        show={isShowDeleteModal}
+        OkText="Delete Site"
+        header={false}
+        cancelText="Cancel"
+        setShowModel={setIsShowDeleteModal}
+        OkButtonProperties={{ color: "error" }}
+        requestLoading={deleteSideLoading}
+        onSubmit={() => handleDeleteSite(siteId as number, setIsShowDeleteModal)}
+      >
+        <Flex vertical gap={8} align="center" padding={"20px 0px"}>
+          {WarningIcon}
+          <Typography text="Are you sure you want to delete?" />
+        </Flex>
+      </Modal>
     </Container>
   );
+
 };
 
 export default SitesDashboard;

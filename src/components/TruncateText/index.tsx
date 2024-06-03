@@ -1,15 +1,20 @@
-import { classMapper } from "@/utils/helper";
-
+import React from "react";
+import classNames from "classnames";
 import { TruncateTextTypes } from "./types";
 
 import "./TruncateText.scss";
 
-const TruncateText = ({ text, width, line }: TruncateTextTypes) => {
-  const classes = classMapper("truncate-text", { [`line-${line}`]: !!line });
-  const style = { width: line ? `${width}px` : "auto" };
+const TruncateText: React.FC<TruncateTextTypes> = ({ text, width, line }) => {
+  const classes = classNames("truncate-text", {
+    [`truncate-text--line-${line}`]: line,
+  });
+
+  const style = {
+    width: width ? `${width}px` : "100%", // Default to 100% if width is not provided
+  };
 
   return (
-    <div className={classes} style={style}>
+    <div className={classes} style={style} title={text}>
       {text}
     </div>
   );

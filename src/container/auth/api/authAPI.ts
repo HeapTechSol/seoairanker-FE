@@ -1,24 +1,20 @@
 import { baseQueryApi } from "@/api/queryAPI";
 import { APIEndpoint } from "@/constant/apiEndPoints";
-import {
-  LoginPayload,
-  SignUpPayload,
-  SignUpTypes,
-  UserTypes,
-} from "../authTypes";
+
+import * as authTypes from "../authTypes";
 
 const { LOGIN, SIGNUP } = APIEndpoint;
 
 export const authApi = baseQueryApi.injectEndpoints({
   endpoints: (builder) => ({
-    signIn: builder.query<{ result: UserTypes }, LoginPayload>({
+    signIn: builder.query<{ result: authTypes.UserTypes }, authTypes.LoginPayload>({
       query: (payload) => ({
         url: LOGIN,
         method: "POST",
         body: payload,
       }),
     }),
-    signUp: builder.query<SignUpTypes, SignUpPayload>({
+    signUp: builder.query<{ result: authTypes.UserTypes, message:string }, authTypes.SignUpPayload>({
       query: (payload) => ({
         url: SIGNUP,
         method: "POST",

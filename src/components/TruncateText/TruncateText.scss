@@ -3,10 +3,12 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
 
-	@for $i from 1 through 20 {
-		&.truncate-text.line-#{$i} {
-			-webkit-line-clamp: $i;
-		}
-	}
+  @for $i from 1 through 20 {
+    &.truncate-text--line-#{$i} {
+      -webkit-line-clamp: $i;
+    }
+  }
 }

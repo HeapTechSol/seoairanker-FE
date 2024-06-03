@@ -5,7 +5,7 @@ import { MaybeNull } from "@/utils/commonTypes";
 import { UserTypes } from "./authTypes";
 
 type initialType = {
-  user: MaybeNull<UserTypes | null>;
+  user: MaybeNull<UserTypes>;
 };
 const initialState: initialType = {
   user: null,
@@ -17,7 +17,7 @@ export const authSlice = createSlice({
   reducers: {
     setUser: (
       state,
-      action: PayloadAction<UserTypes>
+      action: PayloadAction<MaybeNull<UserTypes>>
     ) => {
       state.user = action.payload;
     },

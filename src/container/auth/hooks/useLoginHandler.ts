@@ -13,7 +13,7 @@ import { LoginPayloadTypes } from "../pages/SignUp/types";
 import { useDispatch } from "react-redux";
 import { setUser } from "../authSlice";
 
-const { FORGET_PASSWORD, SIGNUP } = EXACT_ROUTES;
+const { FORGET_PASSWORD, SIGNUP, SITES_DASHBOARD } = EXACT_ROUTES;
 
 const useLoginHandler = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const useLoginHandler = () => {
     try {
       const data = await signIn(credentials).unwrap()
       dispatch(setUser(data.result))
-      navigate('/')
+      navigate(SITES_DASHBOARD)
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message);
     }

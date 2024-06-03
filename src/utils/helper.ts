@@ -1,12 +1,12 @@
 import React from "react";
 import { toast } from "react-toastify";
 
-import { ClassMapperArgsTpyes } from "./utilTypes";
+import { ClassMapperArgsTypes } from "./utilTypes";
 
-export const classMapper = (...args: ClassMapperArgsTpyes[]) => {
+export const classMapper = (...args: ClassMapperArgsTypes[]) => {
   const classesObject = new Map();
 
-  args.forEach((className: ClassMapperArgsTpyes) => {
+  args.forEach((className: ClassMapperArgsTypes) => {
     if (typeof className === "string")
       !classesObject.has(className) && classesObject.set(className, true);
 

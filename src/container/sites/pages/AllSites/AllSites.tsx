@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Flex from "@/components/Flex";
 import Modal from "@/components/Modal";
@@ -10,6 +10,8 @@ import Divider from "@/components/Divider/Divider";
 import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
 
+import languages from "@/constant/languages";
+import countries from "@/constant/countries";
 import { EXACT_ROUTES } from "@/constant/routes";
 import { ColumnsTypes } from "@/components/Table/types";
 import { DeleteIcon, SettingIcon, WarningIcon } from "@/assets/icons/svgs";
@@ -17,10 +19,8 @@ import { DeleteIcon, SettingIcon, WarningIcon } from "@/assets/icons/svgs";
 import useHandleSitesLogic from "@/container/sites/hooks/useHandleSitesLogic";
 
 import "./AllSites.scss";
-import languages from "@/constant/languages";
-import countries from "@/constant/countries";
 
-const { ADD_SITE } = EXACT_ROUTES;
+const { ADD_SITE, SITES_PAGES } = EXACT_ROUTES;
 
 const AllSites = () => {
   const navigate = useNavigate();
@@ -41,11 +41,10 @@ const AllSites = () => {
       header: "Site",
       dataKey: "siteUrl",
       sortKey: "siteUrl",
-
       render: (value) => (
-        <Link to="">
+        <span onClick={() => navigate(SITES_PAGES, { state: { siteUrl:value } })}>
           <Typography text={value} color="info" />
-        </Link>
+        </span>
       ),
     },
     {
@@ -103,7 +102,7 @@ const AllSites = () => {
   const filteredSitesList = sitesList?.filter((site) => {
     if (site.siteUrl)
       site.siteUrl?.toLowerCase().includes(searchQuery.toLowerCase());
-    return true
+    return true;
   });
 
   return (

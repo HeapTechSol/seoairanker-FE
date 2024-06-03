@@ -21,6 +21,8 @@ import {
 import Flex from "@/components/Flex";
 import Button from "@/components/Button";
 import Typography from "@/components/Typography/Typography";
+import TruncateText from "@/components/TruncateText";
+import Tooltip from "@/components/Tooltip";
 
 const { requiredMessage } = CommonValidations;
 
@@ -235,67 +237,6 @@ export const KEYWORDS_DATA = [
     monthly_searches: "1,35,000",
     cost_per_click: "$4.23",
     score: "waiting",
-  },
-];
-
-export const PAGES_COLUMN: ColumnsTypes[] = [
-  { header: "PATH", dataKey: "path", sortKey: "path" },
-  { header: "DEPTH", dataKey: "depth", sortKey: "depth" },
-  {
-    header: "Lang",
-    dataKey: "lang",
-    sortKey: "lang",
-  },
-  {
-    header: "Last Crawl",
-    dataKey: "date",
-    sortKey: "date",
-  },
-  {
-    header: "WIDGET",
-    dataKey: "widget",
-    sortKey: "widget",
-    textAlign: "center",
-    render: () => (
-      <Button
-        StartIcon={BlockIcon}
-        onlyIcon
-        noPadding
-        variant="text"
-        color="error"
-      />
-    ),
-  },
-  {
-    header: "ACTIONS",
-    dataKey: "widget",
-    textAlign: "center",
-    render: () => (
-      <Flex gap={12} align="center" justify="center">
-        <Button
-          StartIcon={EyeIcon}
-          onlyIcon
-          noPadding
-          variant="text"
-          color="info"
-        />
-        <Button
-          StartIcon={ReloadIcon}
-          onlyIcon
-          noPadding
-          variant="text"
-          color="info"
-          fill
-        />
-        <Button
-          StartIcon={SunLight}
-          onlyIcon
-          noPadding
-          variant="text"
-          color="info"
-        />
-      </Flex>
-    ),
   },
 ];
 

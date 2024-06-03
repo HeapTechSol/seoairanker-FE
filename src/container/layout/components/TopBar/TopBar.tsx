@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -13,11 +14,12 @@ import Typography from "@/components/Typography/Typography";
 
 import { EXACT_ROUTES } from "@/constant/routes";
 import { MaleHeadIcon } from "@/assets/icons/svgs";
-
 import SeodeIcon from "@/assets/images/seode.png";
 
-import "./TopBar.scss";
 import { useAppSelector } from "@/api/store";
+import { setUser } from "@/container/auth/authSlice";
+
+import "./TopBar.scss";
 
 const { LOGIN, SIGNUP } = EXACT_ROUTES;
 
@@ -27,6 +29,7 @@ const TopBar = ({
   sidebarRef: React.RefObject<HTMLDivElement>;
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const user = useAppSelector((state) => state.auth.user);
 
@@ -91,6 +94,17 @@ const TopBar = ({
                   Sign Up
                 </Button>
               </>
+            )}
+            {user?.access_token && (
+              <Button
+                type="borderRadius"
+                color="info"
+                variant="text"
+                StartIcon={MaleHeadIcon}
+                onClick={() => dispatch(setUser(null))}
+              >
+                Logout
+              </Button>
             )}
           </Flex>
         </Flex>

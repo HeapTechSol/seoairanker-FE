@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,11 +10,13 @@ import { EXACT_ROUTES } from "@/constant/routes";
 import { SignUpSchema } from "@/utils/validations";
 import { useLazySignUpQuery } from "../api/authAPI";
 import { ErrorTypes } from "@/utils/commonTypes";
+import { setUser } from "../authSlice";
 
-const { LOGIN } = EXACT_ROUTES;
+const { LOGIN, SITES_DASHBOARD } = EXACT_ROUTES;
 
 const useSignUpHandler = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const [signUp, { isFetching: isLoading }] = useLazySignUpQuery();
 
@@ -24,9 +27,10 @@ const useSignUpHandler = () => {
 
   const signUpHandler = async (values: SignUpPayload) => {
     try {
-      const user = await signUp(values).unwrap();
-      toast.success(user?.message);
-      navigate(LOGIN)
+      const data = await signUp(values).unwrap();
+      dispatch(setUser(data.result))
+      toast.success(data?.message);
+      navigate(SITES_DASHBOARD)
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message)
         toast.error((error as ErrorTypes)?.data?.message);

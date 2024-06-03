@@ -1,3 +1,3 @@
-export type ClassMapperArgsTpyes =
+export type ClassMapperArgsTypes =
   | string
   | Record<string, boolean | string | undefined>;
