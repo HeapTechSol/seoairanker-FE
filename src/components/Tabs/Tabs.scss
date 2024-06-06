@@ -32,19 +32,19 @@
   }
 
   @each $color in $colorType {
-    &.#{$color} .btn:not(.outlined).active::after {
+    &.tabs-button.#{$color} .btn:not(.outlined).active::after {
       height: 2px;
       background-color: colorMapper($color, main);
     }
 
-    &.#{$color} .btn.outlined {
+    &.tabs-button.#{$color} .btn.outlined {
       border: none;
       &:hover {
         border: none;
       }
     }
 
-    &.#{$color} .btn.outlined.active {
+    &.tabs-button.#{$color} .btn.outlined.active {
       color: white;
       border: none;
       background-color: colorMapper($color, main);

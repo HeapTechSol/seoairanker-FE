@@ -46,8 +46,7 @@ const SitesDashboard = () => {
       header: "Sites",
       dataKey: "siteUrl",
       sortKey: "siteUrl",
-
-      render: (value) => (
+      render: (value:string) => (
         <Link to="">
           <Typography text={value} color="info" />
         </Link>
@@ -57,7 +56,7 @@ const SitesDashboard = () => {
     {
       header: "",
       dataKey: "action",
-      render: (_, record) => (
+      render: (_:string, record:Record<string, number>) => (
         <Flex className="site-info-controls" justify="end" align="center">
           <Button
             onlyIcon

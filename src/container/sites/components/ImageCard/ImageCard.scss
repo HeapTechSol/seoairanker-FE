@@ -1,0 +1,16 @@
+.images-listing{
+  background-color: white;
+}
+
+.image-container{
+  width: 200px;
+
+  .image-wrapper{
+    width: 150px;
+    height: 100px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

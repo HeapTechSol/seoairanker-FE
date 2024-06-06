@@ -47,7 +47,7 @@ const Tabs = ({
   });
 
   const buttonCSSClasses = (index: number) =>
-    classMapper("btn", {
+    classMapper("btn tabs-button", {
       active: index === activeIndex,
     });
 
