@@ -388,39 +388,6 @@ export const WatchIcon = (
   </svg>
 );
 
-export const PercentageCircleIcon = ({
-  percentage,
-}: {
-  percentage: string | number;
-}) => (
-  <div className="percentage-circle-icon ">
-    <div className="single-chart">
-      <svg
-        viewBox="0 0 36 36"
-        className="circular-chart green"
-        preserveAspectRatio="none"
-      >
-        <path
-          className="circle-bg"
-          d="M18 2.0845
-        a 15.9155 15.9155 0 0 1 0 31.831
-        a 15.9155 15.9155 0 0 1 0 -31.831"
-        />
-        <path
-          className="circle"
-          strokeDasharray={`${percentage || 0} ,100`}
-          d="M18 2.0845
-        a 15.9155 15.9155 0 0 1 0 31.831
-        a 15.9155 15.9155 0 0 1 0 -31.831"
-        />
-        <text x="18" y="20.35" className="percentage">
-          {`${percentage || 0}%`}
-        </text>
-      </svg>
-    </div>
-  </div>
-);
-
 export const SettingIcon = (
   <svg
     width="24px"

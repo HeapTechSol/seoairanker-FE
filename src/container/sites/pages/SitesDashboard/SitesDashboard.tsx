@@ -1,84 +1,70 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
-import Flex from "@/components/Flex";
-import Input from "@/components/Input";
-import Table from "@/components/Table";
-import Button from "@/components/Button";
-import Divider from "@/components/Divider/Divider";
-import Container from "@/components/Container/Container";
-import Typography from "@/components/Typography/Typography";
+import Flex from '@/components/Flex'
+import Input from '@/components/Input'
+import Modal from '@/components/Modal'
+import Table from '@/components/Table'
+import Button from '@/components/Button'
+import Divider from '@/components/Divider/Divider'
+import Container from '@/components/Container/Container'
+import Typography from '@/components/Typography/Typography'
 // import Pagination from "@/components/Pagination/Pagination";
-import AddedSiteCard from "@/container/sites/components/AddedSiteCard/AddedSiteCard";
+import AddedSiteCard from '@/container/sites/components/AddedSiteCard/AddedSiteCard'
 
-import { EXACT_ROUTES } from "@/constant/routes";
+import { EXACT_ROUTES } from '@/constant/routes'
 
-import { DeleteIcon, SearchIcon, SettingIcon, WarningIcon } from "@/assets/icons/svgs";
+import { DeleteIcon, SearchIcon, SettingIcon, WarningIcon } from '@/assets/icons/svgs'
 
-import useHandleSitesLogic from "@/container/sites/hooks/useHandleSitesLogic";
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
-import "./SitesDashboard.scss";
-import Modal from "@/components/Modal";
+import './SitesDashboard.scss'
 
-const { ADD_SITE } = EXACT_ROUTES;
+const { ADD_SITE } = EXACT_ROUTES
 
 const SitesDashboard = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [siteId, setSiteId] = useState<number>();
-  const [isShowDeleteModal,setIsShowDeleteModal] = useState<boolean>(false)
+  const [siteId, setSiteId] = useState<number>()
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false)
 
-  const { getSitesList, sitesList, handleDeleteSite, deleteSideLoading } =
-    useHandleSitesLogic();
+  const { getSitesList, sitesList, handleDeleteSite, deleteSideLoading } = useHandleSitesLogic()
 
   useEffect(() => {
-    getSitesList();
+    getSitesList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
-  const deleteSite = (id:number)=>{
-    setSiteId(id);
-    setIsShowDeleteModal(true);
+  const deleteSite = (id: number) => {
+    setSiteId(id)
+    setIsShowDeleteModal(true)
   }
 
-  const columns= [
+  const columns = [
     {
-      header: "Sites",
-      dataKey: "siteUrl",
-      sortKey: "siteUrl",
-      render: (value:string) => (
+      header: 'Sites',
+      dataKey: 'siteUrl',
+      sortKey: 'siteUrl',
+      render: (value: string) => (
         <Link to="">
           <Typography text={value} color="info" />
         </Link>
       ),
     },
-    { header: "Date", dataKey: "createdAt", sortKey: "createdAt" },
+    { header: 'Date', dataKey: 'createdAt', sortKey: 'createdAt' },
     {
-      header: "",
-      dataKey: "action",
-      render: (_:string, record:Record<string, number>) => (
+      header: '',
+      dataKey: 'action',
+      render: (_: string, record: Record<string, number>) => (
         <Flex className="site-info-controls" justify="end" align="center">
-          <Button
-            onlyIcon
-            size="sm"
-            color="info"
-            variant="text"
-            StartIcon={SettingIcon}
-            onClick={() => console.log("clicked")}
-          />
-          <Button
-            onlyIcon
-            size="sm"
-            color="error"
-            variant="text"
-            StartIcon={DeleteIcon}
-            fill
-            onClick={() => deleteSite(record.id)}
-          />
+          <Button onlyIcon size="sm" color="info" variant="text" StartIcon={SettingIcon} onClick={() => console.log('clicked')} />
+          <Button onlyIcon size="sm" color="error" variant="text" StartIcon={DeleteIcon} fill onClick={() => deleteSite(record.id)} />
         </Flex>
       ),
     },
-  ];
+  ]
+
+  const isSitesExist = !!sitesList?.length
 
   return (
     <Container className="sites-dashboard">
@@ -87,55 +73,45 @@ const SitesDashboard = () => {
         <Divider color="warning" />
         <Container className="sites-dashboard-header" borderRadius boxShadow>
           <Flex justify="between">
-            <Input
-              StartIcon={SearchIcon}
-              name="search_site"
-              placeholder="Search"
-            />
-            <Button
-              onClick={() => navigate(ADD_SITE)}
-              size="sm"
-              type="borderRadius"
-            >
+            <Input StartIcon={SearchIcon} name="search_site" placeholder="Search" />
+            <Button onClick={() => navigate(ADD_SITE)} size="sm" type="borderRadius">
               Add a New Site
             </Button>
           </Flex>
         </Container>
-        <Flex gap={16}>
-          <Flex vertical gap={16}>
-            {sitesList?.map(site=> <AddedSiteCard site={site} onClick = {()=>deleteSite(site.id)}/>)}
-            {/* <Pagination
+        {isSitesExist && (
+          <Flex gap={16}>
+            <Flex vertical gap={16}>
+              {sitesList?.map((site) => <AddedSiteCard site={site} onClick={() => deleteSite(site.id)} />)}
+              {/* <Pagination
               pageSize={10}
               currentPage={1}
               totalCount={75}
               onPageChange={() => console.log("onPage Change")}
             /> */}
-          </Flex>
-          <Container borderRadius boxShadow className="sites-history">
-            <Flex vertical gap={16} align="start">
-              <Typography type="h3" text="Add Your Site" />
-              <Typography text="It's easy! Just click the button." />
-              <Divider color="warning" />
-              <Input name="search_site" placeholder="Search" />
-              <Divider color="warning" />
-              <Table columns={columns} data={sitesList || []} />
-              {/* <Pagination
+            </Flex>
+            <Container borderRadius boxShadow className="sites-history">
+              <Flex vertical gap={16} align="start">
+                <Typography type="h3" text="Add Your Site" />
+                <Typography text="It's easy! Just click the button." />
+                <Divider color="warning" />
+                <Input name="search_site" placeholder="Search" />
+                <Divider color="warning" />
+                <Table columns={columns} data={sitesList || []} />
+                {/* <Pagination
                 pageSize={10}
                 currentPage={1}
                 totalCount={75}
                 noCount
                 onPageChange={() => console.log("onPage Change")}
               /> */}
-              <Button
-                onClick={() => navigate(ADD_SITE)}
-                size="sm"
-                type="borderRadius"
-              >
-                Add a New Site
-              </Button>
-            </Flex>
-          </Container>
-        </Flex>
+                <Button onClick={() => navigate(ADD_SITE)} size="sm" type="borderRadius">
+                  Add a New Site
+                </Button>
+              </Flex>
+            </Container>
+          </Flex>
+        )}
       </Flex>
       <Modal
         show={isShowDeleteModal}
@@ -143,18 +119,17 @@ const SitesDashboard = () => {
         header={false}
         cancelText="Cancel"
         setShowModel={setIsShowDeleteModal}
-        OkButtonProperties={{ color: "error" }}
+        OkButtonProperties={{ color: 'error' }}
         requestLoading={deleteSideLoading}
         onSubmit={() => handleDeleteSite(siteId as number, setIsShowDeleteModal)}
       >
-        <Flex vertical gap={8} align="center" padding={"20px 0px"}>
+        <Flex vertical gap={8} align="center" padding={'20px 0px'}>
           {WarningIcon}
           <Typography text="Are you sure you want to delete?" />
         </Flex>
       </Modal>
     </Container>
-  );
+  )
+}
 
-};
-
-export default SitesDashboard;
+export default SitesDashboard

@@ -1,9 +1,9 @@
 import { classMapper } from "@/utils/helper";
 import { ColorsTypes } from "@/utils/commonTypes";
 
-import "./ProgressIndicator.scss";
+import "./HorizontalProgressBar.scss";
 
-const ProgressIndicator = ({
+const HorizontalProgressBar = ({
   max = 100,
   value = 50,
   color = "primary",
@@ -32,4 +32,4 @@ const ProgressIndicator = ({
   );
 };
 
-export default ProgressIndicator;
+export default HorizontalProgressBar;

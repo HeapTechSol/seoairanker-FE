@@ -34,11 +34,10 @@ const AddSiteDetails = ({ control }: { control: Control<any> }) => {
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <Select
                 Options={[
-                  { label: "Type 1", id: "type1" },
-                  { label: "Type 2", id: "type2" },
-                  { label: "Type 3", id: "type3" },
-                  { label: "Type 4", id: "type4" },
-                  { label: "Type 5", id: "type5" },
+                  { label: "Business", id: "business" },
+                  { label: "Agency", id: "agency" },
+                  { label: "Blog", id: "blog" },
+                  { label: "E-commerce", id: "e-commerce" },
                 ]}
                 title="Type of Business"
                 placeholder="Select business type"

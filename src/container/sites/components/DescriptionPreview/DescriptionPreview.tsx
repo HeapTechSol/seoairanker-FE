@@ -4,23 +4,29 @@ import Accordion from '@/components/Accordion'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 
-import { OG_TagsRecommendations, RecommendationsCountTypes, RecommendationsListTypes } from '@/container/sites/sitesTypes'
+import { DescriptionRecommendations, RecommendationsCountTypes, RecommendationsListTypes } from '@/container/sites/sitesTypes'
 
-const SocialPreview = ({
+const DescriptionPreview = ({
   titlesList,
   recommendationCount,
 }: {
-  titlesList: RecommendationsListTypes['og_tags']
+  titlesList: RecommendationsListTypes['descriptions']
   recommendationCount: RecommendationsCountTypes
 }) => {
-
-  const accordionDescription = (item: OG_TagsRecommendations) => (
+  const accordionDescription = (item: DescriptionRecommendations) => (
     <Flex vertical gap={4}>
       <Typography text={item.url} type="h6" />
+      {!!item?.existing_description?.length && (
+        <>
+          {' '}
+          <Typography text="Content:" />
+          <Typography text={`Description is currently ${item?.existing_description?.length} characters vs 45+ recommendation`} color="warning" />
+        </>
+      )}
       <Typography text="Existing:" />
-      <Typography text={item?.existing_og_tag|| ''} color="warning" />
+      <Typography text={item?.existing_description || 'Blank'} color="warning" />
       <Typography text="Suggestion:" />
-      <Typography text={item?.suggested_og_tag} color="warning" />
+      <Typography text={item?.suggested_description} color="warning" />
     </Flex>
   )
 
@@ -35,12 +41,12 @@ const SocialPreview = ({
       <Flex vertical gap={16}>
         <Flex align="start">
           <Flex vertical gap={16}>
-            <Typography type="h3" text="Add a Social Preview" />
-            <Typography text="Ever share your site on social media? That image and text you see is your social preview. You can use that to best optimize clicks and engagement. Edit and approve the recommendation to add a social preview card across your site." />
+            <Typography type="h3" text="Optimize Description" />
+            <Typography text="Currently Google will show up to 60 characters in the title of your search results, so use them! We've added suggested descriptions below which you may want to edit and approve. In general, we recommend including what the page is about, your brand name, as well as some adjectives or modifiers." />
           </Flex>
           <Button size="sm" variant="outlined" type="borderRadius">
-            Approve All ({recommendationCount?.approved_og_tags_count}/
-            {recommendationCount?.approved_og_tags_count + recommendationCount?.un_approved_og_tags_count})
+            Approve All ({recommendationCount?.approved_description_count}/
+            {recommendationCount?.approved_description_count + recommendationCount?.un_approved_description_count})
           </Button>
         </Flex>
         <Flex vertical gap={10}>
@@ -62,4 +68,4 @@ const SocialPreview = ({
   )
 }
 
-export default SocialPreview
+export default DescriptionPreview

@@ -1,5 +1,6 @@
 import React from "react";
 import { toast } from "react-toastify";
+import { format, differenceInMinutes, differenceInHours, differenceInDays, isValid } from 'date-fns';
 
 import { ClassMapperArgsTypes } from "./utilTypes";
 
@@ -123,3 +124,43 @@ export const handleCopyClick = (e: any) => {
     autoClose: 1000,
   });
 };
+
+
+
+
+
+export const getTime = (date: string | number) => {
+  if (!date) return;
+
+  const currentDate = new Date();
+  const postDate = typeof date === 'string' || typeof date === 'number' ? new Date(date) : null;
+
+  if (!isValid(postDate)) return;
+
+  const diffInMinutes = differenceInMinutes(currentDate, postDate as Date);
+
+  if (diffInMinutes === 0) {
+    return 'just now';
+  }
+
+  if (diffInMinutes < 60) {
+    return diffInMinutes + 'm ago';
+  }
+
+  const diffInHours = differenceInHours(currentDate, postDate as Date);
+  if (diffInHours < 24) {
+    return diffInHours + 'h ago';
+  }
+
+  const diffInDays = differenceInDays(currentDate, postDate as Date);
+  if (diffInDays < 7) {
+    return diffInDays + 'd ago';
+  }
+
+  if ((postDate as Date).getFullYear() === currentDate.getFullYear()) {
+    return format(postDate as Date, 'MMM d');
+  } else {
+    return format(postDate as Date, 'MMM d, yyyy');
+  }
+};
+

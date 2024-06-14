@@ -1,5 +1,5 @@
-import { ColorsTypes, SizeTypes } from "@/utils/commonTypes";
 import { classMapper } from "@/utils/helper";
+import { ColorsTypes, SizeTypes } from "@/utils/commonTypes";
 
 import "./RangeSelector.scss";
 
@@ -29,7 +29,6 @@ const RangeSelector = ({
 }) => {
   const sliderCSSClasses = classMapper("slider", {
     [`thumb-color-${thumbColor}`]: thumbColor,
-    // [`range-color-${rangeColor}`]: rangeColor,
     [size]: size,
   });
 

@@ -1,31 +1,36 @@
-.circular-progress {
+.progress-circle {
+  --size: 100px;
+  width: var(--size);
+  height: var(--size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
   position: relative;
-  width: 100px;
-  height: 100px;
-  
-  &__svg {
-    transform: rotate(-90deg);
-  }
-  
-  &__bg {
-    fill: none;
-    stroke: #e6e6e6;
-  }
-  
-  &__progress {
-    fill: none;
-    stroke: #4caf50;
-    transition: stroke-dashoffset 0.35s;
-    transform: rotate(90deg);
-    transform-origin: 50% 50%;
-  }
-  
-  &__text {
+  &::before {
+    content: '';
+    width: calc(var(--size) * 0.9);
+    height: calc(var(--size) * 0.9);
+    border-radius: 50%;
+    background-color: white;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: calc(var(--size) * 0.2);
+  }
+
+  &:after {
+    content: attr(data-value) '%';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: calc(var(--size) * 0.3);
+  }
+  @each $color in $colorType {
+    &.#{$color} {
+      background: conic-gradient(colorMapper($color, main) var(--progress, 0), #ccc 0);
+    }
   }
 }

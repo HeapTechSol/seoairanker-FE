@@ -26,19 +26,33 @@ const {
 } = SITES
 
 export const routes = createBrowserRouter([
+  // {
+  //   path: '/',
+  //   element: <Layout />,
+  //   children: [
+  //     {
+  //       index: true,
+  //       errorElement: <ErrorBoundary />,
+  //       async lazy() {
+  //         const HomePage = await import('../container/dashboard/pages/HomePage')
+  //         return { Component: HomePage.default }
+  //       },
+  //     },
+  //   ],
+  // },
   {
     path: '/',
-    element: <Layout />,
-    children: [
-      {
-        index: true,
-        errorElement: <ErrorBoundary />,
-        async lazy() {
-          const HomePage = await import('../container/dashboard/pages/HomePage')
-          return { Component: HomePage.default }
-        },
-      },
-    ],
+    errorElement: <ErrorBoundary />,
+    async lazy() {
+      const { default: SitesDashboard } = await import('../container/sites/pages/SitesDashboard/SitesDashboard')
+      return {
+        Component: (props) => (
+          <ProtectedRoute>
+            <SitesDashboard {...props} />
+          </ProtectedRoute>
+        ),
+      }
+    },
   },
   {
     path: BILLING_BASE,

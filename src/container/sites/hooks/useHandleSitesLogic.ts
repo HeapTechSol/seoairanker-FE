@@ -9,6 +9,7 @@ import {
   useAddSiteMutation,
   useDeleteSiteMutation,
   useLazyGetSightInsightsQuery,
+  useLazyGetSiteCrawledInfoQuery,
   useLazyGetSiteLinksAndContentQuery,
   useLazyGetSitesQuery,
 } from '../api/sitesAPI'
@@ -19,7 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useAppSelector } from '@/api/store'
 import { SiteLinkPayloadTypes } from '../sitesTypes'
 
-const { SITES_LIST } = EXACT_ROUTES
+const { SITES_DASHBOARD } = EXACT_ROUTES
 
 const useHandleSitesLogic = () => {
   const navigate = useNavigate()
@@ -35,6 +36,7 @@ const useHandleSitesLogic = () => {
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
   const [getSites, { isFetching: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
+  const [getSiteCrawledInfo, { data: crawledInfo }] = useLazyGetSiteCrawledInfoQuery()
   const [getSightInsights, { isFetching: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
   const [getSiteLinksAndContent, { isFetching: siteLinksLoading, data: siteLinkAndContent }] = useLazyGetSiteLinksAndContentQuery()
 
@@ -57,7 +59,7 @@ const useHandleSitesLogic = () => {
         userId: user?.user?.id as string,
       }).unwrap()
       toast.success(response?.message)
-      navigate(SITES_LIST)
+      navigate(SITES_DASHBOARD)
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -87,6 +89,14 @@ const useHandleSitesLogic = () => {
     }
   }
 
+  const getSiteCrawledInfoData = async (payload: { site_id: string }) => {
+    try {
+      await getSiteCrawledInfo(payload).unwrap()
+    } catch (error) {
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
+    }
+  }
+
   const handleDeleteSite = async (id: number, setShowModel: React.Dispatch<React.SetStateAction<boolean>>) => {
     try {
       const response = await deleteSite(id).unwrap()
@@ -106,20 +116,22 @@ const useHandleSitesLogic = () => {
     control,
     isLoading,
     getInsights,
-    insightsData:insightsData?.result,
-    insightsLoading,
-    sitesList: sitesList?.result || [],
     currentStep,
     getSitesList,
-    submitHandler,
-    handleDeleteSite,
     getSiteLinks,
+    submitHandler,
+    insightsLoading,
+    handleDeleteSite,
     sitesListLoading,
-    deleteSideLoading,
     siteLinksLoading,
-    siteLinkAndContent: siteLinkAndContent,
-    handlePreviousButtonPress,
+    deleteSideLoading,
+    getSiteCrawledInfoData,
     handleForwardButtonPress,
+    handlePreviousButtonPress,
+    insightsData: insightsData?.result,
+    sitesList: sitesList?.result || [],
+    crawledInfo:crawledInfo?.result ,
+    siteLinkAndContent: siteLinkAndContent,
   }
 }
 

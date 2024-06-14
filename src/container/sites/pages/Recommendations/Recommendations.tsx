@@ -12,32 +12,45 @@ import RecommendationOverview from '@/container/sites/components/RecommendationO
 
 import { GlobalICON } from '@/assets/icons/svgs'
 
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
+import { getTime } from '@/utils/helper'
+import { RecommendationsCountTypes, RecommendationsListTypes } from '@/container/sites/sitesTypes'
+
 import './Recommendations.scss'
-import { RecommendationsListTypes } from '../../sitesTypes'
 
 const Recommendations = () => {
   const { state } = useLocation()
   const [key, setKey] = useState<string>('')
 
-  const { getRecommendationCounts, recommendationCount, getCountLoading, getRecommendationList, recommendationData, getDataLoading } =
-    useHandleRecommendations()
+  const {
+    getRecommendationCounts,
+    recommendationCount,
+    getCountLoading,
+    getRecommendationList,
+    recommendationData,
+    getDataLoading,
+    reCrawlLoading,
+    handleReCrawlSite,
+  } = useHandleRecommendations()
+
+  const { getSiteCrawledInfoData, crawledInfo } = useHandleSitesLogic()
 
   const recommendationsList = [
     {
       id: '1',
       type: 'tags',
       title: 'Optimize Headline Tags',
-      totalCount: 0,
-      used: 0,
+      totalCount: (recommendationCount?.approved_heading_count || 0) + (recommendationCount?.un_approved_heading_count || 0),
+      used: recommendationCount?.approved_heading_count || 0,
     },
     {
       id: '2',
       type: 'previews',
       title: 'Add a Social Preview',
-      totalCount: 0,
-      used: 0,
+      totalCount: (recommendationCount?.approved_og_tags_count || 0) + (recommendationCount?.un_approved_og_tags_count || 0),
+      used: recommendationCount?.approved_og_tags_count || 0,
     },
     {
       id: '3',
@@ -57,8 +70,8 @@ const Recommendations = () => {
       id: '5',
       type: 'missingTitles',
       title: 'Link Missing Titles',
-      totalCount: 0,
-      used: 0,
+      totalCount: (recommendationCount?.approved_missing_title_count || 0) + (recommendationCount?.un_approved_missing_title_count || 0),
+      used: recommendationCount?.approved_missing_title_count || 0,
     },
     {
       id: '6',
@@ -76,7 +89,12 @@ const Recommendations = () => {
     },
   ]
 
+  const reCrawlSite = () => {
+    if (state.siteId && state.siteUrl) handleReCrawlSite({ site_id: state.siteId, siteUrl: state.siteUrl })
+  }
+
   useEffect(() => {
+    if (state.siteId) getSiteCrawledInfoData({ site_id: state.siteId })
     if (state.siteUrl) getRecommendationCounts({ site_id: state.siteId })
     if (state.siteUrl) getRecommendationList({ site_id: state.siteId })
   }, [])
@@ -97,14 +115,21 @@ const Recommendations = () => {
             <Typography
               text={
                 <>
-                  There are currently <Typography text="50,142 Approved" color="success" inline /> out of{' '}
-                  <Typography text="60,430 total" inline type="h6" /> Optimizations.
+                  There are currently <Typography text={`${crawledInfo?.recommendations?.approved} Approved`} color="success" inline /> out of{' '}
+                  <Typography
+                    text={`${(crawledInfo?.recommendations?.approved || 0) + (crawledInfo?.recommendations?.unapproved || 0)} total`}
+                    inline
+                    type="h6"
+                  />{' '}
+                  Optimizations.
                 </>
               }
             />
             <Flex gap={16} align="center">
-              <Button type="borderRadius">Regenerate Recommendation</Button>
-              <Typography text="Last updated 2 days ago" />
+              <Button type="borderRadius" loading={reCrawlLoading} onClick={reCrawlSite}>
+                Regenerate Recommendation
+              </Button>
+              <Typography text={`Last updated ${getTime(crawledInfo?.lastUpdatedAt || '')}`} />
             </Flex>
           </Flex>
         </Container>
@@ -116,7 +141,11 @@ const Recommendations = () => {
         </Container>
         <Flex gap={4}>
           <RecommendationOverview recommendationsList={recommendationsList} onClick={(e) => setKey(e)} />
-          <RecommendationList recommendationData={(recommendationData as RecommendationsListTypes) || []} selectedKey={key}/>
+          <RecommendationList
+            recommendationData={(recommendationData as RecommendationsListTypes) || []}
+            recommendationCount={recommendationCount as RecommendationsCountTypes}
+            selectedKey={key}
+          />
         </Flex>
       </Flex>
       <Loader overlay loading={getCountLoading || getDataLoading} />

@@ -4,17 +4,13 @@ import { LocationIcon, SettingIcon } from "@/assets/icons/svgs";
 
 const {
   ADD_SITE,
-  SITES_PAGES,
-  RECOMMENDATIONS,
   SITES_DASHBOARD,
   SITE_ACCESS_KEYS,
-  ADD_SITES_NEW_KEYWORDS,
 
   PLANS,
   BILLING_DETAIL,
   PAYMENT_HISTORY,
   UPCOMING_INVOICES,
-  SITES_LIST,
 } = EXACT_ROUTES;
 
 export const sidebarMenuData: menuTypes[] = [
@@ -28,24 +24,8 @@ export const sidebarMenuData: menuTypes[] = [
         path: ADD_SITE,
       },
       {
-        name: "All Sites",
-        path: SITES_LIST,
-      },
-      {
-        name: "Site Pages",
-        path: SITES_PAGES,
-      },
-      {
-        name: "Site Recommendations",
-        path: RECOMMENDATIONS,
-      },
-      {
         name: "Site's Dashboard",
         path: SITES_DASHBOARD,
-      },
-      {
-        name: "New Keywords",
-        path: ADD_SITES_NEW_KEYWORDS,
       },
       {
         name: "API Keys",

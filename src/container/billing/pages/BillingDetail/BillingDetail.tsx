@@ -6,11 +6,11 @@ import Button from "@/components/Button";
 import Divider from "@/components/Divider/Divider";
 import Container from "@/components/Container/Container";
 import Typography from "@/components/Typography/Typography";
+import HorizontalProgressBar from "@/components/ProgressIndicator/HorizontalProgressBar";
 
 import { EXACT_ROUTES } from "@/constant/routes";
 
 import "./BillingDetail.scss";
-import ProgressIndicator from "@/components/ProgressIndicator/ProgressIndicator";
 
 const { PAYMENT_HISTORY, PLANS } = EXACT_ROUTES;
 
@@ -51,28 +51,28 @@ const BillingDetail = () => {
                     <Typography text="Sites" type="h4" />
                     <Chip color="info" text="19 of 25" circled size="sm" bordered />
                   </Flex>
-                  <ProgressIndicator max={25} value={19} />
+                  <HorizontalProgressBar max={25} value={19} />
                 </Flex>
                 <Flex padding={5} vertical>
                   <Flex justify="between" align="center">
                     <Typography text="Membership" type="h4" />
                     <Chip color="info" text="4 of 25" circled size="sm" bordered />
                   </Flex>
-                  <ProgressIndicator max={25} value={4} />
+                  <HorizontalProgressBar max={25} value={4} />
                 </Flex>
                 <Flex padding={5} vertical>
                   <Flex justify="between" align="center">
                     <Typography text="Keywords" type="h4" />
                     <Chip color="info" text="0 of 2,500" circled size="sm" bordered />
                   </Flex>
-                  <ProgressIndicator max={2500} value={0} />
+                  <HorizontalProgressBar max={2500} value={0} />
                 </Flex>
                 <Flex padding={5} vertical>
                   <Flex justify="between" align="center">
                     <Typography text="Pages Optimized" type="h4" />
                     <Chip color="info" text="10,138 of 10,500" circled size="sm" bordered />
                   </Flex>
-                  <ProgressIndicator max={10500} value={10138} />
+                  <HorizontalProgressBar max={10500} value={10138} />
                 </Flex>
               </Flex>
               <Flex padding={5} align="center" gap={16}>
@@ -136,21 +136,21 @@ const BillingDetail = () => {
                   <Typography text="Page Schemas" type="h4" />
                   <Chip color="info" text="19 of 25" circled size="sm" bordered />
                 </Flex>
-                <ProgressIndicator max={25} value={19} />
+                <HorizontalProgressBar max={25} value={19} />
               </Flex>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Meta Titles" type="h4" />
                   <Chip color="info" text="4 of 25" circled size="sm" bordered />
                 </Flex>
-                <ProgressIndicator max={25} value={4} />
+                <HorizontalProgressBar max={25} value={4} />
               </Flex>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Meta Descriptions" type="h4" />
                   <Chip color="info" text="0 of 2500" circled size="sm" bordered />
                 </Flex>
-                <ProgressIndicator max={2500} value={0} />
+                <HorizontalProgressBar max={2500} value={0} />
               </Flex>
             </Flex>
           </Flex>
@@ -171,28 +171,28 @@ const BillingDetail = () => {
                   <Typography text="Ranking Updates" type="h4" />
                   <Chip color="info" text="19 of 25" circled size="sm" bordered />
                 </Flex>
-                <ProgressIndicator max={25} value={19} />
+                <HorizontalProgressBar max={25} value={19} />
               </Flex>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Page Crawls" type="h4" />
                   <Chip color="info" text="4 of 25" circled size="sm" bordered />
                 </Flex>
-                <ProgressIndicator max={25} value={4} />
+                <HorizontalProgressBar max={25} value={4} />
               </Flex>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Ranking Updates Estimated*" type="h4" />
                   <Chip color="info" text="0 of 2,500" circled size="sm" bordered />
                 </Flex>
-                <ProgressIndicator max={2500} value={0} />
+                <HorizontalProgressBar max={2500} value={0} />
               </Flex>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Page Crawls Estimated*" type="h4" />
                   <Chip color="info" text="0 of 2,500" circled size="sm" bordered />
                 </Flex>
-                <ProgressIndicator max={2500} value={0} />
+                <HorizontalProgressBar max={2500} value={0} />
               </Flex>
             </Flex>
             <Typography text="* Estimated value calculated for the current billing period. The number is not exact and may change in accordance with account preferences, such as ranking refresh an crawl intervals, newly added keywords, and discovered pages." />

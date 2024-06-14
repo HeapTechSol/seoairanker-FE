@@ -1,35 +1,24 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom'
 
-import Chip from "@/components/Chip";
-import Flex from "@/components/Flex";
-import Button from "@/components/Button";
-import Divider from "@/components/Divider/Divider";
-import Container from "@/components/Container/Container";
-import Typography from "@/components/Typography/Typography";
+import Chip from '@/components/Chip'
+import Flex from '@/components/Flex'
+import Button from '@/components/Button'
+import Divider from '@/components/Divider/Divider'
+import Container from '@/components/Container/Container'
+import Typography from '@/components/Typography/Typography'
 
-import { EXACT_ROUTES } from "@/constant/routes";
-import { SitesAPIResponse } from "@/container/sites/sitesTypes";
-import { DeleteIcon, SettingIcon, TopRightIcon } from "@/assets/icons/svgs";
+import { EXACT_ROUTES } from '@/constant/routes'
+import { SitesAPIResponse } from '@/container/sites/sitesTypes'
+import { DeleteIcon, SettingIcon, TopRightIcon } from '@/assets/icons/svgs'
 
-import "./AddedSiteCard.scss";
+import './AddedSiteCard.scss'
 
-const { SITE_DETAILS_PAGE } = EXACT_ROUTES;
+const { SITE_DETAILS_PAGE } = EXACT_ROUTES
 
-const AddedSiteCard = ({
-  site,
-  onClick,
-}: {
-  site: SitesAPIResponse;
-  onClick: () => void;
-}) => {
-  const navigate = useNavigate();
+const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () => void }) => {
+  const navigate = useNavigate()
   return (
-    <Container
-      borderRadius
-      boxShadow
-      padding={"10px 20px"}
-      className="added-site-info-container"
-    >
+    <Container borderRadius boxShadow padding={'10px 20px'} className="added-site-info-container">
       <Flex vertical className="site-info-card" gap={16}>
         <Flex className="site-info" justify="between" align="center">
           <Flex
@@ -42,27 +31,12 @@ const AddedSiteCard = ({
           >
             <img src="" alt="" />
             <Link to="" className="site-link">
-              {site?.siteUrl || ""}
+              {site?.siteUrl || ''}
             </Link>
           </Flex>
           <Flex className="site-info-controls" justify="end" align="center">
-            <Button
-              onlyIcon
-              size="sm"
-              color="info"
-              variant="text"
-              StartIcon={SettingIcon}
-              onClick={() => console.log("clicked")}
-            />
-            <Button
-              onlyIcon
-              size="sm"
-              color="error"
-              variant="text"
-              fill
-              StartIcon={DeleteIcon}
-              onClick={onClick}
-            />
+            <Button onlyIcon size="sm" color="info" variant="text" StartIcon={SettingIcon} onClick={() => console.log('clicked')} />
+            <Button onlyIcon size="sm" color="error" variant="text" fill StartIcon={DeleteIcon} onClick={onClick} />
           </Flex>
         </Flex>
         <Divider color="info" />
@@ -78,20 +52,14 @@ const AddedSiteCard = ({
           <Flex vertical className="recommendations-info">
             <Flex justify="between" align="center">
               <Typography text="Recommendations" />
-              <Button
-                onlyIcon
-                color="info"
-                variant="text"
-                StartIcon={TopRightIcon}
-                onClick={() => console.log("clicked")}
-              />
+              <Button onlyIcon color="info" variant="text" StartIcon={TopRightIcon} onClick={() => console.log('clicked')} />
             </Flex>
             <Flex align="center">
               <Typography
                 text={
                   <>
-                    <Typography text={`277,325 `} inline type="h1" />
-                    /434,882
+                    <Typography text={site?.recommendations?.approved || 0} inline type="h1" />/
+                    {(site?.recommendations?.approved + site?.recommendations?.unapproved) || 0}
                   </>
                 }
               />
@@ -100,7 +68,7 @@ const AddedSiteCard = ({
         </Flex>
       </Flex>
     </Container>
-  );
-};
+  )
+}
 
-export default AddedSiteCard;
+export default AddedSiteCard
