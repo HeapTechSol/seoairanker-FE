@@ -1,61 +1,54 @@
-type typographyType = {
+import React from "react";
+
+type TypographyType<T extends HTMLElement> = {
   type: string;
-  onClick?: (e:React.SyntheticEvent) => void;
+  onClick?: (e: React.SyntheticEvent) => void;
+  onBlur?: (e: React.FocusEvent<T>) => void;
   text: string | JSX.Element | React.ReactNode;
   typographyCSSClasses: string;
+  contentEditable?: boolean;
+  ref?: React.Ref<T>;
 };
 
-export const element = ({
+const renderElement = <T extends HTMLElement>(
+  Element: React.ElementType,
+  {
+    onClick,
+    onBlur,
+    typographyCSSClasses,
+    contentEditable,
+    ref,
+    text,
+  }: Omit<TypographyType<T>, "type">
+) => (
+  <Element
+    onClick={onClick}
+    onBlur={onBlur}
+    className={typographyCSSClasses}
+    contentEditable={contentEditable}
+    suppressContentEditableWarning={true}
+    ref={ref}
+  >
+    {text}
+  </Element>
+);
+
+const element = <T extends HTMLElement>({
   type,
-  text,
-  onClick,
-  typographyCSSClasses,
-}: typographyType) => {
-  switch (type) {
-    case "body-text":
-      return (
-        <p onClick={onClick} className={typographyCSSClasses}>
-          {text}
-        </p>
-      );
-    case "h1":
-      return (
-        <h1 onClick={onClick} className={typographyCSSClasses}>
-          {text}
-        </h1>
-      );
-    case "h2":
-      return (
-        <h2 onClick={onClick} className={typographyCSSClasses}>
-          {text}
-        </h2>
-      );
-    case "h3":
-      return (
-        <h3 onClick={onClick} className={typographyCSSClasses}>
-          {text}
-        </h3>
-      );
-    case "h4":
-      return (
-        <h4 onClick={onClick} className={typographyCSSClasses}>
-          {text}
-        </h4>
-      );
-    case "h5":
-      return (
-        <h5 onClick={onClick} className={typographyCSSClasses}>
-          {text}
-        </h5>
-      );
-    case "h6":
-      return (
-        <h6 onClick={onClick} className={typographyCSSClasses}>
-          {text}
-        </h6>
-      );
+  ...props
+}: TypographyType<T>) => {
+  const elementsMap: { [key: string]: React.ElementType } = {
+    "body-text": "div",
+    h1: "h1",
+    h2: "h2",
+    h3: "h3",
+    h4: "h4",
+    h5: "h5",
+    h6: "h6",
+  };
 
-    default:
-      break;
-  }
+  const Element = elementsMap[type];
+  return Element ? renderElement(Element, props) : null;
 };
+
+export default element;

@@ -4,5 +4,5 @@ export type AccordionTypes = {
   color?: "primary" | "secondary" | "error" | "warning" | "info" | "success";
   arrowIcon?: boolean;
   onTitleClick?: boolean;
-  CustomIcon?:JSX.Element | React.ReactNode
+  ActionButton?:JSX.Element | React.ReactNode
 };

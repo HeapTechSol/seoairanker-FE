@@ -41,7 +41,7 @@
   padding: 8px;
   padding-left: 16px;
   &:hover {
-    background: #16a571;
+    background: #5543E8;
   }
 }
 
@@ -243,11 +243,11 @@
 }
 
 .menu .active {
-  background-color: #16a571;
+  background-color: colorMapper(primary, main);
   color: white;
 }
 
 .sidebar-menu-container:has(.submenu-list-link.active) {
-  background-color: #16a571;
+  background-color: colorMapper(primary, main);
   color: white;
 }

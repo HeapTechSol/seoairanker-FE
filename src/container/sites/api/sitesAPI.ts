@@ -15,11 +15,15 @@ const {
   ADD_SITE,
   SITES_LIST,
   DELETE_SITE,
-  SITE_LINKS_AND_CONTENT,
   SITE_PAGE_INSIGHTS,
-  SITE_RECOMMENDATION_COUNTS,
-  SITE_RECOMMENDATION_DATA,
   SITE_CRAWLING_INFO,
+  UPDATE_RECOMMENDATION,
+  SITE_LINKS_AND_CONTENT,
+  SITE_RECOMMENDATION_DATA,
+  SITE_RECOMMENDATION_COUNTS,
+  APPROVE_ALL_RECOMMENDATION,
+  APPROVE_SINGLE_RECOMMENDATION,
+  APPROVE_ALL_SELECTED_RECOMMENDATION,
   RE_CRAWL_SITE,
 } = APIEndpoint
 
@@ -53,6 +57,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
+      providesTags: ['recommendationsData'],
     }),
     getSiteCrawledInfo: builder.query<CrawledInfoAPIResponseTypes, { site_id: string }>({
       query: (payload) => ({
@@ -60,6 +65,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
+      providesTags: ['recommendationsData'],
     }),
     getRecommendationsData: builder.query<RecommendationsAPIResponseTypes, { site_id: string }>({
       query: (payload) => ({
@@ -67,6 +73,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
+      providesTags: ['recommendationsData'],
     }),
     reCrawlSite: builder.query<RecommendationsAPIResponseTypes, { site_id: string; siteUrl: string }>({
       query: (payload) => ({
@@ -74,6 +81,38 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
+    }),
+    approveAllRecommendations: builder.mutation<{ message: string }, { site_id: string; status: string }>({
+      query: (payload) => ({
+        url: APPROVE_ALL_RECOMMENDATION,
+        method: 'PATCH',
+        body: payload,
+      }),
+      invalidatesTags: (_result, error) => (error ? [] : ['recommendationsData']),
+    }),
+    approveAllSelectedRecommendations: builder.mutation<{ message: string }, { site_id: string; status: string; type: string }>({
+      query: (payload) => ({
+        url: APPROVE_ALL_SELECTED_RECOMMENDATION,
+        method: 'PATCH',
+        body: payload,
+      }),
+      invalidatesTags: (_result, error) => (error ? [] : ['recommendationsData']),
+    }),
+    approveSingleRecommendation: builder.mutation<{ message: string }, { site_id: string; status: string; type: string; type_id: string }>({
+      query: (payload) => ({
+        url: APPROVE_SINGLE_RECOMMENDATION,
+        method: 'PATCH',
+        body: payload,
+      }),
+      invalidatesTags: (_result, error) => (error ? [] : ['recommendationsData']),
+    }),
+    updateRecommendations: builder.mutation<{ message: string }, { site_id: string; data: string; type: string; type_id: string }>({
+      query: (payload) => ({
+        url: UPDATE_RECOMMENDATION,
+        method: 'PATCH',
+        body: payload,
+      }),
+      invalidatesTags: (_result, error) => (error ? [] : ['recommendationsData']),
     }),
     getSightInsights: builder.query({
       query: (payload) => ({
@@ -100,7 +139,11 @@ export const {
   useLazyReCrawlSiteQuery,
   useLazyGetSightInsightsQuery,
   useLazyGetSiteCrawledInfoQuery,
+  useUpdateRecommendationsMutation,
   useLazyGetSiteLinksAndContentQuery,
-  useLazyGetRecommendationsCountQuery,
   useLazyGetRecommendationsDataQuery,
+  useLazyGetRecommendationsCountQuery,
+  useApproveAllRecommendationsMutation,
+  useApproveSingleRecommendationMutation,
+  useApproveAllSelectedRecommendationsMutation,
 } = sitesAPI

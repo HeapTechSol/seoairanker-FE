@@ -81,6 +81,7 @@ export type ImageRecommendations = {
   url: string
   xpath: string
   image_url: string
+  id:string
 }
 
 export type DescriptionRecommendations = {
@@ -88,6 +89,7 @@ export type DescriptionRecommendations = {
   suggested_description: string
   existing_description: string
   url: string
+  id:string
 }
 
 export type TitlesRecommendations = {
@@ -95,6 +97,7 @@ export type TitlesRecommendations = {
   suggested_title: string
   existing_title: string
   url: string
+  id:string
 }
 
 export type AnchorTitlesRecommendations = {
@@ -102,6 +105,7 @@ export type AnchorTitlesRecommendations = {
   xpath: string
   suggested_link_title: string
   url: string
+  id:string
 }
 
 export type OG_TagsRecommendations = {
@@ -110,6 +114,7 @@ export type OG_TagsRecommendations = {
   suggested_og_tag: string
   existing_og_tag: string
   url: string
+  id:string
 }
 
 export type HeadingRecommendations = {
@@ -119,6 +124,7 @@ export type HeadingRecommendations = {
   current_heading: string
   xpath: string
   heading_content: string
+  id:string
 }
 
 export type RecommendationsListTypes = {

@@ -16,13 +16,13 @@ import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { getTime } from '@/utils/helper'
-import { RecommendationsCountTypes, RecommendationsListTypes } from '@/container/sites/sitesTypes'
+import { CrawledInfoAPIResponseTypes, RecommendationsCountTypes, RecommendationsListTypes } from '@/container/sites/sitesTypes'
 
 import './Recommendations.scss'
 
 const Recommendations = () => {
   const { state } = useLocation()
-  const [key, setKey] = useState<string>('')
+  const [key, setKey] = useState<string>('4')
 
   const {
     getRecommendationCounts,
@@ -140,7 +140,13 @@ const Recommendations = () => {
           </Flex>
         </Container>
         <Flex gap={4}>
-          <RecommendationOverview recommendationsList={recommendationsList} onClick={(e) => setKey(e)} />
+          <RecommendationOverview
+            recommendationsList={recommendationsList}
+            onClick={(e) => setKey(e)}
+            selectedKey={key}
+            site_id={state?.siteId}
+            crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['result']}
+          />
           <RecommendationList
             recommendationData={(recommendationData as RecommendationsListTypes) || []}
             recommendationCount={recommendationCount as RecommendationsCountTypes}

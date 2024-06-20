@@ -98,9 +98,6 @@ const TopBar = ({
             {user?.access_token && (
               <Button
                 type="borderRadius"
-                color="info"
-                variant="text"
-                StartIcon={MaleHeadIcon}
                 onClick={() => dispatch(setUser(null))}
               >
                 Logout

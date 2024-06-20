@@ -12,7 +12,6 @@
     width: calc(100% - 240px);
     margin-left: 240px;
     position: relative;
-    height: 100%;
   }
 
   &:has(.sidebar-container):not(:has(.collapsed)) :not(:has(.minimized)) {

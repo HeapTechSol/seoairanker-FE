@@ -90,7 +90,7 @@ const Pricing = () => {
       <Tabs
         variant="outlined"
         activeColor="info"
-        tabColor="secondary"
+        tabColor="primary"
         className="pricing-tabs"
         tabs={[
           {
