@@ -81,7 +81,7 @@ const TitleList = ({
               onBlur={(e) => handleBlur(e, record.id, index, record.suggested_link_title)}
               ref={(el) => (editableRefs.current[index] = el)}
             />
-            <span style={{ cursor: 'pointer' }} onClick={() => editSuggestionHandler(index, record.id)}>
+            <span className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, record.id)}>
               {EditIcon}
             </span>
           </Flex>
@@ -117,28 +117,30 @@ const TitleList = ({
   }
 
   return (
-    <Container borderRadius boxShadow padding={40} className="titles-list-container" width={70}>
+    <Container borderRadius boxShadow padding={40} className="titles-list-container container-bg" width={70}>
       <Flex vertical gap={16}>
-        <Flex align="start">
-          <Flex vertical gap={16}>
-            <Typography type="h3" text="Links Missing Titles" />
-            <Typography text="Link titles not only tell Google what your link is about, but they are also used as previews in browsers and by users with disabilities. Making your site as accessible as possible is an important quality factor." />
+        <Flex vertical gap={16}>
+          <Flex align="start">
+            <Flex vertical gap={16}>
+              <Typography type="h3" text="Links Missing Titles" />
+              <Typography text="Link titles not only tell Google what your link is about, but they are also used as previews in browsers and by users with disabilities. Making your site as accessible as possible is an important quality factor." />
+            </Flex>
+            <Button
+              size="sm"
+              variant="outlined"
+              type="borderRadius"
+              color="success"
+              disabled={isApproved}
+              loading={approveAllSelectedLoading}
+              onClick={handleAllRecommendations}
+            >
+              Approve All ({recommendationCount?.approved_missing_title_count}/
+              {recommendationCount?.approved_missing_title_count + recommendationCount?.un_approved_missing_title_count})
+            </Button>
           </Flex>
-          <Button
-            size="sm"
-            variant="outlined"
-            type="borderRadius"
-            color="success"
-            disabled={isApproved}
-            loading={approveAllSelectedLoading}
-            onClick={handleAllRecommendations}
-          >
-            Approve All ({recommendationCount?.approved_missing_title_count}/
-            {recommendationCount?.approved_missing_title_count + recommendationCount?.un_approved_missing_title_count})
-          </Button>
         </Flex>
+        <Table columns={columns} data={titlesList || []} />
       </Flex>
-      <Table columns={columns} data={titlesList || []} />
     </Container>
   )
 }

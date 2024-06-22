@@ -107,7 +107,7 @@ const SitePages = () => {
         <Typography text={`Pages on ${state?.siteUrl || ''}`} type="h1" />
         <Divider color="warning" />
         <Flex gap={16} className="container-screens">
-          <Container borderRadius boxShadow padding={'40px'} className="site-pages-table-container" width={100}>
+          <Container borderRadius boxShadow padding={'40px'} className="site-pages-table-container  container-bg" width={100}>
             <Flex vertical gap={16}>
               <Typography text="Found Pages" type="h2" />
               <Typography
@@ -134,7 +134,7 @@ const SitePages = () => {
                     SetSelectedRowKeys((prev) => rowSelectionHandler(prev, newSelectedKeys))
                   },
                 }}
-                rowKey="path"
+                rowKey="url"
               />
               <Pagination
                 pageSize={siteLinkAndContent?.pagination?.per_page || 10}

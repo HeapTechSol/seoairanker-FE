@@ -22,6 +22,10 @@
       justify-content: flex-end;
     }
 
+    label{
+      color:var(--color-common-main)
+    }
+
     &:has(input:disabled) label {
       color: colorMapper(grayclr, 400);
     }

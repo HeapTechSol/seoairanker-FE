@@ -3,7 +3,6 @@
     padding: 16px;
     @include flex(flex-start, flex-start, column, 20px);
 
-
     // Horizontal alignment
     &.horizontal {
       .stepper-actions {
@@ -76,23 +75,30 @@
 
       &.active .step {
         border-color: colorMapper(grayclr, 500);
-        color: transparent;
-        background: url('@/assets/icons/edit_icon.svg') no-repeat;
-        background-size: 15px;
-        background-position: center center;
+        background-color: var(--color-common-main);
+        -webkit-mask: url('@/assets/icons/edit_icon.svg') no-repeat center center;
+        mask: url('@/assets/icons/edit_icon.svg') no-repeat center center;
+        -webkit-mask-size: 15px;
+        mask-size: 15px;
+      }
+
+      &.active .step .step-label {
+        display: none;
+      }
+      
+      &.completed .step .step-label {
+        display: none;
       }
 
       .step-label {
         white-space: nowrap;
+        color: var(--color-common-main);
       }
-
     }
 
-    // Vertical Alignment
     &.vertical {
       height: 100%;
       @include flex(flex-start, flex-start, row, 48px);
-
 
       .component-controls {
         width: 100%;
@@ -106,7 +112,7 @@
         position: relative;
 
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           width: 2px;
           height: 95%;

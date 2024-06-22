@@ -1,20 +1,19 @@
-import { Provider } from "react-redux";
-import ReactDOM from "react-dom/client";
-import { RouterProvider } from "react-router-dom";
-import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from 'react-redux'
+import ReactDOM from 'react-dom/client'
+import { ToastContainer } from 'react-toastify'
+import { PersistGate } from 'redux-persist/integration/react'
 
-import "react-toastify/dist/ReactToastify.css";
+import App from './App'
 
-import { routes } from "./routes/constant";
+import 'react-toastify/dist/ReactToastify.css'
 
-import { store, persister } from "./api/store";
-import { ToastContainer } from "react-toastify";
+import { store, persister } from './api/store'
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persister}>
       <ToastContainer rtl={false} />
-      <RouterProvider router={routes} />
+      <App />
     </PersistGate>
   </Provider>
-);
+)

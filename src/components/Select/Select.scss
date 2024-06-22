@@ -38,7 +38,7 @@
           font-size: 16px;
           letter-spacing: 0.9375rem;
           z-index: 2;
-          color: colorMapper(grayclr, 900);
+          color: var(--color-common-main);
           transition: all 0.1s ease-in-out;
         }
 
@@ -64,7 +64,7 @@
 
         .selected-options-list {
           .placeholder-text {
-            color: colorMapper(grayclr, 500);
+            color: var(--color-common-main);
           }
         }
 
@@ -103,9 +103,7 @@
       }
 
       .options-container.open {
-        border: 2px solid colorMapper($color, light);
         border-radius: 4px;
-        background: #ffffff;
         visibility: visible;
         opacity: 1;
         position: absolute;
@@ -117,15 +115,18 @@
         cursor: pointer;
         padding: 4px 10px;
         &:hover {
-          background-color: colorMapper($color, light);
+          background-color: colorMapper($color, main);
+          color:white
         }
         &-active {
-          background-color: colorMapper($color, light);
+          background-color: colorMapper($color, main);
+          color:white
         }
       }
     }
     label {
       white-space: nowrap;
+      color: var(--color-common-main);
     }
   }
 
@@ -148,5 +149,6 @@
 
   .single-selected-option {
     font-weight: 500;
+    color:var(--color-common-main)
   }
 }

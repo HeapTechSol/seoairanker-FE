@@ -1,12 +1,11 @@
-.images-listing{
-  background-color: white;
-}
-
 .image-container{
-  max-width: 200px !important;
+  max-width: 250px !important;
+  background-color: #DAF7DD;
+  border:1px solid var(--border-color);
+  flex: 1;
 
   .image-wrapper{
-    width: 150px;
+    width: 200px;
     height: 100px;
     img{
       width: 100%;

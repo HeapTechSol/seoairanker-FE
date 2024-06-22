@@ -5,6 +5,7 @@
   text-overflow: ellipsis;
   white-space: normal;
   word-wrap: break-word;
+  color:inherit;
 
   @for $i from 1 through 20 {
     &.truncate-text--line-#{$i} {

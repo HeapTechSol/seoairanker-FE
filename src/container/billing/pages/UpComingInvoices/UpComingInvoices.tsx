@@ -155,7 +155,7 @@ const UpComingInvoices = () => {
       contentCenter
       fullHeight
       padding={40}
-      className="up-coming-invoices"
+      className="up-coming-invoices container-bg"
     >
       <Flex vertical gap={32}>
         <Typography text="Upcoming Invoice" type="h1" size="lg" />

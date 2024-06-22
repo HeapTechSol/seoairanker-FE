@@ -47,7 +47,7 @@ const Sidebar = ({
   ));
 
   return (
-    <div className="sidebar-container" ref={sidebarRef}>
+    <div className="sidebar-container container-bg" ref={sidebarRef}>
       <div ref={menuRef} className="sidebar-container-menu">
         {menuList}
       </div>

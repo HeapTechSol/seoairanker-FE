@@ -11,3 +11,26 @@ $colorType: primary, secondary, error, warning, info, success, common, grayClr;
 @function colorMapper($type, $colorName) {
   @return var(--color-#{$type}-#{$colorName});
 }
+
+body.light {
+  --color-common-main: var(--color-grayClr-light-text-color);
+  --background-color: var(--color-grayClr-light-background);
+  --border-color: var(--color-grayClr-light-border);
+  --button-box-shadow: 0px 3px 1px -2px var(--color-grayClr-400), 0px 2px 2px 0px var(--color-grayClr-300), 0px 1px 5px 0px var(--color-grayClr-300);
+  --button-box-shadow-hover: 0px 2px 4px -1px var(--color-grayClr-400), 0px 4px 5px 0px var(--color-grayClr-300),
+    0px 1px 10px 0px var(--color-grayClr-300);
+}
+
+body.dark {
+  --color-common-main: var(--color-grayClr-dark-text-color);
+  --background-color: var(--color-grayClr-dark-background);
+  --border-color: var(--color-grayClr-dark-border);
+  ---button-box-shadow: 0px 3px 1px -2px var(--color-grayClr-700), 0px 2px 2px 0px var(--color-grayClr-800), 0px 1px 5px 0px var(--color-grayClr-800);
+  --button-box-shadow-hover: 0px 2px 4px -1px var(--color-grayClr-700), 0px 4px 5px 0px var(--color-grayClr-800),
+    0px 1px 10px 0px var(--color-grayClr-800);
+}
+
+body,
+.app-container {
+  background-color: var(--background-color);
+}

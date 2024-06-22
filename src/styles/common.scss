@@ -15,3 +15,24 @@ input.hide-number-increment::-webkit-inner-spin-button {
   z-index: 9999999999999999;
   position: relative;
 }
+
+.container-bg {
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+}
+
+.pointer-icon-fill {
+  cursor: pointer;
+  svg {
+    fill: gray;
+  }
+}
+
+.pointer-icon-stroke {
+  cursor: pointer;
+  svg {
+    path {
+      stroke: gray;
+    }
+  }
+}

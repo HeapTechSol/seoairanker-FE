@@ -23,7 +23,7 @@ const BillingDetail = () => {
           <Container
             boxShadow
             borderRadius
-            className="billing-details-container lg"
+            className="billing-details-container lg container-bg"
             padding={"40px"}
           >
             <Flex vertical gap={12}>
@@ -89,12 +89,12 @@ const BillingDetail = () => {
             vertical
             gap={16}
             justify="between"
-            className="right-section sm"
+            className="right-section sm "
           >
             <Container
               boxShadow
               borderRadius
-              className="billing-details-container sub-container"
+              className="billing-details-container sub-container container-bg"
               padding={"40px"}
             >
               <Flex vertical gap={16} align="start">
@@ -109,7 +109,7 @@ const BillingDetail = () => {
             <Container
               boxShadow
               borderRadius
-              className="billing-details-container sub-container"
+              className="billing-details-container sub-container container-bg"
               padding={"40px"}
             >
               <Flex vertical gap={16} align="start">
@@ -124,7 +124,7 @@ const BillingDetail = () => {
           boxShadow
           borderRadius
           width={100}
-          className="billing-details-container"
+          className="billing-details-container container-bg"
           padding={"40px"}
         >
           <Flex vertical gap={16} align="start">
@@ -159,7 +159,7 @@ const BillingDetail = () => {
           boxShadow
           borderRadius
           width={100}
-          className="billing-details-container"
+          className="billing-details-container container-bg"
           padding={"40px"}
         >
           <Flex vertical gap={16} align="start">

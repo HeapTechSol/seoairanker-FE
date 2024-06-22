@@ -1,5 +1,3 @@
-"use client";
-
 import Flex from "@/components/Flex";
 import Button from "@/components/Button";
 import Container from "@/components/Container/Container";
@@ -32,7 +30,7 @@ const VerifyOTP = () => {
   };
 
   return (
-    <Container width={100} boxShadow borderRadius padding={"40px 80px"}>
+    <Container width={100} boxShadow borderRadius padding={"40px 80px"} className="container-bg">
       <Flex vertical gap={24} align="center">
         <Flex vertical gap={12} align="center">
           <Typography text="Verify Your Account" type="h2" />

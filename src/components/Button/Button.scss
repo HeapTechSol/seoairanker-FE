@@ -76,10 +76,7 @@
     &.filled.#{$color} {
       background: colorMapper($color, main);
       color: colorMapper($color, contrastText);
-      box-shadow:
-        0px 3px 1px -2px colorMapper(grayClr, 400),
-        0px 2px 2px 0px colorMapper(grayClr, 300),
-        0px 1px 5px 0px colorMapper(grayClr, 300);
+      box-shadow: var(--button-box-shadow);
       border: 1px solid colorMapper($color, main);
     }
     &.filled.#{$color} svg path,
@@ -102,7 +99,7 @@
     &.fill.outlined.#{$color} svg path {
       fill: colorMapper($color, main);
     }
-    
+
     &.fill.filled.#{$color} svg path {
       fill: white;
     }
@@ -122,10 +119,7 @@
 
     &.filled.pointer.#{$color}:hover {
       background-color: colorMapper($color, dark);
-      box-shadow:
-        0px 2px 4px -1px colorMapper(grayClr, 400),
-        0px 4px 5px 0px colorMapper(grayClr, 300),
-        0px 1px 10px 0px colorMapper(grayClr, 300);
+      box-shadow: var(--button-box-shadow-hover);
     }
 
     &.outlined.pointer.#{$color}:hover {

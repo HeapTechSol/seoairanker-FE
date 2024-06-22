@@ -4,8 +4,7 @@
   height: calc(100% - 80px);
   margin-top: 80px;
   padding: 24px 16px;
-  background-color: white;
-  transition: all 0.3s ease-in-out;
+  transition: width, min-width 0.3s ease-in-out;
   position: fixed;
   left: 0;
   white-space: nowrap;

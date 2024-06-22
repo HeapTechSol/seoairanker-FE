@@ -102,7 +102,7 @@ const Recommendations = () => {
   return (
     <Container width={100}>
       <Flex vertical gap={16}>
-        <Container padding={'40px 20px'} className="regenerate-recommendations" borderRadius boxShadow>
+        <Container padding={'40px 20px'} className="container-bg" borderRadius boxShadow>
           <Flex vertical gap={16}>
             <Typography text="SEO Automation Recommendations" type="h2" />
             <Typography
@@ -133,13 +133,13 @@ const Recommendations = () => {
             </Flex>
           </Flex>
         </Container>
-        <Container padding={'40px 20px'} className="search_automation" borderRadius boxShadow>
+        <Container padding={'40px 20px'} className="container-bg" borderRadius boxShadow>
           <Flex vertical gap={16}>
             <Typography text="Search Automation by Page URL" type="h2" />
             <Input StartIcon={GlobalICON} name="search_automation" placeholder="Enter Page URL or Path" borderRadius />
           </Flex>
         </Container>
-        <Flex gap={4}>
+        <Flex gap={16}>
           <RecommendationOverview
             recommendationsList={recommendationsList}
             onClick={(e) => setKey(e)}

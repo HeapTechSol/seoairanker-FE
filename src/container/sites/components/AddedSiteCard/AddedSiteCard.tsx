@@ -18,7 +18,7 @@ const { SITE_DETAILS_PAGE } = EXACT_ROUTES
 const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () => void }) => {
   const navigate = useNavigate()
   return (
-    <Container borderRadius boxShadow padding={'10px 20px'} className="added-site-info-container">
+    <Container borderRadius boxShadow padding={'10px 20px'} className="added-site-info-container container-bg">
       <Flex vertical className="site-info-card" gap={16}>
         <Flex className="site-info" justify="between" align="center">
           <Flex
@@ -49,7 +49,7 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
             size="lg"
             className="alert-message"
           />
-          <Flex vertical className="recommendations-info">
+          <Flex vertical className="recommendations-info ">
             <Flex justify="between" align="center">
               <Typography text="Recommendations" />
               <Button onlyIcon color="info" variant="text" StartIcon={TopRightIcon} onClick={() => console.log('clicked')} />

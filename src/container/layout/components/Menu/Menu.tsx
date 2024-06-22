@@ -5,6 +5,7 @@ import { MenuPropsTypes, menuTypes } from "./types";
 import { classMapper } from "@/utils/helper";
 
 import "./Menu.scss";
+import { ArrowDownIcon } from "@/assets/icons/svgs";
 
 const Menu = ({ menu, index, clickHandler, className }: MenuPropsTypes) => {
   const { pathname } = useLocation();
@@ -27,7 +28,7 @@ const Menu = ({ menu, index, clickHandler, className }: MenuPropsTypes) => {
       <span className="submenu-heading-title no-pointer">
         {menu.name as string}
       </span>
-      {menu.children && <span className="dropdown-arrow no-pointer"></span>}
+      {menu.children && <span className="dropdown-arrow no-pointer">{ArrowDownIcon}</span>}
     </div>
   );
 

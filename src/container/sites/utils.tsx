@@ -12,7 +12,7 @@ import RecommendationInfo from '@/container/sites/components/RecommendationsInfo
 import { ColumnsTypes } from '@/components/Table/types'
 import { CommonValidations } from '@/utils/commonValidations'
 
-import {  WatchIcon } from '@/assets/icons/svgs'
+import { WatchIcon } from '@/assets/icons/svgs'
 
 const { requiredMessage } = CommonValidations
 
@@ -148,7 +148,7 @@ export const KEYWORDS_COLUMN: ColumnsTypes[] = [
     dataKey: 'score',
     textAlign: 'center',
     sortKey: 'score',
-    render: (value: string) => (value === 'waiting' ? WatchIcon : <CircularProgress progress={Number(value)} size={30}/>),
+    render: (value: string) => (value === 'waiting' ? <span style={{cursor:'auto'}} className='pointer-icon-stroke'>{WatchIcon}</span> : <CircularProgress progress={Number(value)} size={30} />),
   },
 ]
 

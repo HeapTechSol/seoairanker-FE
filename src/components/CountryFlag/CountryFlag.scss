@@ -1,4 +1,7 @@
 .country-select {
+  label {
+    color: var(--color-common-main);
+  }
   &.sm #rfs-btn {
     padding: 4px 10px;
     height: 32.09px;
@@ -51,11 +54,28 @@
         }
       }
       .ReactFlagsSelect-module_selectOptions__3LNBJ {
-        border: 2px solid colorMapper($color, light);
+        border: 1px solid var(--border-color);
         .ReactFlagsSelect-module_selectOption__3pcgW:hover {
-          background-color: colorMapper($color, light);
+          background-color: colorMapper($color, main);
+          span {
+            color: white;
+          }
+        }
+      }
+      button {
+        .ReactFlagsSelect-module_selectValue__152eS {
+          color: var(--color-common-main);
         }
       }
     }
+  }
+  ul {
+    background-color: var(--background-color);
+    li span {
+      color: var(--color-common-main);
+    }
+  }
+  .ReactFlagsSelect-module_label__27pw9 {
+    color: var(--color-common-main);
   }
 }

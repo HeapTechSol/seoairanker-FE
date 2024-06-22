@@ -17,7 +17,7 @@ const AddSiteWizard = () => {
   } = useHandleSitesLogic();
 
   return (
-    <Container borderRadius boxShadow className="add-site-wizard">
+    <Container borderRadius boxShadow className="add-site-wizard container-bg">
       <Stepper
         minHeight={"622px"}
         steps={steps(control)}

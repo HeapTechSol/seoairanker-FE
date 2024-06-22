@@ -46,7 +46,7 @@ const ImagesList = ({ images }: { images: RecommendationsListTypes['images'] }) 
   }
 
   return (
-    <Container borderRadius boxShadow padding={40} width={70} className="images-listing">
+    <Container borderRadius boxShadow padding={40} width={70} className="images-listing container-bg">
       <Flex justify="center" align="center" wrap gap={8}>
         {images?.map((item, index) => (
           <ImageCard

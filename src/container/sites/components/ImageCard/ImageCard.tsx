@@ -7,6 +7,7 @@ import Typography from '@/components/Typography/Typography'
 import { EditIcon } from '@/assets/icons/svgs'
 
 import './ImageCard.scss'
+import TruncateText from '@/components/TruncateText'
 
 type ImageCardProps = {
   id: string
@@ -24,18 +25,18 @@ type ImageCardProps = {
 const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
   ({ id, index, altText, loading, editedId, imageUrl, onApprove, handleBlur, isApproved, editSuggestionHandler }, ref) => {
     return (
-      <Container borderRadius boxShadow className="image-container" padding={4}>
+      <Container borderRadius boxShadow className="image-container" padding={8}>
         <Flex vertical gap={12} align="center">
           <div className="image-wrapper">
             <img src={imageUrl} alt={altText || ''} />
           </div>
           <Flex align="center" gap={16}>
-            <span style={{ cursor: 'pointer' }} onClick={() => editSuggestionHandler(index, id)}>
+            <span className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, id)}>
               {EditIcon}
             </span>
             <Typography
               color="warning"
-              text={altText}
+              text={<TruncateText text={altText} width={150} line={1} key={1} />}
               contentEditable={id === editedId}
               onBlur={(e) => handleBlur(e, id, index, altText)}
               ref={ref}

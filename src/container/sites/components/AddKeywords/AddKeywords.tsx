@@ -24,7 +24,7 @@ const AddKeywords = () => {
       header: 'SCORE',
       dataKey: 'score',
       textAlign: 'center',
-      render: (value: string) => (value === 'waiting' ? WatchIcon : <CircularProgress progress={Number(value)} size={30} />),
+      render: (value: string) => (value === 'waiting' ? <span style={{cursor:'auto'}} className='pointer-icon-stroke'>{WatchIcon}</span> : <CircularProgress progress={Number(value)} size={30} />),
     },
   ]
   const data = [
@@ -58,7 +58,7 @@ const AddKeywords = () => {
     },
   ]
   return (
-    <Container width={100} borderRadius boxShadow padding={'40px 20px'} className="add-site-container">
+    <Container width={100} borderRadius boxShadow padding={'40px 20px'} className="add-site-container container-bg">
       <Flex vertical gap={32} align="center">
         {SeodeIcon}
         <Flex vertical gap={16}>

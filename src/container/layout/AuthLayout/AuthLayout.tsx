@@ -11,7 +11,7 @@ import "./AuthLayout.scss";
 const AuthLayout = () => {
   return (
     <GoogleOAuthProvider clientId={"dsfdsfjdslfdsjlkj"}>
-      <Flex className="auth-layout" align="center" justify="center">
+      <Flex className="auth-layout container-bg" align="center" justify="center">
         <Container
           width={50}
           contentCenter

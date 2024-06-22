@@ -13,6 +13,10 @@
       flex-direction: column-reverse;
     }
 
+    label{
+      color:var(--color-common-main)
+    }
+
     &.left {
       flex-direction: row;
       align-items: center;

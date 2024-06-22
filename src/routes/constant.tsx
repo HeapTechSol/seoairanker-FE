@@ -1,11 +1,11 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { Navigate, createBrowserRouter } from 'react-router-dom'
 
 import Layout from '@/container/layout/Layout/Layout'
 import AuthLayout from '@/container/layout/AuthLayout/AuthLayout'
 
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
 
-import { AUTH, BILLING, SITES } from '@/constant/routes'
+import { AUTH, BILLING, EXACT_ROUTES, SITES } from '@/constant/routes'
 import ProtectedRoute from './ProtectedRoute'
 import TextArea from '@/components/TextArea/TextArea'
 
@@ -26,30 +26,13 @@ const {
   BASE: SITES_BASE,
 } = SITES
 
+const  {SITES_DASHBOARD:DASHBOARD} = EXACT_ROUTES
+
 export const routes = createBrowserRouter([
-  // {
-  //   path: '/',
-  //   children: [
-  //     {
-  //       index: true,
-  //       errorElement: <ErrorBoundary />,
-  //       element:<TextArea title='working' name='hello' titlePosition='top'/>
-  //     },
-  //   ],
-  // },
   {
     path: '/',
-    errorElement: <ErrorBoundary />,
-    async lazy() {
-      const { default: SitesDashboard } = await import('../container/sites/pages/SitesDashboard/SitesDashboard')
-      return {
-        Component: (props) => (
-          <ProtectedRoute>
-            <SitesDashboard {...props} />
-          </ProtectedRoute>
-        ),
-      }
-    },
+    element: <Navigate to={DASHBOARD} replace />,
+    errorElement: <ErrorBoundary />
   },
   {
     path: BILLING_BASE,

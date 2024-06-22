@@ -36,9 +36,10 @@
         border: none;
         outline: none;
         background: transparent;
+        color: var(--color-common-main);
         &::placeholder {
           transition: all 0.1s ease-in-out;
-          color: colorMapper(grayclr, 500);
+          color: var(--color-common-main);
         }
       }
 
@@ -113,7 +114,7 @@
           transition: all 0.1s ease-in-out;
           top: 0%;
           transform: translateY(-70%) translateX(5px);
-          background: colorMapper(common, "white");
+          background: colorMapper(common, 'white');
           font-size: 12px;
           padding: 0px 4px;
           color: colorMapper($color, main);
@@ -178,7 +179,7 @@
       }
 
       &.required legend::after {
-        content: "*";
+        content: '*';
         color: colorMapper(warning, main);
         position: absolute;
         right: -12px;
@@ -223,7 +224,7 @@
 
       &:has(:not(legend)) {
         input::placeholder {
-          color: colorMapper(grayclr, 500);
+          color: var(--color-common-main);
         }
       }
 
@@ -245,10 +246,11 @@
     display: inline-block;
     margin-bottom: 4px;
     position: relative;
+    color: var(--color-common-main);
   }
 
   &:has(.required) label::after {
-    content: "*";
+    content: '*';
     color: colorMapper(warning, main);
     position: absolute;
     right: -15px;

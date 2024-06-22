@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
 import Container from '@/components/Container/Container'
@@ -7,9 +8,9 @@ import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommend
 
 import { CrawledInfoAPIResponseTypes } from '@/container/sites/sitesTypes'
 
-import './RecommendationOverview.scss'
 import { classMapper } from '@/utils/helper'
-import { useState } from 'react'
+
+import './RecommendationOverview.scss'
 
 type RecommendationsListType = {
   id: string
@@ -44,7 +45,7 @@ const RecommendationOverview = ({
     crawledInfo?.recommendations?.approved == (crawledInfo?.recommendations?.unapproved || 0) + (crawledInfo?.recommendations?.approved || 0)
 
   return (
-    <Container width={30} padding={'40px 20px'} borderRadius boxShadow className="recommendations-container">
+    <Container width={30} padding={'40px 20px'} borderRadius boxShadow className="recommendations-container container-bg">
       <Flex vertical gap={2}>
         {recommendationsList?.map((recommendation) =>
           recommendation.totalCount ? (

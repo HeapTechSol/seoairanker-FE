@@ -1,12 +1,14 @@
-"use client";
+'use client'
 
-import { useRef } from "react";
+import { useRef } from 'react'
 
-import { InputTypes } from "./types";
+import Typography from '../Typography/Typography'
 
-import { classMapper } from "@/utils/helper";
+import { InputTypes } from './types'
 
-import "./Input.scss";
+import { classMapper } from '@/utils/helper'
+
+import './Input.scss'
 
 const Input = ({
   placeholder,
@@ -14,58 +16,45 @@ const Input = ({
   type,
   disabled,
   required,
-  error = "",
+  error = '',
   title,
-  variant = "outlined",
-  size = "md",
+  variant = 'outlined',
+  size = 'md',
   value,
-  titlePosition = "inside",
-  color = "primary",
+  titlePosition = 'inside',
+  color = 'primary',
   borderRadius = false,
   hideIncrementNumber = false,
   StartIcon,
   EndIcon,
   onChange,
 }: InputTypes) => {
-  const inputRef = useRef<HTMLFieldSetElement>(null);
+  const inputRef = useRef<HTMLFieldSetElement>(null)
 
   const classes = classMapper(
-    "input-field",
+    'input-field',
     { [variant]: variant },
     { [size]: size },
     { error: error && !disabled },
     { focused: value || (error && !disabled) ? true : false },
     { [titlePosition]: titlePosition && title },
     { [color]: color },
-    { "hide-number-increment": hideIncrementNumber },
-    { radius: borderRadius && variant !== "underlined" },
+    { 'hide-number-increment': hideIncrementNumber },
+    { radius: borderRadius && variant !== 'underlined' },
     { startIcon: !!StartIcon },
     { endIcon: !!EndIcon },
-    { required: required && title },
-  );
+    { required: required && title }
+  )
 
-  const isStartSvgIcon =
-    typeof StartIcon === "object" && StartIcon?.type === "svg";
-  const StartIconPassed = isStartSvgIcon ? (
-    StartIcon
-  ) : (
-    <img src={StartIcon as string} alt="button logo" />
-  );
+  const isStartSvgIcon = typeof StartIcon === 'object' && StartIcon?.type === 'svg'
+  const StartIconPassed = isStartSvgIcon ? StartIcon : <img src={StartIcon as string} alt="button logo" />
 
-  const isEndSvgIcon = typeof EndIcon === "object" && EndIcon?.type === "svg";
-  const EndIconPassed = isEndSvgIcon ? (
-    EndIcon
-  ) : (
-    <img src={EndIcon as string} alt="button logo" />
-  );
+  const isEndSvgIcon = typeof EndIcon === 'object' && EndIcon?.type === 'svg'
+  const EndIconPassed = isEndSvgIcon ? EndIcon : <img src={EndIcon as string} alt="button logo" />
 
-  const topTitle = titlePosition === "top" && (
-    <label htmlFor={title}>{title}</label>
-  );
+  const topTitle = titlePosition === 'top' && <Typography text={<label htmlFor={title}>{title}</label>} />
 
-  const errorMessage = error && !disabled && (
-    <p className="error-text">{error}</p>
-  );
+  const errorMessage = error && !disabled && <p className="error-text">{error}</p>
 
   return (
     <div className="input-field-container">
@@ -83,17 +72,17 @@ const Input = ({
           required={required}
           value={value}
           onBlur={() => {
-            if (value || error) return;
-            inputRef.current?.classList.remove("focused");
+            if (value || error) return
+            inputRef.current?.classList.remove('focused')
           }}
-          onFocus={() => inputRef.current?.classList.add("focused")}
+          onFocus={() => inputRef.current?.classList.add('focused')}
           onChange={onChange}
         />
         {EndIcon && EndIconPassed}
       </fieldset>
       {errorMessage}
     </div>
-  );
-};
+  )
+}
 
-export default Input;
+export default Input

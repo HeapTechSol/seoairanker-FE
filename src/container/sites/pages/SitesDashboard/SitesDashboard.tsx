@@ -71,7 +71,7 @@ const SitesDashboard = () => {
       <Flex vertical gap={24}>
         <Typography text="Seode's Dashboard" type="h1" />
         <Divider color="warning" />
-        <Container className="sites-dashboard-header" borderRadius boxShadow>
+        <Container className="sites-dashboard-header container-bg" borderRadius boxShadow>
           <Flex justify="between">
             <Input StartIcon={SearchIcon} name="search_site" placeholder="Search" />
             <Button onClick={() => navigate(ADD_SITE)} size="sm" type="borderRadius">
@@ -90,7 +90,7 @@ const SitesDashboard = () => {
               onPageChange={() => console.log("onPage Change")}
             /> */}
             </Flex>
-            <Container borderRadius boxShadow className="sites-history">
+            <Container borderRadius boxShadow className="sites-history container-bg">
               <Flex vertical gap={16} align="start">
                 <Typography type="h3" text="Add Your Site" />
                 <Typography text="It's easy! Just click the button." />

@@ -11,16 +11,16 @@ import "./APIKeys.scss"
 
 const APIKeys = () => {
   return (
-    <Container className="api-keys-container">
+    <Container className="api-keys-container ">
       <Flex vertical gap={16}>
         <Typography text="Sites’s API Keys" type="h1" />
         <Divider color="warning" />
-        <Flex gap={16} className="container-screens">
+        <Flex gap={16} className="container-screens container-bg">
           <Container
             borderRadius
             boxShadow
             padding={"40px"}
-            className="site-pages-table-container"
+            className="site-pages-table-container container-bg"
             width={100}
           >
             <Flex vertical gap={16} align="start">

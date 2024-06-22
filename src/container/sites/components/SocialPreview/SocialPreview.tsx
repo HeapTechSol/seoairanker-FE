@@ -63,7 +63,7 @@ const SocialPreview = ({
       <Typography text={item?.existing_og_tag || ''} color="warning" />
       <Flex align="center" gap={16}>
         <Typography text="Suggestion:" />
-        <span style={{ cursor: 'pointer' }} onClick={() => editSuggestionHandler(index, item.id)}>
+        <span style={{ cursor: 'pointer' }}  className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, item.id)}>
           {EditIcon}
         </span>
       </Flex>
@@ -93,7 +93,7 @@ const SocialPreview = ({
   }
 
   return (
-    <Container borderRadius boxShadow width={70} className="recommendation-list-container" padding={'40px 20px'}>
+    <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg" padding={'40px 20px'}>
       <Flex vertical gap={16}>
         <Flex align="start">
           <Flex vertical gap={16}>

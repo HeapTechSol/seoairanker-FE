@@ -1,6 +1,6 @@
 .auth-layout {
   height: 100%;
-  background-color: white;
+  background-color: var(--color-common-main);
 
   @media screen and (max-width: 1500px) {
     .auth-form-section {

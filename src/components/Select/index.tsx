@@ -292,7 +292,7 @@ const Select = ({
           </Flex>
         </Flex>
 
-        <div className={"options-container"} ref={toggleOptionListRef}>
+        <div className={"options-container container-bg"} ref={toggleOptionListRef}>
           <Flex vertical gap={24} align="center">
             {searchable && (
               <Flex vertical gap={24}>

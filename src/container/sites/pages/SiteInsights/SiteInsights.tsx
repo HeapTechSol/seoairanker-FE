@@ -22,12 +22,12 @@ const SiteInsights = () => {
   }, [])
 
   return (
-    <Container borderRadius boxShadow width={100} className="site-insights" padding={40}>
+    <Container borderRadius boxShadow width={100} className="site-insights container-bg" padding={40}>
       <Flex vertical gap={64} align="center">
         {insightsData?.screenshot_url && <img src={insightsData?.screenshot_url} alt="" width={'60%'} />}
         <Divider color="error" />
         <Flex gap={16} vertical align="center" justify="center">
-          <CircularProgress current={(insightsData?.performance_score || 0) * 100} total={100} />
+          <CircularProgress progress={(insightsData?.performance_score || 0) * 100} size={100}/>
           <Typography text="Performance" type="h3" />
         </Flex>
         <Flex vertical gap={32} align="center">

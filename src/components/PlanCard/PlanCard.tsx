@@ -47,7 +47,7 @@ const PlanCard = ({
   handleSubmit,
 }: PlanCard) => {
   return (
-    <Container boxShadow borderRadius padding={40} className="plan-card">
+    <Container boxShadow borderRadius padding={40} className="plan-card  container-bg">
       <Flex vertical gap={20}>
         <Flex gap={20} justify="between" align="center">
           <Typography color={color} type="h1" size="lg" text={type} />
@@ -59,7 +59,7 @@ const PlanCard = ({
       <Flex gap={20} vertical>
         <Flex gap={4}>
           <Typography
-            type="h1"
+            type="h2"
             size="lg"
             text={`$${currencyConverter(amount)}`}
           />
@@ -136,8 +136,8 @@ const PlanCard = ({
                     onChange={(e) =>
                       onChange((e.target as HTMLInputElement).value)
                     }
-                    size="sm"
-                    thumbColor="common"
+                    size="md"
+                    thumbColor="primary"
                     max={item.max}
                     min={0}
                     step={item.step}

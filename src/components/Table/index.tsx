@@ -20,7 +20,7 @@ const Table = (props: TableProps) => {
     );
 
   return (
-    <table className="table" ref={tableRef}>
+    <table className="table container-bg" ref={tableRef}>
       <thead>
         <tr>
           {props.onRowSelection && props.onRowSelection.type === "checkbox" && (

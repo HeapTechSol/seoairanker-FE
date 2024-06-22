@@ -22,7 +22,7 @@ const AddSiteDetails = ({ control }: { control: Control<any> }) => {
       borderRadius
       boxShadow
       padding={"40px 20px"}
-      className="add-site-container"
+      className="add-site-container container-bg"
     >
       <Flex vertical gap={32} align="center">
         {SeodeIcon}
