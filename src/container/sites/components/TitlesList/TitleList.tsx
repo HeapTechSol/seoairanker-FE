@@ -26,10 +26,17 @@ const TitleList = ({
   const [editedId, setEditedId] = useState<string>()
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
-  const { approveSingleLoading, updateRecommendation, approveAllSelectedLoading, approveSingleRecommendation, approveAllSelectedRecommendation } =
-    useHandleRecommendations()
+  const {
+    approveSingleLoading,
+    updateRecommendation,
+    updateRecommendationsLoading,
+    approveAllSelectedLoading,
+    approveSingleRecommendation,
+    approveAllSelectedRecommendation,
+  } = useHandleRecommendations()
 
   const onApprove = async (e: React.SyntheticEvent, type_id: string, status: boolean) => {
+    setEditedId(type_id)
     e.stopPropagation()
     if (state?.siteId)
       await approveSingleRecommendation({ site_id: state?.siteId, status: status ? 'False' : 'True', type: 'missing_titles', type_id })
@@ -50,6 +57,7 @@ const TitleList = ({
   }
 
   const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => {
+    setEditedId(type_id)
     const text = e.target.innerText
     if (state?.siteId && currentText != text) {
       await updateRecommendation({ site_id: state?.siteId, data: text, type: 'missing_titles', type_id })
@@ -91,7 +99,7 @@ const TitleList = ({
             onClick={(e) => onApprove(e, record.id, record.approve)}
             type="borderRadius"
             color={record.approve ? 'error' : 'success'}
-            disabled={approveAllSelectedLoading || approveSingleLoading}
+            loading={editedId === record.id && (approveSingleLoading || updateRecommendationsLoading)}
           >
             {record.approve ? 'Reject' : 'Approve'}
           </Button>
@@ -121,7 +129,8 @@ const TitleList = ({
             variant="outlined"
             type="borderRadius"
             color="success"
-            disabled={isApproved || approveAllSelectedLoading}
+            disabled={isApproved}
+            loading={approveAllSelectedLoading}
             onClick={handleAllRecommendations}
           >
             Approve All ({recommendationCount?.approved_missing_title_count}/

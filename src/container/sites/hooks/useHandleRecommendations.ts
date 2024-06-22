@@ -17,8 +17,8 @@ const useHandleRecommendations = () => {
   const [approveAllRecommendations, { isLoading: approveAllLoading }] = useApproveAllRecommendationsMutation()
   const [updateRecommendations, { isLoading: updateRecommendationsLoading }] = useUpdateRecommendationsMutation()
   const [approveSingleRecommendations, { isLoading: approveSingleLoading }] = useApproveSingleRecommendationMutation()
-  const [getRecommendationsData, { data: recommendationData, isFetching: getDataLoading }] = useLazyGetRecommendationsDataQuery()
-  const [getRecommendationsCount, { data: recommendationCount, isFetching: getCountLoading }] = useLazyGetRecommendationsCountQuery()
+  const [getRecommendationsData, { data: recommendationData, isLoading: getDataLoading }] = useLazyGetRecommendationsDataQuery()
+  const [getRecommendationsCount, { data: recommendationCount, isLoading: getCountLoading }] = useLazyGetRecommendationsCountQuery()
   const [approveAllSelectedRecommendations, { isLoading: approveAllSelectedLoading }] = useApproveAllSelectedRecommendationsMutation()
 
   const getRecommendationCounts = async (payload: { site_id: string }) => {

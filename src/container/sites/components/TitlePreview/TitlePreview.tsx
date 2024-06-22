@@ -1,9 +1,8 @@
-import React, { useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { FocusEvent, SyntheticEvent, useRef, useState } from 'react'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
-import Loader from '@/components/Loader'
 import Accordion from '@/components/Accordion'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
@@ -42,7 +41,8 @@ const TitlePreview = ({ titlesList, recommendationCount }: TitlePreviewProps) =>
     }
   }
 
-  const onApprove = async (e: React.SyntheticEvent, type_id: string, status: boolean) => {
+  const onApprove = async (e: SyntheticEvent, type_id: string, status: boolean) => {
+    setEditedId(type_id)
     e.stopPropagation()
     if (state?.siteId) {
       await approveSingleRecommendation({ site_id: state?.siteId, status: status ? 'False' : 'True', type: 'title', type_id })
@@ -63,7 +63,7 @@ const TitlePreview = ({ titlesList, recommendationCount }: TitlePreviewProps) =>
     }
   }
 
-  const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => {
+  const handleBlur = async (e: FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => {
     const text = e.target.innerText
     if (state?.siteId && currentText != text) {
       await updateRecommendation({ site_id: state?.siteId, data: text, type: 'title', type_id })
@@ -119,7 +119,8 @@ const TitlePreview = ({ titlesList, recommendationCount }: TitlePreviewProps) =>
             variant="outlined"
             type="borderRadius"
             color="success"
-            disabled={isApproved || approveAllSelectedLoading}
+            disabled={isApproved}
+            loading={approveAllSelectedLoading}
             onClick={handleAllRecommendations}
           >
             Approve All ({recommendationCount?.approved_title_count}/
@@ -140,7 +141,7 @@ const TitlePreview = ({ titlesList, recommendationCount }: TitlePreviewProps) =>
                   onClick={(e) => onApprove(e, item.id, item.approve)}
                   type="borderRadius"
                   color={item.approve ? 'error' : 'success'}
-                  disabled={approveAllSelectedLoading || approveSingleLoading}
+                  loading={editedId === item.id && (approveSingleLoading || updateRecommendationsLoading)}
                 >
                   {item.approve ? 'Reject' : 'Approve'}
                 </Button>
@@ -149,7 +150,6 @@ const TitlePreview = ({ titlesList, recommendationCount }: TitlePreviewProps) =>
           ))}
         </Flex>
       </Flex>
-      <Loader loading={approveSingleLoading || approveAllSelectedLoading || updateRecommendationsLoading} />
     </Container>
   )
 }

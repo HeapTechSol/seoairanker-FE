@@ -7,6 +7,7 @@ import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
 
 import { AUTH, BILLING, SITES } from '@/constant/routes'
 import ProtectedRoute from './ProtectedRoute'
+import TextArea from '@/components/TextArea/TextArea'
 
 const { LOGIN, SIGNUP, RESET_PASSWORD, VERIFY_OTP, CHANGE_PASSWORD, FORGET_PASSWORD, BASE: AUTH_BASE } = AUTH
 
@@ -28,15 +29,11 @@ const {
 export const routes = createBrowserRouter([
   // {
   //   path: '/',
-  //   element: <Layout />,
   //   children: [
   //     {
   //       index: true,
   //       errorElement: <ErrorBoundary />,
-  //       async lazy() {
-  //         const HomePage = await import('../container/dashboard/pages/HomePage')
-  //         return { Component: HomePage.default }
-  //       },
+  //       element:<TextArea title='working' name='hello' titlePosition='top'/>
   //     },
   //   ],
   // },

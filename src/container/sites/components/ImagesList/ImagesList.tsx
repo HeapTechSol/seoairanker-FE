@@ -2,7 +2,6 @@ import { useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
-import Loader from '@/components/Loader'
 import ImageCard from '../ImageCard/ImageCard'
 import Container from '@/components/Container/Container'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
@@ -14,9 +13,10 @@ const ImagesList = ({ images }: { images: RecommendationsListTypes['images'] }) 
   const [editedId, setEditedId] = useState<string>('')
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
-  const { approveSingleLoading, updateRecommendation, approveSingleRecommendation } = useHandleRecommendations()
+  const { approveSingleLoading, updateRecommendation, updateRecommendationsLoading, approveSingleRecommendation } = useHandleRecommendations()
 
   const onApprove = async (e: React.SyntheticEvent, type_id: string, status: boolean) => {
+    setEditedId(type_id)
     e.stopPropagation()
     if (state?.siteId) await approveSingleRecommendation({ site_id: state?.siteId, status: status ? 'False' : 'True', type: 'images', type_id })
   }
@@ -35,7 +35,8 @@ const ImagesList = ({ images }: { images: RecommendationsListTypes['images'] }) 
     }
   }
 
-  const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText:string) => {
+  const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => {
+    setEditedId(type_id)
     const text = e.target.innerText
     if (state?.siteId && currentText != text) {
       await updateRecommendation({ site_id: state?.siteId, data: text, type: 'images', type_id })
@@ -57,14 +58,13 @@ const ImagesList = ({ images }: { images: RecommendationsListTypes['images'] }) 
             handleBlur={handleBlur}
             imageUrl={item.image_url}
             isApproved={item.approve}
-            loading={approveSingleLoading}
+            loading={approveSingleLoading || updateRecommendationsLoading}
             altText={item.suggested_alt_text}
             editSuggestionHandler={editSuggestionHandler}
             ref={(el) => (editableRefs.current[index] = el)}
           />
         ))}
       </Flex>
-      <Loader loading={approveSingleLoading} />
     </Container>
   )
 }

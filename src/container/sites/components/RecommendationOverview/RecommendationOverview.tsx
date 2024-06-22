@@ -1,6 +1,5 @@
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
-import Loader from '@/components/Loader'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 
@@ -10,6 +9,7 @@ import { CrawledInfoAPIResponseTypes } from '@/container/sites/sitesTypes'
 
 import './RecommendationOverview.scss'
 import { classMapper } from '@/utils/helper'
+import { useState } from 'react'
 
 type RecommendationsListType = {
   id: string
@@ -32,9 +32,11 @@ const RecommendationOverview = ({
   recommendationsList: RecommendationsListType[]
   crawledInfo: CrawledInfoAPIResponseTypes['result']
 }) => {
+  const [statusType, setStatusType] = useState('')
   const { approveAllRecommendation, approveAllLoading } = useHandleRecommendations()
 
   const handleApproveAllRecommendations = async (status: string) => {
+    setStatusType(status)
     await approveAllRecommendation({ site_id, status })
   }
 
@@ -54,23 +56,29 @@ const RecommendationOverview = ({
               onClick={() => onClick(recommendation.id)}
             >
               <Typography text={recommendation.title} />
-              <Typography text={`(${recommendation.used}/${recommendation.totalCount})`} />
+              <Typography text={`(${recommendation.used}/${recommendation?.totalCount})`} />
             </Flex>
           ) : null
         )}
       </Flex>
-      <Loader loading={approveAllLoading} />
       <Button
         fullWidth
         variant="outlined"
         color="success"
-        disabled={isAllApproved || approveAllLoading}
+        disabled={isAllApproved}
+        loading={statusType === 'True' && approveAllLoading}
         onClick={() => handleApproveAllRecommendations('True')}
       >
         I'm Feeling Lucky (Approve All)
       </Button>
-      {!!crawledInfo?.recommendations.approved && (
-        <Button fullWidth variant="outlined" color="error" disabled={approveAllLoading} onClick={() => handleApproveAllRecommendations('False')}>
+      {!!crawledInfo?.recommendations?.approved && (
+        <Button
+          fullWidth
+          variant="outlined"
+          color="error"
+          loading={statusType === 'False' && approveAllLoading}
+          onClick={() => handleApproveAllRecommendations('False')}
+        >
           Reject All
         </Button>
       )}

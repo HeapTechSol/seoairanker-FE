@@ -1,3 +1,4 @@
+import { FocusEvent, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
@@ -10,6 +11,8 @@ import { HeadingRecommendations, RecommendationsCountTypes, RecommendationsListT
 
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
+import { EditIcon } from '@/assets/icons/svgs'
+
 const HeadingRecommendationsPreview = ({
   titlesList,
   recommendationCount,
@@ -18,10 +21,19 @@ const HeadingRecommendationsPreview = ({
   recommendationCount: RecommendationsCountTypes
 }) => {
   const { state } = useLocation()
-  const { approveAllSelectedRecommendation, approveAllSelectedLoading, approveSingleLoading, approveSingleRecommendation } =
-    useHandleRecommendations()
+  const [editedId, setEditedId] = useState<string>()
+  const editableRefs = useRef<(HTMLElement | null)[]>([])
 
-  const accordionDescription = (item: HeadingRecommendations) => (
+  const {
+    approveAllSelectedRecommendation,
+    approveAllSelectedLoading,
+    approveSingleLoading,
+    updateRecommendation,
+    updateRecommendationsLoading,
+    approveSingleRecommendation,
+  } = useHandleRecommendations()
+
+  const accordionDescription = (item: HeadingRecommendations, index: number) => (
     <Flex vertical gap={4}>
       <Typography text={item.url} type="h6" />
       {!!item?.heading_content?.length && (
@@ -32,21 +44,61 @@ const HeadingRecommendationsPreview = ({
       )}
       <Typography text="Existing:" />
       <Typography text={item?.current_heading || ''} color="warning" />
-      <Typography text="Suggestion:" />
-      <Typography text={item?.suggested_heading} color="warning" />
+      <Flex align="center" gap={16}>
+        <Typography text="Suggestion:" />
+        <span style={{ cursor: 'pointer' }} onClick={() => editSuggestionHandler(index, item.id)}>
+          {EditIcon}
+        </span>
+      </Flex>
+      <Typography
+        color="warning"
+        text={item?.suggested_heading}
+        contentEditable={item.id === editedId}
+        onBlur={(e) => handleBlur(e, item.id, index, item?.suggested_heading)}
+        ref={(el) => (editableRefs.current[index] = el)}
+      />
     </Flex>
   )
 
-  const optimizedTitlesList = titlesList?.map((item) => ({ url: item.url, content: accordionDescription(item), approve: item.approve, id: item.id }))
+  const editSuggestionHandler = (index: number, id: string) => {
+    setEditedId(id)
+    const element = editableRefs.current[index]
+    if (element) {
+      element.setAttribute('contentEditable', 'true')
+      element.focus()
+      const range = document.createRange()
+      range.selectNodeContents(element)
+      const selection = window.getSelection()
+      selection?.removeAllRanges()
+      selection?.addRange(range)
+    }
+  }
+
+  const handleBlur = async (e: FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => {
+    const text = e.target.innerText
+    if (state?.siteId && currentText != text) {
+      await updateRecommendation({ site_id: state?.siteId, data: text, type: 'title', type_id })
+    }
+    const element = editableRefs.current[index]
+    element?.setAttribute('contentEditable', 'false')
+  }
+
+  const optimizedTitlesList = titlesList?.map((item, index) => ({
+    url: item.url,
+    content: accordionDescription(item, index),
+    approve: item.approve,
+    id: item.id,
+  }))
 
   const onApprove = async (e: React.SyntheticEvent, type_id: string, status: boolean) => {
+    setEditedId(type_id)
     e.stopPropagation()
     if (state?.siteId)
       await approveSingleRecommendation({ site_id: state?.siteId, status: status ? 'False' : 'True', type: 'headings_suggestions', type_id })
   }
 
   const isApproved =
-    recommendationCount?.approved_og_tags_count == recommendationCount?.approved_og_tags_count + recommendationCount?.un_approved_og_tags_count
+    recommendationCount?.approved_heading_count == recommendationCount?.approved_heading_count + recommendationCount?.un_approved_heading_count
 
   const handleAllRecommendations = async () => {
     if (state?.siteId) await approveAllSelectedRecommendation({ site_id: state?.siteId, status: 'True', type: 'headings_suggestions' })
@@ -64,8 +116,9 @@ const HeadingRecommendationsPreview = ({
             size="sm"
             variant="outlined"
             type="borderRadius"
-            color='success'
-            disabled={isApproved || approveAllSelectedLoading}
+            color="success"
+            disabled={isApproved}
+            loading={approveAllSelectedLoading}
             onClick={handleAllRecommendations}
           >
             Approve All ({recommendationCount?.approved_heading_count}/
@@ -85,7 +138,7 @@ const HeadingRecommendationsPreview = ({
                   onClick={(e) => onApprove(e, item.id, item.approve)}
                   type="borderRadius"
                   color={item.approve ? 'error' : 'success'}
-                  disabled={approveAllSelectedLoading || approveSingleLoading}
+                  loading={editedId === item.id && (approveSingleLoading || updateRecommendationsLoading)}
                 >
                   {item.approve ? 'Reject' : 'Approve'}
                 </Button>

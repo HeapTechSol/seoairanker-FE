@@ -32,22 +32,26 @@
   }
 
   @each $color in $colorType {
-    &.tabs-button.#{$color} .btn:not(.outlined).active::after {
+    .tabs-button.#{$color}.btn:not(.outlined).active::after {
       height: 2px;
       background-color: colorMapper($color, main);
     }
 
-    &.tabs-button.#{$color} .btn.outlined {
+    .tabs-button.#{$color}.btn.outlined {
       border: none;
       &:hover {
         border: none;
       }
     }
 
-    &.tabs-button.#{$color} .btn.outlined.active {
+    .tabs-button.#{$color}.btn.outlined.active {
       color: white;
       border: none;
       background-color: colorMapper($color, main);
+    }
+    
+    .tabs-button.#{$color}.btn.text.active {
+      border: none;
     }
   }
 

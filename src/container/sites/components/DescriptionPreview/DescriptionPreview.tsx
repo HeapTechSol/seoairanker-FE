@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
-import Loader from '@/components/Loader'
 import Accordion from '@/components/Accordion'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
@@ -69,6 +68,7 @@ const DescriptionPreview = ({
   }))
 
   const onApprove = async (e: React.SyntheticEvent, type_id: string, status: boolean) => {
+    setEditedId(type_id)
     e.stopPropagation()
     if (state?.siteId) await approveSingleRecommendation({ site_id: state?.siteId, status: status ? 'False' : 'True', type: 'description', type_id })
   }
@@ -117,7 +117,8 @@ const DescriptionPreview = ({
             variant="outlined"
             type="borderRadius"
             color="success"
-            disabled={isApproved || approveAllSelectedLoading}
+            disabled={isApproved}
+            loading={approveAllSelectedLoading}
             onClick={handleAllRecommendations}
           >
             Approve All ({recommendationCount?.approved_description_count}/
@@ -137,7 +138,7 @@ const DescriptionPreview = ({
                   onClick={(e) => onApprove(e, item.id, item.approve)}
                   type="borderRadius"
                   color={item.approve ? 'error' : 'success'}
-                  disabled={approveAllSelectedLoading || approveSingleLoading || updateRecommendationsLoading}
+                  loading={editedId === item.id && (approveSingleLoading || updateRecommendationsLoading)}
                 >
                   {item.approve ? 'Reject' : 'Approve'}
                 </Button>
@@ -146,7 +147,6 @@ const DescriptionPreview = ({
           ))}
         </Flex>
       </Flex>
-      <Loader loading={approveAllSelectedLoading || approveSingleLoading} />
     </Container>
   )
 }

@@ -6,10 +6,9 @@ import Container from '@/components/Container/Container'
 import AddNewKeywords from '../AddNewKeywords/AddNewKeywords'
 import Recommendations from '../Recommendations/Recommendations'
 
-import "./SiteDetailsPage.scss"
+import './SiteDetailsPage.scss'
 
 const SiteDetailsPage = () => {
-
   const tabs = [
     { title: 'Automations', content: <Recommendations /> },
     { title: 'Keywords', content: <AddNewKeywords /> },
@@ -20,7 +19,7 @@ const SiteDetailsPage = () => {
   return (
     <Container className="sites-dashboard">
       <Flex vertical gap={24}>
-        <Tabs tabs={tabs} />
+        <Tabs tabs={tabs} defaultActiveTab={0} />
       </Flex>
     </Container>
   )
