@@ -83,14 +83,14 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
                 </Button>
               </>
             )}
-            <Flex align="center" gap={32} justify="end">
-              <ThemeSwitcher onClick={handleThemeSwitching} value={theme == 'dark'} />
-              {user?.access_token && (
+            {user?.access_token && (
+              <Flex align="center" gap={32} justify="end">
+                <ThemeSwitcher onClick={handleThemeSwitching} value={theme == 'dark'} />
                 <Button type="borderRadius" onClick={() => dispatch(setUser(null))}>
                   Logout
                 </Button>
-              )}
-            </Flex>
+              </Flex>
+            )}
           </Flex>
         </Flex>
       </div>

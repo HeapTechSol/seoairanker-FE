@@ -12,7 +12,7 @@ $colorType: primary, secondary, error, warning, info, success, common, grayClr;
   @return var(--color-#{$type}-#{$colorName});
 }
 
-body.light {
+.app-container.light {
   --color-common-main: var(--color-grayClr-light-text-color);
   --background-color: var(--color-grayClr-light-background);
   --border-color: var(--color-grayClr-light-border);
@@ -21,7 +21,7 @@ body.light {
     0px 1px 10px 0px var(--color-grayClr-300);
 }
 
-body.dark {
+.app-container.dark {
   --color-common-main: var(--color-grayClr-dark-text-color);
   --background-color: var(--color-grayClr-dark-background);
   --border-color: var(--color-grayClr-dark-border);
@@ -32,5 +32,6 @@ body.dark {
 
 body,
 .app-container {
+  height: 100vh;
   background-color: var(--background-color);
 }

@@ -1,13 +1,12 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 
+import ProtectedRoute from './ProtectedRoute'
 import Layout from '@/container/layout/Layout/Layout'
 import AuthLayout from '@/container/layout/AuthLayout/AuthLayout'
 
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
 
 import { AUTH, BILLING, EXACT_ROUTES, SITES } from '@/constant/routes'
-import ProtectedRoute from './ProtectedRoute'
-import TextArea from '@/components/TextArea/TextArea'
 
 const { LOGIN, SIGNUP, RESET_PASSWORD, VERIFY_OTP, CHANGE_PASSWORD, FORGET_PASSWORD, BASE: AUTH_BASE } = AUTH
 
@@ -42,32 +41,56 @@ export const routes = createBrowserRouter([
         path: PLANS,
         errorElement: <ErrorBoundary />,
         async lazy() {
-          const Pricing = await import('../container/billing/pages/Pricing/Pricing')
-          return { Component: Pricing.default }
+          const { default: Pricing } = await import('../container/billing/pages/Pricing/Pricing')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <Pricing {...props} />
+              </ProtectedRoute>
+            ),
+          }
         },
       },
       {
         path: PAYMENT_HISTORY,
         errorElement: <ErrorBoundary />,
         async lazy() {
-          const PaymentHistory = await import('../container/billing/pages/PaymentHistory/PaymentHistory')
-          return { Component: PaymentHistory.default }
+          const { default: PaymentHistory } = await import('../container/billing/pages/PaymentHistory/PaymentHistory')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <PaymentHistory {...props} />
+              </ProtectedRoute>
+            ),
+          }
         },
       },
       {
         path: BILLING_DETAIL,
         errorElement: <ErrorBoundary />,
         async lazy() {
-          const BillingDetails = await import('../container/billing/pages/BillingDetail/BillingDetail')
-          return { Component: BillingDetails.default }
+          const { default: BillingDetail } = await import('../container/billing/pages/BillingDetail/BillingDetail')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <BillingDetail {...props} />
+              </ProtectedRoute>
+            ),
+          }
         },
       },
       {
         path: UPCOMING_INVOICES,
         errorElement: <ErrorBoundary />,
         async lazy() {
-          const UpComingInvoices = await import('../container/billing/pages/UpComingInvoices/UpComingInvoices')
-          return { Component: UpComingInvoices.default }
+          const { default: UpComingInvoices } = await import('../container/billing/pages/UpComingInvoices/UpComingInvoices')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <UpComingInvoices {...props} />
+              </ProtectedRoute>
+            ),
+          }
         },
       },
     ],
@@ -164,24 +187,42 @@ export const routes = createBrowserRouter([
         path: ADD_SITES_NEW_KEYWORDS,
         errorElement: <ErrorBoundary />,
         async lazy() {
-          const AddNewKeywords = await import('../container/sites/pages/AddNewKeywords/AddNewKeywords')
-          return { Component: AddNewKeywords.default }
+          const { default: AddNewKeywords } = await import('../container/sites/pages/AddNewKeywords/AddNewKeywords')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <AddNewKeywords {...props} />
+              </ProtectedRoute>
+            ),
+          }
         },
       },
       {
         path: SITES_PAGES,
         errorElement: <ErrorBoundary />,
         async lazy() {
-          const SitePages = await import('../container/sites/pages/SitePages/SitePages')
-          return { Component: SitePages.default }
+          const { default: SitePages } = await import('../container/sites/pages/SitePages/SitePages')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <SitePages {...props} />
+              </ProtectedRoute>
+            ),
+          }
         },
       },
       {
         path: SITE_ACCESS_KEYS,
         errorElement: <ErrorBoundary />,
         async lazy() {
-          const APIKeys = await import('../container/sites/pages/APIKeys/APIKeys')
-          return { Component: APIKeys.default }
+          const { default: APIKeys } = await import('../container/sites/pages/APIKeys/APIKeys')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <APIKeys {...props} />
+              </ProtectedRoute>
+            ),
+          }
         },
       },
     ],
