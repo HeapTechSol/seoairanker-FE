@@ -1,35 +1,36 @@
 export const AUTH = {
-  BASE: "/auth",
-  LOGIN: "login",
-  SIGNUP: "signup",
-  VERIFY_OTP: "verify_otp",
-  UNAUTHORIZED: "unauthorized",
-  RESET_PASSWORD: "reset_password",
-  CHANGE_PASSWORD: "change_password",
-  FORGET_PASSWORD: "forget_password",
-  PERMISSION_DENIED: "permission_denied",
-};
+  BASE: '/auth',
+  LOGIN: 'login',
+  SIGNUP: 'signup',
+  VERIFY_OTP: 'verify_otp',
+  UNAUTHORIZED: 'unauthorized',
+  RESET_PASSWORD: 'reset_password',
+  CHANGE_PASSWORD: 'change_password',
+  FORGET_PASSWORD: 'forget_password',
+  PERMISSION_DENIED: 'permission_denied',
+}
 
 export const BILLING = {
-  BASE: "/billing",
-  PLANS: "plans",
-  BILLING_DETAIL: "billing-detail",
-  PAYMENT_HISTORY: "payment-history",
-  UPCOMING_INVOICES: "upcoming-invoices",
-};
+  BASE: '/billing',
+  PLANS: 'plans',
+  CHECKOUT: 'checkout',
+  BILLING_DETAIL: 'billing-detail',
+  PAYMENT_HISTORY: 'payment-history',
+  UPCOMING_INVOICES: 'upcoming-invoices',
+}
 
 export const SITES = {
-  BASE: "/sites",
-  SITES_LIST:'all-sites',
-  ADD_SITE: "add-site",
-  SITES_PAGES: "pages",
-  SITES_DASHBOARD: "dashboard",
-  SITE_ACCESS_KEYS: "access-tokens",
-  RECOMMENDATIONS: "recommendations",
-  ADD_SITES_NEW_KEYWORDS: "add-new-keywords",
-  SITE_DETAILS_PAGE:'site-detail',
-  SITE_INSIGHTS:'site-insights'
-};
+  BASE: '/sites',
+  SITES_LIST: 'all-sites',
+  ADD_SITE: 'add-site',
+  SITES_PAGES: 'pages',
+  SITES_DASHBOARD: 'dashboard',
+  SITE_ACCESS_KEYS: 'access-tokens',
+  RECOMMENDATIONS: 'recommendations',
+  ADD_SITES_NEW_KEYWORDS: 'add-new-keywords',
+  SITE_DETAILS_PAGE: 'site-detail',
+  SITE_INSIGHTS: 'site-insights',
+}
 
 export const EXACT_ROUTES = {
   LOGIN: `${AUTH.BASE}/${AUTH.LOGIN}`,
@@ -42,6 +43,7 @@ export const EXACT_ROUTES = {
   FORGET_PASSWORD: `${AUTH.BASE}/${AUTH.FORGET_PASSWORD}`,
 
   PLANS: `${BILLING.BASE}/${BILLING.PLANS}`,
+  CHECKOUT: `${BILLING.BASE}/${BILLING.CHECKOUT}`,
   BILLING_DETAIL: `${BILLING.BASE}/${BILLING.BILLING_DETAIL}`,
   PAYMENT_HISTORY: `${BILLING.BASE}/${BILLING.PAYMENT_HISTORY}`,
   UPCOMING_INVOICES: `${BILLING.BASE}/${BILLING.UPCOMING_INVOICES}`,
@@ -55,4 +57,4 @@ export const EXACT_ROUTES = {
   SITE_ACCESS_KEYS: `${SITES.BASE}/${SITES.SITE_ACCESS_KEYS}`,
   SITE_DETAILS_PAGE: `${SITES.BASE}/${SITES.SITE_DETAILS_PAGE}`,
   ADD_SITES_NEW_KEYWORDS: `${SITES.BASE}/${SITES.ADD_SITES_NEW_KEYWORDS}`,
-};
+}

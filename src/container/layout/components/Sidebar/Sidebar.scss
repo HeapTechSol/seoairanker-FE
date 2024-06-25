@@ -9,6 +9,7 @@
   left: 0;
   white-space: nowrap;
   z-index: 9999999;
+  border-top: none !important;
   &.collapsed {
     transition: all 0.3s ease-in-out;
     min-width: 80px;

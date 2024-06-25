@@ -22,7 +22,7 @@ export const SITES ={
 }
 
 export const BILLING ={
-  CHECKOUT:'/payment/request',
+  CHECKOUT:'/payment/create-subscription',
 }
 
 export const APIEndpoint = {

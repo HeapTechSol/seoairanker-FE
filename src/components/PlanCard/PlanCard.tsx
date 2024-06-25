@@ -1,36 +1,33 @@
-import { Control, Controller, UseFormSetValue } from "react-hook-form";
+import { Control, Controller, UseFormSetValue } from 'react-hook-form'
 
-import Flex from "../Flex";
-import Button from "../Button";
-import RadioButton from "../RadioButton";
-import Divider from "../Divider/Divider";
-import Container from "../Container/Container";
-import Typography from "../Typography/Typography";
-import RangeSelector from "../RangeSelector/RangeSelector";
+import Flex from '../Flex'
+import Button from '../Button'
+import RadioButton from '../RadioButton'
+import Divider from '../Divider/Divider'
+import Container from '../Container/Container'
+import Typography from '../Typography/Typography'
+import RangeSelector from '../RangeSelector/RangeSelector'
 
-import {
-  PlanDefaultValuesTypes,
-  PlanTypes,
-  strongTextGenerator,
-} from "@/constant/plans";
+import { PlanDefaultValuesTypes, PlanTypes, strongTextGenerator } from '@/constant/plans'
 
-import { currencyConverter } from "@/utils/helper";
+import { currencyConverter } from '@/utils/helper'
 
-import "./PlanCard.scss";
+import './PlanCard.scss'
 
 export type PlanCard = PlanTypes & {
-  control: Control<PlanDefaultValuesTypes>;
-  setValue: UseFormSetValue<PlanDefaultValuesTypes>;
-  handleSubmit: () => void;
-  duration: "Monthly" | "Year";
-  loading: boolean;
-};
+  control: Control<PlanDefaultValuesTypes>
+  setValue: UseFormSetValue<PlanDefaultValuesTypes>
+  handleSubmit: () => void
+  duration: 'Monthly' | 'Year'
+  loading: boolean
+  itemAmount: number
+}
 
 const PlanCard = ({
-  type = "",
-  description = "",
-  color = "primary",
-  buttonColor = "primary",
+  type = '',
+  description = '',
+  color = 'primary',
+  buttonColor = 'primary',
   Icon,
   amount,
   addOnInfo,
@@ -38,12 +35,13 @@ const PlanCard = ({
   detailsInfo,
   isAPIAccess,
   crawlSchedule,
-  buttonText = "",
-  planType = "basic",
+  buttonText = '',
+  planType = 'business',
   control,
   setValue,
+  itemAmount,
   loading = false,
-  duration = "Monthly",
+  duration = 'Monthly',
   handleSubmit,
 }: PlanCard) => {
   return (
@@ -58,23 +56,12 @@ const PlanCard = ({
       <Divider color="warning" margin={30} />
       <Flex gap={20} vertical>
         <Flex gap={4}>
-          <Typography
-            type="h2"
-            size="lg"
-            text={`$${currencyConverter(amount)}`}
-          />
+          <Typography type="h2" size="lg" text={`$${currencyConverter(amount)}`} />
           <sup>/ {duration}</sup>
         </Flex>
         <Flex vertical gap={8}>
           {generalInfo.map((item, index) => (
-            <RadioButton
-              readOnly
-              size="lg"
-              checked
-              label={`${item.amount} ${item.text}`}
-              labelPosition="right"
-              key={`${index}generalInfo`}
-            />
+            <RadioButton readOnly size="lg" checked label={`${item.amount} ${item.text}`} labelPosition="right" key={`${index}generalInfo`} />
           ))}
         </Flex>
       </Flex>
@@ -87,8 +74,7 @@ const PlanCard = ({
             checked
             label={
               <>
-                {strongTextGenerator(currencyConverter(item.amount)) || ""}{" "}
-                {item.text}
+                {strongTextGenerator(currencyConverter(item.amount)) || ''} {item.text}
               </>
             }
             labelPosition="right"
@@ -98,34 +84,14 @@ const PlanCard = ({
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex vertical gap={8}>
-        <RadioButton
-          readOnly
-          checked
-          size="lg"
-          restricted
-          color={isAPIAccess ? "primary" : "error"}
-          label={`API Access`}
-          labelPosition="right"
-        />
-        <RadioButton
-          readOnly
-          checked
-          size="lg"
-          label={`${crawlSchedule} Crawl Interval`}
-          labelPosition="right"
-        />
+        <RadioButton readOnly checked size="lg" restricted color={isAPIAccess ? 'primary' : 'error'} label={`API Access`} labelPosition="right" />
+        <RadioButton readOnly checked size="lg" label={`${crawlSchedule} Crawl Interval`} labelPosition="right" />
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex vertical gap={32}>
         {addOnInfo?.map((item, index) => (
           <Flex vertical gap={12} key={`${index}addOnInfo`}>
-            <RadioButton
-              readOnly
-              checked
-              size="lg"
-              label={item.text}
-              labelPosition="right"
-            />
+            <RadioButton readOnly checked size="lg" label={item.text} labelPosition="right" />
 
             <Controller
               name={`${planType}.${item.key}`}
@@ -133,16 +99,14 @@ const PlanCard = ({
                 return (
                   <RangeSelector
                     value={value}
-                    onChange={(e) =>
-                      onChange((e.target as HTMLInputElement).value)
-                    }
+                    onChange={(e) => onChange((e.target as HTMLInputElement).value)}
                     size="md"
                     thumbColor="primary"
                     max={item.max}
                     min={0}
                     step={item.step}
                   />
-                );
+                )
               }}
               control={control}
             />
@@ -150,7 +114,7 @@ const PlanCard = ({
         ))}
       </Flex>
       <Controller
-        name={"selectedPlan"}
+        name={'selectedPlan'}
         render={({ field: { onChange } }) => {
           return (
             <Button
@@ -160,19 +124,21 @@ const PlanCard = ({
               color={buttonColor}
               loading={loading}
               onClick={() => {
-                onChange(planType);
-                setValue("totalAmount", amount);
-                handleSubmit();
+                onChange(planType)
+                setValue('totalAmount', amount)
+                const addOnsData = addOnInfo.map((item) => ({ key: item.key, amount: item.amount, step: item.step }))
+                setValue('selectedPlanData', { planAmount: itemAmount, planType: planType, addOnsData })
+                handleSubmit()
               }}
             >
               {buttonText}
             </Button>
-          );
+          )
         }}
         control={control}
       />
     </Container>
-  );
-};
+  )
+}
 
-export default PlanCard;
+export default PlanCard

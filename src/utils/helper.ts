@@ -164,3 +164,64 @@ export const getTime = (date: string | number) => {
   }
 };
 
+export const handleFormatCurrencyAndNumber = ({
+  style,
+  currency = undefined,
+  value,
+  compactDisplay = 'short',
+  notation = 'standard',
+  minimumFractionDigits = 0,
+  maximumFractionDigits = 2,
+}: {
+  style?: string
+  currency?: string
+  value: number
+  compactDisplay?: 'short' | 'long' | undefined
+  notation?: 'standard' | 'scientific' | 'engineering' | 'compact' | undefined
+  minimumFractionDigits?: number
+  maximumFractionDigits?: number
+}) => {
+  const formatter = new Intl.NumberFormat(`en-US`, {
+    style,
+    currency,
+    minimumFractionDigits,
+    maximumFractionDigits,
+    notation,
+    compactDisplay,
+  })
+  return formatter.format(value) // => 2L
+}
+
+export const currencyNumberWithDollar = ({
+  value,
+  dollarPosition = 'start',
+  compactDisplay = 'long',
+  notation = 'standard',
+  currency = 'USD',
+  showUSD = true,
+  minimumFractionDigits = 2,
+}: {
+  value: number
+  dollarPosition?: 'start' | 'end'
+  compactDisplay?: 'short' | 'long' | undefined
+  notation?: 'standard' | 'scientific' | 'engineering' | 'compact' | undefined
+  currency?: string
+  showUSD?: boolean
+  minimumFractionDigits?: number
+}) => {
+  const formattedValue = handleFormatCurrencyAndNumber({
+    style: 'currency',
+    value: value,
+    compactDisplay: compactDisplay,
+    currency: currency,
+    notation: notation,
+    minimumFractionDigits,
+  })
+
+  if (showUSD) {
+    return dollarPosition === 'start' ? `USD ${formattedValue}` : `${formattedValue} USD`
+  }
+  return formattedValue
+}
+
+export const convertFirstCharToCapital = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)

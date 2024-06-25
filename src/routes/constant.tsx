@@ -10,7 +10,7 @@ import { AUTH, BILLING, EXACT_ROUTES, SITES } from '@/constant/routes'
 
 const { LOGIN, SIGNUP, RESET_PASSWORD, VERIFY_OTP, CHANGE_PASSWORD, FORGET_PASSWORD, BASE: AUTH_BASE } = AUTH
 
-const { PLANS, BILLING_DETAIL, PAYMENT_HISTORY, UPCOMING_INVOICES, BASE: BILLING_BASE } = BILLING
+const { PLANS, BILLING_DETAIL, PAYMENT_HISTORY, UPCOMING_INVOICES, CHECKOUT, BASE: BILLING_BASE } = BILLING
 
 const {
   ADD_SITE,
@@ -25,13 +25,13 @@ const {
   BASE: SITES_BASE,
 } = SITES
 
-const  {SITES_DASHBOARD:DASHBOARD} = EXACT_ROUTES
+const { SITES_DASHBOARD: DASHBOARD } = EXACT_ROUTES
 
 export const routes = createBrowserRouter([
   {
     path: '/',
     element: <Navigate to={DASHBOARD} replace />,
-    errorElement: <ErrorBoundary />
+    errorElement: <ErrorBoundary />,
   },
   {
     path: BILLING_BASE,
@@ -46,6 +46,20 @@ export const routes = createBrowserRouter([
             Component: (props) => (
               <ProtectedRoute>
                 <Pricing {...props} />
+              </ProtectedRoute>
+            ),
+          }
+        },
+      },
+      {
+        path: CHECKOUT,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const { default: Checkout } = await import('../container/billing/pages/Checkout/Checkout')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                  <Checkout {...props} />
               </ProtectedRoute>
             ),
           }

@@ -19,6 +19,7 @@ input.hide-number-increment::-webkit-inner-spin-button {
 .container-bg {
   background-color: var(--background-color);
   border: 1px solid var(--border-color);
+  border-radius: 7px;
 }
 
 .pointer-icon-fill {
@@ -35,4 +36,23 @@ input.hide-number-increment::-webkit-inner-spin-button {
       stroke: gray;
     }
   }
+}
+
+.StripeElement {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: var(--background-color);
+}
+
+.StripeElement--webkit-autofill {
+  background-color: transparent !important;
+}
+
+.StripeElement--webkit-autofill::first-line {
+  font-size: 16px;
 }
