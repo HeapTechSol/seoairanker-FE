@@ -1,18 +1,24 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useElements, useStripe } from '@stripe/react-stripe-js'
 
-import Button from '@/components/Button'
-import useStripeHandling from '@/container/billing/hooks/useStripeHandling'
-import { useAppSelector } from '@/api/store'
-import { convertFirstCharToCapital, currencyNumberWithDollar, isEmpty } from '@/utils/helper'
 import Flex from '@/components/Flex'
+import Button from '@/components/Button'
+import { addOnsData } from '@/constant/plans'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
-import { addOnsData } from '@/constant/plans'
+import useStripeHandling from '@/container/billing/hooks/useStripeHandling'
+
+import { useAppSelector } from '@/api/store'
+
+import { EXACT_ROUTES } from '@/constant/routes'
+import { convertFirstCharToCapital, currencyNumberWithDollar, isEmpty } from '@/utils/helper'
+
+const { ADD_SITE } = EXACT_ROUTES
 
 const Checkout = () => {
+  const navigate = useNavigate()
   const { state } = useLocation()
   const [loading, setIsLoading] = useState(false)
 
@@ -26,7 +32,7 @@ const Checkout = () => {
 
   const handlePayment = async () => {
     try {
-      if (isEmpty(state?.values)) {
+      if (isEmpty(state)) {
         toast.error('No payment details provided')
         return
       }
@@ -55,12 +61,17 @@ const Checkout = () => {
         toast.error(result.error.message)
       } else {
         const body = {
+          plan_id: state.plan_id,
+          email: userInfo?.user.email as string,
           payment_method_id: result.paymentMethod.id,
-          plan_id: 'price_1PUsWGKhs45SIh5yuS25cc29',
-          email: userInfo?.user.email,
+          addons: (state?.addOns as addOnsData[]).map((item) => ({ price_id: item.plan_id, quantity: item.quantity / item.step })),
         }
+
         const data = await handleCheckout(body)
-        if (data?.isSuccess) toast.success('Payment successful')
+        if (data?.isSuccess) {
+          toast.success('Payment successful')
+          navigate(ADD_SITE)
+        }
       }
     } catch (error) {
       console.error('Payment error:', error)
@@ -79,7 +90,7 @@ const Checkout = () => {
         letterSpacing: '0.025em',
         fontFamily: 'Source Code Pro, monospace',
         '::placeholder': {
-          color: theme ==="dark" ?"#424242":"#bdbdbd",
+          color: theme === 'dark' ? '#424242' : '#bdbdbd',
         },
       },
       invalid: {

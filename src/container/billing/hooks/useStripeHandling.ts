@@ -3,7 +3,8 @@ import { useLazyCheckoutQuery } from '../api/billingAPI'
 export type CheckoutPayload = {
   payment_method_id: string
   plan_id: string
-  addons: { name: string; price: number }[]
+  email:string,
+  addons: { price_id: string; quantity: number }[]
 }
 
 const useStripeHandling = () => {

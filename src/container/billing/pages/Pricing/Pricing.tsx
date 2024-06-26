@@ -33,16 +33,30 @@ const Pricing = () => {
     return totalAmount
   }
 
+  const pricesIds = {
+    business: {
+      id: 'price_1PUsWGKhs45SIh5yuS25cc29',
+      extra_pages: 'price_1PVTrzKhs45SIh5yI4Cvzl6t',
+      extra_sites: 'price_1PVTqNKhs45SIh5yCGNmCoHH',
+      extra_keywords: 'price_1PVTrFKhs45SIh5yjBEJk7DG',
+    }
+  }
+
   const handleCheckoutPage = (data: PlanDefaultValuesTypes) => {
     const addOns = data[data.selectedPlan]
+    const prices_keys = pricesIds[data.selectedPlan as keyof typeof pricesIds]
     const addonsData = data.selectedPlanData.addOnsData
     const filterAddons = addonsData.filter((item) => addOns[item.key as keyof typeof addOns])
     const modifiedAddOns = filterAddons.map((item) => ({
       ...item,
       amount: item.amount * (addOns[item.key as keyof typeof addOns] / item.step),
       quantity: addOns[item.key as keyof typeof addOns],
+      plan_id: prices_keys[item.key as keyof typeof addOns],
     }))
-    navigate(CHECKOUT, { state: { plan_type: data.selectedPlan, addOns: modifiedAddOns, amount: data.selectedPlanData.planAmount } })
+
+    navigate(CHECKOUT, {
+      state: { plan_type: data.selectedPlan, plan_id: prices_keys.id, addOns: modifiedAddOns, amount: data.selectedPlanData.planAmount },
+    })
   }
 
   const submitForm = () => {

@@ -262,7 +262,7 @@ type addsOnKeyTypes = {
   extra_pages: number
 }
 
-export type addOnsData = { key: string; amount: number; step: number, quantity:number }
+export type addOnsData = { key: string; amount: number; step: number, quantity:number, plan_id:string }
 
 export type PlanDefaultValuesTypes = {
   business: addsOnKeyTypes

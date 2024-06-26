@@ -1,88 +1,47 @@
+import { useEffect } from 'react'
+
 import Chip from '@/components/Chip'
 import Flex from '@/components/Flex'
 import Table from '@/components/Table'
+import Loader from '@/components/Loader'
 import Grid from '@/components/Grid/Grid'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 
 import { CrawlIcon, PagesIcon, PersonIcon, SearchIconWithFilledBackground } from '@/assets/icons/svgs'
 
+import useBillingHandling from '@/container/billing/hooks/useBillingHandling'
+
+import { useAppSelector } from '@/api/store'
+import { currencyNumberWithDollar, formatUnixDate } from '@/utils/helper'
+
 import './PaymentHistory.scss'
 
 const PaymentHistory = () => {
+  const { getBillingHistoryList, billingHistoryLoading, billingHistoryList } = useBillingHandling()
+
+  const userInfo = useAppSelector((state) => state.auth.user?.user)
+
   const status = {
-    Processed: <Chip circled text="Processed" color="success" />,
-    Declined: <Chip circled text="Declined" color="error" />,
+    succeeded: <Chip circled text="Processed" color="success" />,
+    declined: <Chip circled text="Declined" color="error" />,
   }
   const columns = [
     { header: 'Payment ID', dataKey: 'id' },
-    { header: 'Date', dataKey: 'date' },
-    { header: 'Type', dataKey: 'type' },
-    { header: 'Total', dataKey: 'total' },
+    { header: 'Date', dataKey: 'period_start', render: (date: number) => formatUnixDate(date) },
+    { header: 'Type', dataKey: 'plan' },
+    { header: 'Total', dataKey: 'amount', render: (amount: number) => currencyNumberWithDollar({ value: amount || 0, showUSD: false }) },
     {
       header: 'Status',
       dataKey: 'status',
       render: (value: string) => status[value as keyof typeof status],
     },
   ]
-  const data = [
-    {
-      id: 's54df6ds4f6sd5f565sdf56ds',
-      date: 'June 28, 2023',
-      type: 'Subscription',
-      total: '$100.00',
-      status: 'Processed',
-    },
-    {
-      id: 's54df6ds4f6sd5f565sdf56ds',
-      date: 'June 28, 2023',
-      type: 'Subscription',
-      total: '$100.00',
-      status: 'Processed',
-    },
-    {
-      id: 's54df6ds4f6sd5f565sdf56ds',
-      date: 'June 28, 2023',
-      type: 'Subscription',
-      total: '$100.00',
-      status: 'Declined',
-    },
-    {
-      id: 's54df6ds4f6sd5f565sdf56ds',
-      date: 'June 28, 2023',
-      type: 'Subscription',
-      total: '$100.00',
-      status: 'Processed',
-    },
-    {
-      id: 's54df6ds4f6sd5f565sdf56ds',
-      date: 'June 28, 2023',
-      type: 'Subscription',
-      total: '$100.00',
-      status: 'Processed',
-    },
-    {
-      id: 's54df6ds4f6sd5f565sdf56ds',
-      date: 'June 28, 2023',
-      type: 'Subscription',
-      total: '$100.00',
-      status: 'Processed',
-    },
-    {
-      id: 's54df6ds4f6sd5f565sdf56ds',
-      date: 'June 28, 2023',
-      type: 'Subscription',
-      total: '$100.00',
-      status: 'Processed',
-    },
-    {
-      id: 's54df6ds4f6sd5f565sdf56ds',
-      date: 'June 28, 2023',
-      type: 'Subscription',
-      total: '$100.00',
-      status: 'Processed',
-    },
-  ]
+
+  useEffect(() => {
+    getBillingHistoryList({ email: userInfo?.email as string, limit: 1000, starting_after: null })
+  }, [])
+
   return (
     <Flex vertical gap={40}>
       <Grid>
@@ -125,8 +84,9 @@ const PaymentHistory = () => {
       </Grid>
       <Flex padding={40} vertical gap={32} className="payment-history-listing container-bg">
         <Typography text="Payment History" type="h1" size="lg" />
-        <Table columns={columns} data={data} />
+        <Table columns={columns} data={billingHistoryList?.payments || []} />
       </Flex>
+      <Loader loading={billingHistoryLoading} />
     </Flex>
   )
 }

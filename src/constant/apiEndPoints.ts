@@ -22,13 +22,18 @@ export const SITES ={
 }
 
 export const BILLING ={
-  CHECKOUT:'/payment/create-subscription',
+  STRIPE:'/stripe',
+  CHECKOUT:'/create-subscription',
+  BILLING_HISTORY:'/get-payment-history'
 }
 
 export const APIEndpoint = {
-  BILLING:`${BILLING.CHECKOUT}`,
+  CHECKOUT:`${BILLING.STRIPE}${BILLING.CHECKOUT}`,
+  BILLING_HISTORY:`${BILLING.STRIPE}${BILLING.BILLING_HISTORY}`,
+
   LOGIN:`${AUTH.AUTH}${AUTH.LOGIN}`,
   SIGNUP:`${AUTH.AUTH}${AUTH.SIGNUP}`,
+  
   ADD_SITE:`${SITES.SITES}${SITES.ADD_SITE}`,
   SITES_LIST:`${SITES.SITES}${SITES.SITES_LIST}`,
   DELETE_SITE:`${SITES.SITES}${SITES.DELETE_SITE}`,
