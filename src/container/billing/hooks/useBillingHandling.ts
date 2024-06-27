@@ -5,6 +5,7 @@ import { useLazyGetBillingHistoryQuery } from '../api/billingAPI'
 import { GetPaymentHistoryPayloadTypes } from '../billingTypes'
 
 const useBillingHandling = () => {
+ 
   const [getBillingHistory, { isFetching: billingHistoryLoading, data: billingHistoryList }] = useLazyGetBillingHistoryQuery()
 
   const getBillingHistoryList = async (payload: GetPaymentHistoryPayloadTypes) => {
@@ -15,7 +16,11 @@ const useBillingHandling = () => {
     }
   }
 
-  return { getBillingHistoryList, billingHistoryLoading, billingHistoryList: billingHistoryList?.result }
+  return {
+    getBillingHistoryList,
+    billingHistoryLoading,
+    billingHistoryList: billingHistoryList?.result,
+  }
 }
 
 export default useBillingHandling

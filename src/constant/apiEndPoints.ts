@@ -24,12 +24,14 @@ export const SITES ={
 export const BILLING ={
   STRIPE:'/stripe',
   CHECKOUT:'/create-subscription',
-  BILLING_HISTORY:'/get-payment-history'
+  BILLING_HISTORY:'/get-payment-history',
+  STRIPE_PAYMENT_INTENT:'/create-payment-intent',
 }
 
 export const APIEndpoint = {
   CHECKOUT:`${BILLING.STRIPE}${BILLING.CHECKOUT}`,
   BILLING_HISTORY:`${BILLING.STRIPE}${BILLING.BILLING_HISTORY}`,
+  STRIPE_PAYMENT_INTENT:`${BILLING.STRIPE}${BILLING.STRIPE_PAYMENT_INTENT}`,
 
   LOGIN:`${AUTH.AUTH}${AUTH.LOGIN}`,
   SIGNUP:`${AUTH.AUTH}${AUTH.SIGNUP}`,

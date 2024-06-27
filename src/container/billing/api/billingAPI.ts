@@ -2,7 +2,7 @@ import { baseQueryApi } from '@/api/queryAPI'
 import { APIEndpoint } from '@/constant/apiEndPoints'
 import { GetPaymentHistoryAPIResponseTypes, GetPaymentHistoryPayloadTypes } from '../billingTypes'
 
-const { CHECKOUT, BILLING_HISTORY } = APIEndpoint
+const { CHECKOUT, BILLING_HISTORY, STRIPE_PAYMENT_INTENT } = APIEndpoint
 
 export const sitesAPI = baseQueryApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,7 +13,14 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         body: payload,
       }),
     }),
-    getBillingHistory: builder.query< GetPaymentHistoryAPIResponseTypes, GetPaymentHistoryPayloadTypes>({
+    stripePaymentIntent: builder.query<{ client_secret:string }, void>({
+      query: (payload) => ({
+        url: STRIPE_PAYMENT_INTENT,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+    getBillingHistory: builder.query<GetPaymentHistoryAPIResponseTypes, GetPaymentHistoryPayloadTypes>({
       query: (payload) => ({
         url: BILLING_HISTORY,
         method: 'POST',
@@ -24,4 +31,4 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
   overrideExisting: false,
 })
 
-export const { useLazyCheckoutQuery, useLazyGetBillingHistoryQuery } = sitesAPI
+export const { useLazyCheckoutQuery, useLazyGetBillingHistoryQuery, useLazyStripePaymentIntentQuery } = sitesAPI

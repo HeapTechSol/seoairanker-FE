@@ -1,24 +1,30 @@
-import { useLazyCheckoutQuery } from '../api/billingAPI'
+import { ErrorTypes } from '@/utils/commonTypes'
+import { useLazyCheckoutQuery, useLazyStripePaymentIntentQuery } from '../api/billingAPI'
 
-export type CheckoutPayload = {
-  payment_method_id: string
-  plan_id: string
-  email:string,
-  addons: { price_id: string; quantity: number }[]
-}
+import { CheckoutPayload } from '../billingTypes'
+import { toast } from 'react-toastify'
 
 const useStripeHandling = () => {
   const [checkout] = useLazyCheckoutQuery()
+  const [getClientSecret, { data: paymentIntent }] = useLazyStripePaymentIntentQuery()
 
   const handleCheckout = async (payload: CheckoutPayload) => {
     try {
       return await checkout(payload)
     } catch (error) {
-      console.log(error)
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
   }
 
-  return { handleCheckout }
+  const getPaymentIntentClientSecret = async () => {
+    try {
+      await getClientSecret().unwrap()
+    } catch (error) {
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
+    }
+  }
+
+  return { handleCheckout, clientSecret: paymentIntent?.client_secret, getPaymentIntentClientSecret }
 }
 
 export default useStripeHandling
