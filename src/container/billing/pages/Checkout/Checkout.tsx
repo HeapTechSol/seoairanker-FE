@@ -12,7 +12,6 @@ import { useAppSelector } from '@/api/store'
 
 import useStripeHandling from '@/container/billing/hooks/useStripeHandling'
 
-import { UserTypes } from '@/container/auth/authTypes'
 import { StateAddOnsTypes } from '@/container/billing/billingTypes'
 import { convertFirstCharToCapital, currencyNumberWithDollar, isEmpty } from '@/utils/helper'
 
@@ -20,7 +19,6 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISH_KEY)
 
 const Checkout = () => {
   const { state } = useLocation()
-  const userInfo = useAppSelector((state) => state.auth.user)
   const theme = useAppSelector((state) => state.auth.theme)
 
   const { clientSecret, getPaymentIntentClientSecret } = useStripeHandling()
@@ -38,7 +36,7 @@ const Checkout = () => {
   const total = sum + state?.amount
 
   const appearance = {
-    mode:"setup",
+    mode: 'setup',
     theme: (theme === 'dark' ? 'night' : 'stripe') as 'night',
     variables: {
       colorPrimary: theme === 'dark' ? '#D3D3D3' : '#000000E0',
@@ -83,7 +81,7 @@ const Checkout = () => {
           <Container padding={40} className="container-bg" width={45}>
             {clientSecret && (
               <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
-                <CheckoutForm state={state} userInfo={userInfo as UserTypes} />
+                <CheckoutForm state={state} />
               </Elements>
             )}
           </Container>

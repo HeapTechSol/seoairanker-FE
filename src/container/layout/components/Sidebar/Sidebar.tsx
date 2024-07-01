@@ -1,50 +1,48 @@
-import React, { useRef } from "react";
+import React, { useRef } from 'react'
 
-import Menu from "../Menu/Menu";
+import Menu from '../Menu/Menu'
 
-import useHandleClickOutSide from "@/hooks/useHandleClickOutSide";
+import useHandleClickOutSide from '@/hooks/useHandleClickOutSide'
 
-import { sidebarMenuData } from "@/constant/leftMenu";
+import { sidebarMenuData } from '@/constant/leftMenu'
 
-import { menuClickHandler } from "@/utils/menuClickHandler";
-import { getElements, toggleCSSClasses } from "@/utils/helper";
+import { allowedRoutesWithoutSubscription } from '@/constant/constant'
 
-import "./Sidebar.scss";
+import { useAppSelector } from '@/api/store'
 
-const Sidebar = ({
-  sidebarRef,
-}: {
-  sidebarRef: React.RefObject<HTMLDivElement>;
-}) => {
-  const menuRef = useRef<HTMLDivElement>(null);
+import { menuClickHandler } from '@/utils/menuClickHandler'
+import { getElements, toggleCSSClasses } from '@/utils/helper'
+
+import './Sidebar.scss'
+
+const Sidebar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }) => {
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  const isUserSubscribed = useAppSelector((state) => state.auth.user?.isActiveSubscription)
 
   useHandleClickOutSide(menuRef, () => {
-    const htmlElements = getElements(menuRef.current as HTMLDivElement, "open");
-    toggleCSSClasses(htmlElements, "open", "remove");
-  });
+    const htmlElements = getElements(menuRef.current as HTMLDivElement, 'open')
+    toggleCSSClasses(htmlElements, 'open', 'remove')
+  })
 
   const dropDownHandler = async (e: React.MouseEvent) => {
-    const element = e.target as HTMLDivElement;
+    const element = e.target as HTMLDivElement
     if (menuRef && menuRef.current) {
-      if (["svg", "path", "img"]?.includes(element.nodeName)) {
-        menuClickHandler(
-          element.closest(".submenu-heading") as HTMLDivElement,
-          menuRef
-        );
+      if (['svg', 'path', 'img']?.includes(element.nodeName)) {
+        menuClickHandler(element.closest('.submenu-heading') as HTMLDivElement, menuRef)
       } else {
-        menuClickHandler(element, menuRef);
+        menuClickHandler(element, menuRef)
       }
     }
-  };
+  }
 
   const menuList = sidebarMenuData.map((menu, index) => (
-    <Menu
-      menu={menu}
-      key={(menu.name as string) + index}
-      clickHandler={dropDownHandler}
-      index={String(index)}
-    />
-  ));
+    <React.Fragment key={`${index}-SidebarMenu`}>
+      {!isUserSubscribed && !allowedRoutesWithoutSubscription.includes(menu.path) ? null : (
+        <Menu menu={menu} key={(menu.name as string) + index} clickHandler={dropDownHandler} index={String(index)} />
+      )}
+    </React.Fragment>
+  ))
 
   return (
     <div className="sidebar-container container-bg" ref={sidebarRef}>
@@ -52,7 +50,7 @@ const Sidebar = ({
         {menuList}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

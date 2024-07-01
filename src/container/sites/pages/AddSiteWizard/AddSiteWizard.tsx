@@ -1,25 +1,20 @@
-import Stepper from "@/components/Stepper";
-import Container from "@/components/Container/Container";
+import Stepper from '@/components/Stepper'
+import Container from '@/components/Container/Container'
 
-import useHandleSitesLogic from "@/container/sites/hooks/useHandleSitesLogic";
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
-import { steps } from "@/container/sites/utils";
+import { steps } from '@/container/sites/utils'
 
-import "./AddSiteWizard.scss";
+import './AddSiteWizard.scss'
 
 const AddSiteWizard = () => {
-  const {
-    control,
-    currentStep,
-    submitHandler,
-    handleForwardButtonPress,
-    handlePreviousButtonPress,
-  } = useHandleSitesLogic();
+  
+  const { control, currentStep, submitHandler, handleForwardButtonPress, handlePreviousButtonPress } = useHandleSitesLogic()
 
   return (
     <Container borderRadius boxShadow className="add-site-wizard container-bg">
       <Stepper
-        minHeight={"622px"}
+        minHeight={'622px'}
         steps={steps(control)}
         componentControl={false}
         activeStepper={currentStep}
@@ -28,7 +23,7 @@ const AddSiteWizard = () => {
         handlePreviousButtonPress={handlePreviousButtonPress}
       />
     </Container>
-  );
-};
+  )
+}
 
-export default AddSiteWizard;
+export default AddSiteWizard

@@ -5,7 +5,6 @@ export type AddSitePayload = {
   businessType: string
   country: string
   language: string
-  userId: string
 }
 
 export type SitesAPIResponse = {

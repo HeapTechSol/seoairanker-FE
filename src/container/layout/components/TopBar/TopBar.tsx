@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { getElements, hasClass, toggleCSSClass, toggleCSSClasses } from '@/utils/helper'
 
@@ -16,8 +16,10 @@ import { useAppSelector } from '@/api/store'
 import { setTheme, setUser } from '@/container/auth/authSlice'
 
 import './TopBar.scss'
+import Dropdown from '@/components/Dropdown/Dropdown'
+import Avatar from '@/components/Avatar/Avatar'
 
-const { LOGIN, SIGNUP } = EXACT_ROUTES
+const { LOGIN, SIGNUP, PLANS } = EXACT_ROUTES
 
 const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }) => {
   const navigate = useNavigate()
@@ -57,6 +59,29 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
 
   const lines = Array.from({ length: 5 }, (_, index) => <div key={index} className="line no-pointer"></div>)
 
+  const handleSelect = (option: { id: number; name: string | JSX.Element | React.ReactNode }) => {
+    console.log('Selected option:', option)
+  }
+
+  const users = [
+    {
+      id: 2,
+      name: (
+        <Flex align="center" gap={6}>
+          <Avatar size={'large'} fallback={user?.user?.firstName}/>
+          <Flex vertical justify="between" gap={6}>
+            <Typography text={`${user?.user?.firstName} ${user?.user?.lastName}`} size="sm" />
+            <Typography text={user?.user?.email} size="sm" />
+          </Flex>
+        </Flex>
+      ),
+    },
+    {
+      id: 3,
+      name: <Typography text="Logout" size="lg" onClick={() => dispatch(setUser(null))} />,
+    },
+  ]
+
   return (
     <div className="topbar-container container-bg">
       {user?.access_token && (
@@ -69,8 +94,10 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
           <Flex align="center" gap={8}>
             <img height={40} src={SeodeIcon} alt="" onClick={() => navigate('/')} style={{ cursor: 'pointer' }} className="pointer-icon-fill" />
           </Flex>
-          <Flex justify="center">
-            <Typography text="" />
+          <Flex justify="center" align="center" gap={16}>
+            <Link to={PLANS}>
+              <Typography text="Pricing" size="lg" />
+            </Link>
           </Flex>
           <Flex justify="end" gap={16}>
             {!user?.access_token && (
@@ -86,9 +113,9 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
             {user?.access_token && (
               <Flex align="center" gap={32} justify="end">
                 <ThemeSwitcher onClick={handleThemeSwitching} value={theme == 'dark'} />
-                <Button type="borderRadius" onClick={() => dispatch(setUser(null))}>
-                  Logout
-                </Button>
+                <Dropdown options={users} onSelect={handleSelect}>
+                  <Avatar shape='square' fallback={user?.user?.firstName}/>
+                </Dropdown>
               </Flex>
             )}
           </Flex>

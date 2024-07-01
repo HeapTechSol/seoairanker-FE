@@ -130,11 +130,21 @@
     &.text.pointer.#{$color}:hover {
       background-color: colorMapper($color, light);
     }
+
     &.filled.#{$color}:disabled {
+      color: colorMapper(grayClr, 500);
+      box-shadow: none;
+      pointer-events: none;
+      border-color: colorMapper(grayClr, 300);
+      background-color: colorMapper(grayClr, 300);
+    }
+    
+    &.filled.#{$color}:disabled:hover {
       color: colorMapper(grayClr, 500);
       box-shadow: none;
       border-color: colorMapper(grayClr, 300);
       background-color: colorMapper(grayClr, 300);
+      pointer-events: none;
     }
 
     &.outlined.#{$color}:disabled {

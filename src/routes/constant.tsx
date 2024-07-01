@@ -43,11 +43,7 @@ export const routes = createBrowserRouter([
         async lazy() {
           const { default: Pricing } = await import('../container/billing/pages/Pricing/Pricing')
           return {
-            Component: (props) => (
-              <ProtectedRoute>
-                <Pricing {...props} />
-              </ProtectedRoute>
-            ),
+            Component: (props) => <Pricing {...props} />,
           }
         },
       },
@@ -59,7 +55,7 @@ export const routes = createBrowserRouter([
           return {
             Component: (props) => (
               <ProtectedRoute>
-                  <Checkout {...props} />
+                <Checkout {...props} />
               </ProtectedRoute>
             ),
           }

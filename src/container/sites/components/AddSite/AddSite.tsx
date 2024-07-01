@@ -1,39 +1,33 @@
-import { Control, Controller, useWatch } from "react-hook-form";
+import { Control, Controller, useWatch } from 'react-hook-form'
 
-import Flex from "@/components/Flex";
-import Input from "@/components/Input";
-import Divider from "@/components/Divider/Divider";
-import ToggleButton from "@/components/ToggleButton";
-import Container from "@/components/Container/Container";
-import Typography from "@/components/Typography/Typography";
-import RangeSelector from "@/components/RangeSelector/RangeSelector";
+import Flex from '@/components/Flex'
+import Input from '@/components/Input'
+import Divider from '@/components/Divider/Divider'
+import ToggleButton from '@/components/ToggleButton'
+import Container from '@/components/Container/Container'
+import Typography from '@/components/Typography/Typography'
+import RangeSelector from '@/components/RangeSelector/RangeSelector'
 
-import { GlobalICON, SeodeIcon } from "@/assets/icons/svgs";
+import { GlobalICON, SeodeIcon } from '@/assets/icons/svgs'
 
-import "./AddSite.scss";
+import './AddSite.scss'
 
- // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddSite = ({ control }: { control: Control<any> }) => {
 
-  const pages = useWatch({ control, name: "pages" });
-  
+  const pages = useWatch({ control, name: 'pages' })
+
   return (
-    <Container
-      width={100}
-      borderRadius
-      boxShadow
-      padding={"40px 20px"}
-      className="add-site-container container-bg"
-    >
+    <Container width={100} borderRadius boxShadow padding={'40px 20px'} className="add-site-container container-bg">
       <Flex vertical gap={32} align="center">
         {SeodeIcon}
         <Flex vertical gap={16}>
           <Typography text="What's your domain name?" type="h3" />
-          <Divider/>
+          <Divider />
           <Typography text="Copy your site URL here. We will run a preliminary scan, then begin to optimize your SEO performance." />
 
           <Controller
-            render={({ field: { onChange, value }, fieldState:{error} }) => (
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
               <Input
                 StartIcon={GlobalICON}
                 name="siteUrl"
@@ -66,14 +60,10 @@ const AddSite = ({ control }: { control: Control<any> }) => {
             control={control}
           />
 
-          <Typography
-            text={`Current Limit: ${pages >= 10500 ? "unlimited" : pages || ''} 10500 Included in your plan`}
-          />
+          <Typography text={`Current Limit: ${pages >= 10500 ? 'unlimited' : pages || ''} 10500 Included in your plan`} />
           <Flex align="center" gap={16}>
             <Controller
-              render={({ field: { onChange, value } }) => (
-                <ToggleButton onChange={onChange} checked={value} />
-              )}
+              render={({ field: { onChange, value } }) => <ToggleButton onChange={onChange} checked={value} />}
               name="jsonSchemas"
               control={control}
             />
@@ -82,7 +72,7 @@ const AddSite = ({ control }: { control: Control<any> }) => {
         </Flex>
       </Flex>
     </Container>
-  );
-};
+  )
+}
 
-export default AddSite;
+export default AddSite

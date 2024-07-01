@@ -16,6 +16,8 @@ const Stepper = ({
   requestLoading,
   isEdit,
   color='primary',
+  nextButtonDisabled=false,
+  nextButtonText="Next",
   submitHandler,
   handleForwardButtonPress,
   handlePreviousButtonPress,
@@ -110,8 +112,9 @@ const Stepper = ({
                 : () => null
             }
             loading={requestLoading}
+            disabled={nextButtonDisabled}
           >
-            {lastStep ? "Finished" : "Next"}
+            {lastStep ? "Finished" : nextButtonText}
           </Button>
         </div>
       </div>

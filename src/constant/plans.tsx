@@ -79,6 +79,7 @@ const detailsInfoGenerator = (
 
 export const monthlyPlans: PlanTypes[] = [
   {
+    planId: 1,
     amount: 299,
     Icon: PersonIcon,
     color: 'warning',
@@ -103,6 +104,7 @@ export const monthlyPlans: PlanTypes[] = [
     }),
   },
   {
+    planId: 2,
     amount: 599,
     Icon: AgencyIcon,
     color: 'primary',
@@ -127,6 +129,7 @@ export const monthlyPlans: PlanTypes[] = [
     }),
   },
   {
+    planId: 3,
     amount: 1199,
     Icon: EnterpriseIcon,
     color: 'info',
@@ -154,6 +157,7 @@ export const monthlyPlans: PlanTypes[] = [
 
 export const yearlyPlans: PlanTypes[] = [
   {
+    planId: 4,
     amount: 2990,
     Icon: PersonIcon,
     color: 'warning',
@@ -178,6 +182,7 @@ export const yearlyPlans: PlanTypes[] = [
     }),
   },
   {
+    planId: 5,
     amount: 5990,
     Icon: AgencyIcon,
     color: 'primary',
@@ -202,6 +207,7 @@ export const yearlyPlans: PlanTypes[] = [
     }),
   },
   {
+    planId: 6,
     amount: 11990,
     Icon: EnterpriseIcon,
     color: 'info',
@@ -248,6 +254,7 @@ export type PlanTypes = {
   detailsInfo: infoTypes[]
   isAPIAccess: boolean
   crawlSchedule: string
+  planId: number
   addOnInfo: addOnInfoTypes[]
   buttonText: string
   buttonColor: ColorsTypes
@@ -262,13 +269,15 @@ type addsOnKeyTypes = {
   extra_pages: number
 }
 
-export type addOnsData = { key: string; amount: number; step: number, quantity:number, plan_id:string }
+export type addOnsData = { key: string; amount: number; step: number; quantity: number; plan_id: string }
 
 export type PlanDefaultValuesTypes = {
   business: addsOnKeyTypes
   agency: addsOnKeyTypes
   enterprise: addsOnKeyTypes
   selectedPlan: PlansTitles
+  pricing_id: string
+  planId: number
   totalAmount: number
   selectedPlanData: {
     planAmount: number

@@ -55,7 +55,7 @@ const Pricing = () => {
     }))
 
     navigate(CHECKOUT, {
-      state: { plan_type: data.selectedPlan, plan_id: prices_keys.id, addOns: modifiedAddOns, amount: data.selectedPlanData.planAmount },
+      state: { plan_type: data.selectedPlan, pricing_id: prices_keys.id, planId:data.planId, addOns: modifiedAddOns, amount: data.selectedPlanData.planAmount },
     })
   }
 
@@ -98,6 +98,7 @@ const Pricing = () => {
                         buttonColor={item.buttonColor}
                         planType={item.planType}
                         itemAmount={item.amount}
+                        planId={item.planId}
                         loading={false}
                       />
                     ))}
@@ -133,6 +134,8 @@ const Pricing = () => {
                         buttonColor={item.buttonColor}
                         planType={item.planType}
                         itemAmount={item.amount}
+                        planId={item.planId}
+
                         loading={false}
                       />
                     ))}

@@ -6,6 +6,7 @@ export type UserTypes = {
     lastName: string;
     email: string;
   };
+  isActiveSubscription:boolean
 };
 
 export type SignUpTypes = {

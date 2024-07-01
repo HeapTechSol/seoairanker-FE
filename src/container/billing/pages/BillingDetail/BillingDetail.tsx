@@ -1,46 +1,46 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
-import Flex from "@/components/Flex";
-import Chip from "@/components/Chip";
-import Button from "@/components/Button";
-import Divider from "@/components/Divider/Divider";
-import Container from "@/components/Container/Container";
-import Typography from "@/components/Typography/Typography";
-import HorizontalProgressBar from "@/components/ProgressIndicator/HorizontalProgressBar";
+import Flex from '@/components/Flex'
+import Chip from '@/components/Chip'
+import Button from '@/components/Button'
+import Loader from '@/components/Loader'
+import Divider from '@/components/Divider/Divider'
+import Container from '@/components/Container/Container'
+import Typography from '@/components/Typography/Typography'
+import HorizontalProgressBar from '@/components/ProgressIndicator/HorizontalProgressBar'
 
-import { EXACT_ROUTES } from "@/constant/routes";
+import { EXACT_ROUTES } from '@/constant/routes'
 
-import "./BillingDetail.scss";
+import { useAppSelector } from '@/api/store'
+import useBillingHandling from '@/container/billing/hooks/useBillingHandling'
 
-const { PAYMENT_HISTORY, PLANS } = EXACT_ROUTES;
+import { handleFormatCurrencyAndNumber } from '@/utils/helper'
+
+import './BillingDetail.scss'
+
+const { PAYMENT_HISTORY, PLANS } = EXACT_ROUTES
 
 const BillingDetail = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  const userQuota = useAppSelector((state) => state.billing.userQuota)
+
+  const { userQuotaLoading } = useBillingHandling()
+
+
   return (
     <Container width={100}>
       <Flex vertical gap={16}>
         <Flex gap={16}>
-          <Container
-            boxShadow
-            borderRadius
-            className="billing-details-container lg container-bg"
-            padding={"40px"}
-          >
+          <Container boxShadow borderRadius className="billing-details-container lg container-bg" padding={'40px'}>
             <Flex vertical gap={12}>
               <Typography text="You're Subscribed" type="h3" />
               <Divider color="warning" />
               <Typography
                 text={
                   <>
-                    You're currently subscribed to the Agency plan. See your
-                    billing history and current month usage{" "}
-                    <Typography
-                      color="info"
-                      text="here."
-                      onClick={() => navigate(PAYMENT_HISTORY)}
-                      inline
-                      link
-                    />
+                    You're currently subscribed to the Agency plan. See your billing history and current month usage{' '}
+                    <Typography color="info" text="here." onClick={() => navigate(PAYMENT_HISTORY)} inline link />
                   </>
                 }
               />
@@ -49,9 +49,15 @@ const BillingDetail = () => {
                 <Flex padding={5} vertical>
                   <Flex justify="between" align="center">
                     <Typography text="Sites" type="h4" />
-                    <Chip color="info" text="19 of 25" circled size="sm" bordered />
+                    <Chip
+                      color="info"
+                      text={`${handleFormatCurrencyAndNumber({ value: userQuota?.used_sites_quota || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.total_sites_quota || 0 })}`}
+                      circled
+                      size="sm"
+                      bordered
+                    />
                   </Flex>
-                  <HorizontalProgressBar max={25} value={19} />
+                  <HorizontalProgressBar max={userQuota?.total_sites_quota || 0} value={userQuota?.used_sites_quota || 0} />
                 </Flex>
                 <Flex padding={5} vertical>
                   <Flex justify="between" align="center">
@@ -76,7 +82,7 @@ const BillingDetail = () => {
                 </Flex>
               </Flex>
               <Flex padding={5} align="center" gap={16}>
-                <Button variant="outlined" type="borderRadius" size="sm" onClick={()=>navigate(PLANS)}>
+                <Button variant="outlined" type="borderRadius" size="sm" onClick={() => navigate(PLANS)}>
                   Edit Subscription
                 </Button>
                 <Button type="borderRadius" size="sm">
@@ -85,18 +91,8 @@ const BillingDetail = () => {
               </Flex>
             </Flex>
           </Container>
-          <Flex
-            vertical
-            gap={16}
-            justify="between"
-            className="right-section sm "
-          >
-            <Container
-              boxShadow
-              borderRadius
-              className="billing-details-container sub-container container-bg"
-              padding={"40px"}
-            >
+          <Flex vertical gap={16} justify="between" className="right-section sm ">
+            <Container boxShadow borderRadius className="billing-details-container sub-container container-bg" padding={'40px'}>
               <Flex vertical gap={16} align="start">
                 <Typography text="Payment Information" type="h3" />
                 <Divider color="warning" />
@@ -106,12 +102,7 @@ const BillingDetail = () => {
                 </Button>
               </Flex>
             </Container>
-            <Container
-              boxShadow
-              borderRadius
-              className="billing-details-container sub-container container-bg"
-              padding={"40px"}
-            >
+            <Container boxShadow borderRadius className="billing-details-container sub-container container-bg" padding={'40px'}>
               <Flex vertical gap={16} align="start">
                 <Typography text="Thank You" type="h3" />
                 <Divider color="warning" />
@@ -120,13 +111,7 @@ const BillingDetail = () => {
             </Container>
           </Flex>
         </Flex>
-        <Container
-          boxShadow
-          borderRadius
-          width={100}
-          className="billing-details-container container-bg"
-          padding={"40px"}
-        >
+        <Container boxShadow borderRadius width={100} className="billing-details-container container-bg" padding={'40px'}>
           <Flex vertical gap={16} align="start">
             <Typography text="AI Engine Usage Information" type="h3" />
             <Divider color="warning" />
@@ -141,27 +126,34 @@ const BillingDetail = () => {
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Meta Titles" type="h4" />
-                  <Chip color="info" text="4 of 25" circled size="sm" bordered />
+
+                  <Chip
+                    color="info"
+                    text={`${handleFormatCurrencyAndNumber({ value: userQuota?.used_meta_title_quota || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.total_meta_title_quota || 0 })}`}
+                    circled
+                    size="sm"
+                    bordered
+                  />
                 </Flex>
-                <HorizontalProgressBar max={25} value={4} />
+                <HorizontalProgressBar max={userQuota?.total_meta_title_quota || 0} value={userQuota?.used_meta_title_quota || 0} />
               </Flex>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Meta Descriptions" type="h4" />
-                  <Chip color="info" text="0 of 2500" circled size="sm" bordered />
+                  <Chip
+                    color="info"
+                    text={`${handleFormatCurrencyAndNumber({ value: userQuota?.used_meta_description_quota || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.total_meta_description_quota || 0 })}`}
+                    circled
+                    size="sm"
+                    bordered
+                  />
                 </Flex>
-                <HorizontalProgressBar max={2500} value={0} />
+                <HorizontalProgressBar max={userQuota?.total_meta_description_quota || 0} value={userQuota?.used_meta_description_quota || 0} />
               </Flex>
             </Flex>
           </Flex>
         </Container>
-        <Container
-          boxShadow
-          borderRadius
-          width={100}
-          className="billing-details-container container-bg"
-          padding={"40px"}
-        >
+        <Container boxShadow borderRadius width={100} className="billing-details-container container-bg" padding={'40px'}>
           <Flex vertical gap={16} align="start">
             <Typography text="Crawls and Ranking Updates" type="h3" />
             <Divider color="warning" />
@@ -176,9 +168,15 @@ const BillingDetail = () => {
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Page Crawls" type="h4" />
-                  <Chip color="info" text="4 of 25" circled size="sm" bordered />
+                  <Chip
+                    color="info"
+                    text={`${handleFormatCurrencyAndNumber({ value: userQuota?.used_pages_quota || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.total_pages_quota || 0 })}`}
+                    circled
+                    size="sm"
+                    bordered
+                  />
                 </Flex>
-                <HorizontalProgressBar max={25} value={4} />
+                <HorizontalProgressBar max={userQuota?.total_pages_quota || 0} value={userQuota?.used_pages_quota || 0} />
               </Flex>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
@@ -199,8 +197,9 @@ const BillingDetail = () => {
           </Flex>
         </Container>
       </Flex>
+      <Loader loading={userQuotaLoading} />
     </Container>
-  );
-};
+  )
+}
 
-export default BillingDetail;
+export default BillingDetail

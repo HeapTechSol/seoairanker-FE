@@ -23,6 +23,7 @@ export const SITES ={
 
 export const BILLING ={
   STRIPE:'/stripe',
+  USER_QUOTA:'/get-user-quota',
   CHECKOUT:'/create-subscription',
   BILLING_HISTORY:'/get-payment-history',
   STRIPE_PAYMENT_INTENT:'/create-payment-intent',
@@ -30,6 +31,7 @@ export const BILLING ={
 
 export const APIEndpoint = {
   CHECKOUT:`${BILLING.STRIPE}${BILLING.CHECKOUT}`,
+  USER_QUOTA:`${BILLING.STRIPE}${BILLING.USER_QUOTA}`,
   BILLING_HISTORY:`${BILLING.STRIPE}${BILLING.BILLING_HISTORY}`,
   STRIPE_PAYMENT_INTENT:`${BILLING.STRIPE}${BILLING.STRIPE_PAYMENT_INTENT}`,
 

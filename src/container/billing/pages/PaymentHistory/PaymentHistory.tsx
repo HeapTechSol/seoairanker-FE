@@ -13,23 +13,24 @@ import { CrawlIcon, PagesIcon, PersonIcon, SearchIconWithFilledBackground } from
 import useBillingHandling from '@/container/billing/hooks/useBillingHandling'
 
 import { useAppSelector } from '@/api/store'
-import { currencyNumberWithDollar, formatUnixDate } from '@/utils/helper'
+import { currencyNumberWithDollar, formatDate, handleFormatCurrencyAndNumber } from '@/utils/helper'
 
 import './PaymentHistory.scss'
 
 const PaymentHistory = () => {
-  const { getBillingHistoryList, billingHistoryLoading, billingHistoryList } = useBillingHandling()
+  const { getBillingHistoryList, billingHistoryLoading, billingHistoryList, userQuotaLoading } = useBillingHandling()
 
-  const userInfo = useAppSelector((state) => state.auth.user?.user)
+  const userQuota = useAppSelector((state) => state.billing.userQuota)
 
   const status = {
     succeeded: <Chip circled text="Processed" color="success" />,
     declined: <Chip circled text="Declined" color="error" />,
   }
+
   const columns = [
-    { header: 'Payment ID', dataKey: 'id' },
-    { header: 'Date', dataKey: 'period_start', render: (date: number) => formatUnixDate(date) },
-    { header: 'Type', dataKey: 'plan' },
+    { header: 'Payment ID', dataKey: 'stripe_transaction_id', render: (text: string) => text || '-' },
+    { header: 'Date', dataKey: 'payment_date', render: (date: string) => formatDate(date) },
+    { header: 'Type', dataKey: 'payment_method' },
     { header: 'Total', dataKey: 'amount', render: (amount: number) => currencyNumberWithDollar({ value: amount || 0, showUSD: false }) },
     {
       header: 'Status',
@@ -39,7 +40,7 @@ const PaymentHistory = () => {
   ]
 
   useEffect(() => {
-    getBillingHistoryList({ email: userInfo?.email as string, limit: 1000, starting_after: null })
+    getBillingHistoryList({ limit: 1000, starting_after: null })
   }, [])
 
   return (
@@ -59,7 +60,9 @@ const PaymentHistory = () => {
             {CrawlIcon}
             <Flex vertical gap={8}>
               <Typography type="h3" text="Site Crawls" />
-              <Typography text="15 of 250" />
+              <Typography
+                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.used_sites_quota || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.total_sites_quota || 0 })}`}
+              />
             </Flex>
           </Flex>
         </Container>
@@ -77,7 +80,9 @@ const PaymentHistory = () => {
             {PagesIcon}
             <Flex vertical gap={8}>
               <Typography type="h3" text="Pages" />
-              <Typography text="130 of 250" />
+              <Typography
+                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.used_pages_quota || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.total_pages_quota || 0 })}`}
+              />
             </Flex>
           </Flex>
         </Container>
@@ -86,7 +91,7 @@ const PaymentHistory = () => {
         <Typography text="Payment History" type="h1" size="lg" />
         <Table columns={columns} data={billingHistoryList?.payments || []} />
       </Flex>
-      <Loader loading={billingHistoryLoading} />
+      <Loader loading={billingHistoryLoading || userQuotaLoading} />
     </Flex>
   )
 }

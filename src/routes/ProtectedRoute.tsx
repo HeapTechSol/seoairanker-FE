@@ -1,20 +1,27 @@
-import { useAppSelector } from "@/api/store";
-import { EXACT_ROUTES } from "@/constant/routes";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from 'react-router-dom'
 
-const { LOGIN } = EXACT_ROUTES;
+import { useAppSelector } from '@/api/store'
 
-const ProtectedRoute = ({
-  children,
-}: {
-  children: React.ReactNode | JSX.Element;
-}) => {
-  
-  const isAuthenticated = useAppSelector(
-    (state) => state.auth.user?.access_token
-  );
+import { EXACT_ROUTES } from '@/constant/routes'
 
-  return isAuthenticated ? children : <Navigate to={LOGIN} />;
-};
+import { allowedRoutesWithoutSubscription } from '@/constant/constant'
 
-export default ProtectedRoute;
+const { LOGIN, PLANS } = EXACT_ROUTES
+
+const ProtectedRoute = ({ children }: { children: React.ReactNode | JSX.Element }) => {
+  const {pathname} = useLocation()
+  const isAuthenticated = useAppSelector((state) => state.auth.user?.access_token)
+  const isUserSubscribed = useAppSelector((state) => state.auth.user?.isActiveSubscription)
+
+  if (!isAuthenticated) {
+    return <Navigate to={LOGIN} />
+  }
+
+  if (!isUserSubscribed && !allowedRoutesWithoutSubscription.includes(pathname)) {
+    return <Navigate to={PLANS}/>
+  }
+
+  return <>{children}</>
+}
+
+export default ProtectedRoute

@@ -14,7 +14,7 @@ export type GetPaymentHistoryAPIResponseTypes = {
   result: { next_page_token: string; payments: PaymentHistoryResponseTypes[] }
 }
 
-export type GetPaymentHistoryPayloadTypes = { email: string; limit: number; starting_after: string | null }
+export type GetPaymentHistoryPayloadTypes = { limit: number; starting_after: string | null }
 
 export type CheckoutPayload = {
   payment_method_id: string
@@ -32,8 +32,27 @@ export type StateAddOnsTypes = {
 }
 
 export type CheckoutStateTypes = {
-  plan_id:string, 
-  amount:number,
-  plan_type:string,
-  addOns:StateAddOnsTypes[]
+  pricing_id: string
+  planId: number
+  amount: number
+  plan_type: string
+  addOns: StateAddOnsTypes[]
+}
+
+export type UserQuota = {
+  total_keywords_quota: number
+  total_meta_description_quota: number
+  total_meta_title_quota: number
+  total_pages_quota: number
+  total_sites_quota: number
+  total_team_members_quota: number
+  used_keywords_quota: number
+  used_meta_description_quota: number
+  used_meta_title_quota: number
+  used_pages_quota: number
+  used_sites_quota: number
+}
+
+export type GetUserQuotaAPIResponseTypes = {
+  result: UserQuota
 }

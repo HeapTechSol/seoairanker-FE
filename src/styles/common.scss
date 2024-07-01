@@ -56,3 +56,9 @@ input.hide-number-increment::-webkit-inner-spin-button {
 .StripeElement--webkit-autofill::first-line {
   font-size: 16px;
 }
+
+.disabled-link {
+  color: gray;
+  text-decoration: none;
+  cursor: not-allowed;
+}

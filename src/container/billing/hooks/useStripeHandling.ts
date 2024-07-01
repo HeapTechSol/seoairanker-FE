@@ -1,11 +1,11 @@
 import { ErrorTypes } from '@/utils/commonTypes'
-import { useLazyCheckoutQuery, useLazyStripePaymentIntentQuery } from '../api/billingAPI'
+import { useCheckoutMutation, useLazyStripePaymentIntentQuery } from '../api/billingAPI'
 
 import { CheckoutPayload } from '../billingTypes'
 import { toast } from 'react-toastify'
 
 const useStripeHandling = () => {
-  const [checkout] = useLazyCheckoutQuery()
+  const [checkout] = useCheckoutMutation()
   const [getClientSecret, { data: paymentIntent }] = useLazyStripePaymentIntentQuery()
 
   const handleCheckout = async (payload: CheckoutPayload) => {

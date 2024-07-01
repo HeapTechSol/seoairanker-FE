@@ -3,7 +3,13 @@ import './ThemeSwitcher.scss'
 const ThemeSwitcher = ({ onClick, value }: { onClick: (status: boolean) => void; value: boolean }) => {
   return (
     <label className="theme-switch">
-      <input type="checkbox" className="theme-switch__checkbox" checked={value} onClick={(e) => onClick((e.target as HTMLInputElement).checked)} />
+      <input
+        type="checkbox"
+        className="theme-switch__checkbox"
+        onChange={() => null}
+        checked={value}
+        onClick={(e) => onClick((e.target as HTMLInputElement).checked)}
+      />
       <div className="theme-switch__container">
         <div className="theme-switch__clouds"></div>
         <div className="theme-switch__stars-container">

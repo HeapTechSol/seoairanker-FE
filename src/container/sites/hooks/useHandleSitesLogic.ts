@@ -31,7 +31,9 @@ const useHandleSitesLogic = () => {
     resolver: zodResolver(ADD_SITE_WIZARD_VALIDATIONS[currentStep]),
   })
 
-  const user = useAppSelector((state) => state.auth.user)
+  const userQuota = useAppSelector((state) => state.billing.userQuota)
+
+  const isSiteQuotaExceeded = (userQuota?.used_sites_quota as number) >= (userQuota?.total_sites_quota as number)
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
@@ -48,6 +50,10 @@ const useHandleSitesLogic = () => {
   }
 
   const handleForwardButtonPress = () => {
+    if (isSiteQuotaExceeded) {
+      toast.error('You cannot add a new site, your quota to add site is exceeded')
+      return
+    }
     handleSubmit(handleNext)()
   }
 
@@ -56,7 +62,6 @@ const useHandleSitesLogic = () => {
       const values = getValues()
       const response = await addSite({
         ...values,
-        userId: user?.user?.id as string,
       }).unwrap()
       toast.success(response?.message)
       navigate(SITES_DASHBOARD)
@@ -130,7 +135,7 @@ const useHandleSitesLogic = () => {
     handlePreviousButtonPress,
     insightsData: insightsData?.result,
     sitesList: sitesList?.result || [],
-    crawledInfo:crawledInfo?.result ,
+    crawledInfo: crawledInfo?.result,
     siteLinkAndContent: siteLinkAndContent,
   }
 }

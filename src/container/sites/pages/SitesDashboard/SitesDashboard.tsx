@@ -82,7 +82,7 @@ const SitesDashboard = () => {
         {isSitesExist && (
           <Flex gap={16}>
             <Flex vertical gap={16}>
-              {sitesList?.map((site) => <AddedSiteCard site={site} onClick={() => deleteSite(site.id)} />)}
+              {sitesList?.map((site, index) => <AddedSiteCard site={site} onClick={() => deleteSite(site.id)} key={`${index}-AddSiteCard`}/>)}
               {/* <Pagination
               pageSize={10}
               currentPage={1}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 
@@ -11,20 +12,24 @@ import useStripeHandling from '@/container/billing/hooks/useStripeHandling'
 import { isEmpty } from '@/utils/helper'
 import { EXACT_ROUTES } from '@/constant/routes'
 import { CheckoutStateTypes } from '../billingTypes'
+import { setUser } from '@/container/auth/authSlice'
+import { useAppSelector } from '@/api/store'
 import { UserTypes } from '@/container/auth/authTypes'
 
 type CheckoutFormProps = {
   state: CheckoutStateTypes
-  userInfo: UserTypes
 }
 
-const CheckoutForm = ({ state, userInfo }: CheckoutFormProps) => {
+const CheckoutForm = ({ state }: CheckoutFormProps) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [loading, setIsLoading] = useState(false)
 
   const stripe = useStripe()
   const elements = useElements()
   const { handleCheckout } = useStripeHandling()
+
+  const userInfo = useAppSelector((state) => state.auth.user)
 
   const handlePayment = async () => {
     try {
@@ -70,7 +75,6 @@ const CheckoutForm = ({ state, userInfo }: CheckoutFormProps) => {
           setIsLoading(false)
           return
         }
-        await createSubscription(setupIntent.payment_method as string)
       }
     } catch (error) {
       console.error('Payment error:', error)
@@ -82,17 +86,20 @@ const CheckoutForm = ({ state, userInfo }: CheckoutFormProps) => {
 
   const createSubscription = async (paymentMethodId: string) => {
     const body = {
-      plan_id: state.plan_id,
-      email: userInfo?.user.email,
+      plan_id: state.pricing_id,
+      email: userInfo?.user.email as string,
       payment_method_id: paymentMethodId,
+      userSelectedPlanId: state.planId,
       addons: state?.addOns?.map((item) => ({
         price_id: item.plan_id,
         quantity: item.quantity / item.step,
+        feature_name: item.key,
       })),
     }
 
     const data = await handleCheckout(body)
-    if (data?.isSuccess) {
+    if (!data?.error) {
+      dispatch(setUser({ ...userInfo, isActiveSubscription: true } as UserTypes))
       toast.success('Subscription created successfully')
       navigate(EXACT_ROUTES.ADD_SITE)
     } else {

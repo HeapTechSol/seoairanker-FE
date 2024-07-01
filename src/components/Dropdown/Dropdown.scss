@@ -1,0 +1,40 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+    display: block;
+    min-width: 200px;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    text-align: left;
+    list-style: none;
+    color: var(--color-common-main);
+    background-color: var(--background-color);
+    background-clip: padding-box;
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem;
+
+    &.left {
+      left: 0;
+    }
+
+    &.right {
+      right: 0;
+    }
+
+    li {
+      padding: 0.5rem 1.5rem;
+      cursor: pointer;
+      margin: 10px 0px;
+
+      &:hover {
+        background-color: colorMapper(primary, main);
+      }
+    }
+  }
+}

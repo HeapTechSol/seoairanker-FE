@@ -40,5 +40,5 @@ export const baseQueryApi = createApi({
   reducerPath: "api",
   endpoints: () => ({}),
   keepUnusedDataFor: 600,
-  tagTypes: ["sitesList", "recommendationsData"],
+  tagTypes: ["sitesList", "recommendationsData", "userQuota"],
 });

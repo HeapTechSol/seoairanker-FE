@@ -21,6 +21,7 @@ export type PlanCard = PlanTypes & {
   duration: 'Monthly' | 'Year'
   loading: boolean
   itemAmount: number
+  planId: number
 }
 
 const PlanCard = ({
@@ -43,6 +44,7 @@ const PlanCard = ({
   loading = false,
   duration = 'Monthly',
   handleSubmit,
+  planId,
 }: PlanCard) => {
   return (
     <Container boxShadow borderRadius padding={40} className="plan-card  container-bg">
@@ -126,6 +128,7 @@ const PlanCard = ({
               onClick={() => {
                 onChange(planType)
                 setValue('totalAmount', amount)
+                setValue('planId', planId)
                 const addOnsData = addOnInfo.map((item) => ({ key: item.key, amount: item.amount, step: item.step }))
                 setValue('selectedPlanData', { planAmount: itemAmount, planType: planType, addOnsData })
                 handleSubmit()
