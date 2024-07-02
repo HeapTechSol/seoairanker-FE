@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import Flex from "@/components/Flex";
 import Container from "@/components/Container/Container";
@@ -10,7 +9,6 @@ import "./AuthLayout.scss";
 
 const AuthLayout = () => {
   return (
-    <GoogleOAuthProvider clientId={"dsfdsfjdslfdsjlkj"}>
       <Flex className="auth-layout container-bg" align="center" justify="center">
         <Container
           width={50}
@@ -39,7 +37,6 @@ const AuthLayout = () => {
           </Flex>
         </Container>
       </Flex>
-    </GoogleOAuthProvider>
   );
 };
 

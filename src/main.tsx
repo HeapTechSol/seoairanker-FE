@@ -11,12 +11,12 @@ import 'react-toastify/dist/ReactToastify.css'
 import { store, persister } from './api/store'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <GoogleOAuthProvider clientId="981760717524-mtfs1l4psct68lohkuplm7v08ebi7ng1.apps.googleusercontent.com">
   <Provider store={store}>
     <PersistGate loading={null} persistor={persister}>
       <ToastContainer rtl={false} />
-      <App />
+      <GoogleOAuthProvider clientId="993511257163-7404b81795f9c8rp888v8k44ki4914ft.apps.googleusercontent.com">
+        <App />
+      </GoogleOAuthProvider>
     </PersistGate>
   </Provider>
-  </GoogleOAuthProvider>
 )

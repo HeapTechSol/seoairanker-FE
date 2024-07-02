@@ -68,7 +68,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
       id: 2,
       name: (
         <Flex align="center" gap={6}>
-          <Avatar size={'large'} fallback={user?.user?.firstName}/>
+          <Avatar size={'large'} fallback={user?.user?.firstName} src={user?.user?.profileImage} />
           <Flex vertical justify="between" gap={6}>
             <Typography text={`${user?.user?.firstName} ${user?.user?.lastName}`} size="sm" />
             <Typography text={user?.user?.email} size="sm" />
@@ -114,7 +114,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
               <Flex align="center" gap={32} justify="end">
                 <ThemeSwitcher onClick={handleThemeSwitching} value={theme == 'dark'} />
                 <Dropdown options={users} onSelect={handleSelect}>
-                  <Avatar shape='square' fallback={user?.user?.firstName}/>
+                  <Avatar shape="square" fallback={user?.user?.firstName} src={user?.user?.profileImage} />
                 </Dropdown>
               </Flex>
             )}

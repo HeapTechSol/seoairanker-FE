@@ -1,7 +1,8 @@
 export const AUTH = {
   AUTH:'auth/',
   LOGIN: "login",
-  SIGNUP:'signup'
+  SIGNUP:'signup',
+  GOOGLE_AUTH:'social-auth'
 };
 
 export const SITES ={
@@ -37,6 +38,7 @@ export const APIEndpoint = {
 
   LOGIN:`${AUTH.AUTH}${AUTH.LOGIN}`,
   SIGNUP:`${AUTH.AUTH}${AUTH.SIGNUP}`,
+  GOOGLE_AUTH:`${AUTH.AUTH}${AUTH.GOOGLE_AUTH}`,
   
   ADD_SITE:`${SITES.SITES}${SITES.ADD_SITE}`,
   SITES_LIST:`${SITES.SITES}${SITES.SITES_LIST}`,

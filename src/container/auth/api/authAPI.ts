@@ -3,13 +3,20 @@ import { APIEndpoint } from "@/constant/apiEndPoints";
 
 import * as authTypes from "../authTypes";
 
-const { LOGIN, SIGNUP } = APIEndpoint;
+const { LOGIN, SIGNUP, GOOGLE_AUTH } = APIEndpoint;
 
 export const authApi = baseQueryApi.injectEndpoints({
   endpoints: (builder) => ({
     signIn: builder.query<{ result: authTypes.UserTypes }, authTypes.LoginPayload>({
       query: (payload) => ({
         url: LOGIN,
+        method: "POST",
+        body: payload,
+      }),
+    }),
+    googleAuth: builder.query<{ result: authTypes.UserTypes }, authTypes.GoogleLoginPayload>({
+      query: (payload) => ({
+        url: GOOGLE_AUTH,
         method: "POST",
         body: payload,
       }),
@@ -25,4 +32,4 @@ export const authApi = baseQueryApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLazySignInQuery, useLazySignUpQuery } = authApi;
+export const { useLazySignInQuery, useLazySignUpQuery, useLazyGoogleAuthQuery } = authApi;
