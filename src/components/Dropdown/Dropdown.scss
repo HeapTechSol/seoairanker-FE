@@ -35,6 +35,9 @@
       &:hover {
         background-color: colorMapper(primary, main);
       }
+      &:hover .body-text {
+        color: white;
+      }
     }
   }
 }
