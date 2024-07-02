@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persister}>
       <ToastContainer rtl={false} />
-      <GoogleOAuthProvider clientId="993511257163-7404b81795f9c8rp888v8k44ki4914ft.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_KEY}>
         <App />
       </GoogleOAuthProvider>
     </PersistGate>
