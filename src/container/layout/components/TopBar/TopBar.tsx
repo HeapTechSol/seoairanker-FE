@@ -82,9 +82,11 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
     },
   ]
 
+  const isToggle = false
+
   return (
     <div className="topbar-container container-bg">
-      {user?.access_token && (
+      {isToggle && (
         <div className="humbarger-icon" onClick={sidebarToggleHandler}>
           {lines}
         </div>

@@ -104,11 +104,11 @@
     }
 
     input[type="checkbox"]:disabled {
-      border-color: colorMapper(grayclr, 400);
+      border-color: colorMapper(grayClr, 400);
     }
 
     &:has(input:disabled) label {
-      color: colorMapper(grayclr, 400);
+      color: colorMapper(grayClr, 400);
     }
 
     &.sm > input {

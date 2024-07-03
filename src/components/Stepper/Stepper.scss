@@ -13,7 +13,7 @@
           width: 100%;
           margin: 0px 10px;
           height: 2px;
-          background: colorMapper(grayclr, 200);
+          background: colorMapper(grayClr, 200);
         }
       }
 
@@ -74,7 +74,7 @@
       }
 
       &.active .step {
-        border-color: colorMapper(grayclr, 500);
+        border-color: colorMapper(grayClr, 500);
         background-color: var(--color-common-main);
         -webkit-mask: url('@/assets/icons/edit_icon.svg') no-repeat center center;
         mask: url('@/assets/icons/edit_icon.svg') no-repeat center center;
@@ -116,7 +116,7 @@
           position: absolute;
           width: 2px;
           height: 95%;
-          background: colorMapper(grayclr, 400);
+          background: colorMapper(grayClr, 400);
           right: -24px;
           top: 50%;
           transform: translateY(-50%);
@@ -125,7 +125,7 @@
         .step-separator {
           min-height: 15px;
           width: 2px;
-          background: colorMapper(grayclr, 400);
+          background: colorMapper(grayClr, 400);
           margin-left: 12px;
         }
       }

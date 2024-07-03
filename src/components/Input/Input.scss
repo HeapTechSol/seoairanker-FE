@@ -6,7 +6,7 @@
       align-items: center;
       position: relative;
       border-radius: 7px;
-      border-color: colorMapper(grayclr, 200);
+      border-color: colorMapper(grayClr, 200);
       legend {
         position: absolute;
         background: transparent;
@@ -17,7 +17,7 @@
         font-size: 16px;
         letter-spacing: 0.15px;
         z-index: 2;
-        color: colorMapper(grayclr, 900);
+        color: colorMapper(grayClr, 900);
         transition: all 0.1s ease-in-out;
       }
 
@@ -133,7 +133,7 @@
       }
 
       &.outlined:hover {
-        border-color: colorMapper(grayclr, 400);
+        border-color: colorMapper(grayClr, 400);
       }
 
       &.outlined.focused:hover {
@@ -229,15 +229,15 @@
       }
 
       &:disabled {
-        background: colorMapper(grayclr, 300);
+        background: colorMapper(grayClr, 300);
 
         legend {
-          color: colorMapper(grayclr, 500);
+          color: colorMapper(grayClr, 500);
         }
       }
 
       &:disabled:hover {
-        border-color: colorMapper(grayclr, 100);
+        border-color: colorMapper(grayClr, 100);
       }
     }
   }

@@ -9,7 +9,7 @@
         min-width: 25px;
         min-height: 25px;
         border-radius: 100%;
-        background: colorMapper(grayclr, 100);
+        background: colorMapper(grayClr, 100);
         box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.06);
         color: colorMapper($color, main);
         display: flex;
@@ -25,7 +25,7 @@
           height: 0;
           border-left: 6px solid transparent;
           border-right: 6px solid transparent;
-          border-top: 6px solid colorMapper(grayclr, 100);;
+          border-top: 6px solid colorMapper(grayClr, 100);;
           box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.06);
         }
       }

@@ -27,7 +27,7 @@
     }
 
     &:has(input:disabled) label {
-      color: colorMapper(grayclr, 400);
+      color: colorMapper(grayClr, 400);
     }
 
     input[type="radio"] {
@@ -42,7 +42,7 @@
     }
 
     input[type="radio"]:disabled {
-      border-color: colorMapper(grayclr, 300);
+      border-color: colorMapper(grayClr, 300);
     }
 
     input[type="radio"]:checked {
