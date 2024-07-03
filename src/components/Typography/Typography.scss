@@ -104,7 +104,7 @@
     &.#{$color} {
       color: colorMapper($color, main);
     }
-    }
+  }
 }
 
 .heading-one,
@@ -168,4 +168,28 @@
 .editAble:focus {
   padding: 6px 10px;
   height: 100%;
+}
+
+.app-container.light .body-text.common {
+  color: colorMapper(grayClr, light-description-color);
+}
+.app-container.dark .body-text.common {
+  color: colorMapper(grayClr, dark-description-color);
+}
+
+.app-container.light .heading-one,
+.heading-two,
+.heading-three,
+.heading-four,
+.heading-five,
+.heading-six .common {
+  color: colorMapper(grayClr, light-text-color);
+}
+.app-container.dark .heading-one,
+.heading-two,
+.heading-three,
+.heading-four,
+.heading-five,
+.heading-six .common {
+  color: colorMapper(grayClr, dark-text-color);
 }

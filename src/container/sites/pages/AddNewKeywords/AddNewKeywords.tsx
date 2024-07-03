@@ -6,6 +6,7 @@ import Button from '@/components/Button'
 import Select from '@/components/Select'
 import Checkbox from '@/components/Checkbox'
 import Divider from '@/components/Divider/Divider'
+import TextArea from '@/components/TextArea/TextArea'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import Pagination from '@/components/Pagination/Pagination'
@@ -27,8 +28,8 @@ const AddNewKeywords = () => {
       <Flex vertical gap={16}>
         <Typography text="Add New Keywords" type="h1" />
         <Divider color="warning" />
-        <Flex gap={16} className="container-screens" >
-          <Container borderRadius boxShadow padding={'40px'} className="recommended-keywords-table-container container-bg" >
+        <Flex gap={16} className="container-screens">
+          <Container borderRadius boxShadow padding={'40px'} className="recommended-keywords-table-container container-bg">
             <Flex vertical gap={16}>
               <Typography text="Your Recommended Keywords" type="h2" />
               <Typography
@@ -68,6 +69,22 @@ const AddNewKeywords = () => {
               <Typography text="Save Your Keywords" type="h2" />
               <Typography
                 text={`Click "Save Your Keywords" button below to add your chosen keywords. You can also type in any other keywords you want to rank for.`}
+              />
+
+              <Controller
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                  <TextArea
+                    onChange={onChange}
+                    value={value}
+                    name="keywords"
+                    error={error?.message}
+                    borderRadius
+                    title="Keyword"
+                    placeholder="One keyword per line, maximum 10 words per keyword. Please avoid special characters, punctuation, and emoji."
+                  />
+                )}
+                name="country"
+                control={control}
               />
 
               <Controller
