@@ -8,12 +8,12 @@ import { steps } from '@/container/sites/utils'
 import './AddSiteWizard.scss'
 
 const AddSiteWizard = () => {
-  
   const { control, currentStep, submitHandler, handleForwardButtonPress, handlePreviousButtonPress } = useHandleSitesLogic()
 
   return (
     <Container borderRadius boxShadow className="add-site-wizard container-bg">
       <Stepper
+        color="common"
         minHeight={'622px'}
         steps={steps(control)}
         componentControl={false}

@@ -23,7 +23,7 @@
   }
 
   .btn::after {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 1px;
@@ -49,9 +49,18 @@
       border: none;
       background-color: colorMapper($color, main);
     }
-    
+
     .tabs-button.#{$color}.btn.text.active {
       border: none;
+    }
+
+    .tabs-button.#{$color}.btn.text:hover {
+      background-color: var(--bg-hover-color);
+    }
+
+    .tabs-button.#{$color}.btn.text:not(.active) {
+      color: var(--text-description-color);
+      font-weight: 500;
     }
   }
 

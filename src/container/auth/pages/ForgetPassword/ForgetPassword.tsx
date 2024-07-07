@@ -10,7 +10,7 @@ import Typography from "@/components/Typography/Typography";
 
 import useForgetPasswordHandler from "@/container/auth/hooks/useForgetPasswordHandler";
 
-import { EmailIcon } from "@/assets/icons/svgs";
+import { MdOutlineEmail } from 'react-icons/md'
 
 import "./ForgetPassword.scss";
 
@@ -19,7 +19,7 @@ const ForgetPassword = () => {
     useForgetPasswordHandler();
 
   return (
-    <Container width={100} boxShadow borderRadius padding={"40px 80px"} className="container-bg">
+    <Container width={100} boxShadow borderRadius padding={"60px"} className="auth-form-container">
       <Flex vertical gap={24} align="center" justify="center">
         <Typography text="Forgot Password" type="h2" />
         <Flex vertical justify="center" gap={16}>
@@ -36,7 +36,7 @@ const ForgetPassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={EmailIcon}
+                  StartIcon={<MdOutlineEmail/>}
                   placeholder="Enter your email"
                 />
               );

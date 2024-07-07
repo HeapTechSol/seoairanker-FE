@@ -10,7 +10,7 @@
   transition: all 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 16px;
   padding: 16px;
   min-width: 240px;
   background: #ebf5ff;
@@ -37,11 +37,37 @@
 .menu-link,
 .submenu-list-link {
   padding: 8px;
+  border-radius: 7px;
   padding-left: 16px;
   &:hover {
     background: colorMapper(primary, main);
-    color:white;
+    color: white;
   }
+}
+
+.submenu-heading:hover {
+  .menu-icon svg {
+    stroke: white;
+  }
+  .submenu-heading-title {
+    color: white;
+  }
+  .dropdown-arrow svg {
+    fill: white;
+  }
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+}
+
+.menu-link:hover .menu-link-title {
+  color: white;
+}
+
+.menu-link.active .menu-link-title {
+  color: white;
 }
 
 .submenu-heading,
@@ -62,7 +88,8 @@
   }
 
   .menu-icon {
-    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
     margin-right: 8px;
     position: relative;
     z-index: 100;
@@ -78,6 +105,8 @@
 .submenu-heading {
   cursor: pointer;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar-container:not(.collapsed) .submenu-heading {
@@ -205,6 +234,7 @@
 .menu .active {
   background-color: colorMapper(primary, main);
   color: white;
+  border-radius: 7px;
 }
 
 .sidebar-menu-container:has(.submenu-list-link.active) {

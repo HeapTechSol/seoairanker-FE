@@ -1,54 +1,100 @@
-import React, { useRef } from 'react'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-import Menu from '../Menu/Menu'
+import Flex from '@/components/Flex'
+import Accordion from '@/components/Accordion'
+import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
 
-import useHandleClickOutSide from '@/hooks/useHandleClickOutSide'
-
+import { menuTypes } from '../Menu/types'
 import { sidebarMenuData } from '@/constant/leftMenu'
-
 import { allowedRoutesWithoutSubscription } from '@/constant/constant'
 
 import { useAppSelector } from '@/api/store'
+import { setTheme } from '@/container/auth/authSlice'
 
-import { menuClickHandler } from '@/utils/menuClickHandler'
-import { getElements, toggleCSSClasses } from '@/utils/helper'
 
 import './Sidebar.scss'
 
+
+
 const Sidebar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }) => {
-  const menuRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { pathname } = useLocation()
 
   const isUserSubscribed = useAppSelector((state) => state.auth.user?.isActiveSubscription)
 
-  useHandleClickOutSide(menuRef, () => {
-    const htmlElements = getElements(menuRef.current as HTMLDivElement, 'open')
-    toggleCSSClasses(htmlElements, 'open', 'remove')
-  })
+  const theme = useAppSelector((state) => state.auth.theme)
 
-  const dropDownHandler = async (e: React.MouseEvent) => {
-    const element = e.target as HTMLDivElement
-    if (menuRef && menuRef.current) {
-      if (['svg', 'path', 'img']?.includes(element.nodeName)) {
-        menuClickHandler(element.closest('.submenu-heading') as HTMLDivElement, menuRef)
-      } else {
-        menuClickHandler(element, menuRef)
-      }
-    }
+  const isLinkDisabled = (path: string) => {
+    return !isUserSubscribed && !allowedRoutesWithoutSubscription.includes(path)
   }
+
+  const menuChildren = (menu: menuTypes[]) => {
+    return (
+      <Flex vertical gap={8}>
+        {menu.map((item) => (
+          <>{menuLink(item)}</>
+        ))}
+      </Flex>
+    )
+  }
+
+  const menuLink = (menu: menuTypes) => (
+    <Flex
+      align="center"
+      gap={8}
+      className={`sidebar-container__menu__link ${menu.path === pathname ? 'active' : ''} ${isLinkDisabled(menu.path) ? 'disabled' : ''}`}
+      onClick={(e) => {
+        e.stopPropagation()
+        navigate(menu.path)
+      }}
+    >
+      {menu.icon}
+      <span className="sidebar-container__menu__link__title">{menu.name}</span>
+    </Flex>
+  )
+
+  const menuItem = (menu: menuTypes) => (
+    <Flex gap={8} align="center" className="sidebar-container__menu__item">
+      {menu.icon}
+      <span className="sidebar-container__menu__link__title">{menu.name}</span>
+    </Flex>
+  )
 
   const menuList = sidebarMenuData.map((menu, index) => (
     <React.Fragment key={`${index}-SidebarMenu`}>
-      {!isUserSubscribed && !allowedRoutesWithoutSubscription.includes(menu.path) ? null : (
-        <Menu menu={menu} key={(menu.name as string) + index} clickHandler={dropDownHandler} index={String(index)} />
+      {menu.children ? (
+        <Accordion
+          className={`sidebar-container__menu__sub-menu ${menu.children?.map((item) => item.path).includes(pathname) ? 'active' : ''}`}
+          title={menuItem(menu)}
+          description={menuChildren(menu.children)}
+        />
+      ) : (
+        menuLink(menu)
       )}
     </React.Fragment>
   ))
 
+  const handleThemeSwitching = (isDark: boolean) => {
+    if (isDark) {
+      dispatch(setTheme('dark'))
+      document.querySelector('body')?.classList.remove('light')
+      document.querySelector('body')?.classList.add('dark')
+    } else {
+      dispatch(setTheme('light'))
+      document.querySelector('body')?.classList.remove('dark')
+      document.querySelector('body')?.classList.add('light')
+    }
+  }
+
   return (
-    <div className="sidebar-container container-bg" ref={sidebarRef}>
-      <div ref={menuRef} className="sidebar-container-menu">
+    <div className="sidebar-container" ref={sidebarRef}>
+      <Flex vertical gap={16} className="sidebar-container__menu">
         {menuList}
-      </div>
+      </Flex>
+      <ThemeSwitcher onClick={handleThemeSwitching} value={theme == 'dark'} />
     </div>
   )
 }

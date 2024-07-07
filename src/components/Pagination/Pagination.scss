@@ -1,5 +1,5 @@
-.pagination-properties{
-  .flex-container{
+.pagination-properties {
+  .flex-container {
     max-width: 200px;
   }
 }
@@ -7,17 +7,66 @@
 .pagination-container {
   display: flex;
   list-style-type: none;
-  gap:12px;
+  gap: 8px;
+  align-items: center;
 
   .pagination-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
 
-    &.dots:hover {
-      background-color: transparent;
-      cursor: default;
+    &.dots {
+      padding: 0 8px;
+
+      &:hover {
+        background-color: transparent;
+        cursor: default;
+      }
     }
+
     &:hover {
       background-color: rgba(0, 0, 0, 0.04);
       cursor: pointer;
+    }
+  }
+
+  .btn {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    font-size: 14px;
+    border-radius: 4px !important;
+
+    &.outlined {
+      background-color: var(--bg-hover-color);
+      color: var(--hovered-text-color);
+      border: none;
+
+      &:hover {
+        background-color: var(--bg-hover-color) !important;
+        color: var(--hovered-text-color) !important;
+        border: none !important;
+      }
+    }
+
+    &.text {
+      color: var(--text-description-color);
+
+      &:hover {
+        background-color: var(--bg-hover-color);
+        color: var(--hovered-text-color);
+        border: none;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 }

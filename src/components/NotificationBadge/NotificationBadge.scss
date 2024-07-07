@@ -1,0 +1,35 @@
+.notification-badge {
+  position: relative;
+  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-common-main);
+
+  svg {
+    fill: colorMapper(warning, main);
+    font-size: 25px;
+  }
+
+  &__count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    font-size: 12px;
+    line-height: 16px;
+    white-space: nowrap;
+    text-align: center;
+    background: #ff4d4f;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px #fff;
+    color: #fff;
+    transform: translateX(50%);
+
+    &:empty {
+      display: none;
+    }
+  }
+}

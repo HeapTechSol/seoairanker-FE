@@ -37,7 +37,7 @@
   @each $color in $colorType {
     &.#{$color} .ReactFlagsSelect-module_flagsSelect__2pfa2 {
       padding: 0px;
-      border: 1px solid colorMapper($color, main);
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       button {
         border: none;
@@ -47,35 +47,67 @@
           font-family: 'inter', sans-serif;
         }
         &::after {
-          border-top: 7px solid colorMapper($color, main);
+          border-top: 7px solid var(--color-common-main);
           border-left: 7px solid transparent;
           border-right: 7px solid transparent;
           border-bottom: 0;
         }
       }
+      ul {
+        background-color: var(--container-bg-color);
+      }
       .ReactFlagsSelect-module_selectOptions__3LNBJ {
         border: 1px solid var(--border-color);
         .ReactFlagsSelect-module_selectOption__3pcgW:hover {
-          background-color: colorMapper($color, main);
+          background-color: var(--bg-hover-color);
           span {
-            color: white;
+            color: var(--color-common-main);
           }
         }
       }
       button {
         .ReactFlagsSelect-module_selectValue__152eS {
           color: var(--color-common-main);
+          opacity: 0.3;
+          &:has(.ReactFlagsSelect-module_selectFlag__2q5gC) {
+            opacity: 1 !important;
+          }
         }
       }
     }
   }
   ul {
-    background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    list-style-type: none;
+    li {
+      padding: 0px;
+      margin: 0px;
+      border-radius: 4px;
+    }
     li span {
+      padding: 4px 10px;
       color: var(--color-common-main);
     }
   }
   .ReactFlagsSelect-module_label__27pw9 {
     color: var(--color-common-main);
+  }
+  .ReactFlagsSelect-module_filterBox__3m8EU {
+    background-color: var(--container-bg-color);
+    margin-bottom: 20px;
+    input {
+      background-color: var(--container-bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      margin: 0px;
+      width: 100%;
+      color: var(--color-common-main);
+      &::placeholder {
+        color: var(--color-common-main);
+        opacity: 0.3;
+      }
+    }
   }
 }

@@ -9,7 +9,10 @@ import Typography from '@/components/Typography/Typography'
 
 import { EXACT_ROUTES } from '@/constant/routes'
 import { SitesAPIResponse } from '@/container/sites/sitesTypes'
-import { DeleteIcon, SettingIcon, TopRightIcon } from '@/assets/icons/svgs'
+
+import { RiDeleteBin6Line } from 'react-icons/ri'
+import { IoSettingsOutline } from 'react-icons/io5'
+import { TiLocationArrowOutline } from 'react-icons/ti'
 
 import './AddedSiteCard.scss'
 
@@ -29,14 +32,14 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
               })
             }
           >
-            <img src="" alt="" />
+            <img src={site?.logo} alt="" />
             <Link to="" className="site-link">
               {site?.siteUrl || ''}
             </Link>
           </Flex>
           <Flex className="site-info-controls" justify="end" align="center">
-            <Button onlyIcon size="sm" color="info" variant="text" StartIcon={SettingIcon} onClick={() => console.log('clicked')} />
-            <Button onlyIcon size="sm" color="error" variant="text" fill StartIcon={DeleteIcon} onClick={onClick} />
+            <Button onlyIcon size="sm" color="info" variant="text" StartIcon={<IoSettingsOutline />} onClick={() => console.log('clicked')} />
+            <Button onlyIcon size="sm" color="error" variant="text" fill StartIcon={<RiDeleteBin6Line />} onClick={onClick} />
           </Flex>
         </Flex>
         <Divider color="info" />
@@ -52,14 +55,14 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
           <Flex vertical className="recommendations-info ">
             <Flex justify="between" align="center">
               <Typography text="Recommendations" />
-              <Button onlyIcon color="info" variant="text" StartIcon={TopRightIcon} onClick={() => console.log('clicked')} />
+              <Button onlyIcon color="info" variant="text" StartIcon={<TiLocationArrowOutline />} onClick={() => console.log('clicked')} />
             </Flex>
             <Flex align="center">
               <Typography
                 text={
                   <>
                     <Typography text={site?.recommendations?.approved || 0} inline type="h1" />/
-                    {(site?.recommendations?.approved + site?.recommendations?.unapproved) || 0}
+                    {site?.recommendations?.approved + site?.recommendations?.unapproved || 0}
                   </>
                 }
               />

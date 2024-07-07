@@ -27,7 +27,7 @@ const SiteInsights = () => {
         {insightsData?.screenshot_url && <img src={insightsData?.screenshot_url} alt="" width={'60%'} />}
         <Divider color="error" />
         <Flex gap={16} vertical align="center" justify="center">
-          <CircularProgress progress={(insightsData?.performance_score || 0) * 100} size={100}/>
+          <CircularProgress progress={(insightsData?.performance_score || 0) * 100} size={100} />
           <Typography text="Performance" type="h3" />
         </Flex>
         <Flex vertical gap={32} align="center">
@@ -53,7 +53,7 @@ const SiteInsights = () => {
           </Flex>
         </Flex>
 
-        <Loader loading={insightsLoading} overlay/>
+        <Loader loading={insightsLoading} />
       </Flex>
     </Container>
   )

@@ -74,7 +74,6 @@ const TitlePreview = ({ titlesList, recommendationCount }: TitlePreviewProps) =>
 
   const renderAccordionDescription = (item: TitlesRecommendations, index: number) => (
     <Flex vertical gap={4}>
-      <Typography text={item.url} type="h6" />
       {!!item?.existing_title?.length && (
         <>
           <Typography text="Content:" />
@@ -85,7 +84,7 @@ const TitlePreview = ({ titlesList, recommendationCount }: TitlePreviewProps) =>
       <Typography text={item?.existing_title || ''} color="warning" />
       <Flex align="center" gap={16}>
         <Typography text="Suggestion:" />
-        <span style={{ cursor: 'pointer' }}  className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, item.id)}>
+        <span style={{ cursor: 'pointer' }} className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, item.id)}>
           {EditIcon}
         </span>
       </Flex>

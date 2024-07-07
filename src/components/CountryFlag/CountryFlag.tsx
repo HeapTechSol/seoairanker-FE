@@ -35,8 +35,10 @@ const CountryFlag = ({
         {label && <label htmlFor={"country"}>{label}</label>}
         <ReactFlagsSelect
           placeholder={placeholder}
+          searchPlaceholder={"Search"}
           id="country"
           selected={value}
+          searchable
           onSelect={(code) => onChange(code)}
         />
       </Flex>

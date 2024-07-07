@@ -17,5 +17,7 @@ export type InputTypes = {
   onChange?: (value: React.ChangeEvent<HTMLInputElement>) => void;
   StartIcon?: string | JSX.Element;
   EndIcon?: string | JSX.Element;
+  ClearSearchIcon?: string | JSX.Element;
   hideIncrementNumber?: boolean;
+  autoComplete?:string;
 };

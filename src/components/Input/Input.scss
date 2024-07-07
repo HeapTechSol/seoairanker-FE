@@ -6,7 +6,7 @@
       align-items: center;
       position: relative;
       border-radius: 7px;
-      border-color: colorMapper(grayClr, 200);
+      border: 1px solid var(--border-color);
       legend {
         position: absolute;
         background: transparent;
@@ -21,13 +21,18 @@
         transition: all 0.1s ease-in-out;
       }
 
-      svg path {
-        fill: colorMapper($color, main);
-        stroke: colorMapper($color, main);
+      svg {
+        font-size: 1.5em;
+        fill: var(--color-common-main);
       }
-      svg circle {
-        stroke: colorMapper($color, main);
-      }
+
+      // svg path {
+      //   fill: colorMapper($color, main);
+      //   stroke: colorMapper($color, main);
+      // }
+      // svg circle {
+      //   stroke: colorMapper($color, main);
+      // }
 
       input {
         line-height: 1.7;
@@ -40,19 +45,20 @@
         &::placeholder {
           transition: all 0.1s ease-in-out;
           color: var(--color-common-main);
+          opacity: 0.3;
         }
       }
 
-      .input-icon {
-        padding: 0px 14px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        img {
-          height: 1em;
-          width: 1em;
-        }
-      }
+      // .input-icon {
+      //   padding: 0px 14px;
+      //   display: flex;
+      //   justify-content: center;
+      //   align-items: center;
+      //   img {
+      //     height: 1em;
+      //     width: 1em;
+      //   }
+      // }
 
       &.sm {
         font-size: 0.8125rem;
@@ -61,10 +67,10 @@
           padding: 4px 10px;
         }
 
-        img {
-          height: 1.5em;
-          width: 1.5em;
-        }
+        // img {
+        //   height: 1.5em;
+        //   width: 1.5em;
+        // }
 
         legend {
           font-size: 1em;
@@ -80,10 +86,10 @@
           font-size: 1em;
         }
 
-        img {
-          height: 1.5em;
-          width: 1.5em;
-        }
+        // img {
+        //   height: 1.5em;
+        //   width: 1.5em;
+        // }
 
         legend {
           font-size: 1em;
@@ -99,10 +105,10 @@
           font-size: 1em;
         }
 
-        img {
-          height: 1.5em;
-          width: 1.5em;
-        }
+        // img {
+        //   height: 1.5em;
+        //   width: 1.5em;
+        // }
 
         legend {
           font-size: 1em;
@@ -128,16 +134,25 @@
         }
       }
 
-      &.outlined.focused {
-        border-color: colorMapper($color, main); //color
-      }
+      // &.outlined.focused {
+      //   border-color: colorMapper($color, main); //color
+      // }
 
-      &.outlined:hover {
-        border-color: colorMapper(grayClr, 400);
+      // &.outlined:hover {
+      //   border-color: var(--color-common-main);
+      // }
+
+      // &.outlined.focused:hover {
+      //   border-color: colorMapper($color, main); //color
+      // }
+
+      &.outlined.focused {
+        border-color: var(--border-color);
+        overflow: hidden;
       }
 
       &.outlined.focused:hover {
-        border-color: colorMapper($color, main); //color
+        border-color: var(--border-color); //color
       }
 
       $margin-left: calc(28px + 1em);
@@ -210,7 +225,7 @@
       }
 
       &.underlined.focused {
-        border-color: colorMapper($color, main);
+        border-color: var(--border-color);
         legend {
           transform: translateY(-50%) translateX(0px);
           padding-left: 0px;
@@ -225,6 +240,7 @@
       &:has(:not(legend)) {
         input::placeholder {
           color: var(--color-common-main);
+          opacity: 0.3;
         }
       }
 
@@ -237,7 +253,7 @@
       }
 
       &:disabled:hover {
-        border-color: colorMapper(grayClr, 100);
+        border-color: var(--border-color);
       }
     }
   }
@@ -275,11 +291,10 @@
         padding: 4px 10px !important;
       }
 
-      img,
-      svg {
-        height: 1.5em !important;
-        width: 1.5em !important;
-      }
+      // svg {
+      //   height: 1.5em !important;
+      //   width: 1.5em !important;
+      // }
 
       legend {
         font-size: 1em !important;

@@ -5,6 +5,7 @@ import './Dropdown.scss'
 type Option<T> = {
   id: T
   name: string | JSX.Element | React.ReactNode
+  onClick?: () => void
 }
 
 type DropdownProps<T> = {
@@ -62,15 +63,20 @@ function Dropdown<T>({ options, onSelect, children }: DropdownProps<T>) {
       <div ref={triggerRef} onClick={handleToggle}>
         {children}
       </div>
-      {isOpen && (
-        <ul className={`dropdown-menu ${menuPosition}`} ref={menuRef}>
-          {options.map((option, index) => (
-            <li key={index} onClick={() => handleSelect(option)}>
-              {option.name}
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul className={`dropdown-menu ${menuPosition} ${isOpen ? 'open' : ''}`} ref={menuRef}>
+        {options.map((option, index) => (
+          <li
+            key={index}
+            onClick={() => {
+              handleSelect(option)
+              option?.onClick?.()
+            }}
+            className={`${option?.onClick ? 'li-click' : ''}`}
+          >
+            {option.name}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

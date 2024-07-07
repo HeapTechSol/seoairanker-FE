@@ -59,41 +59,65 @@ const PlanCard = ({
       <Flex gap={20} vertical>
         <Flex gap={4}>
           <Typography type="h2" size="lg" text={`$${currencyConverter(amount)}`} />
-          <sup>/ {duration}</sup>
+          <sup>
+            / <Typography text={duration} inline />
+          </sup>
         </Flex>
         <Flex vertical gap={8}>
           {generalInfo.map((item, index) => (
-            <RadioButton readOnly size="lg" checked label={`${item.amount} ${item.text}`} labelPosition="right" key={`${index}generalInfo`} />
+            <RadioButton
+              readOnly
+              size="lg"
+              checked
+              label={<Typography text={`${item.amount} ${item.text}`} />}
+              labelPosition="right"
+              key={`${index}generalInfo`}
+            />
           ))}
         </Flex>
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex vertical gap={8}>
-        {detailsInfo.map((item, index) => (
-          <RadioButton
-            readOnly
-            size="lg"
-            checked
-            label={
-              <>
-                {strongTextGenerator(currencyConverter(item.amount)) || ''} {item.text}
-              </>
-            }
-            labelPosition="right"
-            key={`${index}detailsInfo`}
-          />
-        ))}
+        {detailsInfo.map((item, index) => {
+          console.log('item.text', item.text)
+          return (
+            <RadioButton
+              readOnly
+              size="lg"
+              checked
+              label={
+                <Typography
+                  text={
+                    <>
+                      {strongTextGenerator(currencyConverter(item.amount))} ${item.text}
+                    </>
+                  }
+                />
+              }
+              labelPosition="right"
+              key={`${index}detailsInfo`}
+            />
+          )
+        })}
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex vertical gap={8}>
-        <RadioButton readOnly checked size="lg" restricted color={isAPIAccess ? 'primary' : 'error'} label={`API Access`} labelPosition="right" />
-        <RadioButton readOnly checked size="lg" label={`${crawlSchedule} Crawl Interval`} labelPosition="right" />
+        <RadioButton
+          readOnly
+          checked
+          size="lg"
+          restricted
+          color={isAPIAccess ? 'primary' : 'error'}
+          label={<Typography text={`API Access`} />}
+          labelPosition="right"
+        />
+        <RadioButton readOnly checked size="lg" label={<Typography text={`${crawlSchedule} Crawl Interval`} />} labelPosition="right" />
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex vertical gap={32}>
         {addOnInfo?.map((item, index) => (
           <Flex vertical gap={12} key={`${index}addOnInfo`}>
-            <RadioButton readOnly checked size="lg" label={item.text} labelPosition="right" />
+            <RadioButton readOnly checked size="lg" label={<Typography text={item.text} />} labelPosition="right" />
 
             <Controller
               name={`${planType}.${item.key}`}

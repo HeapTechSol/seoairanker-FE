@@ -1,38 +1,30 @@
-import { Controller } from "react-hook-form";
+import { Controller } from 'react-hook-form'
 
-import Flex from "@/components/Flex";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
-import Container from "@/components/Container/Container";
-import Typography from "@/components/Typography/Typography";
+import Flex from '@/components/Flex'
+import Input from '@/components/Input'
+import Button from '@/components/Button'
+import Container from '@/components/Container/Container'
+import Typography from '@/components/Typography/Typography'
 
-import useLoginHandler from "@/container/auth/hooks/useLoginHandler";
-import useSignUpHandler from "@/container/auth/hooks/useSignUpHandler";
+import useLoginHandler from '@/container/auth/hooks/useLoginHandler'
+import useSignUpHandler from '@/container/auth/hooks/useSignUpHandler'
 
-import {
-  EmailIcon,
-  PasswordIcon,
-  GoogleIcon,
-  MaleHeadIcon,
-} from "@/assets/icons/svgs";
+import { FcGoogle } from 'react-icons/fc'
+import { FaRegUser } from 'react-icons/fa'
+import { MdOutlineEmail } from 'react-icons/md'
+import { RiLockPasswordLine } from 'react-icons/ri'
 
-import "./SignUp.scss";
+import './SignUp.scss'
 
 const SignUp = () => {
-  const { onGoogleLogin } = useLoginHandler();
-  const {
-    control,
-    isLoading,
-    handleSubmit,
-    signUpHandler,
-    alreadyHaveAccountClick,
-  } = useSignUpHandler();
+  const { onGoogleLogin } = useLoginHandler()
+  const { control, isLoading, handleSubmit, signUpHandler, alreadyHaveAccountClick } = useSignUpHandler()
 
   return (
-    <Container width={100} boxShadow borderRadius padding={"40px 80px"} className="container-bg">
+    <Container width={100} boxShadow borderRadius padding={'60px'} className="auth-form-container">
       <Flex vertical gap={24}>
         <Typography text="Sign Up" type="h2" />
-        <Flex vertical justify="center" gap={10}>
+        <Flex vertical justify="center" gap={24}>
           <Controller
             name="firstName"
             render={({ field: { onChange, value }, fieldState: { error } }) => {
@@ -45,10 +37,10 @@ const SignUp = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={MaleHeadIcon}
+                  StartIcon={<FaRegUser/>}
                   placeholder="First Name"
                 />
-              );
+              )
             }}
             control={control}
           />
@@ -64,10 +56,10 @@ const SignUp = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={MaleHeadIcon}
+                  StartIcon={<FaRegUser/>}
                   placeholder="Last Name"
                 />
-              );
+              )
             }}
             control={control}
           />
@@ -83,11 +75,11 @@ const SignUp = () => {
                   titlePosition="top"
                   onChange={onChange}
                   value={value}
-                  StartIcon={EmailIcon}
+                  StartIcon={<MdOutlineEmail />}
                   error={error?.message}
                   placeholder="Enter your email"
                 />
-              );
+              )
             }}
             control={control}
           />
@@ -105,10 +97,10 @@ const SignUp = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={PasswordIcon}
+                  StartIcon={<RiLockPasswordLine />}
                   placeholder="Enter your password"
                 />
-              );
+              )
             }}
             control={control}
           />
@@ -125,45 +117,35 @@ const SignUp = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={PasswordIcon}
+                  StartIcon={<RiLockPasswordLine />}
                   placeholder="Re-Type your password"
                 />
-              );
+              )
             }}
             control={control}
           />
+          <Typography text="Already have and account?" link onClick={alreadyHaveAccountClick} />
         </Flex>
-        <Typography
-          text="Already have and account?"
-          link
-          color="primary"
-          onClick={alreadyHaveAccountClick}
-        />
-        <Button
-          variant="filled"
-          fullWidth
-          size="md"
-          loading={isLoading}
-          type="borderRadius"
-          onClick={handleSubmit(signUpHandler)}
-        >
-          Sign Up
-        </Button>
-        <Button
-          size="md"
-          fullWidth
-          color="error"
-          variant="filled"
-          type="borderRadius"
-          StartIcon={GoogleIcon}
-          onClick={() => onGoogleLogin()}
-          fill
-        >
-          Sign in with Google
-        </Button>
+        <Flex vertical gap={12}>
+          <Button size="md" fullWidth loading={isLoading} variant="filled" type="borderRadius" onClick={handleSubmit(signUpHandler)}>
+            Sign Up
+          </Button>
+          <Button
+            size="md"
+            fullWidth
+            color="error"
+            variant="filled"
+            type="borderRadius"
+            StartIcon={<FcGoogle />}
+            onClick={() => onGoogleLogin()}
+            fill
+          >
+            Sign Up in with Google
+          </Button>
+        </Flex>
       </Flex>
     </Container>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp

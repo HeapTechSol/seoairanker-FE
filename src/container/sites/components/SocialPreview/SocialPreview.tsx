@@ -58,7 +58,7 @@ const SocialPreview = ({
 
   const accordionDescription = (item: OG_TagsRecommendations, index:number) => (
     <Flex vertical gap={4}>
-      <Typography text={item.url} type="h6" />
+       
       <Typography text="Existing:" />
       <Typography text={item?.existing_og_tag || ''} color="warning" />
       <Flex align="center" gap={16}>

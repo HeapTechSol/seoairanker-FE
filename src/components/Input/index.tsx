@@ -27,6 +27,8 @@ const Input = ({
   hideIncrementNumber = false,
   StartIcon,
   EndIcon,
+  ClearSearchIcon,
+  autoComplete="new-password",
   onChange,
 }: InputTypes) => {
   const inputRef = useRef<HTMLFieldSetElement>(null)
@@ -46,11 +48,11 @@ const Input = ({
     { required: required && title }
   )
 
-  const isStartSvgIcon = typeof StartIcon === 'object' && StartIcon?.type === 'svg'
-  const StartIconPassed = isStartSvgIcon ? StartIcon : <img src={StartIcon as string} alt="button logo" />
+  // const isStartSvgIcon = typeof StartIcon === 'object' && StartIcon?.type === 'svg'
+  // const StartIconPassed = isStartSvgIcon ? StartIcon : <img src={StartIcon as string} alt="button logo" />
 
-  const isEndSvgIcon = typeof EndIcon === 'object' && EndIcon?.type === 'svg'
-  const EndIconPassed = isEndSvgIcon ? EndIcon : <img src={EndIcon as string} alt="button logo" />
+  // const isEndSvgIcon = typeof EndIcon === 'object' && EndIcon?.type === 'svg'
+  // const EndIconPassed = isEndSvgIcon ? EndIcon : <img src={EndIcon as string} alt="button logo" />
 
   const topTitle = titlePosition === 'top' && <Typography text={<label htmlFor={title}>{title}</label>} />
 
@@ -61,9 +63,9 @@ const Input = ({
       {topTitle}
       <fieldset className={classes} ref={inputRef} disabled={disabled}>
         {title && <legend>{title}</legend>}
-        {StartIcon && StartIconPassed}
+        {StartIcon && StartIcon}
         <input
-          autoComplete="new-password"
+          autoComplete={autoComplete}
           id={title}
           placeholder={placeholder}
           name={name}
@@ -78,7 +80,8 @@ const Input = ({
           onFocus={() => inputRef.current?.classList.add('focused')}
           onChange={onChange}
         />
-        {EndIcon && EndIconPassed}
+        {EndIcon && EndIcon}
+        {ClearSearchIcon && ClearSearchIcon}
       </fieldset>
       {errorMessage}
     </div>

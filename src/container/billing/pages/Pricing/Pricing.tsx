@@ -66,10 +66,11 @@ const Pricing = () => {
   return (
     <Container className="plans-cards">
       <Tabs
-        variant="outlined"
+        variant="text"
         activeColor="info"
         tabColor="primary"
-        className="pricing-tabs"
+        // className="pricing-tabs"
+        tabsPlacement='left'
         tabs={[
           {
             title: 'Monthly',

@@ -5,17 +5,28 @@ $colorType: primary, secondary, error, warning, info, success, common, grayClr;
     @each $inner, $innerColor in $outerName {
       --color-#{$outer}-#{$inner}: #{$innerColor};
     }
-  }
+  };
 }
 
 @function colorMapper($type, $colorName) {
   @return var(--color-#{$type}-#{$colorName});
 }
 
+@function rgba-css-variable($variable, $alpha) {
+  @return rgba(var(--#{$variable}), $alpha);
+}
+
+$opacity-color: rgba-css-variable('color-common-main', 0.2);
+
+
 .app-container.light {
   --color-common-main: var(--color-grayClr-light-text-color);
   --background-color: var(--color-grayClr-light-background);
   --border-color: var(--color-grayClr-light-border);
+  --text-description-color: var(--color-grayClr-light-description-color);
+  --bg-hover-color: var(--color-grayClr-light-hover-color);
+  --container-bg-color: var(--color-grayClr-light-container-bg-color);
+  --hovered-text-color: var(--color-grayClr-light-hover-text-color);
   --button-box-shadow: 0px 3px 1px -2px var(--color-grayClr-400), 0px 2px 2px 0px var(--color-grayClr-300), 0px 1px 5px 0px var(--color-grayClr-300);
   --button-box-shadow-hover: 0px 2px 4px -1px var(--color-grayClr-400), 0px 4px 5px 0px var(--color-grayClr-300),
     0px 1px 10px 0px var(--color-grayClr-300);
@@ -25,6 +36,10 @@ $colorType: primary, secondary, error, warning, info, success, common, grayClr;
   --color-common-main: var(--color-grayClr-dark-text-color);
   --background-color: var(--color-grayClr-dark-background);
   --border-color: var(--color-grayClr-dark-border);
+  --text-description-color: var(--color-grayClr-dark-description-color);
+  --bg-hover-color: var(--color-grayClr-dark-hover-color);
+  --container-bg-color: var(--color-grayClr-dark-container-bg-color);
+  --hovered-text-color: var(--color-grayClr-dark-hover-text-color);
   ---button-box-shadow: 0px 3px 1px -2px var(--color-grayClr-700), 0px 2px 2px 0px var(--color-grayClr-800), 0px 1px 5px 0px var(--color-grayClr-800);
   --button-box-shadow-hover: 0px 2px 4px -1px var(--color-grayClr-700), 0px 4px 5px 0px var(--color-grayClr-800),
     0px 1px 10px 0px var(--color-grayClr-800);

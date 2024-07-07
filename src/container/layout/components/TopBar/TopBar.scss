@@ -9,7 +9,8 @@
   top: 0px;
   right: 0px;
   z-index: 9999999;
-  border-radius: 0px !important;
+  background-color: var(--container-bg-color);
+  // border-bottom: 1px solid var(--border-color);
 }
 
 .humbarger-icon {

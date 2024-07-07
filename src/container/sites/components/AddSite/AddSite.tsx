@@ -8,17 +8,21 @@ import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import RangeSelector from '@/components/RangeSelector/RangeSelector'
 
-import { GlobalICON, SeodeIcon } from '@/assets/icons/svgs'
+import { useAppSelector } from '@/api/store'
+import { RiGlobalLine } from 'react-icons/ri'
+import { SeodeIcon } from '@/assets/icons/svgs'
 
 import './AddSite.scss'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddSite = ({ control }: { control: Control<any> }) => {
+  
+  const userQuota = useAppSelector((state) => state.billing.userQuota)
 
   const pages = useWatch({ control, name: 'pages' })
 
   return (
-    <Container width={100} borderRadius boxShadow padding={'40px 20px'} className="add-site-container container-bg">
+    <Container width={100} borderRadius boxShadow padding={'40px 20px 0px 20px'} className="add-site-container">
       <Flex vertical gap={32} align="center">
         {SeodeIcon}
         <Flex vertical gap={16}>
@@ -29,7 +33,7 @@ const AddSite = ({ control }: { control: Control<any> }) => {
           <Controller
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <Input
-                StartIcon={GlobalICON}
+                StartIcon={<RiGlobalLine />}
                 name="siteUrl"
                 title="URL"
                 titlePosition="top"
@@ -50,8 +54,8 @@ const AddSite = ({ control }: { control: Control<any> }) => {
                 onChange={onChange}
                 value={value}
                 min={0}
-                step={250}
-                max={10500}
+                step={10}
+                max={userQuota?.total_pages_quota}
                 filledRangeColor="primary"
                 emptyRangeColor="secondary"
               />
@@ -60,7 +64,9 @@ const AddSite = ({ control }: { control: Control<any> }) => {
             control={control}
           />
 
-          <Typography text={`Current Limit: ${pages >= 10500 ? 'unlimited' : pages || ''} 10500 Included in your plan`} />
+          <Typography
+            text={`Current Limit: ${pages >= (userQuota?.total_pages_quota || 0) ? 'unlimited' : pages || ''} ${userQuota?.total_pages_quota} Included in your plan`}
+          />
           <Flex align="center" gap={16}>
             <Controller
               render={({ field: { onChange, value } }) => <ToggleButton onChange={onChange} checked={value} />}

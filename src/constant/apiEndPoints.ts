@@ -7,7 +7,7 @@ export const AUTH = {
 
 export const SITES ={
   SITES:'sites/',
-  ADD_SITE:"add",
+  ADD_SITE:"add_site",
   SITES_LIST:"list",
   DELETE_SITE:"delete",
   RE_CRAWL_SITE:"re_crawl_site",

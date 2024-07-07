@@ -35,7 +35,7 @@ const HeadingRecommendationsPreview = ({
 
   const accordionDescription = (item: HeadingRecommendations, index: number) => (
     <Flex vertical gap={4}>
-      <Typography text={item.url} type="h6" />
+       
       {!!item?.heading_content?.length && (
         <>
           <Typography text="Content:" />

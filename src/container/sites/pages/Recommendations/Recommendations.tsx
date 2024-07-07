@@ -154,7 +154,7 @@ const Recommendations = () => {
           />
         </Flex>
       </Flex>
-      <Loader overlay loading={getCountLoading || getDataLoading} />
+      <Loader loading={getCountLoading || getDataLoading} />
     </Container>
   )
 }

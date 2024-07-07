@@ -39,11 +39,11 @@ const Button = forwardRef(
       fill: fill,
     })
 
-    const isStartSvgIcon = typeof StartIcon === 'object' && StartIcon?.type === 'svg'
-    const StartIconPassed = isStartSvgIcon ? StartIcon : <img src={StartIcon as string} alt="button logo" />
+    // const isStartSvgIcon = typeof StartIcon === 'object' && StartIcon?.type === 'svg'
+    // const StartIconPassed = isStartSvgIcon ? StartIcon : <img src={StartIcon as string} alt="button logo" />
 
-    const isEndSvgIcon = typeof EndIcon === 'object' && EndIcon?.type === 'svg'
-    const EndIconPassed = isEndSvgIcon ? EndIcon : <img src={EndIcon as string} alt="button logo" />
+    // const isEndSvgIcon = typeof EndIcon === 'object' && EndIcon?.type === 'svg'
+    // const EndIconPassed = isEndSvgIcon ? EndIcon : <img src={EndIcon as string} alt="button logo" />
 
     const loader = !disabled && loading && <img src={LoadingIcon} alt="loading-icon" />
 
@@ -63,9 +63,9 @@ const Button = forwardRef(
         role="button"
         ref={ref}
       >
-        {StartIcon && StartIconPassed}
+        {StartIcon && StartIcon}
         {children && !onlyIcon && children}
-        {EndIcon && EndIconPassed}
+        {EndIcon && EndIcon}
         {!onlyIcon && loader}
       </button>
     )

@@ -4,7 +4,8 @@
   height: calc(100% - 80px);
   margin-top: 80px;
   padding: 24px 16px;
-  border-radius: 0px !important;
+  background-color: var(--container-bg-color);
+  // border-right: 1px solid var(--border-color);
   transition:
     width,
     min-width 0.3s ease-in-out;
@@ -12,7 +13,6 @@
   left: 0;
   white-space: nowrap;
   z-index: 9999999;
-  border-top: none !important;
   &.collapsed {
     transition: all 0.3s ease-in-out;
     min-width: 80px;
@@ -37,11 +37,65 @@
     background-color: white;
   }
 
-  &-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    position: relative;
-    margin-top: 16px;
+  &__menu {
+    padding: 20px 0px;
+
+    &__sub-menu.accordion-container {
+      padding: 0px;
+      box-shadow: none !important;
+      border: none !important;
+      .accordion-container-header.container-bg {
+        background-color: transparent;
+        border-color: transparent;
+        padding: 8px 8px 8px 16px;
+        .truncate-text {
+          display: inline-flex;
+          width: auto !important;
+          .sidebar-container__menu__link {
+            padding: 0px;
+            display: inline-flex;
+          }
+        }
+      }
+      // &.active .accordion-container-header {
+      //   color: var(--hovered-text-color);
+      //   background: var(--bg-hover-color);
+      //   .sidebar-container__menu__link__title {
+      //     color: var(--hovered-text-color);
+      //   }
+      //   .header-icon svg {
+      //     fill: var(--hovered-text-color);
+      //   }
+      // }
+      .accordion-container-description {
+        padding: 16px 0px 16px 8px !important;
+      }
+    }
+
+    &__link {
+      padding: 8px 8px 8px 16px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--color-common-main);
+
+      &.active,
+      &:hover {
+        color: var(--hovered-text-color);
+        background: var(--bg-hover-color);
+        .sidebar-container__menu__link__title {
+          font-weight: 500;
+          color: var(--hovered-text-color) !important;
+        }
+      }
+    }
   }
+}
+
+.app-container.light .sidebar-container__menu__link__title {
+  color: colorMapper(grayClr, light-description-color);
+}
+
+.app-container.dark .sidebar-container__menu__link__title {
+  color: colorMapper(grayClr, dark-description-color);
 }

@@ -5,14 +5,14 @@
     cursor: pointer;
     &:hover {
       .body-text {
-        color: white;
+        color: var(--hovered-text-color);
       }
-      background-color: colorMapper(primary, main);
+      background-color: var(--bg-hover-color);
     }
     &.active {
-      background-color: colorMapper(primary, main);
+      background-color: var(--bg-hover-color);
       .body-text {
-        color: white;
+        color: var(--hovered-text-color);
       }
     }
   }

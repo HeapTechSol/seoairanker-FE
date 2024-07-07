@@ -35,7 +35,7 @@ const DescriptionPreview = ({
 
   const accordionDescription = (item: DescriptionRecommendations, index: number) => (
     <Flex vertical gap={4}>
-      <Typography text={item.url} type="h6" />
+       
       {!!item?.existing_description?.length && (
         <>
           <Typography text="Content:" />

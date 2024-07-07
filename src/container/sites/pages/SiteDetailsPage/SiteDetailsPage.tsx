@@ -19,7 +19,7 @@ const SiteDetailsPage = () => {
   return (
     <Container className="sites-dashboard">
       <Flex vertical gap={24}>
-        <Tabs tabs={tabs} defaultActiveTab={0} />
+        <Tabs tabs={tabs} defaultActiveTab={0} tabsPlacement="left" tabColor='primary'/>
       </Flex>
     </Container>
   )

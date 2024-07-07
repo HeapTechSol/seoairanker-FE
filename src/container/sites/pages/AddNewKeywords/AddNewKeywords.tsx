@@ -106,6 +106,7 @@ const AddNewKeywords = () => {
                     placeholder="Language"
                     titlePosition="top"
                     setValues={onChange}
+                    searchable
                     values={value}
                     error={error ? error.message : ''}
                     size="md"

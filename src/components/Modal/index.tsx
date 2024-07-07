@@ -90,7 +90,7 @@ const Modal = ({
       <div className={`modal`}>
         {headerContent}
         <div className="modal-body">
-          <Loader loading={contentLoading} overlay={true} />
+          <Loader loading={contentLoading}/>
           {children}
         </div>
         {footerContent}

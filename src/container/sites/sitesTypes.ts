@@ -12,6 +12,7 @@ export type SitesAPIResponse = {
   country: string
   createdAt: string
   id: number
+  logo:string
   language: string
   siteUrl: string
   recommendations: {

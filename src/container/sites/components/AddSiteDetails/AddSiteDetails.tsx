@@ -21,8 +21,7 @@ const AddSiteDetails = ({ control }: { control: Control<any> }) => {
       width={100}
       borderRadius
       boxShadow
-      padding={"40px 20px"}
-      className="add-site-container container-bg"
+      className="add-site-container"
     >
       <Flex vertical gap={32} align="center">
         {SeodeIcon}
@@ -39,6 +38,7 @@ const AddSiteDetails = ({ control }: { control: Control<any> }) => {
                   { label: "Blog", id: "blog" },
                   { label: "E-commerce", id: "e-commerce" },
                 ]}
+                searchable
                 title="Type of Business"
                 placeholder="Select business type"
                 titlePosition="top"
@@ -70,6 +70,7 @@ const AddSiteDetails = ({ control }: { control: Control<any> }) => {
                   label: `${lang.name} (${lang.code})`,
                   id: lang.code,
                 }))}
+                searchable
                 title="Primary Language"
                 placeholder="Select primary language"
                 titlePosition="top"
