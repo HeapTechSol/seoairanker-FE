@@ -4,7 +4,7 @@ import { ColorsTypes } from '@/utils/commonTypes'
 import './CircularProgress.scss'
 
 type CircularProgressProps = {
-  progress: number
+  progress: string
   size?: number
   color?:ColorsTypes
 }

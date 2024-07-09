@@ -116,7 +116,7 @@ export const steps = (control: any) => [
   {
     title: 'Automation',
     stepLabel: '4',
-    component: <AddKeywords />,
+    component: <AddKeywords control={control}/>,
   },
   {
     title: 'Generating',
@@ -148,7 +148,14 @@ export const KEYWORDS_COLUMN: ColumnsTypes[] = [
     dataKey: 'score',
     textAlign: 'center',
     sortKey: 'score',
-    render: (value: string) => (value === 'waiting' ? <span style={{cursor:'auto'}} className='pointer-icon-stroke'>{WatchIcon}</span> : <CircularProgress progress={Number(value)} size={30} />),
+    render: (value: string) =>
+      value === 'waiting' ? (
+        <span style={{ cursor: 'auto' }} className="pointer-icon-stroke">
+          {WatchIcon}
+        </span>
+      ) : (
+        <CircularProgress progress={Number(value)} size={30} />
+      ),
   },
 ]
 

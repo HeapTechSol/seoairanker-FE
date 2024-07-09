@@ -1,0 +1,23 @@
+.container.page-insight-card {
+  width: 330px !important;
+  svg {
+    path {
+      stroke: inherit;
+    }
+    font-size: 48px;
+  }
+  h3 {
+    color: var(--text-description-color) !important;
+  }
+  .body-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: inherit !important;
+  }
+}
+
+.circles-chart-container {
+  h3 {
+    color: var(--text-description-color) !important;
+  }
+}

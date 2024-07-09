@@ -58,8 +58,8 @@
       color: var(--text-description-color);
 
       &:hover {
-        background-color: var(--bg-hover-color);
-        color: var(--hovered-text-color);
+        background-color: var(--bg-hover-color) !important;
+        color: var(--hovered-text-color) !important;
         border: none;
       }
     }

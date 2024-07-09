@@ -8,6 +8,7 @@ import { steps, ADD_SITE_WIZARD_DEFAULT_VALUES, ADD_SITE_WIZARD_VALIDATIONS } fr
 import {
   useAddSiteMutation,
   useDeleteSiteMutation,
+  useLazyGetSiteKeywordsQuery,
   useLazyGetSightInsightsQuery,
   useLazyGetSiteCrawledInfoQuery,
   useLazyGetSiteLinksAndContentQuery,
@@ -18,7 +19,7 @@ import { ErrorTypes } from '@/utils/commonTypes'
 import { EXACT_ROUTES } from '@/constant/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAppSelector } from '@/api/store'
-import { SiteLinkPayloadTypes } from '../sitesTypes'
+import { AddSitePayloadTypes, SiteLinkPayloadTypes } from '../sitesTypes'
 
 const { SITES_DASHBOARD } = EXACT_ROUTES
 
@@ -26,7 +27,7 @@ const useHandleSitesLogic = () => {
   const navigate = useNavigate()
   const [currentStep, setCurrentStep] = useState(0)
 
-  const { control, getValues, handleSubmit } = useForm({
+  const { control, getValues, setValue, handleSubmit } = useForm<AddSitePayloadTypes>({
     defaultValues: ADD_SITE_WIZARD_DEFAULT_VALUES,
     resolver: zodResolver(ADD_SITE_WIZARD_VALIDATIONS[currentStep]),
   })
@@ -37,8 +38,9 @@ const useHandleSitesLogic = () => {
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
-  const [getSites, { isFetching: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
   const [getSiteCrawledInfo, { data: crawledInfo }] = useLazyGetSiteCrawledInfoQuery()
+  const [getSites, { isFetching: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
+  const [getSiteKeywords, { data: keywordsData, isFetching: keywordsLoading }] = useLazyGetSiteKeywordsQuery()
   const [getSightInsights, { isFetching: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
   const [getSiteLinksAndContent, { isFetching: siteLinksLoading, data: siteLinkAndContent }] = useLazyGetSiteLinksAndContentQuery()
 
@@ -94,6 +96,15 @@ const useHandleSitesLogic = () => {
     }
   }
 
+  const getKeywords = async (payload: { siteUrl: string; language_code: string; location_code: string }) => {
+    try {
+     const data =  await getSiteKeywords(payload).unwrap()
+     setValue('keywords',data.data)
+    } catch (error) {
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
+    }
+  }
+
   const getSiteCrawledInfoData = async (payload: { site_id: string }) => {
     try {
       await getSiteCrawledInfo(payload).unwrap()
@@ -120,6 +131,9 @@ const useHandleSitesLogic = () => {
   return {
     control,
     isLoading,
+    getKeywords,
+    keywordsData,
+    keywordsLoading,
     getInsights,
     currentStep,
     getSitesList,

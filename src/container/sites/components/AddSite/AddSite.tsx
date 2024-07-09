@@ -10,12 +10,13 @@ import RangeSelector from '@/components/RangeSelector/RangeSelector'
 
 import { useAppSelector } from '@/api/store'
 import { RiGlobalLine } from 'react-icons/ri'
-import { SeodeIcon } from '@/assets/icons/svgs'
+
+import { AddSitePayloadTypes } from '@/container/sites/sitesTypes'
 
 import './AddSite.scss'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AddSite = ({ control }: { control: Control<any> }) => {
+const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
   
   const userQuota = useAppSelector((state) => state.billing.userQuota)
 
@@ -24,7 +25,6 @@ const AddSite = ({ control }: { control: Control<any> }) => {
   return (
     <Container width={100} borderRadius boxShadow padding={'40px 20px 0px 20px'} className="add-site-container">
       <Flex vertical gap={32} align="center">
-        {SeodeIcon}
         <Flex vertical gap={16}>
           <Typography text="What's your domain name?" type="h3" />
           <Divider />

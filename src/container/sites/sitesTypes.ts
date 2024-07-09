@@ -1,3 +1,5 @@
+import { MaybeNull } from '@/utils/commonTypes'
+
 export type AddSitePayload = {
   siteUrl: string
   pages: number
@@ -12,7 +14,7 @@ export type SitesAPIResponse = {
   country: string
   createdAt: string
   id: number
-  logo:string
+  logo: string
   language: string
   siteUrl: string
   recommendations: {
@@ -81,7 +83,7 @@ export type ImageRecommendations = {
   url: string
   xpath: string
   image_url: string
-  id:string
+  id: string
 }
 
 export type DescriptionRecommendations = {
@@ -89,7 +91,7 @@ export type DescriptionRecommendations = {
   suggested_description: string
   existing_description: string
   url: string
-  id:string
+  id: string
 }
 
 export type TitlesRecommendations = {
@@ -97,7 +99,7 @@ export type TitlesRecommendations = {
   suggested_title: string
   existing_title: string
   url: string
-  id:string
+  id: string
 }
 
 export type AnchorTitlesRecommendations = {
@@ -105,7 +107,7 @@ export type AnchorTitlesRecommendations = {
   xpath: string
   suggested_link_title: string
   url: string
-  id:string
+  id: string
 }
 
 export type OG_TagsRecommendations = {
@@ -114,7 +116,7 @@ export type OG_TagsRecommendations = {
   suggested_og_tag: string
   existing_og_tag: string
   url: string
-  id:string
+  id: string
 }
 
 export type HeadingRecommendations = {
@@ -124,7 +126,7 @@ export type HeadingRecommendations = {
   current_heading: string
   xpath: string
   heading_content: string
-  id:string
+  id: string
 }
 
 export type RecommendationsListTypes = {
@@ -138,4 +140,48 @@ export type RecommendationsListTypes = {
 
 export type RecommendationsAPIResponseTypes = {
   results: RecommendationsListTypes
+}
+
+export type AddSitePayloadTypes = {
+  siteUrl: string
+  pages: number
+  jsonSchemas: boolean
+  businessType: string
+  country: string
+  language: string
+  keywords: MaybeNull<KeywordsDataTypes[]>
+}
+
+export type KeywordsDataTypes = {
+  competition: string
+  competition_index: number
+  cpc: number
+  high_top_of_page_bid: number
+  keyword: string
+  keyword_annotations: {
+    concepts: [
+      {
+        concept_group: {
+          name: string
+          type: string
+        }
+        name: string
+      },
+    ]
+  }
+  language_code: string
+  location_code: MaybeNull<string>
+  low_top_of_page_bid: number
+  monthly_searches: {
+    month: number
+    search_volume: number
+    year: number
+  }[]
+
+  search_partners: boolean
+  search_volume: number
+}
+
+export type GetKeywordsAPIResponseTypes = {
+  data: KeywordsDataTypes[]
 }

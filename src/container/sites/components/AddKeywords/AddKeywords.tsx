@@ -1,11 +1,19 @@
-import { SeodeIcon, WatchIcon } from '@/assets/icons/svgs'
-import CircularProgress from '@/components/CircularProgress/CircularProgress'
-import Container from '@/components/Container/Container'
-import Divider from '@/components/Divider/Divider'
+import { Control, useWatch } from 'react-hook-form'
+
+import { GoSearch } from 'react-icons/go'
+import { WatchIcon } from '@/assets/icons/svgs'
+
 import Flex from '@/components/Flex'
-import Pagination from '@/components/Pagination/Pagination'
+import Input from '@/components/Input'
 import Table from '@/components/Table'
+import Divider from '@/components/Divider/Divider'
+import Container from '@/components/Container/Container'
+import Pagination from '@/components/Pagination/Pagination'
 import Typography from '@/components/Typography/Typography'
+import CircularProgress from '@/components/CircularProgress/CircularProgress'
+
+import { AddSitePayloadTypes } from '@/container/sites/sitesTypes'
+import { currencyNumberWithDollar } from '@/utils/helper'
 
 type ColumnTypes = {
   header: string
@@ -14,12 +22,18 @@ type ColumnTypes = {
   render?: (value: string) => void
 }
 
-const AddKeywords = () => {
+const AddKeywords = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
+  const keywordsData = useWatch({ control, name: 'keywords' })
+
   const columns: ColumnTypes[] = [
     { header: 'KEYWORD', dataKey: 'keyword' },
-    { header: 'CURRENT POSITION', dataKey: 'position' },
-    { header: 'MONTHLY SEARCHES', dataKey: 'monthly_searches' },
-    { header: 'COST PER CLICK', dataKey: 'cost_per_click' },
+    { header: 'CURRENT POSITION', dataKey: 'competition_index' },
+    { header: 'MONTHLY SEARCHES', dataKey: 'search_volume' },
+    {
+      header: 'COST PER CLICK',
+      dataKey: 'cpc',
+      render: (amount: string) => currencyNumberWithDollar({ value: Number(amount) || 0, showUSD: false }),
+    },
     {
       header: 'SCORE',
       dataKey: 'score',
@@ -30,44 +44,14 @@ const AddKeywords = () => {
             {WatchIcon}
           </span>
         ) : (
-          <CircularProgress progress={Number(value)} size={30} />
+          <CircularProgress progress={Number(value || 0)} size={30} />
         ),
     },
   ]
-  const data = [
-    {
-      keyword: 'portfolio websites',
-      position: '79',
-      monthly_searches: '30',
-      cost_per_click: '$6.02',
-      score: 'waiting',
-    },
-    {
-      keyword: 'search optimization',
-      position: 'N/A',
-      monthly_searches: '1,35,000',
-      cost_per_click: '$4.23',
-      score: 'waiting',
-    },
-    {
-      keyword: 'elit fitness',
-      position: '92',
-      monthly_searches: '720',
-      cost_per_click: '$1.42',
-      score: '70',
-    },
-    {
-      keyword: 'search engine marketing',
-      position: 'N/A',
-      monthly_searches: '5,50,000',
-      cost_per_click: '$2.39',
-      score: '100',
-    },
-  ]
+
   return (
     <Container width={100} borderRadius boxShadow className="add-site-container">
       <Flex vertical gap={32} align="center">
-        {SeodeIcon}
         <Flex vertical gap={16}>
           <Typography text={`Add Your Keywords`} type="h3" />
           <Divider />
@@ -75,7 +59,8 @@ const AddKeywords = () => {
           <Typography text="If your site is new or still under construction, the keywords suggestion may not be accurate. Just click 'Next' for now, and we will add more keywords later." />
           <Typography text="You'll be able to add you own (with local targeting) later on, but let's start with these." />
           <Flex vertical gap={32} align="end">
-            <Table columns={columns} data={data} />
+            <Input StartIcon={<GoSearch />} name="search_site" placeholder="Search" />
+            <Table columns={columns} data={keywordsData?.slice(0, 10) || []} />
             <Pagination
               pageSize={10}
               currentPage={1}

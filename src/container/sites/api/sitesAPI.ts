@@ -4,6 +4,7 @@ import { APIResponseMessage } from '@/utils/commonTypes'
 import {
   AddSitePayload,
   CrawledInfoAPIResponseTypes,
+  GetKeywordsAPIResponseTypes,
   RecommendationsAPIResponseTypes,
   RecommendationsCountAPIResponseTypes,
   SiteLinkPayloadTypes,
@@ -15,6 +16,7 @@ const {
   ADD_SITE,
   SITES_LIST,
   DELETE_SITE,
+  GET_KEYWORDS,
   SITE_PAGE_INSIGHTS,
   SITE_CRAWLING_INFO,
   UPDATE_RECOMMENDATION,
@@ -36,6 +38,13 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         body: payload,
       }),
       invalidatesTags: ['sitesList'],
+    }),
+    getSiteKeywords: builder.query<GetKeywordsAPIResponseTypes, { siteUrl: string; language_code: string; location_code: string }>({
+      query: (payload) => ({
+        url: GET_KEYWORDS,
+        method: 'POST',
+        body: payload,
+      }),
     }),
     getSites: builder.query<SitesAPIResponseTypes, void>({
       query: () => ({
@@ -137,6 +146,7 @@ export const {
   useLazyGetSitesQuery,
   useDeleteSiteMutation,
   useLazyReCrawlSiteQuery,
+  useLazyGetSiteKeywordsQuery,
   useLazyGetSightInsightsQuery,
   useLazyGetSiteCrawledInfoQuery,
   useUpdateRecommendationsMutation,

@@ -78,27 +78,24 @@ const PlanCard = ({
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex vertical gap={8}>
-        {detailsInfo.map((item, index) => {
-          console.log('item.text', item.text)
-          return (
-            <RadioButton
-              readOnly
-              size="lg"
-              checked
-              label={
-                <Typography
-                  text={
-                    <>
-                      {strongTextGenerator(currencyConverter(item.amount))} ${item.text}
-                    </>
-                  }
-                />
-              }
-              labelPosition="right"
-              key={`${index}detailsInfo`}
-            />
-          )
-        })}
+        {detailsInfo.map((item, index) => (
+          <RadioButton
+            readOnly
+            size="lg"
+            checked
+            label={
+              <Typography
+                text={
+                  <>
+                    {strongTextGenerator(currencyConverter(item.amount))} ${item.text}
+                  </>
+                }
+              />
+            }
+            labelPosition="right"
+            key={`${index}detailsInfo`}
+          />
+        ))}
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex vertical gap={8}>
