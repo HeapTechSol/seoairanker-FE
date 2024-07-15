@@ -1,0 +1,27 @@
+.keywords-ranking-detail {
+  .checklist__item {
+    padding: 20px;
+    .item-icon,
+    .checkmark-icon {
+      font-size: 24px;
+    }
+    .item-icon {
+      color: colorMapper(primary, main);
+    }
+    .checkmark-icon {
+      color: colorMapper(success, main);
+    }
+    .body-text {
+      color: var(--color-main-common) !important;
+      font-weight: 500 !important;
+      font-size: 16px !important;
+    }
+  }
+  &__card {
+    &__count {
+      color: var(--color-main-common) !important;
+      font-size: 2.43em;
+      font-weight: 500;
+    }
+  }
+}

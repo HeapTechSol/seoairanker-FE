@@ -16,87 +16,41 @@ import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { getTime } from '@/utils/helper'
-import { CrawledInfoAPIResponseTypes, RecommendationsCountTypes, RecommendationsListTypes } from '@/container/sites/sitesTypes'
+import { CrawledInfoAPIResponseTypes } from '@/container/sites/sitesTypes'
 
 import './Recommendations.scss'
 
 const Recommendations = () => {
   const { state } = useLocation()
-  const [key, setKey] = useState<string>('4')
+  const [key, setKey] = useState<string>('og_tags')
 
-  const {
-    getRecommendationCounts,
-    recommendationCount,
-    getCountLoading,
-    getRecommendationList,
-    recommendationData,
-    getDataLoading,
-    reCrawlLoading,
-    handleReCrawlSite,
-  } = useHandleRecommendations()
+  const { reCrawlLoading, handleReCrawlSite } = useHandleRecommendations()
 
-  const { getSiteCrawledInfoData, crawledInfo } = useHandleSitesLogic()
+  const { getSiteCrawledInfoData, crawledInfo, crawlInfoLoading } = useHandleSitesLogic()
 
-  const recommendationsList = [
-    {
-      id: '1',
-      type: 'tags',
-      title: 'Optimize Headline Tags',
-      totalCount: (recommendationCount?.approved_heading_count || 0) + (recommendationCount?.un_approved_heading_count || 0),
-      used: recommendationCount?.approved_heading_count || 0,
-    },
-    {
-      id: '2',
-      type: 'previews',
-      title: 'Add a Social Preview',
-      totalCount: (recommendationCount?.approved_og_tags_count || 0) + (recommendationCount?.un_approved_og_tags_count || 0),
-      used: recommendationCount?.approved_og_tags_count || 0,
-    },
-    {
-      id: '3',
-      type: 'metaDescription',
-      title: 'Add Meta Description',
-      totalCount: (recommendationCount?.approved_description_count || 0) + (recommendationCount?.un_approved_description_count || 0),
-      used: recommendationCount?.approved_description_count || 0,
-    },
-    {
-      id: '4',
-      type: 'optimizeTitle',
-      title: 'Optimize Title',
-      totalCount: (recommendationCount?.approved_title_count || 0) + (recommendationCount?.un_approved_title_count || 0),
-      used: recommendationCount?.approved_title_count || 0,
-    },
-    {
-      id: '5',
-      type: 'missingTitles',
-      title: 'Link Missing Titles',
-      totalCount: (recommendationCount?.approved_missing_title_count || 0) + (recommendationCount?.un_approved_missing_title_count || 0),
-      used: recommendationCount?.approved_missing_title_count || 0,
-    },
-    {
-      id: '6',
-      type: 'linkTarget',
-      title: 'External Link Target',
-      totalCount: 0,
-      used: 0,
-    },
-    {
-      id: '7',
-      type: 'altText',
-      title: 'No Image Alt/Title Text',
-      totalCount: (recommendationCount?.approved_image_count || 0) + (recommendationCount?.un_approved_image_count || 0),
-      used: recommendationCount?.approved_image_count || 0,
-    },
-  ]
+  const recommendationTitles = {
+    images: 'No Image Alt/Title Text',
+    og_tags: 'Add a Social Preview',
+    heading_suggestions: 'Optimize Headline Tags',
+    anchor_titles: 'Link Missing Titles',
+    missing_meta_descriptions: 'Add Meta Description',
+    missing_meta_titles: 'Optimize Title',
+  }
+
+  const recommendationsList = crawledInfo?.model_data.map((item, index) => ({
+    id: String(index),
+    type: item.model,
+    totalCount: item.total,
+    used: item.approved,
+    title: recommendationTitles[item.model],
+  }))
 
   const reCrawlSite = () => {
     if (state.siteId && state.siteUrl) handleReCrawlSite({ site_id: state.siteId, siteUrl: state.siteUrl })
   }
 
   useEffect(() => {
-    if (state.siteId) getSiteCrawledInfoData({ site_id: state.siteId })
-    if (state.siteUrl) getRecommendationCounts({ site_id: state.siteId })
-    if (state.siteUrl) getRecommendationList({ site_id: state.siteId })
+    if (state.siteId) getSiteCrawledInfoData(state.siteId)
   }, [])
 
   return (
@@ -115,13 +69,8 @@ const Recommendations = () => {
             <Typography
               text={
                 <>
-                  There are currently <Typography text={`${crawledInfo?.recommendations?.approved} Approved`} color="success" inline /> out of{' '}
-                  <Typography
-                    text={`${(crawledInfo?.recommendations?.approved || 0) + (crawledInfo?.recommendations?.unapproved || 0)} total`}
-                    inline
-                    type="h6"
-                  />{' '}
-                  Optimizations.
+                  There are currently <Typography text={`${crawledInfo?.site_data?.total_approved || 0} Approved`} color="success" inline /> out of{' '}
+                  <Typography text={`${crawledInfo?.site_data?.total_count || 0} total`} inline type="h6" /> Optimizations.
                 </>
               }
             />
@@ -129,7 +78,7 @@ const Recommendations = () => {
               <Button type="borderRadius" loading={reCrawlLoading} onClick={reCrawlSite}>
                 Regenerate Recommendation
               </Button>
-              <Typography text={`Last updated ${getTime(crawledInfo?.lastUpdatedAt || '')}`} />
+              <Typography text={`Last updated ${getTime(crawledInfo?.site_data?.updatedAt || '')}`} />
             </Flex>
           </Flex>
         </Container>
@@ -141,20 +90,16 @@ const Recommendations = () => {
         </Container>
         <Flex gap={16}>
           <RecommendationOverview
-            recommendationsList={recommendationsList}
+            recommendationsList={recommendationsList || []}
             onClick={(e) => setKey(e)}
             selectedKey={key}
             site_id={state?.siteId}
-            crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['result']}
+            crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}
           />
-          <RecommendationList
-            recommendationData={(recommendationData as RecommendationsListTypes) || []}
-            recommendationCount={recommendationCount as RecommendationsCountTypes}
-            selectedKey={key}
-          />
+          <RecommendationList selectedKey={key} />
         </Flex>
       </Flex>
-      <Loader loading={getCountLoading || getDataLoading} />
+      <Loader loading={crawlInfoLoading} />
     </Container>
   )
 }

@@ -1,24 +1,39 @@
-import { useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
 
 import Flex from '@/components/Flex'
+import Loader from '@/components/Loader'
 import ImageCard from '../ImageCard/ImageCard'
 import Container from '@/components/Container/Container'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
-import { RecommendationsListTypes } from '@/container/sites/sitesTypes'
+import { ImagesAltDataTypes } from '@/container/sites/sitesTypes'
 
-const ImagesList = ({ images }: { images: RecommendationsListTypes['images'] }) => {
+const ImagesList = () => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>('')
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
-  const { approveSingleLoading, updateRecommendation, updateRecommendationsLoading, approveSingleRecommendation } = useHandleRecommendations()
+  const {
+    recommendationData,
+    updateRecommendation,
+    getRecommendationByType,
+    recommendationDataLoading,
+    updateRecommendationsLoading,
+    handleUpdateRecommendations,
+    approveRecommendationsLoading,
+  } = useHandleRecommendations()
 
-  const onApprove = async (e: React.SyntheticEvent, type_id: string, status: boolean) => {
+  const onApprove = async (e: React.SyntheticEvent, type_id: string, linkId: string, status: boolean) => {
     setEditedId(type_id)
     e.stopPropagation()
-    if (state?.siteId) await approveSingleRecommendation({ site_id: state?.siteId, status: status ? 'False' : 'True', type: 'images', type_id })
+    if (state?.siteId)
+      await handleUpdateRecommendations({
+        model: 'images',
+        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
+        update_data: { approved: status },
+        bulk: false,
+      })
   }
 
   const editSuggestionHandler = (index: number, id: string) => {
@@ -45,26 +60,32 @@ const ImagesList = ({ images }: { images: RecommendationsListTypes['images'] }) 
     element?.setAttribute('contentEditable', 'false')
   }
 
+  useEffect(() => {
+    getRecommendationByType({ page: 1, per_page: 10, type: 'images' })
+  }, [])
+
   return (
     <Container borderRadius boxShadow padding={40} width={70} className="images-listing container-bg">
       <Flex justify="center" align="center" wrap gap={8}>
-        {images?.map((item, index) => (
+        {(recommendationData?.data as ImagesAltDataTypes[])?.map((item, index) => (
           <ImageCard
-            id={item.id}
+            id={String(item.id)}
             index={index}
             editedId={editedId}
             onApprove={onApprove}
+            linkId={item.link_id}
             key={`images-${index}`}
             handleBlur={handleBlur}
-            imageUrl={item.image_url}
-            isApproved={item.approve}
-            loading={approveSingleLoading || updateRecommendationsLoading}
-            altText={item.suggested_alt_text}
+            imageUrl={item.url}
+            isApproved={item.approved}
+            loading={approveRecommendationsLoading || updateRecommendationsLoading}
+            altText={item.alt_text}
             editSuggestionHandler={editSuggestionHandler}
             ref={(el) => (editableRefs.current[index] = el)}
           />
         ))}
       </Flex>
+      <Loader loading={recommendationDataLoading} />
     </Container>
   )
 }

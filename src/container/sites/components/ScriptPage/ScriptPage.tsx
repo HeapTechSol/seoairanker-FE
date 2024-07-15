@@ -1,4 +1,7 @@
+import { Control, useWatch } from 'react-hook-form'
+
 import Flex from '@/components/Flex'
+import Button from '@/components/Button'
 import Divider from '@/components/Divider/Divider'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
@@ -6,9 +9,10 @@ import Typography from '@/components/Typography/Typography'
 import { handleCopyClick } from '@/utils/helper'
 
 import { SeodeIcon } from '@/assets/icons/svgs'
-import Button from '@/components/Button'
+import { AddSitePayloadTypes } from '@/container/sites/sitesTypes'
 
-const ScriptPage = () => {
+const ScriptPage = ({control}:{control:Control<AddSitePayloadTypes>}) => {
+  const script = useWatch({control, name:"script"})
   const code = `
   &lt;script type=&quot;text/javascript&quot;
   src=&quot;data:text/javascript;base64,LyogQWxsaSBBSSB3aWRnZXQgZm9yIHd3dy5nb3RsYW1tLnNlICovCihmdW5jdGlvbiAodyxkLHMsbyxmLGpzLGZqcykge3dbJ0FsbGlKU1dpZGdldCddPW87d1tvXSA9IHdbb10gfHwgZnVuY3Rpb24gKCkgeyAod1tvXS5xID0gd1tvXS5xIHx8IFtdKS5wdXNoKGFyZ3VtZW50cykgfTtqcyA9IGQuY3JlYXRlRWxlbWVudChzKSwgZmpzID0gZC5nZXRFbGVtZW50c0J5VGFnTmFtZShzKVswXTtqcy5pZCA9IG87IGpzLnNyYyA9IGY7IGpzLmFzeW5jID0gMTsgZmpzLnBhcmVudE5vZGUuaW5zZXJ0QmVmb3JlKGpzLCBmanMpO30od2luZG93LCBkb2N1bWVudCwgJ3NjcmlwdCcsICdhbGxpJywgJ2h0dHBzOi8vc3RhdGljLmFsbGlhaS5jb20vd2lkZ2V0L3YxLmpzJykpO2FsbGkoJ2luaXQnLCAnc2l0ZV9NdnpiVng2ellFVlpXRkJlJyk7&quot;
@@ -43,7 +47,7 @@ const ScriptPage = () => {
           </ol>
           <pre className="alert alert-light" style={{ padding: '0px 40px', cursor: 'pointer' }} onClick={handleCopyClick}>
             <code
-              dangerouslySetInnerHTML={{ __html: code }}
+              dangerouslySetInnerHTML={{ __html: script }}
               style={{
                 overflowX: 'auto',
                 whiteSpace: 'pre-wrap',
@@ -62,7 +66,7 @@ const ScriptPage = () => {
             }
           />
           <Flex justify="end">
-            <Button variant="outlined" size="sm" onClick={() => handleCopyClick(code)} type="borderRadius">
+            <Button variant="outlined" size="sm" onClick={() => handleCopyClick(script)} type="borderRadius">
               Click to copy the code
             </Button>
           </Flex>

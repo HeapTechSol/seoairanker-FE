@@ -1,45 +1,60 @@
-import { useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 
 import Flex from '@/components/Flex'
 import Table from '@/components/Table'
 import Button from '@/components/Button'
+import Loader from '@/components/Loader'
 import TruncateText from '@/components/TruncateText'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 
-import { AnchorTitlesRecommendations, RecommendationsCountTypes } from '@/container/sites/sitesTypes'
-
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
-import './TitlesList.scss'
 import { EditIcon } from '@/assets/icons/svgs'
+import { MissingTitlesDataTypes } from '@/container/sites/sitesTypes'
 
-const TitleList = ({
-  titlesList,
-  recommendationCount,
-}: {
-  titlesList: AnchorTitlesRecommendations[]
-  recommendationCount: RecommendationsCountTypes
-}) => {
+import './TitlesList.scss'
+
+const TitleList = () => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>()
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
   const {
-    approveSingleLoading,
-    updateRecommendation,
+    recommendationData,
+    getRecommendationByType,
+    recommendationDataLoading,
     updateRecommendationsLoading,
-    approveAllSelectedLoading,
-    approveSingleRecommendation,
-    approveAllSelectedRecommendation,
+    updateRecommendation,
+    handleUpdateRecommendations,
+    approveRecommendationsLoading,
   } = useHandleRecommendations()
 
-  const onApprove = async (e: React.SyntheticEvent, type_id: string, status: boolean) => {
+  const recommendation = recommendationData?.data.find((item) => item.link_id)
+
+  const handleAllRecommendations = async () => {
+    if (state?.siteId) {
+      await handleUpdateRecommendations({
+        model: 'anchor_titles',
+        filter_conditions: { link_id: recommendation?.link_id, site_id: state?.siteId },
+        update_data: { approved: true },
+        bulk: true,
+      })
+    }
+  }
+
+  const onApprove = async (e: SyntheticEvent, type_id: string, linkId: string, status: boolean) => {
     setEditedId(type_id)
     e.stopPropagation()
-    if (state?.siteId)
-      await approveSingleRecommendation({ site_id: state?.siteId, status: status ? 'False' : 'True', type: 'missing_titles', type_id })
+    if (state?.siteId) {
+      await handleUpdateRecommendations({
+        model: 'anchor_titles',
+        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
+        update_data: { approved: status },
+        bulk: false,
+      })
+    }
   }
 
   const editSuggestionHandler = (index: number, id: string) => {
@@ -71,14 +86,14 @@ const TitleList = ({
     {
       header: 'Title',
       dataKey: 'suggested_link_title',
-      render: (text: string, record: AnchorTitlesRecommendations, index: number) => {
+      render: (text: string, record: MissingTitlesDataTypes, index: number) => {
         return (
           <Flex align="center" gap={16}>
             <Typography
               color="warning"
               text={<TruncateText text={text} line={1} width={400}></TruncateText>}
               contentEditable={record.id === editedId}
-              onBlur={(e) => handleBlur(e, record.id, index, record.suggested_link_title)}
+              onBlur={(e) => handleBlur(e, record.id, index, record.suggested_title)}
               ref={(el) => (editableRefs.current[index] = el)}
             />
             <span className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, record.id)}>
@@ -91,30 +106,28 @@ const TitleList = ({
     {
       header: 'Action',
       dataKey: '',
-      render: (_: any, record: AnchorTitlesRecommendations) => (
+      render: (_: any, record: MissingTitlesDataTypes) => (
         <Flex gap={12} align="center" justify="center">
           <Button
             size="sm"
             variant="outlined"
-            onClick={(e) => onApprove(e, record.id, record.approve)}
+            onClick={(e) => onApprove(e, record.id, record.link_id, record.approved)}
             type="borderRadius"
-            color={record.approve ? 'error' : 'success'}
-            loading={editedId === record.id && (approveSingleLoading || updateRecommendationsLoading)}
+            color={record.approved ? 'error' : 'success'}
+            loading={editedId === record.id && (approveRecommendationsLoading || updateRecommendationsLoading)}
           >
-            {record.approve ? 'Reject' : 'Approve'}
+            {record.approved ? 'Reject' : 'Approve'}
           </Button>
         </Flex>
       ),
     },
   ]
 
-  const isApproved =
-    recommendationCount?.approved_missing_title_count ==
-    recommendationCount?.approved_missing_title_count + recommendationCount?.un_approved_missing_title_count
+  const isApproved = recommendationData?.total_count == recommendationData?.approved_count
 
-  const handleAllRecommendations = async () => {
-    if (state?.siteId) await approveAllSelectedRecommendation({ site_id: state?.siteId, status: 'True', type: 'missing_titles' })
-  }
+  useEffect(() => {
+    getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles' })
+  }, [])
 
   return (
     <Container borderRadius boxShadow padding={40} className="titles-list-container container-bg" width={70}>
@@ -131,16 +144,16 @@ const TitleList = ({
               type="borderRadius"
               color="success"
               disabled={isApproved}
-              loading={approveAllSelectedLoading}
+              loading={approveRecommendationsLoading}
               onClick={handleAllRecommendations}
             >
-              Approve All ({recommendationCount?.approved_missing_title_count}/
-              {recommendationCount?.approved_missing_title_count + recommendationCount?.un_approved_missing_title_count})
+              Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
             </Button>
           </Flex>
         </Flex>
-        <Table columns={columns} data={titlesList || []} />
+        <Table columns={columns} data={recommendationData?.data || []} />
       </Flex>
+      <Loader loading={recommendationDataLoading} />
     </Container>
   )
 }

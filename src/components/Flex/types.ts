@@ -13,4 +13,5 @@ export type FlexPropsTypes = {
   wrap?: boolean;
   onClick?: (val: React.SyntheticEvent) => void;
   ref: React.Ref<HTMLDivElement>;
+  inline?:boolean
 };

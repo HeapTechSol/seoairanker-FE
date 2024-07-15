@@ -17,7 +17,8 @@ import { RiLockPasswordLine } from 'react-icons/ri'
 import './Login.scss'
 
 const Login = () => {
-  const { control, isLoading, handleSubmit, loginHandler, onGoogleLogin, onNoAccountClick, onForgetPasswordClick } = useLoginHandler()
+  const { control, isLoading, isGoogleLoading, handleSubmit, loginHandler, onGoogleLogin, onNoAccountClick, onForgetPasswordClick } =
+    useLoginHandler()
 
   return (
     <Container boxShadow borderRadius width={100} padding={'60px'} className="container-bg">
@@ -35,7 +36,7 @@ const Login = () => {
                     type="email"
                     name="email"
                     title="Email"
-                    color='warning'
+                    color="warning"
                     value={value}
                     autoComplete="new-email"
                     titlePosition="top"
@@ -86,6 +87,7 @@ const Login = () => {
             variant="filled"
             type="borderRadius"
             StartIcon={<FcGoogle />}
+            loading={isGoogleLoading}
             onClick={() => onGoogleLogin()}
             fill
           >

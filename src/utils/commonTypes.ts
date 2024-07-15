@@ -34,4 +34,5 @@ export type ErrorTypes = {
 
 export type APIResponseMessage = {
   message:string
+  data?:string
 }

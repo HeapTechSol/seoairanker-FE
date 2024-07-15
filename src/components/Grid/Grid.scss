@@ -1,6 +1,45 @@
 .grid-container {
   display: grid;
   width: 100%;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(278px, 1fr));
+
+  &.inline {
+    display: inline-grid;
+    width: auto;
+  }
+
+  &.wrap {
+    grid-auto-flow: dense;
+  }
+
+  &.justify-center {
+    justify-content: center;
+  }
+
+  &.justify-start {
+    justify-content: start;
+  }
+
+  &.justify-end {
+    justify-content: end;
+  }
+
+  &.justify-stretch {
+    justify-content: stretch;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.align-start {
+    align-items: start;
+  }
+
+  &.align-end {
+    align-items: end;
+  }
+
+  &.align-stretch {
+    align-items: stretch;
+  }
 }

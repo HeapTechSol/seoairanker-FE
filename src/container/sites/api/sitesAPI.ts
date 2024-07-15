@@ -3,13 +3,14 @@ import { APIEndpoint } from '@/constant/apiEndPoints'
 import { APIResponseMessage } from '@/utils/commonTypes'
 import {
   AddSitePayload,
+  SiteLinkPayloadTypes,
+  SitesAPIResponseTypes,
+  SiteLinksAPIResponseTypes,
   CrawledInfoAPIResponseTypes,
   GetKeywordsAPIResponseTypes,
-  RecommendationsAPIResponseTypes,
-  RecommendationsCountAPIResponseTypes,
-  SiteLinkPayloadTypes,
-  SiteLinksAPIResponseTypes,
-  SitesAPIResponseTypes,
+  GetRecommendationsByTypesPayloadTypes,
+  GetRecommendationsByModelAPIResponseTypes,
+  ApproveRecommendationsPayloadTypes,
 } from '../sitesTypes'
 
 const {
@@ -17,16 +18,13 @@ const {
   SITES_LIST,
   DELETE_SITE,
   GET_KEYWORDS,
+  RE_CRAWL_SITE,
   SITE_PAGE_INSIGHTS,
   SITE_CRAWLING_INFO,
   UPDATE_RECOMMENDATION,
   SITE_LINKS_AND_CONTENT,
-  SITE_RECOMMENDATION_DATA,
-  SITE_RECOMMENDATION_COUNTS,
-  APPROVE_ALL_RECOMMENDATION,
-  APPROVE_SINGLE_RECOMMENDATION,
-  APPROVE_ALL_SELECTED_RECOMMENDATION,
-  RE_CRAWL_SITE,
+  APPROVE_RECOMMENDATIONS,
+  GET_RECOMMENDATIONS_BY_TYPE,
 } = APIEndpoint
 
 export const sitesAPI = baseQueryApi.injectEndpoints({
@@ -60,56 +58,31 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         body: payload,
       }),
     }),
-    getRecommendationsCount: builder.query<RecommendationsCountAPIResponseTypes, { site_id: string }>({
-      query: (payload) => ({
-        url: SITE_RECOMMENDATION_COUNTS,
-        method: 'POST',
-        body: payload,
+    getSiteCrawledInfo: builder.query<CrawledInfoAPIResponseTypes, string>({
+      query: (site_id) => ({
+        url: `${SITE_CRAWLING_INFO}/${site_id}`,
+        method: 'GET',
       }),
       providesTags: ['recommendationsData'],
     }),
-    getSiteCrawledInfo: builder.query<CrawledInfoAPIResponseTypes, { site_id: string }>({
-      query: (payload) => ({
-        url: SITE_CRAWLING_INFO,
-        method: 'POST',
-        body: payload,
+    getRecommendationsByType: builder.query<GetRecommendationsByModelAPIResponseTypes, GetRecommendationsByTypesPayloadTypes>({
+      query: (params) => ({
+        url: GET_RECOMMENDATIONS_BY_TYPE,
+        method: 'GET',
+        params: params,
       }),
       providesTags: ['recommendationsData'],
     }),
-    getRecommendationsData: builder.query<RecommendationsAPIResponseTypes, { site_id: string }>({
-      query: (payload) => ({
-        url: SITE_RECOMMENDATION_DATA,
-        method: 'POST',
-        body: payload,
-      }),
-      providesTags: ['recommendationsData'],
-    }),
-    reCrawlSite: builder.query<RecommendationsAPIResponseTypes, { site_id: string; siteUrl: string }>({
+    reCrawlSite: builder.query<GetRecommendationsByModelAPIResponseTypes, { site_id: string; siteUrl: string }>({
       query: (payload) => ({
         url: RE_CRAWL_SITE,
         method: 'POST',
         body: payload,
       }),
     }),
-    approveAllRecommendations: builder.mutation<{ message: string }, { site_id: string; status: string }>({
+    approveRecommendations: builder.mutation<{ message: string }, ApproveRecommendationsPayloadTypes>({
       query: (payload) => ({
-        url: APPROVE_ALL_RECOMMENDATION,
-        method: 'PATCH',
-        body: payload,
-      }),
-      invalidatesTags: (_result, error) => (error ? [] : ['recommendationsData']),
-    }),
-    approveAllSelectedRecommendations: builder.mutation<{ message: string }, { site_id: string; status: string; type: string }>({
-      query: (payload) => ({
-        url: APPROVE_ALL_SELECTED_RECOMMENDATION,
-        method: 'PATCH',
-        body: payload,
-      }),
-      invalidatesTags: (_result, error) => (error ? [] : ['recommendationsData']),
-    }),
-    approveSingleRecommendation: builder.mutation<{ message: string }, { site_id: string; status: string; type: string; type_id: string }>({
-      query: (payload) => ({
-        url: APPROVE_SINGLE_RECOMMENDATION,
+        url: APPROVE_RECOMMENDATIONS,
         method: 'PATCH',
         body: payload,
       }),
@@ -150,10 +123,7 @@ export const {
   useLazyGetSightInsightsQuery,
   useLazyGetSiteCrawledInfoQuery,
   useUpdateRecommendationsMutation,
+  useApproveRecommendationsMutation,
   useLazyGetSiteLinksAndContentQuery,
-  useLazyGetRecommendationsDataQuery,
-  useLazyGetRecommendationsCountQuery,
-  useApproveAllRecommendationsMutation,
-  useApproveSingleRecommendationMutation,
-  useApproveAllSelectedRecommendationsMutation,
+  useLazyGetRecommendationsByTypeQuery,
 } = sitesAPI

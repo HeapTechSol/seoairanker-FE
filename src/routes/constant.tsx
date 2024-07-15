@@ -20,6 +20,7 @@ const {
   RECOMMENDATIONS,
   SITES_DASHBOARD,
   SITE_ACCESS_KEYS,
+  KEYWORDS_RANKING,
   SITE_DETAILS_PAGE,
   ADD_SITES_NEW_KEYWORDS,
   BASE: SITES_BASE,
@@ -132,6 +133,20 @@ export const routes = createBrowserRouter([
             Component: (props) => (
               <ProtectedRoute>
                 <Recommendations {...props} />
+              </ProtectedRoute>
+            ),
+          }
+        },
+      },
+      {
+        path: KEYWORDS_RANKING,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const { default: KeywordsRankingDetail } = await import('../container/sites/pages/KeywordsRankingDetail/KeywordsRankingDetail')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <KeywordsRankingDetail {...props} />
               </ProtectedRoute>
             ),
           }

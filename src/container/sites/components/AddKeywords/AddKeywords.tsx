@@ -44,7 +44,7 @@ const AddKeywords = ({ control }: { control: Control<AddSitePayloadTypes> }) => 
             {WatchIcon}
           </span>
         ) : (
-          <CircularProgress progress={Number(value || 0)} size={30} />
+          <CircularProgress progress={value} size={30} />
         ),
     },
   ]

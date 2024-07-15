@@ -75,7 +75,8 @@ const useLoginHandler = () => {
 
   return {
     control,
-    isLoading: isLoading || isGoogleLoading,
+    isLoading,
+    isGoogleLoading,
     handleSubmit,
     loginHandler,
     onGoogleLogin,

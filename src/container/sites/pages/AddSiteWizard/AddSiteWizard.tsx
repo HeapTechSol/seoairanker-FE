@@ -11,7 +11,7 @@ import { steps } from '@/container/sites/utils'
 import './AddSiteWizard.scss'
 
 const AddSiteWizard = () => {
-  const { control, currentStep, keywordsLoading, submitHandler, getKeywords, handleForwardButtonPress, handlePreviousButtonPress } =
+  const { control, currentStep, isLoading, keywordsLoading, submitHandler, getKeywords, handleForwardButtonPress, handlePreviousButtonPress } =
     useHandleSitesLogic()
 
   const formData = useWatch({ control })
@@ -27,7 +27,7 @@ const AddSiteWizard = () => {
         color="common"
         minHeight={'622px'}
         steps={steps(control)}
-        requestLoading={keywordsLoading}
+        requestLoading={isLoading || keywordsLoading}
         componentControl={false}
         activeStepper={currentStep}
         submitHandler={submitHandler}

@@ -23,6 +23,7 @@ export const ADD_SITE_WIZARD_DEFAULT_VALUES = {
   businessType: '',
   country: '',
   language: '',
+  script:'',
 }
 
 export const ADD_KEYWORDS_DEFAULT_VALUES = {
@@ -51,7 +52,7 @@ export const ADD_SITE_WIZARD_VALIDATIONS = [
           invalid_type_error: requiredMessage('Business type'),
           required_error: requiredMessage('Business type'),
         })
-        .min(5, requiredMessage('Business type')),
+        .min(3, requiredMessage('Business type')),
       country: z
         .string({
           invalid_type_error: requiredMessage('Search Country'),
@@ -126,7 +127,7 @@ export const steps = (control: any) => [
   {
     title: 'Install',
     stepLabel: '6',
-    component: <ScriptPage />,
+    component: <ScriptPage control={control} />,
   },
 ]
 
@@ -154,7 +155,7 @@ export const KEYWORDS_COLUMN: ColumnsTypes[] = [
           {WatchIcon}
         </span>
       ) : (
-        <CircularProgress progress={Number(value)} size={30} />
+        <CircularProgress progress={value} size={30} />
       ),
   },
 ]

@@ -31,18 +31,21 @@ const RecommendationOverview = ({
   selectedKey: string
   onClick: (id: string) => void
   recommendationsList: RecommendationsListType[]
-  crawledInfo: CrawledInfoAPIResponseTypes['result']
+  crawledInfo: CrawledInfoAPIResponseTypes['data']
 }) => {
-  const [statusType, setStatusType] = useState('')
-  const { approveAllRecommendation, approveAllLoading } = useHandleRecommendations()
+  const [statusType, setStatusType] = useState<boolean>(false)
+  const { handleUpdateRecommendations, approveRecommendationsLoading } = useHandleRecommendations()
 
-  const handleApproveAllRecommendations = async (status: string) => {
+  const handleApproveAllRecommendations = async (status: boolean) => {
     setStatusType(status)
-    await approveAllRecommendation({ site_id, status })
+    await handleUpdateRecommendations({
+      filter_conditions: { site_id: site_id },
+      update_data: { approved: status },
+      bulk: true,
+    })
   }
 
-  const isAllApproved =
-    crawledInfo?.recommendations?.approved == (crawledInfo?.recommendations?.unapproved || 0) + (crawledInfo?.recommendations?.approved || 0)
+  const isAllApproved = crawledInfo?.site_data.total_approved == crawledInfo?.site_data?.total_count
 
   return (
     <Container width={30} padding={'40px 20px'} borderRadius boxShadow className="recommendations-container container-bg">
@@ -53,8 +56,8 @@ const RecommendationOverview = ({
               justify="between"
               padding={'5px 15px'}
               key={recommendation.title}
-              className={classMapper('recommendations-status', { active: recommendation.id === selectedKey })}
-              onClick={() => onClick(recommendation.id)}
+              className={classMapper('recommendations-status', { active: recommendation.type === selectedKey })}
+              onClick={() => onClick(recommendation.type)}
             >
               <Typography text={recommendation.title} />
               <Typography text={`(${recommendation.used}/${recommendation?.totalCount})`} />
@@ -67,18 +70,18 @@ const RecommendationOverview = ({
         variant="outlined"
         color="success"
         disabled={isAllApproved}
-        loading={statusType === 'True' && approveAllLoading}
-        onClick={() => handleApproveAllRecommendations('True')}
+        loading={statusType === true && approveRecommendationsLoading}
+        onClick={() => handleApproveAllRecommendations(true)}
       >
         I'm Feeling Lucky (Approve All)
       </Button>
-      {!!crawledInfo?.recommendations?.approved && (
+      {!!crawledInfo?.site_data?.total_approved && (
         <Button
           fullWidth
           variant="outlined"
           color="error"
-          loading={statusType === 'False' && approveAllLoading}
-          onClick={() => handleApproveAllRecommendations('False')}
+          loading={statusType === false && approveRecommendationsLoading}
+          onClick={() => handleApproveAllRecommendations(false)}
         >
           Reject All
         </Button>

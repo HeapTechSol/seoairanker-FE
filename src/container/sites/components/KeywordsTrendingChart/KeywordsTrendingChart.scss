@@ -1,0 +1,48 @@
+.keywords-trending-chart {
+  padding: 20px;
+  &__controls {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    .chart-tab.btn {
+      color: var(--text-description-color);
+      position: relative;
+      &:hover {
+        background: transparent !important;
+        color: var(--color-common-main);
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -12px;
+          left: 0px;
+          height: 100%;
+          width: 100%;
+          border-bottom: 2px solid colorMapper(primary, main);
+        }
+      }
+      &.active {
+        background: transparent !important;
+        color: var(--color-common-main);
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -12px;
+          left: 0px;
+          height: 100%;
+          width: 100%;
+          border-bottom: 2px solid colorMapper(primary, main);
+        }
+      }
+    }
+    .chart-btn.btn {
+      color: var(--text-description-color);
+      &:hover {
+        background: colorMapper(primary, main) !important;
+        color:white;
+      }
+      &.active {
+        background: colorMapper(primary, main) !important;
+        color:white;
+      }
+    }
+  }
+}

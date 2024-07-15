@@ -47,8 +47,7 @@ const SitesDashboard = () => {
   const columns = [
     {
       header: 'Sites',
-      dataKey: 'siteUrl',
-      sortKey: 'siteUrl',
+      dataKey: 'site_url',
       render: (value: string, record: any) => (
         <Typography
           text={value}
@@ -65,7 +64,7 @@ const SitesDashboard = () => {
         />
       ),
     },
-    { header: 'Date', dataKey: 'createdAt', sortKey: 'createdAt' },
+    { header: 'Date', dataKey: 'created_at' },
     {
       header: '',
       dataKey: 'action',

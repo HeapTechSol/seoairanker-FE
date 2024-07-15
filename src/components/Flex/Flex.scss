@@ -1,6 +1,10 @@
 .flex-container {
   display: flex;
   width: 100%;
+  &.inline {
+    display: inline-flex;
+    width: auto;
+  }
   &.vertical {
     flex-direction: column;
   }
@@ -41,7 +45,7 @@
   &.align-end {
     align-items: flex-end;
   }
-  &.wrap{
+  &.wrap {
     flex-wrap: wrap;
   }
 }

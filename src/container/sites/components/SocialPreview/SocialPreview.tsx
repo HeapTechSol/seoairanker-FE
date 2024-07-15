@@ -1,37 +1,58 @@
-import { FocusEvent, useRef, useState } from 'react'
+import { FocusEvent, SyntheticEvent, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
+import Loader from '@/components/Loader'
 import Accordion from '@/components/Accordion'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 
-import { OG_TagsRecommendations, RecommendationsCountTypes, RecommendationsListTypes } from '@/container/sites/sitesTypes'
-
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { EditIcon } from '@/assets/icons/svgs'
+import { OgTagsDataTypes } from '@/container/sites/sitesTypes'
 
-const SocialPreview = ({
-  titlesList,
-  recommendationCount,
-}: {
-  titlesList: RecommendationsListTypes['og_tags']
-  recommendationCount: RecommendationsCountTypes
-}) => {
+const SocialPreview = () => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>()
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
   const {
-    approveAllSelectedRecommendation,
-    approveAllSelectedLoading,
+    recommendationData,
+    getRecommendationByType,
+    recommendationDataLoading,
     updateRecommendationsLoading,
-    approveSingleLoading,
     updateRecommendation,
-    approveSingleRecommendation,
+    handleUpdateRecommendations,
+    approveRecommendationsLoading,
   } = useHandleRecommendations()
+
+  const recommendation = recommendationData?.data.find((item) => item.link_id)
+
+  const handleAllRecommendations = async () => {
+    if (state?.siteId) {
+      await handleUpdateRecommendations({
+        model: 'og_tags',
+        filter_conditions: { link_id: recommendation?.link_id },
+        update_data: { approved: true },
+        bulk: true,
+      })
+    }
+  }
+
+  const onApprove = async (e: SyntheticEvent, type_id: string, linkId: string, status: boolean) => {
+    setEditedId(type_id)
+    e.stopPropagation()
+    if (state?.siteId) {
+      await handleUpdateRecommendations({
+        model: 'og_tags',
+        filter_conditions: { id: type_id, link_id: linkId },
+        update_data: { approved: status },
+        bulk: false,
+      })
+    }
+  }
 
   const editSuggestionHandler = (index: number, id: string) => {
     setEditedId(id)
@@ -56,14 +77,13 @@ const SocialPreview = ({
     element?.setAttribute('contentEditable', 'false')
   }
 
-  const accordionDescription = (item: OG_TagsRecommendations, index:number) => (
+  const accordionDescription = (item: OgTagsDataTypes, index: number) => (
     <Flex vertical gap={4}>
-       
       <Typography text="Existing:" />
       <Typography text={item?.existing_og_tag || ''} color="warning" />
       <Flex align="center" gap={16}>
         <Typography text="Suggestion:" />
-        <span style={{ cursor: 'pointer' }}  className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, item.id)}>
+        <span style={{ cursor: 'pointer' }} className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, item.id)}>
           {EditIcon}
         </span>
       </Flex>
@@ -77,20 +97,19 @@ const SocialPreview = ({
     </Flex>
   )
 
-  const optimizedTitlesList = titlesList?.map((item, index) => ({ url: item.url, content: accordionDescription(item,index), approve: item.approve, id: item.id }))
+  const optimizedTitlesList = (recommendationData?.data as OgTagsDataTypes[])?.map((item, index) => ({
+    url: item?.url,
+    content: accordionDescription(item, index),
+    approve: item.approved,
+    id: item.id,
+    linkId: item.link_id,
+  }))
 
-  const onApprove = async (e: React.SyntheticEvent, type_id: string, status: boolean) => {
-    setEditedId(type_id)
-    e.stopPropagation()
-    if (state?.siteId) await approveSingleRecommendation({ site_id: state?.siteId, status: status ? 'False' : 'True', type: 'og_tag', type_id })
-  }
+  const isApproved = recommendationData?.total_count == recommendationData?.approved_count
 
-  const isApproved =
-    recommendationCount?.approved_og_tags_count == recommendationCount?.approved_og_tags_count + recommendationCount?.un_approved_og_tags_count
-
-  const handleAllRecommendations = async () => {
-    if (state?.siteId) await approveAllSelectedRecommendation({ site_id: state?.siteId, status: 'True', type: 'og_tag' })
-  }
+  useEffect(() => {
+    getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags' })
+  }, [])
 
   return (
     <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg" padding={'40px 20px'}>
@@ -106,15 +125,14 @@ const SocialPreview = ({
             type="borderRadius"
             color="success"
             disabled={isApproved}
-            loading={approveAllSelectedLoading}
+            loading={approveRecommendationsLoading}
             onClick={handleAllRecommendations}
           >
-            Approve All ({recommendationCount?.approved_og_tags_count}/
-            {recommendationCount?.approved_og_tags_count + recommendationCount?.un_approved_og_tags_count})
+            Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
           </Button>
         </Flex>
         <Flex vertical gap={10}>
-          {optimizedTitlesList.map((item) => (
+          {optimizedTitlesList?.map((item) => (
             <Accordion
               title={item.url}
               description={item.content}
@@ -123,10 +141,10 @@ const SocialPreview = ({
                 <Button
                   size="sm"
                   variant="outlined"
-                  onClick={(e) => onApprove(e, item.id, item.approve)}
+                  onClick={(e) => onApprove(e, item.id, item.linkId, item.approve)}
                   type="borderRadius"
                   color={item.approve ? 'error' : 'success'}
-                  loading={editedId === item.id && (approveSingleLoading || updateRecommendationsLoading)}
+                  loading={editedId === item.id && (approveRecommendationsLoading || updateRecommendationsLoading)}
                 >
                   {item.approve ? 'Reject' : 'Approve'}
                 </Button>
@@ -135,6 +153,7 @@ const SocialPreview = ({
           ))}
         </Flex>
       </Flex>
+      <Loader loading={recommendationDataLoading} />
     </Container>
   )
 }

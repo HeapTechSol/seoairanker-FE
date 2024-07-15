@@ -10,21 +10,22 @@ export type AddSitePayload = {
 }
 
 export type SitesAPIResponse = {
-  businessType: string
+  business_type: string
   country: string
-  createdAt: string
+  created_at: string
+  favicon_url: string
   id: number
-  logo: string
   language: string
-  siteUrl: string
-  recommendations: {
-    approved: number
-    unapproved: number
-  }
+  screenshot_url: MaybeNull<string>
+  site_url: string
+  total_approved_count: number
+  total_count: number
+  total_unapproved_count: number
+  user_id: number
 }
 
 export type SitesAPIResponseTypes = {
-  result: SitesAPIResponse[]
+  data: SitesAPIResponse[]
 }
 
 export type PaginationResponse = {
@@ -39,34 +40,30 @@ export type SiteLinksAPIResponseTypes = {
   pagination: PaginationResponse
 }
 
-export type RecommendationsCountTypes = {
-  approved_title_count: number
-  un_approved_title_count: number
-  approved_description_count: number
-  un_approved_description_count: number
-  approved_image_count: number
-  un_approved_image_count: number
-  approved_missing_title_count: number
-  un_approved_missing_title_count: number
-  approved_og_tags_count: number
-  un_approved_og_tags_count: number
-  approved_heading_count: number
-  un_approved_heading_count: number
-}
-
-export type RecommendationsCountAPIResponseTypes = {
-  results: RecommendationsCountTypes
-}
+export type ModalTypes = 'anchor_titles' | 'images' | 'og_tags' | 'heading_suggestions' | 'missing_meta_titles' | 'missing_meta_descriptions'
 
 export type CrawledInfoAPIResponseTypes = {
-  result: {
-    lastUpdatedAt: string
-    recommendations: {
+  data: {
+    model_data: {
       approved: number
-      unapproved: number
+      model: ModalTypes
+      total: number
+    }[]
+    site_data: {
+      business_type: string
+      country_code: string
+      createdAt: string
+      id: number
+      language_code: string
+      site_url: string
+      total_approved: number
+      total_count: number
+      updatedAt: string
     }
   }
 }
+
+export type GetRecommendationsByTypesPayloadTypes = { type: ModalTypes; per_page: number; page: number }
 
 export type SiteLinkPayloadTypes = {
   site_id: string
@@ -77,69 +74,77 @@ export type SiteLinkPayloadTypes = {
   search: string
 }
 
-export type ImageRecommendations = {
-  approve: boolean
-  suggested_alt_text: string
-  url: string
-  xpath: string
-  image_url: string
+export type MissingTitlesDataTypes = {
   id: string
-}
-
-export type DescriptionRecommendations = {
-  approve: boolean
-  suggested_description: string
-  existing_description: string
-  url: string
-  id: string
-}
-
-export type TitlesRecommendations = {
-  approve: boolean
+  link_id: string
   suggested_title: string
+  approved: boolean
   existing_title: string
-  url: string
-  id: string
+  xpath: string
+  css_selector: string
 }
 
-export type AnchorTitlesRecommendations = {
-  approve: boolean
-  xpath: string
-  suggested_link_title: string
+export type ImagesAltDataTypes = {
+  alt_text: string
+  approved: boolean
+  id: number
+  link_id: string
   url: string
-  id: string
 }
 
-export type OG_TagsRecommendations = {
-  approve: boolean
-  xpath: string
-  suggested_og_tag: string
+export type OgTagsDataTypes = {
+  approved: boolean
   existing_og_tag: string
-  url: string
   id: string
+  link_id: string
+  suggested_og_tag: string
 }
 
-export type HeadingRecommendations = {
-  url: string
-  approve: boolean
-  suggested_heading: string
+export type MetaTitleDataTypes = {
+  approved: boolean
+  suggested_title: string
+  id: string
+  link_id: string
+  existing_meta_title: string
+}
+
+export type MetaDescriptionDataTypes = {
+  approved: boolean
+  suggested_description: string
+  id: string
+  link_id: string
+  existing_meta_description: string
+}
+
+export type HeadingOptimizationDataTypes = {
+  approved: boolean
+  css_selector: string
   current_heading: string
-  xpath: string
   heading_content: string
   id: string
+  link_id: string
+  suggested_heading: string
+  suggestion: string
 }
 
-export type RecommendationsListTypes = {
-  descriptions: DescriptionRecommendations[]
-  images: ImageRecommendations[]
-  titles: TitlesRecommendations[]
-  links: AnchorTitlesRecommendations[]
-  og_tags: OG_TagsRecommendations[]
-  headings_suggestions: HeadingRecommendations[]
+export type GetRecommendationsByModelAPIResponseTypes = {
+  approved_count: number
+  data:
+    | ImagesAltDataTypes[]
+    | OgTagsDataTypes[]
+    | HeadingOptimizationDataTypes[]
+    | MetaTitleDataTypes[]
+    | MissingTitlesDataTypes[]
+    | MetaDescriptionDataTypes[]
+  total_count: number
+  unapproved_count: number
 }
 
-export type RecommendationsAPIResponseTypes = {
-  results: RecommendationsListTypes
+export type ApproveRecommendationsPayloadTypes = {
+  filter_conditions: { site_id: string; id?: string; link_id?: string }
+  update_data: { approved: boolean }
+  bulk: boolean
+  model?: string
 }
 
 export type AddSitePayloadTypes = {
@@ -149,6 +154,7 @@ export type AddSitePayloadTypes = {
   businessType: string
   country: string
   language: string
+  script: string
   keywords: MaybeNull<KeywordsDataTypes[]>
 }
 

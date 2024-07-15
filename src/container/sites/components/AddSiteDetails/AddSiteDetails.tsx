@@ -14,6 +14,7 @@ import './AddSiteDetails.scss'
 
 const AddSiteDetails = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
   const siteUrl = useWatch({ control, name: 'siteUrl' })
+  
   return (
     <Container width={100} borderRadius boxShadow className="add-site-container">
       <Flex vertical gap={32} align="center">

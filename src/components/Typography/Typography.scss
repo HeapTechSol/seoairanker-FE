@@ -118,7 +118,7 @@
     align-self: flex-start;
   }
   &.inline {
-    display: inline;
+    display: inline-block;
   }
 }
 
@@ -161,7 +161,7 @@
     text-align: left;
   }
   &.inline {
-    display: inline;
+    display: inline-block;
   }
 }
 

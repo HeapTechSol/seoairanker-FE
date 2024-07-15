@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react'
 
-import { classMapper } from "@/utils/helper";
+import { classMapper } from '@/utils/helper'
 
-import { FlexPropsTypes } from "./types";
+import { FlexPropsTypes } from './types'
 
-import "./Flex.scss";
+import './Flex.scss'
 
 const Flex = React.forwardRef<HTMLDivElement, FlexPropsTypes>((props, ref) => {
   const {
@@ -18,33 +18,30 @@ const Flex = React.forwardRef<HTMLDivElement, FlexPropsTypes>((props, ref) => {
     children,
     className,
     wrap = false,
+    inline = false,
     onClick,
-  } = props;
+  } = props
   const flexClasses = classMapper(`flex-container`, {
-    [className || ""]: !!className,
+    [className || '']: !!className,
     vertical: vertical,
     rowReverse: rowReverse && !vertical,
     columnReverse: columnReverse && !rowReverse,
     [`justify-${justify}`]: justify,
     [`align-${align}`]: align,
+    inline: inline,
     wrap: wrap,
-  });
+  })
 
-  const contentGap = !!gap && { gap: `${gap}px` };
-  const flexPadding = { padding: padding ? padding : undefined };
+  const contentGap = !!gap && { gap: `${gap}px` }
+  const flexPadding = { padding: padding ? padding : undefined }
 
-  const inlineStyle = { ...contentGap, ...flexPadding };
+  const inlineStyle = { ...contentGap, ...flexPadding }
 
   return (
-    <div
-      style={inlineStyle}
-      className={flexClasses}
-      onClick={onClick}
-      ref={ref}
-    >
+    <div style={inlineStyle} className={flexClasses} onClick={onClick} ref={ref}>
       {children}
     </div>
-  );
-});
+  )
+})
 
-export default Flex;
+export default Flex

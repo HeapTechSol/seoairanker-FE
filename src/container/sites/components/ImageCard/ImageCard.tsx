@@ -17,13 +17,14 @@ type ImageCardProps = {
   loading: boolean
   editedId: string
   isApproved: boolean
+  linkId: string
   editSuggestionHandler: (index: number, id: string) => void
-  onApprove: (e: React.SyntheticEvent, type_id: string, status: boolean) => void
+  onApprove: (e: React.SyntheticEvent, type_id: string, linkId:string, status: boolean) => void
   handleBlur: (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => void
 }
 
 const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
-  ({ id, index, altText, loading, editedId, imageUrl, onApprove, handleBlur, isApproved, editSuggestionHandler }, ref) => {
+  ({ id, index, altText, loading, editedId, imageUrl, linkId, onApprove, handleBlur, isApproved, editSuggestionHandler }, ref) => {
     return (
       <Container borderRadius boxShadow className="image-container" padding={8}>
         <Flex vertical gap={12} align="center">
@@ -45,7 +46,7 @@ const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
           <Button
             size="sm"
             variant="outlined"
-            onClick={(e) => onApprove(e, id, isApproved)}
+            onClick={(e) => onApprove(e, id, linkId, isApproved)}
             type="borderRadius"
             color={isApproved ? 'error' : 'success'}
             loading={id === editedId && loading}

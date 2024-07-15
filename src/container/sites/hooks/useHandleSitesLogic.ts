@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { steps, ADD_SITE_WIZARD_DEFAULT_VALUES, ADD_SITE_WIZARD_VALIDATIONS } from '../utils'
 
@@ -15,10 +16,9 @@ import {
   useLazyGetSitesQuery,
 } from '../api/sitesAPI'
 
-import { ErrorTypes } from '@/utils/commonTypes'
-import { EXACT_ROUTES } from '@/constant/routes'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useAppSelector } from '@/api/store'
+import { EXACT_ROUTES } from '@/constant/routes'
+import { ErrorTypes } from '@/utils/commonTypes'
 import { AddSitePayloadTypes, SiteLinkPayloadTypes } from '../sitesTypes'
 
 const { SITES_DASHBOARD } = EXACT_ROUTES
@@ -38,7 +38,7 @@ const useHandleSitesLogic = () => {
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
-  const [getSiteCrawledInfo, { data: crawledInfo }] = useLazyGetSiteCrawledInfoQuery()
+  const [getSiteCrawledInfo, { data: crawledInfo, isFetching:crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
   const [getSites, { isFetching: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
   const [getSiteKeywords, { data: keywordsData, isFetching: keywordsLoading }] = useLazyGetSiteKeywordsQuery()
   const [getSightInsights, { isFetching: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
@@ -48,6 +48,16 @@ const useHandleSitesLogic = () => {
 
   const handleNext = async () => {
     if (currentStep >= stepsCount) return
+    if (currentStep === 4) {
+      const values = getValues()
+      const response = await addSite({
+        ...values,
+      }).unwrap()
+      toast.success(response?.message)
+      setValue('script', response.data || '')
+      setCurrentStep((prev) => prev + 1)
+      return
+    }
     setCurrentStep((prev) => prev + 1)
   }
 
@@ -61,11 +71,6 @@ const useHandleSitesLogic = () => {
 
   const submitHandler = async () => {
     try {
-      const values = getValues()
-      const response = await addSite({
-        ...values,
-      }).unwrap()
-      toast.success(response?.message)
       navigate(SITES_DASHBOARD)
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
@@ -98,16 +103,16 @@ const useHandleSitesLogic = () => {
 
   const getKeywords = async (payload: { siteUrl: string; language_code: string; location_code: string }) => {
     try {
-     const data =  await getSiteKeywords(payload).unwrap()
-     setValue('keywords',data.data)
+      const data = await getSiteKeywords(payload).unwrap()
+      setValue('keywords', data.data)
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
   }
 
-  const getSiteCrawledInfoData = async (payload: { site_id: string }) => {
+  const getSiteCrawledInfoData = async (site_id: string) => {
     try {
-      await getSiteCrawledInfo(payload).unwrap()
+      await getSiteCrawledInfo(site_id).unwrap()
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -140,6 +145,7 @@ const useHandleSitesLogic = () => {
     getSiteLinks,
     submitHandler,
     insightsLoading,
+    crawlInfoLoading,
     handleDeleteSite,
     sitesListLoading,
     siteLinksLoading,
@@ -148,8 +154,8 @@ const useHandleSitesLogic = () => {
     handleForwardButtonPress,
     handlePreviousButtonPress,
     insightsData: insightsData?.result,
-    sitesList: sitesList?.result || [],
-    crawledInfo: crawledInfo?.result,
+    sitesList: sitesList?.data || [],
+    crawledInfo: crawledInfo?.data,
     siteLinkAndContent: siteLinkAndContent,
   }
 }

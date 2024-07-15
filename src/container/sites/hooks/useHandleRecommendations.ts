@@ -3,53 +3,22 @@ import { toast } from 'react-toastify'
 import { ErrorTypes } from '@/utils/commonTypes'
 
 import {
-  useApproveAllRecommendationsMutation,
-  useApproveAllSelectedRecommendationsMutation,
-  useApproveSingleRecommendationMutation,
-  useLazyGetRecommendationsCountQuery,
-  useLazyGetRecommendationsDataQuery,
+  useApproveRecommendationsMutation,
+  useLazyGetRecommendationsByTypeQuery,
   useLazyReCrawlSiteQuery,
   useUpdateRecommendationsMutation,
 } from '../api/sitesAPI'
+import { ApproveRecommendationsPayloadTypes, GetRecommendationsByTypesPayloadTypes } from '../sitesTypes'
 
 const useHandleRecommendations = () => {
   const [reCrawlSite, { isFetching: reCrawlLoading }] = useLazyReCrawlSiteQuery()
-  const [approveAllRecommendations, { isLoading: approveAllLoading }] = useApproveAllRecommendationsMutation()
+  const [approveRecommendations, { isLoading: approveRecommendationsLoading }] = useApproveRecommendationsMutation()
   const [updateRecommendations, { isLoading: updateRecommendationsLoading }] = useUpdateRecommendationsMutation()
-  const [approveSingleRecommendations, { isLoading: approveSingleLoading }] = useApproveSingleRecommendationMutation()
-  const [getRecommendationsData, { data: recommendationData, isLoading: getDataLoading }] = useLazyGetRecommendationsDataQuery()
-  const [getRecommendationsCount, { data: recommendationCount, isLoading: getCountLoading }] = useLazyGetRecommendationsCountQuery()
-  const [approveAllSelectedRecommendations, { isLoading: approveAllSelectedLoading }] = useApproveAllSelectedRecommendationsMutation()
+  const [getRecommendationsByType, { data: recommendationData, isLoading: recommendationDataLoading }] = useLazyGetRecommendationsByTypeQuery()
 
-  const getRecommendationCounts = async (payload: { site_id: string }) => {
+  const handleUpdateRecommendations = async (payload: ApproveRecommendationsPayloadTypes) => {
     try {
-      await getRecommendationsCount(payload)
-    } catch (error) {
-      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
-    }
-  }
-
-  const approveAllRecommendation = async (payload: { site_id: string; status: string }) => {
-    try {
-      const { data } = await approveAllRecommendations(payload)
-      toast.success(data?.message || '')
-    } catch (error) {
-      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
-    }
-  }
-
-  const approveAllSelectedRecommendation = async (payload: { site_id: string; status: string; type: string }) => {
-    try {
-      const { data } = await approveAllSelectedRecommendations(payload)
-      toast.success(data?.message || '')
-    } catch (error) {
-      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
-    }
-  }
-
-  const approveSingleRecommendation = async (payload: { site_id: string; status: string; type: string; type_id: string }) => {
-    try {
-      const { data } = await approveSingleRecommendations(payload)
+      const { data } = await approveRecommendations(payload)
       toast.success(data?.message || '')
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
@@ -65,9 +34,9 @@ const useHandleRecommendations = () => {
     }
   }
 
-  const getRecommendationList = async (payload: { site_id: string }) => {
+  const getRecommendationByType = async (payload: GetRecommendationsByTypesPayloadTypes) => {
     try {
-      await getRecommendationsData(payload)
+      await getRecommendationsByType(payload)
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -83,20 +52,13 @@ const useHandleRecommendations = () => {
   }
 
   return {
-    getRecommendationCounts,
-    recommendationCount: recommendationCount?.results,
-    getCountLoading,
-    getRecommendationList,
-    recommendationData: recommendationData?.results,
-    getDataLoading,
+    getRecommendationByType,
+    recommendationData: recommendationData,
+    recommendationDataLoading,
     reCrawlLoading,
     handleReCrawlSite,
-    approveAllRecommendation,
-    approveAllSelectedRecommendation,
-    approveAllSelectedLoading,
-    approveAllLoading,
-    approveSingleLoading,
-    approveSingleRecommendation,
+    handleUpdateRecommendations,
+    approveRecommendationsLoading,
     updateRecommendation,
     updateRecommendationsLoading,
   }

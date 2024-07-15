@@ -201,3 +201,7 @@ export const formatUnixDate = (unixTimestamp: number) => {
   const date = new Date(unixTimestamp * 1000)
   return format(date, 'd MMMM, yyyy')
 }
+
+export const getComputedStyleValue = (element: HTMLElement, variable: string): string => {
+  return getComputedStyle(element).getPropertyValue(variable).trim();
+};
