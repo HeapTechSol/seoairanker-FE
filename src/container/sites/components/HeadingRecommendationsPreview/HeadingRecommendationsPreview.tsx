@@ -104,7 +104,7 @@ const HeadingRecommendationsPreview = () => {
   }
 
   const optimizedTitlesList = (recommendationData?.data as HeadingOptimizationDataTypes[])?.map((item, index) => ({
-    url: item?.url,
+    url: item?.url_path,
     content: accordionDescription(item, index),
     approve: item.approved,
     id: item.id,

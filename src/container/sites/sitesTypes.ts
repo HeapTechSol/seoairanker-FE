@@ -81,6 +81,7 @@ export type MissingTitlesDataTypes = {
   approved: boolean
   existing_title: string
   xpath: string
+  url_path:string
   css_selector: string
 }
 
@@ -89,6 +90,7 @@ export type ImagesAltDataTypes = {
   approved: boolean
   id: number
   link_id: string
+  url_path:string
   url: string
 }
 
@@ -97,6 +99,7 @@ export type OgTagsDataTypes = {
   existing_og_tag: string
   id: string
   link_id: string
+  url_path:string
   suggested_og_tag: string
 }
 
@@ -105,6 +108,7 @@ export type MetaTitleDataTypes = {
   suggested_title: string
   id: string
   link_id: string
+  url_path:string
   existing_meta_title: string
 }
 
@@ -113,6 +117,7 @@ export type MetaDescriptionDataTypes = {
   suggested_description: string
   id: string
   link_id: string
+  url_path:string
   existing_meta_description: string
 }
 
@@ -123,6 +128,7 @@ export type HeadingOptimizationDataTypes = {
   heading_content: string
   id: string
   link_id: string
+  url_path:string
   suggested_heading: string
   suggestion: string
 }

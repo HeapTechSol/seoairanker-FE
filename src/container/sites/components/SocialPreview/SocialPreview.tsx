@@ -34,7 +34,7 @@ const SocialPreview = () => {
     if (state?.siteId) {
       await handleUpdateRecommendations({
         model: 'og_tags',
-        filter_conditions: { link_id: recommendation?.link_id },
+        filter_conditions: { link_id: recommendation?.link_id, site_id: state?.siteId },
         update_data: { approved: true },
         bulk: true,
       })
@@ -47,7 +47,7 @@ const SocialPreview = () => {
     if (state?.siteId) {
       await handleUpdateRecommendations({
         model: 'og_tags',
-        filter_conditions: { id: type_id, link_id: linkId },
+        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
         update_data: { approved: status },
         bulk: false,
       })
@@ -98,7 +98,7 @@ const SocialPreview = () => {
   )
 
   const optimizedTitlesList = (recommendationData?.data as OgTagsDataTypes[])?.map((item, index) => ({
-    url: item?.url,
+    url: item?.url_path,
     content: accordionDescription(item, index),
     approve: item.approved,
     id: item.id,

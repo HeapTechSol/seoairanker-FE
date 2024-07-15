@@ -110,7 +110,7 @@ const TitlePreview = () => {
   )
 
   const optimizedTitlesList = (recommendationData?.data as MetaTitleDataTypes[])?.map((item, index) => ({
-    url: item?.url,
+    url: item?.url_path,
     link_id: item.link_id,
     content: renderAccordionDescription(item, index),
     approve: item.approved,
