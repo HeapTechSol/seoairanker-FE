@@ -216,3 +216,24 @@ export type AddKeyWordsPayloadTypes = {
   refresh_frequency: string
   track_local_value: string
 }
+
+export type NotificationDataTypes = {
+  id: string
+  title:string
+  user_id: string
+  message: string
+  timestamp: string
+  read: boolean
+}
+
+export type NotificationsAPIResponseTypes = {
+  data: NotificationDataTypes[]
+  page: number
+  unread_count: number
+  total: number
+  per_page: number
+}
+
+export type NotificationAPIPayloadTypes = {
+  page: number, per_page: number
+}

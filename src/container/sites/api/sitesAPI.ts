@@ -13,6 +13,8 @@ import {
   ApproveRecommendationsPayloadTypes,
   GetKeywordsPayload,
   AddKeyWordsPayloadTypes,
+  NotificationsAPIResponseTypes,
+  NotificationAPIPayloadTypes,
 } from '../sitesTypes'
 
 const {
@@ -24,6 +26,7 @@ const {
   GET_SITE_LINKS,
   SITE_PAGE_INSIGHTS,
   SITE_CRAWLING_INFO,
+  NOTIFICATION_LISTING,
   UPDATE_RECOMMENDATION,
   SAVE_SELECTED_KEYWORDS,
   APPROVE_RECOMMENDATIONS,
@@ -117,6 +120,19 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         params: payload,
       }),
     }),
+    getNotifications: builder.query<NotificationsAPIResponseTypes, NotificationAPIPayloadTypes>({
+      query: (params) => ({
+        url: NOTIFICATION_LISTING,
+        method: 'GET',
+        params: params,
+      }),
+    }),
+    readNotification: builder.query<NotificationsAPIResponseTypes, { id: string }>({
+      query: (params) => ({
+        url: `${NOTIFICATION_LISTING}/${params.id}/read`,
+        method: 'POST',
+      }),
+    }),
     deleteSite: builder.mutation({
       query: (id) => ({
         url: `${DELETE_SITE}/${id}`,
@@ -136,6 +152,8 @@ export const {
   useLazySaveKeywordsQuery,
   useLazyGetSiteLinksQuery,
   useLazyGetSiteKeywordsQuery,
+  useLazyReadNotificationQuery,
+  useLazyGetNotificationsQuery,
   useLazyGetSightInsightsQuery,
   useLazyGetSiteCrawledInfoQuery,
   useUpdateRecommendationsMutation,

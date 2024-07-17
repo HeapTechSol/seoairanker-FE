@@ -4,6 +4,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 import authSlice from '@/container/auth/authSlice'
+import sitesSlicer from '@/container/sites/sitesSlice'
 import billingSlice from '@/container/billing/billingSlice'
 
 import { baseQueryApi } from './queryAPI'
@@ -17,6 +18,7 @@ const persistConfig = {
 export const rootReducer = combineReducers({
   auth: authSlice,
   billing: billingSlice,
+  sites: sitesSlicer,
   [baseQueryApi.reducerPath]: baseQueryApi.reducer,
 })
 

@@ -7,6 +7,7 @@ import { PiBankLight } from 'react-icons/pi'
 import { RxDashboard } from 'react-icons/rx'
 import { BsClockHistory } from 'react-icons/bs'
 import { MdOutlineAddToQueue } from 'react-icons/md'
+import { HiOutlineDocumentReport } from "react-icons/hi";
 import { IoKeyOutline, IoPricetagOutline } from 'react-icons/io5'
 
 const {
@@ -34,6 +35,11 @@ export const sidebarMenuData: menuTypes[] = [
   {
     name: 'API Keys',
     icon: <IoKeyOutline />,
+    path: SITE_ACCESS_KEYS,
+  },
+  {
+    name: 'Reports',
+    icon: <HiOutlineDocumentReport />,
     path: SITE_ACCESS_KEYS,
   },
   {

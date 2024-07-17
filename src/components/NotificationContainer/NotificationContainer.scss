@@ -1,0 +1,26 @@
+.notification-container {
+  padding: 20px;
+  &__header {
+    position: relative;
+
+    .new-message-icon {
+      position: absolute;
+      right: 20px;
+      font-size: 20px;
+      color: colorMapper(warning, main);
+    }
+  }
+
+  .truncate-text{
+    color:var(--text-description-color)
+  }
+
+  &.old-message{
+    background-color: var(--bg-hover-color);
+    opacity: 0.3;
+  }
+
+  &.new-message {
+    background-color: var(--bg-hover-color);
+  }
+}

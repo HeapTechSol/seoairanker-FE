@@ -1,25 +1,34 @@
-import React, { useState, useRef, useEffect, ReactElement } from 'react'
+import React, { useState, useRef, useEffect, ReactElement, useCallback } from 'react'
+
+import Loader from '../Loader'
+import Typography from '../Typography/Typography'
+
+import { classMapper } from '@/utils/helper'
 
 import './Dropdown.scss'
 
-type Option<T> = {
+export type Option<T> = {
   id: T
   name: string | JSX.Element | React.ReactNode
   onClick?: () => void
 }
 
-type DropdownProps<T> = {
+export type DropdownProps<T> = {
   options: Option<T>[]
   onSelect: (option: Option<T>) => void
   children: ReactElement
+  className?: string
+  onScroll?: () => void
+  scrollLoading?: boolean
 }
 
-function Dropdown<T>({ options, onSelect, children }: DropdownProps<T>) {
+function Dropdown<T>({ options, onSelect, className = '', onScroll, scrollLoading = false, children }: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false)
   const [menuPosition, setMenuPosition] = useState<'left' | 'right'>('left')
   const dropdownRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
   const menuRef = useRef<HTMLUListElement>(null)
+  const observer = useRef<IntersectionObserver>()
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -49,6 +58,20 @@ function Dropdown<T>({ options, onSelect, children }: DropdownProps<T>) {
     }
   }, [isOpen])
 
+  const lastNotificationRef = useCallback(
+    (node: HTMLLIElement | null) => {
+      if (scrollLoading || !node) return
+      if (observer.current) observer.current.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && navigator.onLine) {
+          onScroll?.()
+        }
+      })
+      if (node) observer.current.observe(node)
+    },
+    [scrollLoading, onScroll]
+  )
+
   const handleToggle = () => {
     setIsOpen(!isOpen)
   }
@@ -58,24 +81,35 @@ function Dropdown<T>({ options, onSelect, children }: DropdownProps<T>) {
     setIsOpen(false)
   }
 
+  const cssClasses = classMapper('dropdown', { [className]: className })
+
+  const isOptionsExist = !!options?.length
+
   return (
-    <div className="dropdown" ref={dropdownRef}>
+    <div className={cssClasses} ref={dropdownRef}>
       <div ref={triggerRef} onClick={handleToggle}>
         {children}
       </div>
+
       <ul className={`dropdown-menu ${menuPosition} ${isOpen ? 'open' : ''}`} ref={menuRef}>
-        {options.map((option, index) => (
-          <li
-            key={index}
-            onClick={() => {
-              handleSelect(option)
-              option?.onClick?.()
-            }}
-            className={`${option?.onClick ? 'li-click' : ''}`}
-          >
-            {option.name}
-          </li>
-        ))}
+        {isOptionsExist ? (
+          options.map((option, index) => (
+            <li
+              key={index}
+              onClick={() => {
+                handleSelect(option)
+                option?.onClick?.()
+              }}
+              ref={index === options.length - 1 ? lastNotificationRef : null}
+              className={`${option?.onClick ? 'li-click' : ''}`}
+            >
+              {option.name}
+            </li>
+          ))
+        ) : (
+          <Typography text="There is no Notification" className="empty-notification-message" />
+        )}
+        <Loader loading={scrollLoading} />
       </ul>
     </div>
   )

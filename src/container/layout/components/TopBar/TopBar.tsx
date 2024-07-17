@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -6,9 +7,10 @@ import { getElements, hasClass, toggleCSSClass, toggleCSSClasses } from '@/utils
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
 import Avatar from '@/components/Avatar/Avatar'
-import Dropdown from '@/components/Dropdown/Dropdown'
+import Dropdown, { Option } from '@/components/Dropdown/Dropdown'
 import Typography from '@/components/Typography/Typography'
 import NotificationBadge from '@/components/NotificationBadge/NotificationBadge'
+import NotificationContainer from '@/components/NotificationContainer/NotificationContainer'
 
 import { EXACT_ROUTES } from '@/constant/routes'
 import SeodeIcon from '@/assets/images/seode.png'
@@ -17,6 +19,7 @@ import { FaRegUser, FaRegBell } from 'react-icons/fa'
 
 import { useAppSelector } from '@/api/store'
 import { setUser } from '@/container/auth/authSlice'
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import './TopBar.scss'
 
@@ -25,6 +28,8 @@ const { LOGIN, SIGNUP } = EXACT_ROUTES
 const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  const { getNotificationList, getNotificationLoading, notificationsData, handleReadNotification } = useHandleSitesLogic()
 
   const user = useAppSelector((state) => state.auth.user)
 
@@ -78,7 +83,36 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
     },
   ]
 
+  const handleNotificationClick = async (id: string) => {
+    await handleReadNotification({ id })
+  }
+
+  const notificationList = notificationsData?.data?.map((item) => ({
+    id: Number(item?.id),
+    onClick: () => (!item.read ? handleNotificationClick(item.id) : null),
+    name: (
+      <NotificationContainer
+        description={item?.message || ''}
+        title={item?.title || ''}
+        isRead={item?.read || false}
+        key={item?.id}
+        date={item?.timestamp || ''}
+      />
+    ),
+  })) as Option<number>[]
+
   const isToggle = false
+
+  const handleScrollNotifications = async () => {
+    if ((notificationsData?.data?.length || 0) < (notificationsData?.total || 0)) {
+      await getNotificationList({ page: (notificationsData?.page || 1) + 1, per_page: 10 })
+    }
+  }
+
+  useEffect(() => {
+    if (user?.user.id) getNotificationList({ page: 1, per_page: 10 })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   return (
     <div className="topbar-container">
@@ -105,8 +139,14 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
             )}
             {user?.access_token && (
               <Flex align="center" gap={32} justify="end">
-                <Dropdown options={[]} onSelect={handleSelect}>
-                  <NotificationBadge count={10} maxCount={100} icon={<FaRegBell />} />
+                <Dropdown
+                  options={notificationList}
+                  onSelect={handleSelect}
+                  className="notification-dropdown-list"
+                  scrollLoading={getNotificationLoading}
+                  onScroll={handleScrollNotifications}
+                >
+                  <NotificationBadge count={notificationsData?.unread_count || 0} maxCount={100} icon={<FaRegBell />} />
                 </Dropdown>
                 <Dropdown options={users} onSelect={handleSelect}>
                   <Avatar size={'small'} fallback={<FaRegUser />} src={user?.user?.profileImage} />

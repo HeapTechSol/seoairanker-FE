@@ -19,7 +19,9 @@
     border-radius: 0.25rem;
     opacity: 0;
     transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
     pointer-events: none;
 
     &.open {
@@ -34,6 +36,13 @@
 
     &.right {
       right: 0;
+    }
+
+    .empty-notification-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     li {
@@ -53,6 +62,18 @@
       }
       &:hover .body-text {
         color: var(--hovered-text-color);
+      }
+    }
+  }
+  &.notification-dropdown-list {
+    .dropdown-menu {
+      min-width: 500px;
+      padding: 20px;
+      max-height: 350px;
+      min-height: 200px;
+      overflow-y: auto;
+      li {
+        padding: 0px;
       }
     }
   }

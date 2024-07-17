@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { format, differenceInMinutes, differenceInHours, differenceInDays, isValid } from 'date-fns'
 
 import { ClassMapperArgsTypes } from './utilTypes'
+import { Unknown } from './commonTypes'
 
 export const classMapper = (...args: ClassMapperArgsTypes[]) => {
   const classesObject = new Map()
@@ -72,8 +73,7 @@ export const accessElements = (menuRef: React.RefObject<HTMLDivElement>) => {
     subMenuHeadingWithActiveChild,
   }
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isEmpty = (obj: any) => [Object, Array].includes((obj || {}).constructor) && !Object.entries(obj || {}).length
+export const isEmpty = (obj: Unknown) => [Object, Array].includes((obj || {}).constructor) && !Object.entries(obj || {}).length
 
 export const arrayGeneratorWithRange = (start: number, end: number) => {
   const length = end - start + 1
@@ -82,8 +82,7 @@ export const arrayGeneratorWithRange = (start: number, end: number) => {
 
 export const currencyConverter = (amount: number) => (amount ? amount?.toLocaleString('en-US', { style: 'decimal' }) : '')
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const handleCopyClick = (e: any) => {
+export const handleCopyClick = (e: Unknown) => {
   const el = document.createElement('textarea')
   el.value = typeof e === 'string' ? e : ((e.target as HTMLParagraphElement).textContent as string)
   document.body.appendChild(el)
@@ -203,5 +202,17 @@ export const formatUnixDate = (unixTimestamp: number) => {
 }
 
 export const getComputedStyleValue = (element: HTMLElement, variable: string): string => {
-  return getComputedStyle(element).getPropertyValue(variable).trim();
-};
+  return getComputedStyle(element).getPropertyValue(variable).trim()
+}
+
+export const uniqBy = <T>(array: T[], iteratee: (item: T) => Unknown): T[] => {
+  const seen = new Set()
+  return array.filter((item) => {
+    const value = iteratee(item)
+    if (seen.has(value)) {
+      return false
+    }
+    seen.add(value)
+    return true
+  })
+}
