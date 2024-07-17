@@ -4,6 +4,7 @@
   @each $color in $colorType {
     &.#{$color} {
       background-color: colorMapper($color, main);
+      opacity: 0.3;
     }
   }
 }

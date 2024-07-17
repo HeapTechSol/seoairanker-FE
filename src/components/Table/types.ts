@@ -1,56 +1,50 @@
-export type ColumnsTypes = {
+export type ColumnType<T> = {
   header: string;
-  dataKey: string;
+  dataKey?: keyof T | string;
   sortKey?: string;
   width?: number;
   textAlign?: "center" | "right";
   fixed?: "left" | "right";
-  skip?: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  render?: (value: any, row: any, index: number, column: ColumnsTypes) => any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onCell?: (value: any, row: any, index: number, column: ColumnsTypes) => any;
-};
-
-export type TableDataCellTypes = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  row: any;
-  column: ColumnsTypes;
-  index: number;
-  tableCellStyle?: Record<string, string>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onCell?: (value: any, row: any, index: number, column: ColumnsTypes) => any;
-};
-
-export type TableHeadingCellTypes = {
-  column: ColumnsTypes;
-  onSort?: OnSortType;
-  order?: null | string;
-  tableHeadingStyle?: Record<string, string>;
+  render?: (value: any, row: T, index: number, column: ColumnType<T>) => React.ReactNode;
+  onCell?: (value: any, row: T, index: number, column: ColumnType<T>) => React.HTMLAttributes<HTMLTableCellElement>;
 };
 
 export type OnSortType = (sortKey: string, order: string | null) => void;
 
-export type RowSelectionType = {
-  type: string;
-  selectedRowKeys: string[];
-  allRowsOpenedByDefault?:boolean
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onChange: (newSelectedKeys: string | string[], data?: any) => void;
+export type RowSelectionType<T, K> = {
+  type?: string;
+  selectedRowKeys: K[];
+  allRowsOpenedByDefault?: boolean;
+  onChange: (newSelectedKeys: K[], data?: T) => void;
 };
 
-export type TableProps = {
-  columns: ColumnsTypes[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any[];
+export type TableProps<T, K> = {
+  columns: ColumnType<T>[];
+  data: T[];
   onSort?: OnSortType;
   order?: null | string;
-  onRowSelection?: RowSelectionType;
-  rowKey?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  expandable?: any;
-  style?: {
-    tableCellStyle?: Record<string, string>;
-    tableHeadingStyle?: Record<string, string>;
+  onRowSelection?: RowSelectionType<T, K>;
+  onRowClick?: (newSelectedKeys: K[], data?: T) => void;
+  rowKey?: keyof T;
+  expandable?: {
+    expandedRowRender?: (data: T) => React.ReactNode;
   };
+  style?: {
+    tableCellStyle?: React.CSSProperties;
+    tableHeadingStyle?: React.CSSProperties;
+  };
+};
+
+export type TableDataCellProps<T> = {
+  column: ColumnType<T>;
+  row: T;
+  index: number;
+  tableCellStyle?: React.CSSProperties;
+};
+
+export type TableHeadingCellProps<T> = {
+  column: ColumnType<T>;
+  onSort?: OnSortType;
+  order?: null | string;
+  tableHeadingStyle?: React.CSSProperties;
 };

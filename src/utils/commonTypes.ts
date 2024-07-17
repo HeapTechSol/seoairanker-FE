@@ -18,6 +18,7 @@ export type ColorsTypes =
   | "grayClr-700"
   | "grayClr-800"
   | "grayClr-900";
+
 export type OnClickTypes = (
   event: React.MouseEvent | KeyboardEvent<HTMLButtonElement>
 ) => void;
@@ -36,3 +37,5 @@ export type APIResponseMessage = {
   message:string
   data?:string
 }
+
+export type GenericDispatch<T> = React.Dispatch<React.SetStateAction<T>>

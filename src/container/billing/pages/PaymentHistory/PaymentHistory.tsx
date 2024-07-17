@@ -61,7 +61,7 @@ const PaymentHistory = () => {
             <Flex vertical gap={8}>
               <Typography type="h3" text="Site Crawls" />
               <Typography
-                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.used_sites_quota || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.total_sites_quota || 0 })}`}
+                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.sites_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.sites_quota || 0 })}`}
               />
             </Flex>
           </Flex>
@@ -71,7 +71,9 @@ const PaymentHistory = () => {
             {SearchIconWithFilledBackground}
             <Flex vertical gap={8}>
               <Typography type="h3" text="Keyword Searches" />
-              <Typography text="100 of 250" />
+              <Typography
+                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.keywords_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.keywords_quota || 0 })}`}
+              />
             </Flex>
           </Flex>
         </Container>
@@ -81,7 +83,7 @@ const PaymentHistory = () => {
             <Flex vertical gap={8}>
               <Typography type="h3" text="Pages" />
               <Typography
-                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.used_pages_quota || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.total_pages_quota || 0 })}`}
+                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.pages_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.pages_quota || 0 })}`}
               />
             </Flex>
           </Flex>

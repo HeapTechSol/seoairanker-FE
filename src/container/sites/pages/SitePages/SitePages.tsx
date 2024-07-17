@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Table from '@/components/Table'
+import Loader from '@/components/Loader'
 import Button from '@/components/Button'
 import Tooltip from '@/components/Tooltip'
 import Divider from '@/components/Divider/Divider'
@@ -13,9 +14,11 @@ import Pagination from '@/components/Pagination/Pagination'
 
 import { rowSelectionHandler } from '@/components/Table/helper'
 
-import { ColumnsTypes } from '@/components/Table/types'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import { BlockIcon, EyeIcon, ReloadIcon, SunLight } from '@/assets/icons/svgs'
+
+import { ColumnType } from '@/components/Table/types'
+import { SiteLinksDataTypes } from '@/container/sites/sitesTypes'
 
 import './SitePages.scss'
 
@@ -23,30 +26,26 @@ const SitePages = () => {
   const { state } = useLocation()
   const [selectedRowKeys, SetSelectedRowKeys] = useState<string[]>([])
 
-  const { getSiteLinks, siteLinkAndContent } = useHandleSitesLogic()
+  const { handleGetSiteLinks, siteLinks, siteLinksLoading } = useHandleSitesLogic()
 
-  const PAGES_COLUMN: ColumnsTypes[] = [
+  const PAGES_COLUMN: ColumnType<SiteLinksDataTypes>[] = [
     {
       header: 'PATH',
       dataKey: 'url',
-      sortKey: 'url',
       render: (text) => <TruncateText text={text} line={1} width={200}></TruncateText>,
     },
-    { header: 'DEPTH', dataKey: 'depth', sortKey: 'depth' },
+    { header: 'DEPTH', dataKey: '' },
     {
       header: 'Lang',
-      dataKey: 'lang',
-      sortKey: 'lang',
+      dataKey: 'page_language',
     },
     {
       header: 'Last Crawl',
-      dataKey: 'date',
-      sortKey: 'date',
+      dataKey: 'last_crawled',
     },
     {
       header: 'WIDGET',
-      dataKey: 'widget',
-      sortKey: 'widget',
+      dataKey: '',
       textAlign: 'center',
       render: () => (
         <Tooltip content="Looks like widgets is not installed on this page">
@@ -69,35 +68,26 @@ const SitePages = () => {
   ]
 
   const onPageChange = (pageNumber: number) => {
-    getSiteLinks({
+    handleGetSiteLinks({
       site_id: state?.siteId as string,
       page: pageNumber,
-      per_page: siteLinkAndContent?.pagination?.per_page || 10,
-      sort_by: 'url',
-      sort_order: 'asc',
-      search: '',
+      per_page: siteLinks?.per_page || 10,
     })
   }
 
   const handlePerPageItems = (perPageItems: string) => {
-    getSiteLinks({
+    handleGetSiteLinks({
       site_id: state?.siteId as string,
       page: 1,
       per_page: Number(perPageItems),
-      sort_by: 'url',
-      sort_order: 'asc',
-      search: '',
     })
   }
 
   useEffect(() => {
-    getSiteLinks({
+    handleGetSiteLinks({
       site_id: state?.siteId as string,
       page: 1,
       per_page: 10,
-      sort_by: 'url',
-      sort_order: 'asc',
-      search: '',
     })
   }, [])
 
@@ -118,7 +108,7 @@ const SitePages = () => {
               <Divider color="warning" />
               <Table
                 columns={PAGES_COLUMN}
-                data={siteLinkAndContent?.result || []}
+                data={siteLinks?.data || []}
                 style={{
                   tableCellStyle: {
                     fontSize: '14px',
@@ -134,12 +124,12 @@ const SitePages = () => {
                     SetSelectedRowKeys((prev) => rowSelectionHandler(prev, newSelectedKeys))
                   },
                 }}
-                rowKey="url"
+                rowKey="id"
               />
               <Pagination
-                pageSize={siteLinkAndContent?.pagination?.per_page || 10}
-                currentPage={siteLinkAndContent?.pagination?.current_page || 1}
-                totalCount={siteLinkAndContent?.pagination?.total_items as number}
+                pageSize={siteLinks?.per_page || 10}
+                currentPage={siteLinks?.page || 1}
+                totalCount={siteLinks?.total_count || 0}
                 onPageChange={onPageChange}
                 showSizeChanger={{
                   pageSizeOptions: [
@@ -154,6 +144,7 @@ const SitePages = () => {
           </Container>
         </Flex>
       </Flex>
+      <Loader loading={siteLinksLoading} />
     </Container>
   )
 }

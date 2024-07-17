@@ -1,14 +1,19 @@
-export const rowSelectionHandler = (
-  alreadySelectedKeys: string[],
-  newSelectedKey: string | string[],
-) => {
+export const rowSelectionHandler = <T>(
+  alreadySelectedKeys: T[],
+  newSelectedKey: T | T[],
+): T[] => {
   if (Array.isArray(newSelectedKey)) {
-    if (alreadySelectedKeys.length == newSelectedKey.length) return [];
+    const allKeysSelected = newSelectedKey.every(key => alreadySelectedKeys.includes(key));
+    if (allKeysSelected) {
+      return [];
+    }
     return newSelectedKey;
+  } else {
+    if (alreadySelectedKeys.includes(newSelectedKey)) {
+      return alreadySelectedKeys.filter((item) => item !== newSelectedKey);
+    }
+    return [...alreadySelectedKeys, newSelectedKey];
   }
-  if (alreadySelectedKeys.includes(newSelectedKey))
-    return alreadySelectedKeys.filter((item) => item != newSelectedKey);
-  return [...alreadySelectedKeys, newSelectedKey];
 };
 
 const previousSortOrder: Record<string, number> = {};

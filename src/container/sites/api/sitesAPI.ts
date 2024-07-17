@@ -11,6 +11,8 @@ import {
   GetRecommendationsByTypesPayloadTypes,
   GetRecommendationsByModelAPIResponseTypes,
   ApproveRecommendationsPayloadTypes,
+  GetKeywordsPayload,
+  AddKeyWordsPayloadTypes,
 } from '../sitesTypes'
 
 const {
@@ -19,10 +21,11 @@ const {
   DELETE_SITE,
   GET_KEYWORDS,
   RE_CRAWL_SITE,
+  GET_SITE_LINKS,
   SITE_PAGE_INSIGHTS,
   SITE_CRAWLING_INFO,
   UPDATE_RECOMMENDATION,
-  SITE_LINKS_AND_CONTENT,
+  SAVE_SELECTED_KEYWORDS,
   APPROVE_RECOMMENDATIONS,
   GET_RECOMMENDATIONS_BY_TYPE,
 } = APIEndpoint
@@ -37,12 +40,23 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
       }),
       invalidatesTags: ['sitesList'],
     }),
-    getSiteKeywords: builder.query<GetKeywordsAPIResponseTypes, { siteUrl: string; language_code: string; location_code: string }>({
+    getSiteKeywords: builder.query<GetKeywordsAPIResponseTypes, GetKeywordsPayload>({
+      query: (params) => ({
+        url: `${GET_KEYWORDS}/${params.site_id}`,
+        method: 'GET',
+        params: {
+          page: params.page,
+          per_page: params.per_page,
+        },
+      }),
+    }),
+    saveKeywords: builder.query<SitesAPIResponseTypes, AddKeyWordsPayloadTypes>({
       query: (payload) => ({
-        url: GET_KEYWORDS,
+        url: SAVE_SELECTED_KEYWORDS,
         method: 'POST',
         body: payload,
       }),
+      providesTags: ['sitesList'],
     }),
     getSites: builder.query<SitesAPIResponseTypes, void>({
       query: () => ({
@@ -51,11 +65,11 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
       }),
       providesTags: ['sitesList'],
     }),
-    getSiteLinksAndContent: builder.query<SiteLinksAPIResponseTypes, SiteLinkPayloadTypes>({
-      query: (payload) => ({
-        url: SITE_LINKS_AND_CONTENT,
-        method: 'POST',
-        body: payload,
+    getSiteLinks: builder.query<SiteLinksAPIResponseTypes, SiteLinkPayloadTypes>({
+      query: (params) => ({
+        url: GET_SITE_LINKS,
+        method: 'GET',
+        params: params,
       }),
     }),
     getSiteCrawledInfo: builder.query<CrawledInfoAPIResponseTypes, string>({
@@ -65,11 +79,11 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
       }),
       providesTags: ['recommendationsData'],
     }),
-    getRecommendationsByType: builder.query<GetRecommendationsByModelAPIResponseTypes, GetRecommendationsByTypesPayloadTypes>({
+    getRecommendationsByType: builder.query<GetRecommendationsByModelAPIResponseTypes, GetRecommendationsByTypesPayloadTypes & { site_id: string }>({
       query: (params) => ({
-        url: GET_RECOMMENDATIONS_BY_TYPE,
+        url: `${GET_RECOMMENDATIONS_BY_TYPE}/${params.site_id}`,
         method: 'GET',
-        params: params,
+        params: { type: params.type, per_page: params.per_page, page: params.page },
       }),
       providesTags: ['recommendationsData'],
     }),
@@ -119,11 +133,12 @@ export const {
   useLazyGetSitesQuery,
   useDeleteSiteMutation,
   useLazyReCrawlSiteQuery,
+  useLazySaveKeywordsQuery,
+  useLazyGetSiteLinksQuery,
   useLazyGetSiteKeywordsQuery,
   useLazyGetSightInsightsQuery,
   useLazyGetSiteCrawledInfoQuery,
   useUpdateRecommendationsMutation,
   useApproveRecommendationsMutation,
-  useLazyGetSiteLinksAndContentQuery,
   useLazyGetRecommendationsByTypeQuery,
 } = sitesAPI

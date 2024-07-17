@@ -28,16 +28,22 @@ export type SitesAPIResponseTypes = {
   data: SitesAPIResponse[]
 }
 
-export type PaginationResponse = {
-  current_page: number
-  per_page: number
-  total_items: number
-  total_pages: number
+export type SiteLinksDataTypes = {
+  id: string
+  site_id: string
+  url: string
+  path: string
+  last_crawled: string
+  page_language: string
+  createdAt: string
+  updatedAt: string
 }
 
 export type SiteLinksAPIResponseTypes = {
-  result: SitesAPIResponse[]
-  pagination: PaginationResponse
+  data: SiteLinksDataTypes[]
+  page: number
+  per_page: number
+  total_count: number
 }
 
 export type ModalTypes = 'anchor_titles' | 'images' | 'og_tags' | 'heading_suggestions' | 'missing_meta_titles' | 'missing_meta_descriptions'
@@ -59,6 +65,7 @@ export type CrawledInfoAPIResponseTypes = {
       total_approved: number
       total_count: number
       updatedAt: string
+      screenshot_url: string
     }
   }
 }
@@ -69,9 +76,12 @@ export type SiteLinkPayloadTypes = {
   site_id: string
   page: number
   per_page: number
-  sort_by: string
-  sort_order: string
-  search: string
+}
+
+export type GetKeywordsPayload = {
+  site_id: string
+  page: number
+  per_page: number
 }
 
 export type MissingTitlesDataTypes = {
@@ -81,7 +91,7 @@ export type MissingTitlesDataTypes = {
   approved: boolean
   existing_title: string
   xpath: string
-  url_path:string
+  link_path: string
   css_selector: string
 }
 
@@ -90,7 +100,7 @@ export type ImagesAltDataTypes = {
   approved: boolean
   id: number
   link_id: string
-  url_path:string
+  link_path: string
   url: string
 }
 
@@ -99,7 +109,7 @@ export type OgTagsDataTypes = {
   existing_og_tag: string
   id: string
   link_id: string
-  url_path:string
+  link_path: string
   suggested_og_tag: string
 }
 
@@ -108,7 +118,7 @@ export type MetaTitleDataTypes = {
   suggested_title: string
   id: string
   link_id: string
-  url_path:string
+  link_path: string
   existing_meta_title: string
 }
 
@@ -117,7 +127,7 @@ export type MetaDescriptionDataTypes = {
   suggested_description: string
   id: string
   link_id: string
-  url_path:string
+  link_path: string
   existing_meta_description: string
 }
 
@@ -128,7 +138,7 @@ export type HeadingOptimizationDataTypes = {
   heading_content: string
   id: string
   link_id: string
-  url_path:string
+  link_path: string
   suggested_heading: string
   suggestion: string
 }
@@ -168,32 +178,41 @@ export type KeywordsDataTypes = {
   competition: string
   competition_index: number
   cpc: number
+  createdAt: string
   high_top_of_page_bid: number
+  id: number
   keyword: string
-  keyword_annotations: {
-    concepts: [
-      {
-        concept_group: {
-          name: string
-          type: string
-        }
-        name: string
-      },
-    ]
-  }
   language_code: string
-  location_code: MaybeNull<string>
+  location_code: MaybeNull<number>
   low_top_of_page_bid: number
-  monthly_searches: {
-    month: number
-    search_volume: number
-    year: number
-  }[]
-
   search_partners: boolean
   search_volume: number
+  site_id: number
 }
 
 export type GetKeywordsAPIResponseTypes = {
   data: KeywordsDataTypes[]
+  page: number
+  pages: number
+  per_page: number
+  total: number
+}
+
+export type AddKeywordsDefaultValues = {
+  country: string
+  language: string
+  keywords: string
+  track_local: boolean
+  refresh_frequency: string
+  track_local_value: string
+}
+
+export type AddKeyWordsPayloadTypes = {
+  site_id: string
+  country: string
+  language: string
+  keywords: string[]
+  track_local: boolean
+  refresh_frequency: string
+  track_local_value: string
 }

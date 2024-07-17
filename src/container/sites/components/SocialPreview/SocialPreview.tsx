@@ -98,7 +98,7 @@ const SocialPreview = () => {
   )
 
   const optimizedTitlesList = (recommendationData?.data as OgTagsDataTypes[])?.map((item, index) => ({
-    url: item?.url_path,
+    url: item?.link_path,
     content: accordionDescription(item, index),
     approve: item.approved,
     id: item.id,
@@ -141,7 +141,7 @@ const SocialPreview = () => {
                 <Button
                   size="sm"
                   variant="outlined"
-                  onClick={(e) => onApprove(e, item.id, item.linkId, item.approve)}
+                  onClick={(e) => onApprove(e, item.id, item.linkId, !item.approve)}
                   type="borderRadius"
                   color={item.approve ? 'error' : 'success'}
                   loading={editedId === item.id && (approveRecommendationsLoading || updateRecommendationsLoading)}

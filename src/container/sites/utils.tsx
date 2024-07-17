@@ -4,15 +4,16 @@ import Typography from '@/components/Typography/Typography'
 import AddSite from '@/container/sites/components/AddSite/AddSite'
 import ScriptPage from '@/container/sites/components/ScriptPage/ScriptPage'
 import CircularProgress from '@/components/CircularProgress/CircularProgress'
-import AddKeywords from '@/container/sites/components/AddKeywords/AddKeywords'
-import KeywordsInfo from '@/container/sites/components/KeywordsInfo/KeywordsInfo'
+// import AddKeywords from '@/container/sites/components/AddKeywords/AddKeywords'
+// import KeywordsInfo from '@/container/sites/components/KeywordsInfo/KeywordsInfo'
 import AddSiteDetails from '@/container/sites/components/AddSiteDetails/AddSiteDetails'
 import RecommendationInfo from '@/container/sites/components/RecommendationsInfo/RecommendationInfo'
 
-import { ColumnsTypes } from '@/components/Table/types'
 import { CommonValidations } from '@/utils/commonValidations'
 
 import { WatchIcon } from '@/assets/icons/svgs'
+import { KeywordsDataTypes } from './sitesTypes'
+import { ColumnType } from '@/components/Table/types'
 
 const { requiredMessage } = CommonValidations
 
@@ -23,14 +24,16 @@ export const ADD_SITE_WIZARD_DEFAULT_VALUES = {
   businessType: '',
   country: '',
   language: '',
-  script:'',
+  script: '',
 }
 
 export const ADD_KEYWORDS_DEFAULT_VALUES = {
   country: '',
   language: '',
-  schedule: '',
-  local: false,
+  keywords: '',
+  track_local: false,
+  refresh_frequency: '',
+  track_local_value: '',
 }
 
 export const ADD_SITE_WIZARD_VALIDATIONS = [
@@ -75,6 +78,12 @@ export const ADD_SITE_WIZARD_VALIDATIONS = [
 
 export const ADD_KEYWORDS_VALIDATIONS = z
   .object({
+    keywords: z
+      .string({
+        invalid_type_error: requiredMessage('Keywords'),
+        required_error: requiredMessage('Keywords'),
+      })
+      .min(2, requiredMessage('Keywords')),
     country: z
       .string({
         invalid_type_error: requiredMessage('Country'),
@@ -87,13 +96,14 @@ export const ADD_KEYWORDS_VALIDATIONS = z
         required_error: requiredMessage('Language'),
       })
       .min(2, requiredMessage('Language')),
-    schedule: z
+    refresh_frequency: z
       .string({
         invalid_type_error: requiredMessage('Schedule'),
         required_error: requiredMessage('Schedule'),
       })
       .min(2, requiredMessage('Schedule')),
-    local: z.boolean().optional(),
+    track_local: z.boolean().optional(),
+    track_local_value: z.string().optional(),
   })
   .optional()
 
@@ -109,46 +119,42 @@ export const steps = (control: any) => [
     stepLabel: '2',
     component: <AddSiteDetails control={control} />,
   },
-  {
-    title: 'Keywords',
-    stepLabel: '3',
-    component: <KeywordsInfo />,
-  },
-  {
-    title: 'Automation',
-    stepLabel: '4',
-    component: <AddKeywords control={control}/>,
-  },
+  // {
+  //   title: 'Keywords',
+  //   stepLabel: '3',
+  //   component: <KeywordsInfo />,
+  // },
+  // {
+  //   title: 'Automation',
+  //   stepLabel: '4',
+  //   component: <AddKeywords control={control}/>,
+  // },
   {
     title: 'Generating',
-    stepLabel: '5',
+    stepLabel: '3',
     component: <RecommendationInfo />,
   },
   {
     title: 'Install',
-    stepLabel: '6',
+    stepLabel: '4',
     component: <ScriptPage control={control} />,
   },
 ]
 
-export const KEYWORDS_COLUMN: ColumnsTypes[] = [
-  { header: 'NAME', dataKey: 'name', sortKey: 'name' },
-  { header: 'CURRENT POSITION', dataKey: 'position', sortKey: 'position' },
+export const KEYWORDS_COLUMN: ColumnType<KeywordsDataTypes>[] = [
+  { header: 'NAME', dataKey: 'keyword' },
+  { header: 'CURRENT POSITION', dataKey: 'competition_index' },
   {
     header: 'MONTHLY SEARCHES',
-    dataKey: 'monthly_searches',
-    sortKey: 'monthly_searches',
+    dataKey: 'search_volume',
   },
   {
     header: 'COST PER CLICK',
-    dataKey: 'cost_per_click',
-    sortKey: 'cost_per_click',
+    dataKey: 'cpc',
   },
   {
     header: 'SCORE',
-    dataKey: 'score',
     textAlign: 'center',
-    sortKey: 'score',
     render: (value: string) =>
       value === 'waiting' ? (
         <span style={{ cursor: 'auto' }} className="pointer-icon-stroke">
@@ -157,79 +163,6 @@ export const KEYWORDS_COLUMN: ColumnsTypes[] = [
       ) : (
         <CircularProgress progress={value} size={30} />
       ),
-  },
-]
-
-export const KEYWORDS_DATA = [
-  {
-    name: 'portfolio websites',
-    position: '79',
-    monthly_searches: '30',
-    cost_per_click: '$6.02',
-    score: 'waiting',
-  },
-  {
-    name: 'search optimization',
-    position: 'N/A',
-    monthly_searches: '1,35,000',
-    cost_per_click: '$4.23',
-    score: 'waiting',
-  },
-  {
-    name: 'elit fitness',
-    position: '92',
-    monthly_searches: '720',
-    cost_per_click: '$1.42',
-    score: '70',
-  },
-  {
-    name: 'search engine marketing',
-    position: 'N/A',
-    monthly_searches: '5,50,000',
-    cost_per_click: '$2.39',
-    score: '100',
-  },
-  {
-    name: 'portfolio websites',
-    position: '79',
-    monthly_searches: '30',
-    cost_per_click: '$6.02',
-    score: 'waiting',
-  },
-  {
-    name: 'search optimization',
-    position: 'N/A',
-    monthly_searches: '1,35,000',
-    cost_per_click: '$4.23',
-    score: 'waiting',
-  },
-  {
-    name: 'elit fitness',
-    position: '92',
-    monthly_searches: '720',
-    cost_per_click: '$1.42',
-    score: '70',
-  },
-  {
-    name: 'search engine marketing',
-    position: 'N/A',
-    monthly_searches: '5,50,000',
-    cost_per_click: '$2.39',
-    score: '100',
-  },
-  {
-    name: 'portfolio websites',
-    position: '79',
-    monthly_searches: '30',
-    cost_per_click: '$6.02',
-    score: 'waiting',
-  },
-  {
-    name: 'search optimization',
-    position: 'N/A',
-    monthly_searches: '1,35,000',
-    cost_per_click: '$4.23',
-    score: 'waiting',
   },
 ]
 

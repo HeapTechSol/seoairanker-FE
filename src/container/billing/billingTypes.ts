@@ -39,20 +39,17 @@ export type CheckoutStateTypes = {
   addOns: StateAddOnsTypes[]
 }
 
-export type UserQuota = {
-  total_keywords_quota: number
-  total_meta_description_quota: number
-  total_meta_title_quota: number
-  total_pages_quota: number
-  total_sites_quota: number
-  total_team_members_quota: number
-  used_keywords_quota: number
-  used_meta_description_quota: number
-  used_meta_title_quota: number
-  used_pages_quota: number
-  used_sites_quota: number
-}
-
 export type GetUserQuotaAPIResponseTypes = {
-  result: UserQuota
+  pages_quota: number
+  sites_quota: number
+  keywords_quota: number
+  pages_quota_left: number
+  meta_title_quota: number
+  sites_quota_left: number
+  team_members_quota: number
+  keywords_quota_left: number
+  meta_title_quota_left: number
+  meta_description_quota: number
+  team_members_quota_left: number
+  meta_description_quota_left: number
 }

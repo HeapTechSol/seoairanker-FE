@@ -80,7 +80,7 @@ const DescriptionPreview = () => {
   )
 
   const optimizedTitlesList = (recommendationData?.data as MetaDescriptionDataTypes[])?.map((item, index) => ({
-    url: item?.url_path,
+    url: item?.link_path,
     content: accordionDescription(item, index),
     approve: item.approved,
     id: item?.id,

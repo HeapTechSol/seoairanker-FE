@@ -1,8 +1,11 @@
-import { Controller } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { Controller, useWatch } from 'react-hook-form'
 
 import Flex from '@/components/Flex'
 import Table from '@/components/Table'
+import Input from '@/components/Input'
 import Button from '@/components/Button'
+import Loader from '@/components/Loader'
 import Select from '@/components/Select'
 import Checkbox from '@/components/Checkbox'
 import Divider from '@/components/Divider/Divider'
@@ -12,16 +15,79 @@ import Typography from '@/components/Typography/Typography'
 import Pagination from '@/components/Pagination/Pagination'
 import CountryFlag from '@/components/CountryFlag/CountryFlag'
 
+import useAddNewKeyword from '@/container/sites/hooks/useAddNewKeyword'
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
+
 import languages from '@/constant/languages'
-
-import useAddNewKeyword from '@/container/sites/hooks/useAddNewkeyword'
-
-import { KEYWORDS_COLUMN, KEYWORDS_DATA } from '@/container/sites/utils'
+import { KEYWORDS_COLUMN } from '@/container/sites/utils'
+import { rowSelectionHandler } from '@/components/Table/helper'
+import { CrawledInfoAPIResponseTypes } from '@/container/sites/sitesTypes'
 
 import './AddNewKeywords.scss'
+import { CiLocationOn } from 'react-icons/ci'
 
-const AddNewKeywords = () => {
-  const { control, handleSaveKeywords, handleClearKeywordData } = useAddNewKeyword()
+const AddNewKeywords = ({ crawledInfo }: { crawledInfo: CrawledInfoAPIResponseTypes['data'] }) => {
+  const [selectedKeys, SetSelectedKeys] = useState<number[]>([])
+
+  const { getKeywords, keywordsData, keywordsLoading } = useHandleSitesLogic()
+  const { control, setValue, getValues, handleSaveKeywords, isLoading, handleClearKeywordData } = useAddNewKeyword()
+
+  const keywords = keywordsData?.data?.filter((item) => selectedKeys?.includes(item.id))
+  const filteredData = keywordsData?.data?.filter((item) => !selectedKeys.includes(item.id))
+
+  const isLocal = useWatch({ control, name: 'track_local' })
+
+  const onPageChange = (pageNumber: number) => {
+    getKeywords({
+      site_id: String(crawledInfo?.site_data?.id) || '',
+      page: pageNumber,
+      per_page: keywordsData?.per_page || 10,
+    })
+  }
+
+  const handlePerPageItems = (perPageItems: string) => {
+    getKeywords({
+      site_id: String(crawledInfo?.site_data?.id) || '',
+      page: 1,
+      per_page: Number(perPageItems) || 10,
+    })
+  }
+
+  const clearFormData = () => {
+    SetSelectedKeys([])
+    handleClearKeywordData()
+  }
+
+  useEffect(() => {
+    const updatedKeywords = () => {
+      const textAreaKeywords = getValues('keywords')
+      const newKeywords = keywords?.map((item) => item.keyword) || []
+      const existingKeywords = textAreaKeywords.split('\n').filter((k) => k.trim() !== '')
+      const manualKeywords = existingKeywords.filter(
+        (keyword) => !keywordsData?.data?.some((item) => item.keyword === keyword && !selectedKeys.includes(item.id))
+      )
+      const combinedKeywords = [...new Set([...manualKeywords, ...newKeywords])]
+      return combinedKeywords.join('\n')
+    }
+
+    setValue('keywords', updatedKeywords())
+  }, [keywords])
+
+  useEffect(() => {
+    getKeywords({
+      site_id: String(crawledInfo?.site_data?.id) || '',
+      page: 1,
+      per_page: 10,
+    })
+  }, [])
+
+  // site_id
+  // keywords
+  // country
+  // language
+  // refresh_frequency
+  // track_local
+  // track_local_value
 
   return (
     <Container className="add-new-keywords-container ">
@@ -30,36 +96,41 @@ const AddNewKeywords = () => {
         <Divider color="warning" />
         <Flex gap={16} className="container-screens">
           <Container borderRadius boxShadow padding={'40px'} className="recommended-keywords-table-container container-bg">
-            <Flex vertical gap={16}>
+            <Flex vertical align="start" gap={16} className="keywords-table-container">
               <Typography text="Your Recommended Keywords" type="h2" />
               <Typography
                 text={`Seode found these keywords for your site. Click on a keyword to add it to your keyword box. Once you're done selecting your target keywords, click the "Save Your Keywords" button to save your keywords.`}
               />
               <Divider color="warning" />
+
               <Table
                 columns={KEYWORDS_COLUMN}
-                data={KEYWORDS_DATA}
+                data={filteredData || []}
                 style={{
-                  tableCellStyle: {
-                    fontSize: '14px',
-                  },
-                  tableHeadingStyle: {
-                    fontSize: '10.5px',
-                  },
+                  tableCellStyle: { fontSize: '14px' },
+                  tableHeadingStyle: { fontSize: '10.5px' },
                 }}
+                onRowClick={(newSelectedKeys: number[]) => {
+                  SetSelectedKeys(rowSelectionHandler(selectedKeys, newSelectedKeys))
+                  if (filteredData?.length === 1) {
+                    onPageChange((keywordsData?.page || 0) + 1)
+                  }
+                }}
+                rowKey="id"
               />
+
               <Pagination
-                pageSize={10}
-                currentPage={1}
-                totalCount={75}
-                onPageChange={() => console.log('onPage Change')}
+                pageSize={keywordsData?.per_page || 10}
+                currentPage={keywordsData?.page || 1}
+                totalCount={keywordsData?.total || 0}
+                onPageChange={onPageChange}
                 showSizeChanger={{
                   pageSizeOptions: [
                     { label: '10', id: '10' },
                     { label: '25', id: '25' },
                     { label: '50', id: '50' },
                   ],
-                  onPageSizeChange: () => console.log('page size changing'),
+                  onPageSizeChange: handlePerPageItems,
                 }}
               />
             </Flex>
@@ -83,7 +154,7 @@ const AddNewKeywords = () => {
                     placeholder="One keyword per line, maximum 10 words per keyword. Please avoid special characters, punctuation, and emoji."
                   />
                 )}
-                name="country"
+                name="keywords"
                 control={control}
               />
 
@@ -120,11 +191,11 @@ const AddNewKeywords = () => {
                 render={({ field: { onChange, value }, fieldState: { error } }) => (
                   <Select
                     Options={[
-                      { label: 'Daily', id: 'type1' },
-                      { label: 'Weekly', id: 'type2' },
-                      { label: 'Monthly', id: 'type3' },
-                      { label: 'Annually', id: 'type4' },
-                      { label: 'Team Default (Daily)', id: 'type5' },
+                      { label: 'Daily', id: 'daily' },
+                      { label: 'Weekly', id: 'weekly' },
+                      { label: 'Monthly', id: 'monthly' },
+                      { label: 'Annually', id: 'annually' },
+                      { label: 'Team Default (Daily)', id: 'daily' },
                     ]}
                     title="How often would you like to refresh ranking stats for this keyword?"
                     placeholder="Schedule"
@@ -135,14 +206,14 @@ const AddNewKeywords = () => {
                     error={error ? error.message : ''}
                   />
                 )}
-                name="schedule"
+                name="refresh_frequency"
                 control={control}
               />
 
               <Controller
                 render={({ field: { onChange, value } }) => (
                   <Checkbox
-                    name="abc"
+                    name="track_local"
                     label="Track Local Results"
                     borderRadius
                     size="sm"
@@ -151,16 +222,31 @@ const AddNewKeywords = () => {
                     checked={value as boolean}
                   />
                 )}
-                name="local"
+                name="track_local"
                 control={control}
               />
 
-              <Divider color="warning" />
+              {isLocal && (
+                <Controller
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      StartIcon={<CiLocationOn />}
+                      onChange={onChange}
+                      value={value}
+                      name="track_local_value"
+                      placeholder="Enter a location or zip code"
+                    />
+                  )}
+                  name="track_local_value"
+                  control={control}
+                />
+              )}
+              <Divider color="common" />
               <Flex gap={16}>
-                <Button onClick={handleSaveKeywords} type="borderRadius" size="sm">
+                <Button onClick={handleSaveKeywords} type="borderRadius" size="sm" loading={isLoading}>
                   Save Your Keywords
                 </Button>
-                <Button onClick={handleClearKeywordData} variant="text" type="borderRadius" size="sm">
+                <Button onClick={clearFormData} variant="text" type="borderRadius" size="sm">
                   Cancel
                 </Button>
               </Flex>
@@ -168,6 +254,7 @@ const AddNewKeywords = () => {
           </Container>
         </Flex>
       </Flex>
+      <Loader loading={keywordsLoading} overlay />
     </Container>
   )
 }

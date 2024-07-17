@@ -9,8 +9,10 @@ import {
   useUpdateRecommendationsMutation,
 } from '../api/sitesAPI'
 import { ApproveRecommendationsPayloadTypes, GetRecommendationsByTypesPayloadTypes } from '../sitesTypes'
+import { useLocation } from 'react-router-dom'
 
 const useHandleRecommendations = () => {
+  const { state } = useLocation()
   const [reCrawlSite, { isFetching: reCrawlLoading }] = useLazyReCrawlSiteQuery()
   const [approveRecommendations, { isLoading: approveRecommendationsLoading }] = useApproveRecommendationsMutation()
   const [updateRecommendations, { isLoading: updateRecommendationsLoading }] = useUpdateRecommendationsMutation()
@@ -36,7 +38,7 @@ const useHandleRecommendations = () => {
 
   const getRecommendationByType = async (payload: GetRecommendationsByTypesPayloadTypes) => {
     try {
-      await getRecommendationsByType(payload)
+      await getRecommendationsByType({ ...payload, site_id: state.siteId })
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }

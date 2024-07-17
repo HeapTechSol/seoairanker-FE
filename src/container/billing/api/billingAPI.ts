@@ -2,7 +2,7 @@ import { baseQueryApi } from '@/api/queryAPI'
 import { APIEndpoint } from '@/constant/apiEndPoints'
 import { GetPaymentHistoryAPIResponseTypes, GetPaymentHistoryPayloadTypes, GetUserQuotaAPIResponseTypes } from '../billingTypes'
 
-const { CHECKOUT, BILLING_HISTORY, STRIPE_PAYMENT_INTENT, USER_QUOTA } = APIEndpoint
+const { CHECKOUT, BILLING_HISTORY, STRIPE_PAYMENT_INTENT, USER_QUOTA, CANCEL_SUBSCRIPTION } = APIEndpoint
 
 export const billingAPI = baseQueryApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -28,11 +28,17 @@ export const billingAPI = baseQueryApi.injectEndpoints({
         body: payload,
       }),
     }),
+    cancelSubscription: builder.mutation<GetPaymentHistoryAPIResponseTypes, { user_id: string }>({
+      query: (payload) => ({
+        url: `${CANCEL_SUBSCRIPTION}/${payload.user_id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, error) => (error ? [] : ['userQuota']),
+    }),
     getUserQuota: builder.query<GetUserQuotaAPIResponseTypes, { user_id: number }>({
       query: (payload) => ({
-        url: USER_QUOTA,
-        method: 'POST',
-        body: payload,
+        url: `${USER_QUOTA}/${payload.user_id}`,
+        method: 'GET',
       }),
       providesTags: ['userQuota'],
     }),
@@ -40,4 +46,10 @@ export const billingAPI = baseQueryApi.injectEndpoints({
   overrideExisting: false,
 })
 
-export const { useCheckoutMutation, useLazyGetBillingHistoryQuery, useLazyStripePaymentIntentQuery, useLazyGetUserQuotaQuery } = billingAPI
+export const {
+  useCheckoutMutation,
+  useLazyGetUserQuotaQuery,
+  useCancelSubscriptionMutation,
+  useLazyGetBillingHistoryQuery,
+  useLazyStripePaymentIntentQuery,
+} = billingAPI

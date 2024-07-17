@@ -1,45 +1,37 @@
-import { classMapper } from "@/utils/helper";
+import { useMemo } from 'react'
+import { classMapper } from '@/utils/helper'
+import { orderMapper } from './helper'
+import { TableHeadingCellProps } from './types'
 
-import { TableHeadingCellTypes } from "./types";
-
-import { orderMapper } from "./helper";
-
-const TableHeadingCell = (props: TableHeadingCellTypes) => {
-  const { column } = props;
-
+const TableHeadingCell = <T,>({ column, onSort, order, tableHeadingStyle }: TableHeadingCellProps<T>) => {
   const columnWidth = {
-    width: `${column?.width ? column?.width + "%" : "auto"}`,
-    ...props?.tableHeadingStyle,
-  };
+    width: `${column?.width ? column?.width + '%' : 'auto'}`,
+    ...tableHeadingStyle,
+  }
 
-  const classes = classMapper("table-heading-cell", {
-    [column?.textAlign as string]: column?.textAlign,
-    [`fixed-${column.fixed}`]: column.fixed,
-  });
+  const classes = useMemo(() => {
+    return classMapper('table-heading-cell', {
+      [column?.textAlign as string]: column?.textAlign,
+      [`fixed-${column.fixed}`]: column.fixed,
+    })
+  }, [column])
 
-  const sortClasses = classMapper("sorting-order-icons", {
-    [props?.order as string]: props?.order ? true : false,
-  });
+  const sortClasses = useMemo(() => {
+    return classMapper('sorting-order-icons', {
+      [order as string]: order ? true : false,
+    })
+  }, [order])
 
   return (
-    <>
-      <th
-        style={columnWidth}
-        className={classes}
-        onClick={() =>
-          column?.sortKey
-            ? props?.onSort?.(
-                column?.dataKey,
-                orderMapper(column?.sortKey as string),
-              )
-            : null
-        }
-      >
-        {column?.header}
-        {column?.sortKey ? <span className={sortClasses}></span> : null}
-      </th>
-    </>
-  );
-};
+    <th
+      style={columnWidth}
+      className={classes}
+      onClick={() => (column?.sortKey ? onSort?.(column?.dataKey as string, orderMapper(column?.sortKey as string)) : null)}
+    >
+      {column?.header}
+      {column?.sortKey ? <span className={sortClasses}></span> : null}
+    </th>
+  )
+}
 
-export default TableHeadingCell;
+export default TableHeadingCell

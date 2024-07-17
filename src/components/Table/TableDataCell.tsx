@@ -1,25 +1,26 @@
-import { classMapper } from "@/utils/helper";
-import { TableDataCellTypes } from "./types";
+import React, { useMemo } from 'react'
 
-const TableDataCell = (props: TableDataCellTypes) => {
-  const { column, row } = props;
+import { classMapper } from '@/utils/helper'
+import { TableDataCellProps } from './types'
 
-  const classes = classMapper("table-data-cell", {
-    [column.textAlign as string]: column?.textAlign,
-    [`fixed-${column.fixed}`]: column.fixed,
-  });
+const TableDataCell = <T,>({ column, row, index, tableCellStyle }: TableDataCellProps<T>) => {
+  const classes = useMemo(() => {
+    return classMapper('table-data-cell', {
+      [column.textAlign as string]: column?.textAlign,
+      [`fixed-${column.fixed}`]: column.fixed,
+    })
+  }, [column])
+
+  const cellContent = useMemo<React.ReactNode>(() => {
+    const value = row[column.dataKey as keyof typeof row]
+    return column?.render ? column.render(value, row, index, column) : String(value)
+  }, [column, row, index])
 
   return (
-    <td
-      className={classes}
-      {...column?.onCell?.(row[column.dataKey], row, props.index, column)}
-      style={props?.tableCellStyle}
-    >
-      {column?.render
-        ? column.render?.(row[column.dataKey], row, props.index, column)
-        : row[column.dataKey]}
+    <td className={classes} {...column?.onCell?.(row[column.dataKey as keyof typeof row], row, index, column)} style={tableCellStyle}>
+      {cellContent}
     </td>
-  );
-};
+  )
+}
 
-export default TableDataCell;
+export default TableDataCell

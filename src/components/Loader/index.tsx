@@ -1,10 +1,11 @@
-import SpinnerIcon from "@/assets/icons/spinner.svg";
+// import SpinnerIcon from "@/assets/icons/spinner.svg";
+import LoadingIcon from '@/assets/icons/loader.gif'
 
 import { LoaderProps } from "./types";
 
 import "./Loader.scss";
 
-const Loader = ({ loading, overlay, children }: LoaderProps) => {
+const Loader = ({ loading, overlay=true, children }: LoaderProps) => {
   if (!loading) {
     return <>{children}</>;
   }
@@ -12,7 +13,7 @@ const Loader = ({ loading, overlay, children }: LoaderProps) => {
   return (
     <div className={`loader-container ${overlay ? "overlay" : "underlay"}`}>
       <div className="loader">
-        <img src={SpinnerIcon} alt="" />
+        <img src={LoadingIcon} alt="" />
       </div>
     </div>
   );

@@ -13,10 +13,7 @@ import { allowedRoutesWithoutSubscription } from '@/constant/constant'
 import { useAppSelector } from '@/api/store'
 import { setTheme } from '@/container/auth/authSlice'
 
-
 import './Sidebar.scss'
-
-
 
 const Sidebar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }) => {
   const navigate = useNavigate()
@@ -34,8 +31,8 @@ const Sidebar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }
   const menuChildren = (menu: menuTypes[]) => {
     return (
       <Flex vertical gap={8}>
-        {menu.map((item) => (
-          <>{menuLink(item)}</>
+        {menu.map((item, index) => (
+          <React.Fragment key={`${index}-left-menu`}>{menuLink(item)}</React.Fragment>
         ))}
       </Flex>
     )

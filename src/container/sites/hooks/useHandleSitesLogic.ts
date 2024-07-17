@@ -9,17 +9,17 @@ import { steps, ADD_SITE_WIZARD_DEFAULT_VALUES, ADD_SITE_WIZARD_VALIDATIONS } fr
 import {
   useAddSiteMutation,
   useDeleteSiteMutation,
+  useLazyGetSiteLinksQuery,
   useLazyGetSiteKeywordsQuery,
   useLazyGetSightInsightsQuery,
   useLazyGetSiteCrawledInfoQuery,
-  useLazyGetSiteLinksAndContentQuery,
   useLazyGetSitesQuery,
 } from '../api/sitesAPI'
 
 import { useAppSelector } from '@/api/store'
 import { EXACT_ROUTES } from '@/constant/routes'
 import { ErrorTypes } from '@/utils/commonTypes'
-import { AddSitePayloadTypes, SiteLinkPayloadTypes } from '../sitesTypes'
+import { AddSitePayloadTypes, GetKeywordsPayload, SiteLinkPayloadTypes } from '../sitesTypes'
 
 const { SITES_DASHBOARD } = EXACT_ROUTES
 
@@ -34,21 +34,21 @@ const useHandleSitesLogic = () => {
 
   const userQuota = useAppSelector((state) => state.billing.userQuota)
 
-  const isSiteQuotaExceeded = (userQuota?.used_sites_quota as number) >= (userQuota?.total_sites_quota as number)
+  const isSiteQuotaExceeded = (userQuota?.sites_quota_left as number) >= (userQuota?.sites_quota as number)
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
-  const [getSiteCrawledInfo, { data: crawledInfo, isFetching:crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
   const [getSites, { isFetching: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
   const [getSiteKeywords, { data: keywordsData, isFetching: keywordsLoading }] = useLazyGetSiteKeywordsQuery()
   const [getSightInsights, { isFetching: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
-  const [getSiteLinksAndContent, { isFetching: siteLinksLoading, data: siteLinkAndContent }] = useLazyGetSiteLinksAndContentQuery()
+  const [getSiteCrawledInfo, { data: crawledInfo, isFetching:crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
+  const [getSiteLinks, { isFetching: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
 
   const stepsCount = steps(control)?.length
 
   const handleNext = async () => {
     if (currentStep >= stepsCount) return
-    if (currentStep === 4) {
+    if (currentStep === 2) {
       const values = getValues()
       const response = await addSite({
         ...values,
@@ -85,9 +85,9 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const getSiteLinks = async (payload: SiteLinkPayloadTypes) => {
+  const handleGetSiteLinks = async (payload: SiteLinkPayloadTypes) => {
     try {
-      await getSiteLinksAndContent(payload).unwrap()
+      await getSiteLinks(payload).unwrap()
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -101,7 +101,7 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const getKeywords = async (payload: { siteUrl: string; language_code: string; location_code: string }) => {
+  const getKeywords = async (payload: GetKeywordsPayload) => {
     try {
       const data = await getSiteKeywords(payload).unwrap()
       setValue('keywords', data.data)
@@ -142,7 +142,6 @@ const useHandleSitesLogic = () => {
     getInsights,
     currentStep,
     getSitesList,
-    getSiteLinks,
     submitHandler,
     insightsLoading,
     crawlInfoLoading,
@@ -150,13 +149,14 @@ const useHandleSitesLogic = () => {
     sitesListLoading,
     siteLinksLoading,
     deleteSideLoading,
+    handleGetSiteLinks,
     getSiteCrawledInfoData,
     handleForwardButtonPress,
     handlePreviousButtonPress,
     insightsData: insightsData?.result,
     sitesList: sitesList?.data || [],
     crawledInfo: crawledInfo?.data,
-    siteLinkAndContent: siteLinkAndContent,
+    siteLinks: siteLinks,
   }
 }
 

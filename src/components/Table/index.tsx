@@ -1,102 +1,87 @@
-import { Fragment } from "react";
+import { Fragment } from 'react'
 
-import Checkbox from "../Checkbox";
-import TableDataCell from "./TableDataCell";
-import TableHeadingCell from "./TableHeadingCell";
-import useTableScroll from "@/hooks/useTableScroll";
+import Checkbox from '../Checkbox'
+import TableDataCell from './TableDataCell'
+import TableHeadingCell from './TableHeadingCell'
+import useTableScroll from '@/hooks/useTableScroll'
 
-import { TableProps } from "./types";
+import { TableProps } from './types'
 
-import "./Table.scss";
+import './Table.scss'
 
-const Table = (props: TableProps) => {
-  const { tableRef } = useTableScroll();
+const Table = <T, K extends string | number>({
+  columns,
+  data,
+  onSort,
+  order,
+  onRowSelection,
+  onRowClick,
+  rowKey,
+  expandable,
+  style,
+}: TableProps<T, K>) => {
+  const { tableRef } = useTableScroll()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const isExpandableRow = (data: any) =>
-    props.expandable &&
-    props.onRowSelection?.selectedRowKeys?.includes(
-      data[props.rowKey as string]
-    );
+  const isExpandableRow = (data: T) => expandable && onRowSelection?.selectedRowKeys?.includes(data[rowKey as keyof T] as unknown as K)
 
   return (
     <table className="table container-bg" ref={tableRef}>
       <thead>
         <tr>
-          {props.onRowSelection && props.onRowSelection.type === "checkbox" && (
+          {onRowSelection && onRowSelection.type === 'checkbox' && (
             <th className="optional-table-cell fixed-left">
               <Checkbox
                 name="selector"
-                checked={
-                  props.data.length ==
-                  props.onRowSelection.selectedRowKeys.length
-                }
+                checked={data.length > 0 && data.every((item) => onRowSelection.selectedRowKeys.includes(item[rowKey as keyof T] as unknown as K))}
                 borderRadius
-                onChange={() =>
-                  props.onRowSelection?.onChange(
-                    props.data.map((item) => item[props.rowKey as string])
-                  )
-                }
+                onChange={() => onRowSelection?.onChange(data.map((item) => item[rowKey as keyof T] as unknown as K))}
               />
             </th>
           )}
-
-          {props.columns?.map((column, index) => (
-            <TableHeadingCell
-              column={column}
-              tableHeadingStyle={props.style?.tableHeadingStyle}
-              {...props}
+          {columns?.map((column, index) => (
+            <TableHeadingCell<T>
               key={`${column.header}${index}`}
+              column={column}
+              tableHeadingStyle={style?.tableHeadingStyle}
+              onSort={onSort}
+              order={order}
             />
           ))}
         </tr>
       </thead>
-
       <tbody>
-        {props.data.map((data, index) => (
-          <Fragment key={`${data.id}${index}`}>
-            <tr>
-              {props.onRowSelection &&
-                props.onRowSelection.type === "checkbox" && (
-                  <td className="optional-table-cell fixed-left">
-                    {
-                      <Checkbox
-                        name="selector"
-                        checked={props.onRowSelection?.selectedRowKeys.includes(
-                          data[props.rowKey as string]
-                        )}
-                        borderRadius
-                        onChange={() =>
-                          props.onRowSelection?.onChange(
-                            data[props.rowKey as string],
-                            data
-                          )
-                        }
-                      />
-                    }
-                  </td>
-                )}
-              {props.columns?.map((column, colIndex) => (
-                <TableDataCell
-                  row={data}
+        {data.map((dataItem, index) => (
+          <Fragment key={`${dataItem[rowKey as keyof T]}${index}`}>
+            <tr
+              onClick={() => (onRowClick ? onRowClick?.(dataItem[rowKey as keyof T] as unknown as K[], dataItem) : null)}
+              style={{ cursor: onRowClick ? 'pointer' : 'auto' }}
+            >
+              {onRowSelection && onRowSelection.type === 'checkbox' && (
+                <td className="optional-table-cell fixed-left">
+                  <Checkbox
+                    name="selector"
+                    checked={onRowSelection.selectedRowKeys.includes(dataItem[rowKey as keyof T] as unknown as K)}
+                    borderRadius
+                    onChange={() => onRowSelection.onChange(dataItem[rowKey as keyof T] as unknown as K[], dataItem)}
+                  />
+                </td>
+              )}
+              {columns?.map((column, colIndex) => (
+                <TableDataCell<T>
+                  key={`${column.header}${colIndex}`}
+                  row={dataItem}
                   column={column}
                   index={index}
-                  {...props}
-                  tableCellStyle={props.style?.tableCellStyle}
-                  key={`${column.header}${colIndex}`}
+                  tableCellStyle={style?.tableCellStyle}
                 />
               ))}
             </tr>
-
-            {(props.onRowSelection?.allRowsOpenedByDefault ||
-              isExpandableRow(data)) && (
-              <>{props.expandable?.expandedRowRender?.(data)}</>
-            )}
+            {(onRowSelection?.allRowsOpenedByDefault || isExpandableRow(dataItem)) && <>{expandable?.expandedRowRender?.(dataItem)}</>}
           </Fragment>
         ))}
       </tbody>
     </table>
-  );
-};
+  )
+}
 
-export default Table;
+export default Table

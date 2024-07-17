@@ -33,15 +33,17 @@
         background: transparent;
         resize: both;
         padding: 6px 16px;
+        color:var(--color-common-main);
 
         &::placeholder {
           transition: all 0.1s ease-in-out;
-          color: colorMapper(grayClr, 500);
+          color:var(--color-common-main);
+          opacity: 0.3;
         }
 
-        &:focus {
-          border-color: var(--border-color);
-        }
+        // &:focus {
+        //   border-color: var(--border-color);
+        // }
 
         &:disabled {
           background: colorMapper(grayClr, 300);
@@ -52,9 +54,9 @@
         }
       }
 
-      &.focused textarea {
-        border-color: colorMapper($color, main);
-      }
+      // &.focused textarea {
+      //   border-color: colorMapper($color, main);
+      // }
 
       &.error textarea {
         border-color: colorMapper(error, main);

@@ -38,7 +38,13 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
             align="center"
             className="site-info-card__header"
           >
-            {site?.favicon_url ? <img src={site?.favicon_url} alt="" /> : <GiWorld />}
+            {site?.favicon_url ? (
+              <span className='fav-icon-image'>
+                <img src={site?.favicon_url} alt="" />
+              </span>
+            ) : (
+              <GiWorld />
+            )}
             <Link to="" className="site-link">
               {site?.site_url || ''}
             </Link>

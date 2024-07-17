@@ -13,9 +13,9 @@ const App = () => {
 
   const { getUserQuotas } = useBillingHandling()
 
-  // useEffect(() => {
-  //   if (userInfo?.id) getUserQuotas({ user_id: Number(userInfo?.id) })
-  // }, [])
+  useEffect(() => {
+    if (userInfo?.id) getUserQuotas({ user_id: Number(userInfo?.id) })
+  }, [])
 
   return (
     <div className={`app-container ${theme || 'light'}`}>
