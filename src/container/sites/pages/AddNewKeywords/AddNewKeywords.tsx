@@ -71,6 +71,7 @@ const AddNewKeywords = ({ crawledInfo }: { crawledInfo: CrawledInfoAPIResponseTy
     }
 
     setValue('keywords', updatedKeywords())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keywords])
 
   useEffect(() => {
@@ -79,15 +80,8 @@ const AddNewKeywords = ({ crawledInfo }: { crawledInfo: CrawledInfoAPIResponseTy
       page: 1,
       per_page: 10,
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  // site_id
-  // keywords
-  // country
-  // language
-  // refresh_frequency
-  // track_local
-  // track_local_value
 
   return (
     <Container className="add-new-keywords-container ">

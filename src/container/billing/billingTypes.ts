@@ -1,13 +1,10 @@
 export type PaymentHistoryResponseTypes = {
-  id: string
-  plan: string
+  id: number
   amount: number
   status: string
-  created: number
-  currency: string
-  period_end: number
-  description: string
-  period_start: number
+  payment_date: string
+  payment_method: string
+  stripe_transaction_id: string
 }
 
 export type GetPaymentHistoryAPIResponseTypes = {
@@ -53,3 +50,5 @@ export type GetUserQuotaAPIResponseTypes = {
   team_members_quota_left: number
   meta_description_quota_left: number
 }
+
+export type APIKeysDataTypes = { token: string; last_used: string }

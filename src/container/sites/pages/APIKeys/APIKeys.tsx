@@ -1,13 +1,13 @@
-import Flex from "@/components/Flex";
-import Table from "@/components/Table";
-import Button from "@/components/Button";
-import Divider from "@/components/Divider/Divider";
-import Container from "@/components/Container/Container";
-import Typography from "@/components/Typography/Typography";
+import Flex from '@/components/Flex'
+import Table from '@/components/Table'
+import Button from '@/components/Button'
+import Divider from '@/components/Divider/Divider'
+import Container from '@/components/Container/Container'
+import Typography from '@/components/Typography/Typography'
 
-import { API_KEYS_COLUMN, API_KEYS_DATA } from "@/container/sites/utils";
+import { API_KEYS_COLUMN, API_KEYS_DATA } from '@/container/sites/utils'
 
-import "./APIKeys.scss"
+import './APIKeys.scss'
 
 const APIKeys = () => {
   return (
@@ -16,13 +16,7 @@ const APIKeys = () => {
         <Typography text="Sites’s API Keys" type="h1" />
         <Divider color="warning" />
         <Flex gap={16} className="container-screens">
-          <Container
-            borderRadius
-            boxShadow
-            padding={"40px"}
-            className="site-pages-table-container container-bg"
-            width={100}
-          >
+          <Container borderRadius boxShadow padding={'40px'} className="site-pages-table-container container-bg" width={100}>
             <Flex vertical gap={16} align="start">
               <Typography text="API Keys" type="h2" />
               <Typography text={`Please keep the keys secure.`} />
@@ -32,10 +26,10 @@ const APIKeys = () => {
                 data={API_KEYS_DATA}
                 style={{
                   tableCellStyle: {
-                    fontSize: "14px",
+                    fontSize: '14px',
                   },
                   tableHeadingStyle: {
-                    fontSize: "10.5px",
+                    fontSize: '10.5px',
                   },
                 }}
               />
@@ -47,7 +41,7 @@ const APIKeys = () => {
         </Flex>
       </Flex>
     </Container>
-  );
-};
+  )
+}
 
-export default APIKeys;
+export default APIKeys

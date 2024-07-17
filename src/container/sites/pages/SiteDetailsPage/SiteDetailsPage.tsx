@@ -31,6 +31,7 @@ const SiteDetailsPage = () => {
 
   useEffect(() => {
     if (state.siteId) getSiteCrawledInfoData(state.siteId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

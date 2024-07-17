@@ -34,7 +34,7 @@ const SitePages = () => {
       dataKey: 'url',
       render: (text) => <TruncateText text={text} line={1} width={200}></TruncateText>,
     },
-    { header: 'DEPTH', dataKey: '' },
+    { header: 'DEPTH' },
     {
       header: 'Lang',
       dataKey: 'page_language',
@@ -45,7 +45,6 @@ const SitePages = () => {
     },
     {
       header: 'WIDGET',
-      dataKey: '',
       textAlign: 'center',
       render: () => (
         <Tooltip content="Looks like widgets is not installed on this page">
@@ -55,7 +54,6 @@ const SitePages = () => {
     },
     {
       header: 'ACTIONS',
-      dataKey: 'widget',
       textAlign: 'center',
       render: () => (
         <Flex gap={12} align="center" justify="center">
@@ -89,6 +87,7 @@ const SitePages = () => {
       page: 1,
       per_page: 10,
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

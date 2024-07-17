@@ -26,6 +26,7 @@ const SiteInsights = () => {
 
   useEffect(() => {
     if (state?.siteUrl) getInsights({ url: state?.siteUrl })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const convertValueToNumber = (str: string) => parseFloat(str?.replace(' s', ''))

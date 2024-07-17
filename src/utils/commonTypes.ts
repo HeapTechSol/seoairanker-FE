@@ -27,6 +27,9 @@ export type SizeTypes = "sm" | "md" | "lg";
 
 export type MaybeNull<Type> = null | Type
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Unknown = any
+
 export type ErrorTypes = {
   data: {
     message: string

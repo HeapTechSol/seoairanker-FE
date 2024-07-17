@@ -30,6 +30,7 @@ const Checkout = () => {
       await getPaymentIntentClientSecret()
     }
     fetchSecret()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const sum = stateAddOns?.reduce((prev, curr) => prev + curr.amount, 0)

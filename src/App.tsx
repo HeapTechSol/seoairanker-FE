@@ -15,6 +15,7 @@ const App = () => {
 
   useEffect(() => {
     if (userInfo?.id) getUserQuotas({ user_id: Number(userInfo?.id) })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

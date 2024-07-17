@@ -62,6 +62,7 @@ const ImagesList = () => {
 
   useEffect(() => {
     getRecommendationByType({ page: 1, per_page: 10, type: 'images' })
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -22,6 +22,9 @@ import { IoSettingsOutline } from 'react-icons/io5'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
+import { ColumnType } from '@/components/Table/types'
+import { SitesAPIResponse } from '@/container/sites/sitesTypes'
+
 import './SitesDashboard.scss'
 
 const { ADD_SITE, SITE_DETAILS_PAGE } = EXACT_ROUTES
@@ -44,11 +47,11 @@ const SitesDashboard = () => {
     setIsShowDeleteModal(true)
   }
 
-  const columns = [
+  const columns: ColumnType<SitesAPIResponse>[] = [
     {
       header: 'Sites',
       dataKey: 'site_url',
-      render: (value: string, record: any) => (
+      render: (value, record) => (
         <Typography
           text={value}
           color="info"
@@ -67,8 +70,7 @@ const SitesDashboard = () => {
     { header: 'Date', dataKey: 'created_at' },
     {
       header: '',
-      dataKey: 'action',
-      render: (_: string, record: Record<string, number>) => (
+      render: (_, record) => (
         <Flex className="site-info-controls" justify="end" align="center">
           <Button onlyIcon size="sm" color="info" variant="text" StartIcon={<IoSettingsOutline />} onClick={() => console.log('clicked')} />
           <Button onlyIcon size="sm" color="error" variant="text" StartIcon={<RiDeleteBin6Line />} fill onClick={() => deleteSite(record.id)} />

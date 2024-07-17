@@ -81,6 +81,7 @@ const TitlePreview = () => {
 
   useEffect(() => {
     getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_titles' })
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const renderAccordionDescription = (item: MetaTitleDataTypes, index: number) => (

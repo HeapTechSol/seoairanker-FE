@@ -109,6 +109,7 @@ const SocialPreview = () => {
 
   useEffect(() => {
     getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags' })
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

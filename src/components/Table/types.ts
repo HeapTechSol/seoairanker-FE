@@ -1,12 +1,14 @@
+import { Unknown } from "@/utils/commonTypes";
+
 export type ColumnType<T> = {
   header: string;
-  dataKey?: keyof T | string;
+  dataKey?: keyof T;
   sortKey?: string;
   width?: number;
   textAlign?: "center" | "right";
   fixed?: "left" | "right";
-  render?: (value: any, row: T, index: number, column: ColumnType<T>) => React.ReactNode;
-  onCell?: (value: any, row: T, index: number, column: ColumnType<T>) => React.HTMLAttributes<HTMLTableCellElement>;
+  render?: (value: Unknown, row: T, index: number, column: ColumnType<T>) => React.ReactNode;
+  onCell?: (value: Unknown, row: T, index: number, column: ColumnType<T>) => React.HTMLAttributes<HTMLTableCellElement>;
 };
 
 export type OnSortType = (sortKey: string, order: string | null) => void;

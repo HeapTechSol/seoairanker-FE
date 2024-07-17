@@ -27,6 +27,4 @@ export const billingSlice = createSlice({
   },
 })
 
-export const {} = billingSlice.actions
-
 export default billingSlice.reducer

@@ -15,7 +15,6 @@ import { AddSitePayloadTypes } from '@/container/sites/sitesTypes'
 
 import './AddSite.scss'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
   
   const userQuota = useAppSelector((state) => state.billing.userQuota)
@@ -55,7 +54,7 @@ const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
                 value={value}
                 min={0}
                 step={10}
-                max={userQuota?.total_pages_quota}
+                max={userQuota?.pages_quota}
                 filledRangeColor="primary"
                 emptyRangeColor="secondary"
               />
@@ -65,7 +64,7 @@ const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
           />
 
           <Typography
-            text={`Current Limit: ${pages >= (userQuota?.total_pages_quota || 0) ? 'unlimited' : pages || ''} ${userQuota?.total_pages_quota} Included in your plan`}
+            text={`Current Limit: ${pages >= (userQuota?.pages_quota || 0) ? 'unlimited' : pages || ''} ${userQuota?.pages_quota} Included in your plan`}
           />
           <Flex align="center" gap={16}>
             <Controller

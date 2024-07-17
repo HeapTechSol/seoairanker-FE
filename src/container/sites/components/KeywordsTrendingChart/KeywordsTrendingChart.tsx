@@ -18,7 +18,10 @@ type ChartData = {
 }
 
 const KeywordsTrendingChart: React.FC = () => {
+  const borderColorRef = useRef<string>('')
   const chartRef = useRef<ReactECharts>(null)
+  const colorCommonMainRef = useRef<string>('')
+  const descriptionColorMainRef = useRef<string>('')
   const [typeSelection, setTypeSelection] = useState<'traffic' | 'ranking'>('ranking')
   const [durationSelection, setDurationSelection] = useState<7 | 30 | 365>(7)
 
@@ -112,13 +115,14 @@ const KeywordsTrendingChart: React.FC = () => {
 
   useEffect(() => {
     const appContainer = document.querySelector('.app-container') as HTMLElement
-    colorCommonMain = getComputedStyleValue(appContainer, '--color-common-main')
-    descriptionColorMain = getComputedStyleValue(appContainer, '--text-description-color')
-    borderColor = getComputedStyleValue(appContainer, '--border-color')
+    colorCommonMainRef.current = getComputedStyleValue(appContainer, '--color-common-main')
+    descriptionColorMainRef.current = getComputedStyleValue(appContainer, '--text-description-color')
+    borderColorRef.current = getComputedStyleValue(appContainer, '--border-color')
     if (chartRef.current) {
       const chart = chartRef.current.getEchartsInstance()
-      chart.setOption(getOption(data, colorCommonMain, descriptionColorMain, borderColor))
+      chart.setOption(getOption(data, colorCommonMainRef.current, descriptionColorMainRef.current, borderColorRef.current))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, theme, typeSelection, durationSelection])
 
   const getOption = (chartData: ChartData, mainColor?: string, descriptionColor?: string, borderColor?: string) => ({

@@ -12,20 +12,14 @@ import Pagination from '@/components/Pagination/Pagination'
 import Typography from '@/components/Typography/Typography'
 import CircularProgress from '@/components/CircularProgress/CircularProgress'
 
-import { AddSitePayloadTypes } from '@/container/sites/sitesTypes'
+import { ColumnType } from '@/components/Table/types'
 import { currencyNumberWithDollar } from '@/utils/helper'
-
-type ColumnTypes = {
-  header: string
-  dataKey: string
-  textAlign?: 'right' | 'center'
-  render?: (value: string) => void
-}
+import { AddSitePayloadTypes, KeywordsDataTypes } from '@/container/sites/sitesTypes'
 
 const AddKeywords = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
   const keywordsData = useWatch({ control, name: 'keywords' })
 
-  const columns: ColumnTypes[] = [
+  const columns: ColumnType<KeywordsDataTypes>[] = [
     { header: 'KEYWORD', dataKey: 'keyword' },
     { header: 'CURRENT POSITION', dataKey: 'competition_index' },
     { header: 'MONTHLY SEARCHES', dataKey: 'search_volume' },
@@ -36,7 +30,7 @@ const AddKeywords = ({ control }: { control: Control<AddSitePayloadTypes> }) => 
     },
     {
       header: 'SCORE',
-      dataKey: 'score',
+      dataKey: 'competition_index',
       textAlign: 'center',
       render: (value: string) =>
         value === 'waiting' ? (

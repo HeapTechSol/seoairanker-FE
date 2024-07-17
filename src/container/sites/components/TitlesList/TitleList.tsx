@@ -15,6 +15,7 @@ import { EditIcon } from '@/assets/icons/svgs'
 import { MissingTitlesDataTypes } from '@/container/sites/sitesTypes'
 
 import './TitlesList.scss'
+import { ColumnType } from '@/components/Table/types'
 
 const TitleList = () => {
   const { state } = useLocation()
@@ -81,11 +82,11 @@ const TitleList = () => {
     element?.setAttribute('contentEditable', 'false')
   }
 
-  const columns = [
-    { header: 'Link', dataKey: 'link_url', render: (text: string) => <TruncateText text={text} line={1} width={300}></TruncateText> },
+  const columns: ColumnType<MissingTitlesDataTypes>[] = [
+    { header: 'Link', dataKey: 'link_path', render: (text: string) => <TruncateText text={text} line={1} width={300}></TruncateText> },
     {
       header: 'Title',
-      dataKey: 'suggested_link_title',
+      dataKey: 'suggested_title',
       render: (text: string, record: MissingTitlesDataTypes, index: number) => {
         return (
           <Flex align="center" gap={16}>
@@ -105,8 +106,7 @@ const TitleList = () => {
     },
     {
       header: 'Action',
-      dataKey: '',
-      render: (_: any, record: MissingTitlesDataTypes) => (
+      render: (_, record) => (
         <Flex gap={12} align="center" justify="center">
           <Button
             size="sm"
@@ -127,6 +127,7 @@ const TitleList = () => {
 
   useEffect(() => {
     getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles' })
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -151,7 +152,7 @@ const TitleList = () => {
             </Button>
           </Flex>
         </Flex>
-        <Table columns={columns} data={recommendationData?.data || []} />
+        <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
       </Flex>
       <Loader loading={recommendationDataLoading} />
     </Container>

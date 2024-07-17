@@ -16,6 +16,8 @@ import { useAppSelector } from '@/api/store'
 import { currencyNumberWithDollar, formatDate, handleFormatCurrencyAndNumber } from '@/utils/helper'
 
 import './PaymentHistory.scss'
+import { ColumnType } from '@/components/Table/types'
+import { PaymentHistoryResponseTypes } from '../../billingTypes'
 
 const PaymentHistory = () => {
   const { getBillingHistoryList, billingHistoryLoading, billingHistoryList, userQuotaLoading } = useBillingHandling()
@@ -27,7 +29,7 @@ const PaymentHistory = () => {
     declined: <Chip circled text="Declined" color="error" />,
   }
 
-  const columns = [
+  const columns:ColumnType<PaymentHistoryResponseTypes>[] = [
     { header: 'Payment ID', dataKey: 'stripe_transaction_id', render: (text: string) => text || '-' },
     { header: 'Date', dataKey: 'payment_date', render: (date: string) => formatDate(date) },
     { header: 'Type', dataKey: 'payment_method' },
@@ -41,6 +43,7 @@ const PaymentHistory = () => {
 
   useEffect(() => {
     getBillingHistoryList({ limit: 1000, starting_after: null })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

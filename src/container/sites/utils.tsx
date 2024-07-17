@@ -14,6 +14,7 @@ import { CommonValidations } from '@/utils/commonValidations'
 import { WatchIcon } from '@/assets/icons/svgs'
 import { KeywordsDataTypes } from './sitesTypes'
 import { ColumnType } from '@/components/Table/types'
+import { APIKeysDataTypes } from '../billing/billingTypes'
 
 const { requiredMessage } = CommonValidations
 
@@ -246,7 +247,7 @@ export const PAGES_DATA = [
   },
 ]
 
-export const API_KEYS_COLUMN = [
+export const API_KEYS_COLUMN: ColumnType<APIKeysDataTypes>[] = [
   {
     header: 'SECRET TOKEN',
     dataKey: 'token',
@@ -257,11 +258,11 @@ export const API_KEYS_COLUMN = [
         link
         onClick={(e) => {
           if (text === (e.target as HTMLParagraphElement).innerText) {
-            ;(e.target as HTMLParagraphElement).innerText = 'Click to Reveal'
+            (e.target as HTMLParagraphElement).innerText = 'Click to Reveal'
           } else {
-            ;(e.target as HTMLParagraphElement).innerText = text
+            (e.target as HTMLParagraphElement).innerText = text
           }
-          ;(e.target as HTMLParagraphElement).classList.toggle('info')
+          (e.target as HTMLParagraphElement).classList.toggle('info')
         }}
       />
     ),
@@ -269,7 +270,6 @@ export const API_KEYS_COLUMN = [
   { header: 'LAST USED', dataKey: 'last_used' },
   {
     header: 'Action',
-    dataKey: '',
     render: () => <Typography color="info" text="Revoke" link />,
   },
 ]
