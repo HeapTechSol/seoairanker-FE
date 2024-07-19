@@ -63,8 +63,8 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
         <Flex align="center" gap={6}>
           <Avatar size={'large'} fallback={<FaRegUser />} src={user?.user?.profileImage} />
           <Flex vertical justify="between" gap={6}>
-            <Typography text={`${user?.user?.firstName} ${user?.user?.lastName}`} size="sm" />
-            <Typography text={user?.user?.email} size="sm" />
+            <Typography text={`${user?.user?.firstName} ${user?.user?.lastName}`} size="lg" className="user-name" />
+            <Typography text={user?.user?.email} size="lg" />
           </Flex>
         </Flex>
       ),
@@ -76,7 +76,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
         navigate(LOGIN)
       },
       name: (
-        <Button size="sm" color="common" type="borderRadius" variant="text" EndIcon={<IoLogOutOutline />}>
+        <Button size="md" color="common" type="borderRadius" variant="text" EndIcon={<IoLogOutOutline />}>
           Log out
         </Button>
       ),
@@ -148,7 +148,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
                 >
                   <NotificationBadge count={notificationsData?.unread_count || 0} maxCount={100} icon={<FaRegBell />} />
                 </Dropdown>
-                <Dropdown options={users} onSelect={handleSelect}>
+                <Dropdown options={users} onSelect={handleSelect} className="profile-dropdown-list">
                   <Avatar size={'small'} fallback={<FaRegUser />} src={user?.user?.profileImage} />
                 </Dropdown>
               </Flex>

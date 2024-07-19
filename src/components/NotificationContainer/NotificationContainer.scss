@@ -1,26 +1,52 @@
 .notification-container {
-  padding: 20px;
+  padding: 16px 0px;
+  overflow: hidden;
+  position: relative;
   &__header {
-    position: relative;
-
     .new-message-icon {
       position: absolute;
-      right: 20px;
+      right: 55px;
+      top: 50%;
+      transform: translateY(-50%);
       font-size: 20px;
       color: colorMapper(warning, main);
     }
   }
 
-  .truncate-text{
-    color:var(--text-description-color)
+  &__body {
+    max-width: 400px;
+    h4 {
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 16px;
+      color: var(--text-description-color) !important;
+    }
   }
 
-  &.old-message{
-    background-color: var(--bg-hover-color);
-    opacity: 0.3;
+  .truncate-text {
+    color: var(--text-description-color);
   }
 
-  &.new-message {
-    background-color: var(--bg-hover-color);
+  .date-time {
+    align-self: flex-end;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    letter-spacing: 1px;
+    transform: translateY(-50%);
+  }
+}
+
+.dropdown.notification-dropdown-list {
+  .dropdown-menu {
+    .li-click {
+      border-bottom: 1px solid var(--border-color);
+    }
+    li:has(.new-message) {
+      background: var(--container-bg-color);
+    }
+    li:has(.old-message) {
+      background: transparent;
+    }
   }
 }
