@@ -33,6 +33,7 @@ const Recommendations = ({ crawledInfo, crawlInfoLoading }: { crawledInfo: Crawl
     anchor_titles: 'Link Missing Titles',
     missing_meta_descriptions: 'Add Meta Description',
     missing_meta_titles: 'Optimize Title',
+    external_links: 'External Link Target',
   }
 
   const recommendationsList = crawledInfo?.model_data.map((item, index) => ({
@@ -98,7 +99,7 @@ const Recommendations = ({ crawledInfo, crawlInfoLoading }: { crawledInfo: Crawl
           <RecommendationList selectedKey={key} />
         </Flex>
       </Flex>
-      <Loader loading={crawlInfoLoading}/>
+      <Loader loading={crawlInfoLoading} />
     </Container>
   )
 }

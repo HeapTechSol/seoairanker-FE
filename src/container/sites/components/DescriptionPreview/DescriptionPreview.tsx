@@ -27,7 +27,7 @@ const DescriptionPreview = () => {
     handleUpdateRecommendations,
     approveRecommendationsLoading,
   } = useHandleRecommendations()
-  const recommendation = recommendationData?.data.find((item) => item.link_id)
+  const recommendation = recommendationData?.data?.find((item) => item.link_id)
 
   const handleAllRecommendations = async () => {
     if (state?.siteId) {
@@ -138,7 +138,7 @@ const DescriptionPreview = () => {
           </Button>
         </Flex>
         <Flex vertical gap={10}>
-          {optimizedTitlesList.map((item) => (
+          {optimizedTitlesList?.map((item) => (
             <Accordion
               title={item.url}
               description={item.content}

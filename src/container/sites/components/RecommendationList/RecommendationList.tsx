@@ -2,6 +2,7 @@ import TitleList from '../TitlesList/TitleList'
 import ImagesList from '../ImagesList/ImagesList'
 import TitlePreview from '../TitlePreview/TitlePreview'
 import SocialPreview from '../SocialPreview/SocialPreview'
+import ExternalTitleList from '../ExternalTitlesList/ExternalTitleList'
 import DescriptionPreview from '../DescriptionPreview/DescriptionPreview'
 import HeadingRecommendationsPreview from '../HeadingRecommendationsPreview/HeadingRecommendationsPreview'
 
@@ -16,6 +17,8 @@ const RecommendationList = ({ selectedKey }: { selectedKey: string }) => {
         return <TitlePreview />
       case 'anchor_titles':
         return <TitleList />
+      case 'external_links':
+        return <ExternalTitleList />
       case 'missing_meta_descriptions':
         return <DescriptionPreview />
       case 'og_tags':

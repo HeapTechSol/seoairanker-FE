@@ -46,7 +46,14 @@ export type SiteLinksAPIResponseTypes = {
   total_count: number
 }
 
-export type ModalTypes = 'anchor_titles' | 'images' | 'og_tags' | 'heading_suggestions' | 'missing_meta_titles' | 'missing_meta_descriptions'
+export type ModalTypes =
+  | 'anchor_titles'
+  | 'images'
+  | 'og_tags'
+  | 'heading_suggestions'
+  | 'missing_meta_titles'
+  | 'missing_meta_descriptions'
+  | 'external_links'
 
 export type CrawledInfoAPIResponseTypes = {
   data: {
@@ -219,7 +226,7 @@ export type AddKeyWordsPayloadTypes = {
 
 export type NotificationDataTypes = {
   id: string
-  title:string
+  title: string
   user_id: string
   message: string
   timestamp: string
@@ -235,5 +242,6 @@ export type NotificationsAPIResponseTypes = {
 }
 
 export type NotificationAPIPayloadTypes = {
-  page: number, per_page: number
+  page: number
+  per_page: number
 }

@@ -19,12 +19,12 @@ import useAddNewKeyword from '@/container/sites/hooks/useAddNewKeyword'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import languages from '@/constant/languages'
+import { CiLocationOn } from 'react-icons/ci'
 import { KEYWORDS_COLUMN } from '@/container/sites/utils'
 import { rowSelectionHandler } from '@/components/Table/helper'
 import { CrawledInfoAPIResponseTypes } from '@/container/sites/sitesTypes'
 
 import './AddNewKeywords.scss'
-import { CiLocationOn } from 'react-icons/ci'
 
 const AddNewKeywords = ({ crawledInfo }: { crawledInfo: CrawledInfoAPIResponseTypes['data'] }) => {
   const [selectedKeys, SetSelectedKeys] = useState<number[]>([])
