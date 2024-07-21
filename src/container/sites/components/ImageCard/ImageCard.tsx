@@ -9,6 +9,7 @@ import Typography from '@/components/Typography/Typography'
 import { EditIcon } from '@/assets/icons/svgs'
 
 import './ImageCard.scss'
+import OptimizedImage from '@/components/OptimizedImage/OptimizedImage'
 
 type ImageCardProps = {
   id: string
@@ -20,8 +21,8 @@ type ImageCardProps = {
   isApproved: boolean
   linkId: string
   editSuggestionHandler: (index: number, id: string) => void
-  onApprove: (e: React.SyntheticEvent, type_id: string, linkId:string, status: boolean) => void
-  handleBlur: (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => void
+  onApprove: (e: React.SyntheticEvent, type_id: string, linkId: string, status: boolean) => void
+  handleBlur: (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId:string) => void
 }
 
 const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
@@ -30,7 +31,7 @@ const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
       <Container borderRadius boxShadow className="image-container" padding={8}>
         <Flex vertical gap={12} align="center">
           <div className="image-wrapper">
-            <img src={imageUrl} alt={altText || ''} />
+            <OptimizedImage src={imageUrl} alt={altText} width={200} height={100} layout="responsive" objectFit="contain" />
           </div>
           <Flex align="center" gap={16}>
             <span className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, id)}>
@@ -40,14 +41,14 @@ const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
               color="warning"
               text={<TruncateText text={altText} width={150} line={1} key={1} />}
               contentEditable={id === editedId}
-              onBlur={(e) => handleBlur(e, id, index, altText)}
+              onBlur={(e) => handleBlur(e, id, index, altText, linkId)}
               ref={ref}
             />
           </Flex>
           <Button
             size="sm"
             variant="outlined"
-            onClick={(e) => onApprove(e, id, linkId, isApproved)}
+            onClick={(e) => onApprove(e, id, linkId, !isApproved)}
             type="borderRadius"
             color={isApproved ? 'error' : 'success'}
             loading={id === editedId && loading}

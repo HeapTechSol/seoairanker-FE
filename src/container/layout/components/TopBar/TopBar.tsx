@@ -146,7 +146,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
                   scrollLoading={getNotificationLoading}
                   onScroll={handleScrollNotifications}
                 >
-                  <NotificationBadge count={notificationsData?.unread_count || 0} maxCount={100} icon={<FaRegBell />} />
+                  <NotificationBadge count={notificationsData?.unread_count || 0} maxCount={100} icon={<FaRegBell />}/>
                 </Dropdown>
                 <Dropdown options={users} onSelect={handleSelect} className="profile-dropdown-list">
                   <Avatar size={'small'} fallback={<FaRegUser />} src={user?.user?.profileImage} />

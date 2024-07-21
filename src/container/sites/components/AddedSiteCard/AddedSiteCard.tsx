@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Chip from '@/components/Chip'
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
+import Dropdown from '@/components/Dropdown/Dropdown'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import KeywordProgress from '../KeywordProgress/KeywordProgress'
@@ -11,9 +12,12 @@ import { EXACT_ROUTES } from '@/constant/routes'
 import { SitesAPIResponse } from '@/container/sites/sitesTypes'
 
 import { GiWorld } from 'react-icons/gi'
+import { FaDownload } from 'react-icons/fa'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { TiLocationArrowOutline } from 'react-icons/ti'
+
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import './AddedSiteCard.scss'
 
@@ -22,7 +26,30 @@ const { SITE_DETAILS_PAGE, KEYWORDS_RANKING } = EXACT_ROUTES
 const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () => void }) => {
   const navigate = useNavigate()
 
+  const { exportDataToCSV } = useHandleSitesLogic()
+  // exportCSVLoading, csvData,
+
   const isKeywords = false
+
+  const reportsMenu = [
+    {
+      id: 1,
+      name: (
+        <Button fullWidth variant="filled" color="primary" type="borderRadius">
+          Download PDF
+        </Button>
+      ),
+    },
+    {
+      id: 2,
+      onClick: () => exportDataToCSV({ site_id: String(site?.id) }),
+      name: (
+        <Button fullWidth variant="filled" color="primary" type="borderRadius">
+          Download CSV
+        </Button>
+      ),
+    },
+  ]
 
   return (
     <Container borderRadius boxShadow className="added-site-info-container container-bg">
@@ -39,7 +66,7 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
             className="site-info-card__header"
           >
             {site?.favicon_url ? (
-              <span className='fav-icon-image'>
+              <span className="fav-icon-image">
                 <img src={site?.favicon_url} alt="" />
               </span>
             ) : (
@@ -52,6 +79,9 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
           <Flex className="site-info-controls" justify="end" align="center">
             <Button onlyIcon size="sm" color="info" variant="text" StartIcon={<IoSettingsOutline />} onClick={() => console.log('clicked')} />
             <Button onlyIcon size="sm" color="error" variant="text" fill StartIcon={<RiDeleteBin6Line />} onClick={onClick} />
+            <Dropdown options={reportsMenu} onSelect={() => null} className="profile-dropdown-list" dropDownPlacement="right">
+              <Button onlyIcon size="sm" color="primary" variant="text" StartIcon={<FaDownload />} onClick={() => null} />
+            </Dropdown>
           </Flex>
         </Flex>
         <Flex justify="between" className="performance-state">

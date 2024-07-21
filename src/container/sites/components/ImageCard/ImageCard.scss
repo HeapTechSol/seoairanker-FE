@@ -16,4 +16,6 @@
 
 .images-listing {
   position: relative;
+  max-height: 400px;
+  overflow-y: auto;
 }

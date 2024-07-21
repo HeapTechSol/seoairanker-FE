@@ -8,21 +8,17 @@ import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { ImagesAltDataTypes } from '@/container/sites/sitesTypes'
+import Button from '@/components/Button'
+import useHandleSitesLogic from '../../hooks/useHandleSitesLogic'
 
-const ImagesList = ({ link_id }: { link_id: string }) => {
+const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>('')
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
-  const {
-    recommendationData,
-    updateRecommendation,
-    getRecommendationByType,
-    recommendationDataLoading,
-    updateRecommendationsLoading,
-    handleUpdateRecommendations,
-    approveRecommendationsLoading,
-  } = useHandleRecommendations()
+  const { getSiteCrawledInfoData } = useHandleSitesLogic()
+  const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, approveRecommendationsLoading } =
+    useHandleRecommendations()
 
   const onApprove = async (e: React.SyntheticEvent, type_id: string, linkId: string, status: boolean) => {
     setEditedId(type_id)
@@ -34,6 +30,8 @@ const ImagesList = ({ link_id }: { link_id: string }) => {
         update_data: { approved: status },
         bulk: false,
       })
+    await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+    await getRecommendationByType({ page: 1, per_page: 20, type: 'images', link_id: externalLinkId })
   }
 
   const editSuggestionHandler = (index: number, id: string) => {
@@ -50,42 +48,62 @@ const ImagesList = ({ link_id }: { link_id: string }) => {
     }
   }
 
-  const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => {
+  const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId: string) => {
     setEditedId(type_id)
     const text = e.target.innerText
     if (state?.siteId && currentText != text) {
-      await updateRecommendation({ site_id: state?.siteId, data: text, type: 'images', type_id })
+      await handleUpdateRecommendations({
+        model: 'images',
+        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
+        update_data: { approved: true, alt_text: text },
+        bulk: false,
+      })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: recommendationData?.page, per_page: 20, type: 'images', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
   }
 
+  const isLoadMore = (recommendationData?.total_count || 0) > (recommendationData?.data?.length || 0)
+
+  const handleLoadMore = () => {
+    getRecommendationByType({ page: (recommendationData?.page || 0) + 1, per_page: 20, type: 'images', link_id: externalLinkId })
+  }
+
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 20, type: 'images', link_id })
+    getRecommendationByType({ page: 1, per_page: 20, type: 'images', link_id: externalLinkId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [link_id])
+  }, [externalLinkId])
 
   return (
     <Container borderRadius boxShadow padding={40} width={70} className="images-listing container-bg">
       <ShimmerPlaceholder loading={recommendationDataLoading} count={20} width={236} height={194} gap={8} flexDirection="row">
-        <Flex justify="center" align="center" wrap gap={8}>
-          {(recommendationData?.data as ImagesAltDataTypes[])?.map((item, index) => (
-            <ImageCard
-              id={String(item.id)}
-              index={index}
-              editedId={editedId}
-              onApprove={onApprove}
-              linkId={item.link_id}
-              key={`images-${index}`}
-              handleBlur={handleBlur}
-              imageUrl={item.url}
-              isApproved={item.approved}
-              loading={approveRecommendationsLoading || updateRecommendationsLoading}
-              altText={item.alt_text}
-              editSuggestionHandler={editSuggestionHandler}
-              ref={(el) => (editableRefs.current[index] = el)}
-            />
-          ))}
+        <Flex vertical align="center" gap={24}>
+          <Flex justify="center" align="center" wrap gap={8}>
+            {(recommendationData?.data as ImagesAltDataTypes[])?.map((item, index) => (
+              <ImageCard
+                id={String(item.id)}
+                index={index}
+                editedId={editedId}
+                onApprove={onApprove}
+                linkId={item.link_id}
+                key={`images-${index}`}
+                handleBlur={handleBlur}
+                imageUrl={item.url}
+                isApproved={item.approved}
+                loading={approveRecommendationsLoading}
+                altText={item.alt_text}
+                editSuggestionHandler={editSuggestionHandler}
+                ref={(el) => (editableRefs.current[index] = el)}
+              />
+            ))}
+          </Flex>
+          {isLoadMore && (
+            <Button color="info" variant="text" onClick={handleLoadMore}>
+              Load More
+            </Button>
+          )}
         </Flex>
       </ShimmerPlaceholder>
     </Container>

@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect, ReactElement, useCallback } from 'react'
+import React, { useState, useRef, useEffect, ReactElement } from 'react'
 
 import Loader from '../Loader'
 import Typography from '../Typography/Typography'
 
 import { classMapper } from '@/utils/helper'
+import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 
 import './Dropdown.scss'
 
@@ -20,15 +21,28 @@ export type DropdownProps<T> = {
   className?: string
   onScroll?: () => void
   scrollLoading?: boolean
+  dropDownPlacement?: 'left' | 'right'
 }
 
-function Dropdown<T>({ options, onSelect, className = '', onScroll, scrollLoading = false, children }: DropdownProps<T>) {
+function Dropdown<T>({ 
+  options, 
+  onSelect, 
+  className = '', 
+  onScroll, 
+  dropDownPlacement = 'left', 
+  scrollLoading = false, 
+  children 
+}: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false)
-  const [menuPosition, setMenuPosition] = useState<'left' | 'right'>('left')
+  const [calculatedPosition, setCalculatedPosition] = useState<'left' | 'right'>(dropDownPlacement)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
   const menuRef = useRef<HTMLUListElement>(null)
-  const observer = useRef<IntersectionObserver>()
+
+  const { lastElementRef } = useInfiniteScroll({
+    onIntersect: () => onScroll?.(),
+    enabled: !scrollLoading && options.length > 0,
+  })
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -50,27 +64,18 @@ function Dropdown<T>({ options, onSelect, className = '', onScroll, scrollLoadin
       const spaceOnRight = window.innerWidth - triggerRect.right
       const menuWidth = menuRect.width
 
-      if (spaceOnRight < menuWidth && triggerRect.left > menuWidth) {
-        setMenuPosition('right')
+      // Only calculate position if dropDownPlacement is 'left'
+      if (dropDownPlacement === 'left') {
+        if (spaceOnRight < menuWidth && triggerRect.left > menuWidth) {
+          setCalculatedPosition('right')
+        } else {
+          setCalculatedPosition('left')
+        }
       } else {
-        setMenuPosition('left')
+        setCalculatedPosition(dropDownPlacement)
       }
     }
-  }, [isOpen])
-
-  const lastNotificationRef = useCallback(
-    (node: HTMLLIElement | null) => {
-      if (scrollLoading || !node) return
-      if (observer.current) observer.current.disconnect()
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && navigator.onLine) {
-          onScroll?.()
-        }
-      })
-      if (node) observer.current.observe(node)
-    },
-    [scrollLoading, onScroll]
-  )
+  }, [isOpen, dropDownPlacement])
 
   const handleToggle = () => {
     setIsOpen(!isOpen)
@@ -91,7 +96,7 @@ function Dropdown<T>({ options, onSelect, className = '', onScroll, scrollLoadin
         {children}
       </div>
 
-      <ul className={`dropdown-menu ${menuPosition} ${isOpen ? 'open' : ''}`} ref={menuRef}>
+      <ul className={`dropdown-menu ${calculatedPosition} ${isOpen ? 'open' : ''}`} ref={menuRef}>
         {isOptionsExist ? (
           options.map((option, index) => (
             <li
@@ -100,7 +105,7 @@ function Dropdown<T>({ options, onSelect, className = '', onScroll, scrollLoadin
                 handleSelect(option)
                 option?.onClick?.()
               }}
-              ref={index === options.length - 1 ? lastNotificationRef : null}
+              ref={index === options.length - 1 ? lastElementRef : null}
               className={`${option?.onClick ? 'li-click' : ''}`}
             >
               {option.name}

@@ -28,11 +28,11 @@ const {
   SITE_PAGE_INSIGHTS,
   SITE_CRAWLING_INFO,
   NOTIFICATION_LISTING,
-  UPDATE_RECOMMENDATION,
   SAVE_SELECTED_KEYWORDS,
   APPROVE_RECOMMENDATIONS,
   LINKS_PATH_SEARCH_RESULTS,
   GET_RECOMMENDATIONS_BY_TYPE,
+  EXPORT_RECOMMENDATIONS_TO_CSV,
 } = APIEndpoint
 
 export const sitesAPI = baseQueryApi.injectEndpoints({
@@ -91,7 +91,6 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         url: `${SITE_CRAWLING_INFO}/${payload.site_id}${payload?.link_id ? `?link_id=${payload.link_id}` : ''}`,
         method: 'GET',
       }),
-      providesTags: ['recommendationsData'],
     }),
     getRecommendationsByType: builder.query<
       GetRecommendationsByModelAPIResponseTypes,
@@ -102,7 +101,6 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'GET',
         params: { type: params.type, per_page: params.per_page, page: params.page },
       }),
-      providesTags: ['recommendationsData'],
     }),
     reCrawlSite: builder.query<GetRecommendationsByModelAPIResponseTypes, { site_id: string; siteUrl: string }>({
       query: (payload) => ({
@@ -117,15 +115,6 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: (_result, error) => (error ? [] : ['recommendationsData']),
-    }),
-    updateRecommendations: builder.mutation<{ message: string }, { site_id: string; data: string; type: string; type_id: string }>({
-      query: (payload) => ({
-        url: UPDATE_RECOMMENDATION,
-        method: 'PATCH',
-        body: payload,
-      }),
-      invalidatesTags: (_result, error) => (error ? [] : ['recommendationsData']),
     }),
     getSightInsights: builder.query({
       query: (payload) => ({
@@ -139,6 +128,12 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         url: NOTIFICATION_LISTING,
         method: 'GET',
         params: params,
+      }),
+    }),
+    exportToCSV: builder.query<NotificationsAPIResponseTypes, { site_id: string }>({
+      query: (payload) => ({
+        url: `${EXPORT_RECOMMENDATIONS_TO_CSV}/${payload.site_id}`,
+        method: 'GET',
       }),
     }),
     readNotification: builder.query<NotificationsAPIResponseTypes, { id: string }>({
@@ -162,6 +157,7 @@ export const {
   useAddSiteMutation,
   useLazyGetSitesQuery,
   useDeleteSiteMutation,
+  useLazyExportToCSVQuery,
   useLazyReCrawlSiteQuery,
   useLazySaveKeywordsQuery,
   useLazyGetSiteLinksQuery,
@@ -170,7 +166,6 @@ export const {
   useLazyGetNotificationsQuery,
   useLazyGetSightInsightsQuery,
   useLazyGetSiteCrawledInfoQuery,
-  useUpdateRecommendationsMutation,
   useApproveRecommendationsMutation,
   useLazyGetSitePathSearchResultsQuery,
   useLazyGetRecommendationsByTypeQuery,

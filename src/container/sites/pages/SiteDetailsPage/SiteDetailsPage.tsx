@@ -11,20 +11,18 @@ import Recommendations from '../Recommendations/Recommendations'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
-import { CrawledInfoAPIResponseTypes } from '@/container/sites/sitesTypes'
-
 import './SiteDetailsPage.scss'
 
 const SiteDetailsPage = () => {
   const { state } = useLocation()
-  const { getSiteCrawledInfoData, crawledInfo, crawlInfoLoading } = useHandleSitesLogic()
+  const { getSiteCrawledInfoData } = useHandleSitesLogic()
 
   const tabs = [
     {
       title: 'Automations',
-      content: <Recommendations crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']} crawlInfoLoading={crawlInfoLoading} />,
+      content: <Recommendations />,
     },
-    { title: 'Keywords', content: <AddNewKeywords crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']} /> },
+    { title: 'Keywords', content: <AddNewKeywords /> },
     { title: 'Pages', content: <SitePages /> },
     { title: 'Speed Metrics', content: <SiteInsights /> },
   ]

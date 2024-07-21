@@ -1,25 +1,20 @@
-import React from 'react'
-
-import { classMapper } from '@/utils/helper'
-
-import './OptimizedImage.scss'
+import React from 'react';
+import './OptimizedImage.scss';
 
 interface ImageProps {
-  src?: string
-  alt: string
-  width?: number
-  height?: number
-  layout?: 'fixed' | 'responsive' | 'fill'
-  objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
-  priority?: boolean
-  loading?: 'lazy' | 'eager'
-  quality?: number
-  className?: string
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  layout?: 'fixed' | 'responsive' | 'fill';
+  objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+  priority?: boolean;
+  loading?: 'lazy' | 'eager';
+  className?: string;
 }
 
 const OptimizedImage: React.FC<ImageProps> = ({
-  src = '',
-  className = '',
+  src,
   alt,
   width,
   height,
@@ -27,30 +22,36 @@ const OptimizedImage: React.FC<ImageProps> = ({
   objectFit = 'cover',
   priority = false,
   loading = 'lazy',
-  // quality = 75,
+  className = '',
 }) => {
-  const [imageSrc, setImageSrc] = React.useState(src)
+  const [imageSrc, setImageSrc] = React.useState(src);
+  const [loaded, setLoaded] = React.useState(false);
 
   React.useEffect(() => {
-    setImageSrc(src)
-  }, [src])
+    setImageSrc(src);
+  }, [src]);
+
+  const handleLoad = () => {
+    setLoaded(true);
+  };
 
   const imgStyle: React.CSSProperties = {
     objectFit,
-  }
+    opacity: loaded ? 1 : 0,
+    transition: 'opacity 0.3s ease-in-out',
+  };
 
-  if (layout === 'fill') {
-    imgStyle.position = 'absolute'
-    imgStyle.top = 0
-    imgStyle.left = 0
-    imgStyle.bottom = 0
-    imgStyle.right = 0
-  }
-
-  const scssClasses = classMapper('optimized-image-container', { [className]: className })
+  const wrapperStyle: React.CSSProperties = layout === 'fill' ? {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+  } : {
+    width: width ? `${width}px` : '100%',
+    height: height ? `${height}px` : '100%',
+  };
 
   return (
-    <div style={{ position: layout === 'fill' ? 'relative' : 'static', width, height }} className={scssClasses}>
+    <div className={`optimized-image-container ${className}`} style={wrapperStyle}>
       <img
         src={imageSrc}
         alt={alt}
@@ -58,9 +59,11 @@ const OptimizedImage: React.FC<ImageProps> = ({
         height={layout !== 'fill' ? height : undefined}
         style={imgStyle}
         loading={priority ? 'eager' : loading}
+        onLoad={handleLoad}
       />
+      {!loaded && <div className="image-placeholder" />}
     </div>
-  )
-}
+  );
+};
 
-export default OptimizedImage
+export default OptimizedImage;

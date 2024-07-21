@@ -22,11 +22,11 @@ import languages from '@/constant/languages'
 import { CiLocationOn } from 'react-icons/ci'
 import { KEYWORDS_COLUMN } from '@/container/sites/utils'
 import { rowSelectionHandler } from '@/components/Table/helper'
-import { CrawledInfoAPIResponseTypes } from '@/container/sites/sitesTypes'
 
 import './AddNewKeywords.scss'
+import { useAppSelector } from '@/api/store'
 
-const AddNewKeywords = ({ crawledInfo }: { crawledInfo: CrawledInfoAPIResponseTypes['data'] }) => {
+const AddNewKeywords = () => {
   const [selectedKeys, SetSelectedKeys] = useState<number[]>([])
 
   const { getKeywords, keywordsData, keywordsLoading } = useHandleSitesLogic()
@@ -36,6 +36,8 @@ const AddNewKeywords = ({ crawledInfo }: { crawledInfo: CrawledInfoAPIResponseTy
   const filteredData = keywordsData?.data?.filter((item) => !selectedKeys.includes(item.id))
 
   const isLocal = useWatch({ control, name: 'track_local' })
+
+  const crawledInfo = useAppSelector(state=>state.sites.crawledInfo)
 
   const onPageChange = (pageNumber: number) => {
     getKeywords({

@@ -1,10 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { CrawledInfoAPIResponseTypes, NotificationsAPIResponseTypes } from './sitesTypes'
+import { CrawledInfoAPIResponseTypes, GetRecommendationsByModelAPIResponseTypes, NotificationsAPIResponseTypes } from './sitesTypes'
 
 type initialType = {
   crawledInfo: CrawledInfoAPIResponseTypes['data']
   notificationsData: NotificationsAPIResponseTypes
+  recommendationData: GetRecommendationsByModelAPIResponseTypes
 }
 const initialState: initialType = {
   notificationsData: {
@@ -18,6 +19,7 @@ const initialState: initialType = {
     site_data: null,
     model_data: [],
   },
+  recommendationData: { approved_count: 0, data: [], page: 1, total_count: 0, unapproved_count: 0 },
 }
 
 export const sitesSlicer = createSlice({
@@ -30,9 +32,12 @@ export const sitesSlicer = createSlice({
     setCrawledInfo: (state, action: PayloadAction<CrawledInfoAPIResponseTypes['data']>) => {
       state.crawledInfo = action.payload
     },
+    setRecommendationsData: (state, action: PayloadAction<GetRecommendationsByModelAPIResponseTypes>) => {
+      state.recommendationData = action.payload
+    },
   },
 })
 
-export const { setNotificationsData, setCrawledInfo } = sitesSlicer.actions
+export const { setNotificationsData, setCrawledInfo, setRecommendationsData } = sitesSlicer.actions
 
 export default sitesSlicer.reducer

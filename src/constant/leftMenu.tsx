@@ -2,12 +2,11 @@ import { menuTypes } from '@/container/layout/components/Menu/types'
 import { EXACT_ROUTES, BILLING } from './routes'
 
 import { BiDetail } from 'react-icons/bi'
-import { TbInvoice } from 'react-icons/tb'
+// import { TbInvoice } from 'react-icons/tb'
 import { PiBankLight } from 'react-icons/pi'
 import { RxDashboard } from 'react-icons/rx'
 import { BsClockHistory } from 'react-icons/bs'
 import { MdOutlineAddToQueue } from 'react-icons/md'
-import { HiOutlineDocumentReport } from "react-icons/hi";
 import { IoKeyOutline, IoPricetagOutline } from 'react-icons/io5'
 
 const {
@@ -18,7 +17,7 @@ const {
   PLANS,
   BILLING_DETAIL,
   PAYMENT_HISTORY,
-  UPCOMING_INVOICES,
+  // UPCOMING_INVOICES,
 } = EXACT_ROUTES
 
 export const sidebarMenuData: menuTypes[] = [
@@ -35,11 +34,6 @@ export const sidebarMenuData: menuTypes[] = [
   {
     name: 'API Keys',
     icon: <IoKeyOutline />,
-    path: SITE_ACCESS_KEYS,
-  },
-  {
-    name: 'Reports',
-    icon: <HiOutlineDocumentReport />,
     path: SITE_ACCESS_KEYS,
   },
   {
@@ -62,11 +56,11 @@ export const sidebarMenuData: menuTypes[] = [
         path: BILLING_DETAIL,
         icon: <BiDetail />,
       },
-      {
-        name: 'Upcoming Invoices',
-        path: UPCOMING_INVOICES,
-        icon: <TbInvoice />,
-      },
+      // {
+      //   name: 'Upcoming Invoices',
+      //   path: UPCOMING_INVOICES,
+      //   icon: <TbInvoice />,
+      // },
     ],
   },
 ]

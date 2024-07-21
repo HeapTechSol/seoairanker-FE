@@ -169,22 +169,32 @@ export type HeadingOptimizationDataTypes = {
   suggestion: string
 }
 
+export type AllModalDataTypes =
+  | ImagesAltDataTypes[]
+  | OgTagsDataTypes[]
+  | HeadingOptimizationDataTypes[]
+  | MetaTitleDataTypes[]
+  | MissingTitlesDataTypes[]
+  | MetaDescriptionDataTypes[]
+
 export type GetRecommendationsByModelAPIResponseTypes = {
   approved_count: number
-  data:
-    | ImagesAltDataTypes[]
-    | OgTagsDataTypes[]
-    | HeadingOptimizationDataTypes[]
-    | MetaTitleDataTypes[]
-    | MissingTitlesDataTypes[]
-    | MetaDescriptionDataTypes[]
+  data: AllModalDataTypes
+  page: number
   total_count: number
   unapproved_count: number
 }
 
 export type ApproveRecommendationsPayloadTypes = {
   filter_conditions: { site_id: string; id?: string; link_id?: string }
-  update_data: { approved: boolean }
+  update_data: {
+    approved: boolean
+    alt_text?: string
+    suggested_title?: string
+    suggested_description?: string
+    suggested_og_tag?: string
+    suggested_heading?: string
+  }
   bulk: boolean
   model?: string
 }

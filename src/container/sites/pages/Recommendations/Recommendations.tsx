@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
-import Loader from '@/components/Loader'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import SearchInput from '@/components/SearchInput/SearchInput'
@@ -18,18 +17,21 @@ import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { getTime } from '@/utils/helper'
-import { CrawledInfoAPIResponseTypes } from '@/container/sites/sitesTypes'
+import { useAppSelector } from '@/api/store'
+import { CrawledInfoAPIResponseTypes, ModalTypes } from '@/container/sites/sitesTypes'
 
 import './Recommendations.scss'
 
-const Recommendations = ({ crawledInfo, crawlInfoLoading }: { crawledInfo: CrawledInfoAPIResponseTypes['data']; crawlInfoLoading: boolean }) => {
+const Recommendations = () => {
   const { state } = useLocation()
-  const [key, setKey] = useState<string>('og_tags')
+  const [key, setKey] = useState<ModalTypes>('og_tags')
   const [queryText, setQueryText] = useState<string>('')
   const [link_id, setLink_id] = useState<string>('')
 
   const { reCrawlLoading, handleReCrawlSite } = useHandleRecommendations()
   const { getPathSearchResults, getSiteCrawledInfoData } = useHandleSitesLogic()
+
+  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
   const recommendationTitles = {
     images: 'No Image Alt/Title Text',
@@ -103,11 +105,10 @@ const Recommendations = ({ crawledInfo, crawlInfoLoading }: { crawledInfo: Crawl
             {crawledInfo?.site_data?.screenshot_url && (
               <OptimizedImage
                 src={crawledInfo?.site_data?.screenshot_url}
-                alt="site screenshot"
-                width={300}
-                className="site-screenshot"
-                objectFit="cover"
-                layout="fill"
+                alt={'site screenshot'}
+                width={500}
+                layout="responsive"
+                objectFit="contain"
               />
             )}
           </Flex>
@@ -136,12 +137,12 @@ const Recommendations = ({ crawledInfo, crawlInfoLoading }: { crawledInfo: Crawl
             onClick={(e) => setKey(e)}
             selectedKey={key}
             site_id={state?.siteId}
+            link_id={link_id}
             crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}
           />
-          <RecommendationList selectedKey={key} link_id={link_id}/>
+          <RecommendationList selectedKey={key} link_id={link_id} />
         </Flex>
       </Flex>
-      <Loader loading={crawlInfoLoading} />
     </Container>
   )
 }

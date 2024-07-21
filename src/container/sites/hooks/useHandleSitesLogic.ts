@@ -17,6 +17,7 @@ import {
   useLazyGetNotificationsQuery,
   useLazyGetSiteCrawledInfoQuery,
   useLazyGetSitePathSearchResultsQuery,
+  useLazyExportToCSVQuery,
 } from '../api/sitesAPI'
 
 import { useAppDispatch, useAppSelector } from '@/api/store'
@@ -48,12 +49,13 @@ const useHandleSitesLogic = () => {
   const [readNotification] = useLazyReadNotificationQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
   const [getSites, { isFetching: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
+  const [getSiteCrawledInfo, { isFetching: crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
+  const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
   const [getNotifications, { isFetching: getNotificationLoading }] = useLazyGetNotificationsQuery()
   const [getSiteLinks, { isFetching: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
   const [getSiteKeywords, { data: keywordsData, isFetching: keywordsLoading }] = useLazyGetSiteKeywordsQuery()
-  const [getSitePathSearchResults, {isFetching:sitePathSearchLoading}] = useLazyGetSitePathSearchResultsQuery()
+  const [getSitePathSearchResults, { isFetching: sitePathSearchLoading }] = useLazyGetSitePathSearchResultsQuery()
   const [getSightInsights, { isFetching: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
-  const [getSiteCrawledInfo, { isFetching: crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
 
   const stepsCount = steps(control)?.length
 
@@ -157,6 +159,15 @@ const useHandleSitesLogic = () => {
     }
   }
 
+  const exportDataToCSV = async (site_id: { site_id: string }) => {
+    try {
+      const data = await exportToCSV(site_id).unwrap()
+      return data
+    } catch (error) {
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
+    }
+  }
+
   const getSiteCrawledInfoData = async (payload: { site_id: string; link_id?: string }) => {
     try {
       const data = await getSiteCrawledInfo(payload, false).unwrap()
@@ -183,16 +194,19 @@ const useHandleSitesLogic = () => {
 
   return {
     control,
+    csvData,
     isLoading,
     getKeywords,
-    keywordsData,
-    keywordsLoading,
     getInsights,
     currentStep,
     getSitesList,
+    keywordsData,
     submitHandler,
+    exportDataToCSV,
+    keywordsLoading,
     insightsLoading,
     crawlInfoLoading,
+    exportCSVLoading,
     handleDeleteSite,
     sitesListLoading,
     siteLinksLoading,
@@ -200,17 +214,17 @@ const useHandleSitesLogic = () => {
     notificationsData,
     handleGetSiteLinks,
     getNotificationList,
+    siteLinks: siteLinks,
     getPathSearchResults,
     sitePathSearchLoading,
     handleReadNotification,
     getNotificationLoading,
     getSiteCrawledInfoData,
+    crawledInfo: crawledInfo,
     handleForwardButtonPress,
     handlePreviousButtonPress,
-    insightsData: insightsData?.result,
     sitesList: sitesList?.data || [],
-    crawledInfo: crawledInfo,
-    siteLinks: siteLinks,
+    insightsData: insightsData?.result,
   }
 }
 

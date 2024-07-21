@@ -9,25 +9,21 @@ import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
+import { ColumnType } from '@/components/Table/types'
 import { MissingTitlesDataTypes } from '@/container/sites/sitesTypes'
 
 import './ExternalTitlesList.scss'
-import { ColumnType } from '@/components/Table/types'
 
-const ExternalTitleList = ({ link_id }: { link_id: string }) => {
+const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>()
 
-  const {
-    recommendationData,
-    getRecommendationByType,
-    recommendationDataLoading,
-    updateRecommendationsLoading,
-    handleUpdateRecommendations,
-    approveRecommendationsLoading,
-  } = useHandleRecommendations()
+  const { getSiteCrawledInfoData } = useHandleSitesLogic()
+  const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, approveRecommendationsLoading } =
+    useHandleRecommendations()
 
   const recommendation = recommendationData?.data.find((item) => item.link_id)
 
@@ -39,6 +35,8 @@ const ExternalTitleList = ({ link_id }: { link_id: string }) => {
         update_data: { approved: true },
         bulk: true,
       })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'external_links', link_id: externalLinkId })
     }
   }
 
@@ -52,6 +50,8 @@ const ExternalTitleList = ({ link_id }: { link_id: string }) => {
         update_data: { approved: status },
         bulk: false,
       })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'external_links', link_id: externalLinkId })
     }
   }
 
@@ -64,10 +64,10 @@ const ExternalTitleList = ({ link_id }: { link_id: string }) => {
           <Button
             size="sm"
             variant="outlined"
-            onClick={(e) => onApprove(e, record.id, record.link_id, record.approved)}
+            onClick={(e) => onApprove(e, record.id, record.link_id, !record.approved)}
             type="borderRadius"
             color={record.approved ? 'error' : 'success'}
-            loading={editedId === record.id && (approveRecommendationsLoading || updateRecommendationsLoading)}
+            loading={editedId === record.id && approveRecommendationsLoading}
           >
             {record.approved ? 'Reject' : 'Approve'}
           </Button>
@@ -78,10 +78,16 @@ const ExternalTitleList = ({ link_id }: { link_id: string }) => {
 
   const isApproved = recommendationData?.total_count == recommendationData?.approved_count
 
+  const isLoadMore = (recommendationData?.total_count || 0) > (recommendationData?.data?.length || 0)
+
+  const handleLoadMore = () => {
+    getRecommendationByType({ page: (recommendationData?.page || 0) + 1, per_page: 10, type: 'external_links', link_id: externalLinkId })
+  }
+
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 10, type: 'external_links', link_id })
+    getRecommendationByType({ page: 1, per_page: 10, type: 'external_links', link_id: externalLinkId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [link_id])
+  }, [externalLinkId])
 
   return (
     <Container borderRadius boxShadow padding={40} className="titles-list-container container-bg" width={70}>
@@ -106,7 +112,14 @@ const ExternalTitleList = ({ link_id }: { link_id: string }) => {
               </Button>
             </Flex>
           </Flex>
-          <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
+          <Flex vertical align="center" gap={24} className="preview-details-list">
+            <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
+            {isLoadMore && (
+              <Button color="info" variant="text" onClick={handleLoadMore}>
+                Load More
+              </Button>
+            )}
+          </Flex>
         </Flex>
       </ShimmerPlaceholder>
     </Container>

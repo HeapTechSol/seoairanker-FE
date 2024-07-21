@@ -8,25 +8,20 @@ import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { EditIcon } from '@/assets/icons/svgs'
 import { MetaTitleDataTypes } from '@/container/sites/sitesTypes'
 
-const TitlePreview = ({ link_id }: { link_id: string }) => {
+const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>()
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
-  const {
-    recommendationData,
-    getRecommendationByType,
-    recommendationDataLoading,
-    updateRecommendationsLoading,
-    updateRecommendation,
-    handleUpdateRecommendations,
-    approveRecommendationsLoading,
-  } = useHandleRecommendations()
+  const { getSiteCrawledInfoData } = useHandleSitesLogic()
+  const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, approveRecommendationsLoading } =
+    useHandleRecommendations()
 
   const isApproved = recommendationData?.total_count === recommendationData?.approved_count
 
@@ -40,6 +35,8 @@ const TitlePreview = ({ link_id }: { link_id: string }) => {
         update_data: { approved: true },
         bulk: true,
       })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_titles', link_id: externalLinkId })
     }
   }
 
@@ -53,6 +50,8 @@ const TitlePreview = ({ link_id }: { link_id: string }) => {
         update_data: { approved: status },
         bulk: false,
       })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_titles', link_id: externalLinkId })
     }
   }
 
@@ -70,19 +69,32 @@ const TitlePreview = ({ link_id }: { link_id: string }) => {
     }
   }
 
-  const handleBlur = async (e: FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => {
+  const handleBlur = async (e: FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId: string) => {
     const text = e.target.innerText
     if (state?.siteId && currentText != text) {
-      await updateRecommendation({ site_id: state?.siteId, data: text, type: 'title', type_id })
+      await handleUpdateRecommendations({
+        model: 'missing_meta_titles',
+        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
+        update_data: { approved: true, suggested_title: text },
+        bulk: false,
+      })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_titles', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
   }
 
+  const isLoadMore = (recommendationData?.total_count || 0) > (recommendationData?.data?.length || 0)
+
+  const handleLoadMore = () => {
+    getRecommendationByType({ page: (recommendationData?.page || 0) + 1, per_page: 10, type: 'missing_meta_titles', link_id: externalLinkId })
+  }
+
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_titles', link_id })
+    getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_titles', link_id: externalLinkId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [link_id])
+  }, [externalLinkId])
 
   const renderAccordionDescription = (item: MetaTitleDataTypes, index: number) => (
     <Flex vertical gap={4}>
@@ -104,7 +116,7 @@ const TitlePreview = ({ link_id }: { link_id: string }) => {
         color="warning"
         text={item?.suggested_title}
         contentEditable={item.id === editedId}
-        onBlur={(e) => handleBlur(e, item.id, index, item?.suggested_title)}
+        onBlur={(e) => handleBlur(e, item.id, index, item?.suggested_title, item.link_path)}
         ref={(el) => (editableRefs.current[index] = el)}
       />
     </Flex>
@@ -139,27 +151,34 @@ const TitlePreview = ({ link_id }: { link_id: string }) => {
               Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
             </Button>
           </Flex>
-          <Flex vertical gap={10}>
-            {optimizedTitlesList?.map((item) => (
-              <Accordion
-                key={item.id}
-                title={item.url}
-                description={item.content}
-                color="primary"
-                ActionButton={
-                  <Button
-                    size="sm"
-                    variant="outlined"
-                    onClick={(e) => onApprove(e, item.id, item.link_id, item.approve)}
-                    type="borderRadius"
-                    color={item.approve ? 'error' : 'success'}
-                    loading={editedId === item.id && (approveRecommendationsLoading || updateRecommendationsLoading)}
-                  >
-                    {item.approve ? 'Reject' : 'Approve'}
-                  </Button>
-                }
-              />
-            ))}
+          <Flex justify="center" align="center" wrap gap={8} className="preview-details-list">
+            <Flex vertical gap={10}>
+              {optimizedTitlesList?.map((item) => (
+                <Accordion
+                  key={item.id}
+                  title={item.url}
+                  description={item.content}
+                  color="primary"
+                  ActionButton={
+                    <Button
+                      size="sm"
+                      variant="outlined"
+                      onClick={(e) => onApprove(e, item.id, item.link_id, !item.approve)}
+                      type="borderRadius"
+                      color={item.approve ? 'error' : 'success'}
+                      loading={editedId === item.id && approveRecommendationsLoading}
+                    >
+                      {item.approve ? 'Reject' : 'Approve'}
+                    </Button>
+                  }
+                />
+              ))}
+            </Flex>
+            {isLoadMore && (
+              <Button color="info" variant="text" onClick={handleLoadMore}>
+                Load More
+              </Button>
+            )}
           </Flex>
         </Flex>
       </ShimmerPlaceholder>

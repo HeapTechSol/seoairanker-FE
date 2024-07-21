@@ -8,25 +8,20 @@ import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { EditIcon } from '@/assets/icons/svgs'
 import { OgTagsDataTypes } from '@/container/sites/sitesTypes'
 
-const SocialPreview = ({ link_id }: { link_id: string }) => {
+const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>()
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
-  const {
-    recommendationData,
-    getRecommendationByType,
-    recommendationDataLoading,
-    updateRecommendationsLoading,
-    updateRecommendation,
-    handleUpdateRecommendations,
-    approveRecommendationsLoading,
-  } = useHandleRecommendations()
+  const { getSiteCrawledInfoData } = useHandleSitesLogic()
+  const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, approveRecommendationsLoading } =
+    useHandleRecommendations()
 
   const recommendation = recommendationData?.data.find((item) => item.link_id)
 
@@ -38,6 +33,8 @@ const SocialPreview = ({ link_id }: { link_id: string }) => {
         update_data: { approved: true },
         bulk: true,
       })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
     }
   }
 
@@ -51,6 +48,8 @@ const SocialPreview = ({ link_id }: { link_id: string }) => {
         update_data: { approved: status },
         bulk: false,
       })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
     }
   }
 
@@ -68,10 +67,17 @@ const SocialPreview = ({ link_id }: { link_id: string }) => {
     }
   }
 
-  const handleBlur = async (e: FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => {
+  const handleBlur = async (e: FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId: string) => {
     const text = e.target.innerText
     if (state?.siteId && currentText != text) {
-      await updateRecommendation({ site_id: state?.siteId, data: text, type: 'og_tag', type_id })
+      await handleUpdateRecommendations({
+        model: 'og_tags',
+        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
+        update_data: { approved: true, suggested_og_tag: text },
+        bulk: false,
+      })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
@@ -91,7 +97,7 @@ const SocialPreview = ({ link_id }: { link_id: string }) => {
         color="warning"
         text={item?.suggested_og_tag}
         contentEditable={item.id === editedId}
-        onBlur={(e) => handleBlur(e, item.id, index, item?.suggested_og_tag)}
+        onBlur={(e) => handleBlur(e, item.id, index, item?.suggested_og_tag, item.link_id)}
         ref={(el) => (editableRefs.current[index] = el)}
       />
     </Flex>
@@ -106,11 +112,16 @@ const SocialPreview = ({ link_id }: { link_id: string }) => {
   }))
 
   const isApproved = recommendationData?.total_count == recommendationData?.approved_count
+  const isLoadMore = (recommendationData?.total_count || 0) > (recommendationData?.data?.length || 0)
+
+  const handleLoadMore = () => {
+    getRecommendationByType({ page: (recommendationData?.page || 0) + 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
+  }
 
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id })
+    getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [link_id])
+  }, [externalLinkId])
 
   return (
     <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg" padding={'40px 20px'}>
@@ -133,27 +144,34 @@ const SocialPreview = ({ link_id }: { link_id: string }) => {
               Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
             </Button>
           </Flex>
-          <Flex vertical gap={10}>
-            {optimizedTitlesList?.map((item) => (
-              <Accordion
-                title={item.url}
-                description={item.content}
-                color="primary"
-                key={item.id}
-                ActionButton={
-                  <Button
-                    size="sm"
-                    variant="outlined"
-                    onClick={(e) => onApprove(e, item.id, item.linkId, !item.approve)}
-                    type="borderRadius"
-                    color={item.approve ? 'error' : 'success'}
-                    loading={editedId === item.id && (approveRecommendationsLoading || updateRecommendationsLoading)}
-                  >
-                    {item.approve ? 'Reject' : 'Approve'}
-                  </Button>
-                }
-              />
-            ))}
+          <Flex justify="center" align="center" wrap gap={8} className="preview-details-list">
+            <Flex vertical gap={10}>
+              {optimizedTitlesList?.map((item) => (
+                <Accordion
+                  title={item.url}
+                  description={item.content}
+                  color="primary"
+                  key={item.id}
+                  ActionButton={
+                    <Button
+                      size="sm"
+                      variant="outlined"
+                      onClick={(e) => onApprove(e, item.id, item.linkId, !item.approve)}
+                      type="borderRadius"
+                      color={item.approve ? 'error' : 'success'}
+                      loading={editedId === item.id && approveRecommendationsLoading}
+                    >
+                      {item.approve ? 'Reject' : 'Approve'}
+                    </Button>
+                  }
+                />
+              ))}
+            </Flex>
+            {isLoadMore && (
+              <Button color="info" variant="text" onClick={handleLoadMore}>
+                Load More
+              </Button>
+            )}
           </Flex>
         </Flex>
       </ShimmerPlaceholder>

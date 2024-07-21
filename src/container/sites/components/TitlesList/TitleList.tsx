@@ -9,28 +9,24 @@ import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { EditIcon } from '@/assets/icons/svgs'
+import { ColumnType } from '@/components/Table/types'
 import { MissingTitlesDataTypes } from '@/container/sites/sitesTypes'
 
 import './TitlesList.scss'
-import { ColumnType } from '@/components/Table/types'
 
-const TitleList = ({ link_id }: { link_id: string }) => {
+const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>()
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
-  const {
-    recommendationData,
-    getRecommendationByType,
-    recommendationDataLoading,
-    updateRecommendationsLoading,
-    updateRecommendation,
-    handleUpdateRecommendations,
-    approveRecommendationsLoading,
-  } = useHandleRecommendations()
+  const { getSiteCrawledInfoData } = useHandleSitesLogic()
+
+  const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, approveRecommendationsLoading } =
+    useHandleRecommendations()
 
   const recommendation = recommendationData?.data.find((item) => item.link_id)
 
@@ -42,6 +38,8 @@ const TitleList = ({ link_id }: { link_id: string }) => {
         update_data: { approved: true },
         bulk: true,
       })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles', link_id: externalLinkId })
     }
   }
 
@@ -55,6 +53,8 @@ const TitleList = ({ link_id }: { link_id: string }) => {
         update_data: { approved: status },
         bulk: false,
       })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles', link_id: externalLinkId })
     }
   }
 
@@ -72,11 +72,18 @@ const TitleList = ({ link_id }: { link_id: string }) => {
     }
   }
 
-  const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string) => {
+  const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId: string) => {
     setEditedId(type_id)
     const text = e.target.innerText
     if (state?.siteId && currentText != text) {
-      await updateRecommendation({ site_id: state?.siteId, data: text, type: 'missing_titles', type_id })
+      await handleUpdateRecommendations({
+        model: 'anchor_titles',
+        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
+        update_data: { approved: true, suggested_title: text },
+        bulk: false,
+      })
+      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
@@ -94,7 +101,7 @@ const TitleList = ({ link_id }: { link_id: string }) => {
               color="warning"
               text={<TruncateText text={text} line={1} width={400}></TruncateText>}
               contentEditable={record.id === editedId}
-              onBlur={(e) => handleBlur(e, record.id, index, record.suggested_title)}
+              onBlur={(e) => handleBlur(e, record.id, index, record.suggested_title, record.link_id)}
               ref={(el) => (editableRefs.current[index] = el)}
             />
             <span className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, record.id)}>
@@ -111,10 +118,10 @@ const TitleList = ({ link_id }: { link_id: string }) => {
           <Button
             size="sm"
             variant="outlined"
-            onClick={(e) => onApprove(e, record.id, record.link_id, record.approved)}
+            onClick={(e) => onApprove(e, record.id, record.link_id, !record.approved)}
             type="borderRadius"
             color={record.approved ? 'error' : 'success'}
-            loading={editedId === record.id && (approveRecommendationsLoading || updateRecommendationsLoading)}
+            loading={editedId === record.id && approveRecommendationsLoading}
           >
             {record.approved ? 'Reject' : 'Approve'}
           </Button>
@@ -123,12 +130,18 @@ const TitleList = ({ link_id }: { link_id: string }) => {
     },
   ]
 
+  const isLoadMore = (recommendationData?.total_count || 0) > (recommendationData?.data?.length || 0)
+
+  const handleLoadMore = () => {
+    getRecommendationByType({ page: (recommendationData?.page || 0) + 1, per_page: 10, type: 'anchor_titles', link_id: externalLinkId })
+  }
+
   const isApproved = recommendationData?.total_count == recommendationData?.approved_count
 
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles', link_id })
+    getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles', link_id: externalLinkId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [link_id])
+  }, [externalLinkId])
 
   return (
     <Container borderRadius boxShadow padding={40} className="titles-list-container container-bg" width={70}>
@@ -153,7 +166,14 @@ const TitleList = ({ link_id }: { link_id: string }) => {
               </Button>
             </Flex>
           </Flex>
-          <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
+          <Flex vertical align="center" gap={24} className="preview-details-list">
+            <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
+            {isLoadMore && (
+              <Button color="info" variant="text" onClick={handleLoadMore}>
+                Load More
+              </Button>
+            )}
+          </Flex>
         </Flex>
       </ShimmerPlaceholder>
     </Container>
