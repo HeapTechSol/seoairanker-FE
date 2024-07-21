@@ -45,7 +45,7 @@ const RecommendationOverview = ({
     })
   }
 
-  const isAllApproved = crawledInfo?.site_data.total_approved == crawledInfo?.site_data?.total_count
+  const isAllApproved = crawledInfo?.site_data?.total_approved == crawledInfo?.site_data?.total_count
 
   return (
     <Container width={30} padding={'40px 20px'} borderRadius boxShadow className="recommendations-container container-bg">

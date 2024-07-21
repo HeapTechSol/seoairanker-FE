@@ -1,19 +1,19 @@
-import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
-import Loader from '@/components/Loader'
 import Accordion from '@/components/Accordion'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
+import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { EditIcon } from '@/assets/icons/svgs'
 import { MetaDescriptionDataTypes } from '@/container/sites/sitesTypes'
 
-const DescriptionPreview = () => {
+const DescriptionPreview = ({ link_id }: { link_id: string }) => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>()
   const editableRefs = useRef<(HTMLElement | null)[]>([])
@@ -113,53 +113,54 @@ const DescriptionPreview = () => {
   }
 
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions' })
+    getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [link_id])
 
   return (
     <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg" padding={'40px 20px'}>
-      <Flex vertical gap={16}>
-        <Flex align="start">
-          <Flex vertical gap={16}>
-            <Typography type="h3" text="Optimize Description" />
-            <Typography text="Currently Google will show up to 60 characters in the title of your search results, so use them! We've added suggested descriptions below which you may want to edit and approve. In general, we recommend including what the page is about, your brand name, as well as some adjectives or modifiers." />
+      <ShimmerPlaceholder loading={recommendationDataLoading}>
+        <Flex vertical gap={16}>
+          <Flex align="start">
+            <Flex vertical gap={16}>
+              <Typography type="h3" text="Optimize Description" />
+              <Typography text="Currently Google will show up to 60 characters in the title of your search results, so use them! We've added suggested descriptions below which you may want to edit and approve. In general, we recommend including what the page is about, your brand name, as well as some adjectives or modifiers." />
+            </Flex>
+            <Button
+              size="sm"
+              variant="outlined"
+              type="borderRadius"
+              color="success"
+              disabled={isApproved}
+              loading={approveRecommendationsLoading}
+              onClick={handleAllRecommendations}
+            >
+              Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
+            </Button>
           </Flex>
-          <Button
-            size="sm"
-            variant="outlined"
-            type="borderRadius"
-            color="success"
-            disabled={isApproved}
-            loading={approveRecommendationsLoading}
-            onClick={handleAllRecommendations}
-          >
-            Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
-          </Button>
+          <Flex vertical gap={10}>
+            {optimizedTitlesList?.map((item) => (
+              <Accordion
+                title={item.url}
+                description={item.content}
+                color="primary"
+                ActionButton={
+                  <Button
+                    size="sm"
+                    variant="outlined"
+                    onClick={(e) => onApprove(e, item.id, item.linkId, item.approve)}
+                    type="borderRadius"
+                    color={item.approve ? 'error' : 'success'}
+                    loading={editedId === item.id && (approveRecommendationsLoading || updateRecommendationsLoading)}
+                  >
+                    {item.approve ? 'Reject' : 'Approve'}
+                  </Button>
+                }
+              />
+            ))}
+          </Flex>
         </Flex>
-        <Flex vertical gap={10}>
-          {optimizedTitlesList?.map((item) => (
-            <Accordion
-              title={item.url}
-              description={item.content}
-              color="primary"
-              ActionButton={
-                <Button
-                  size="sm"
-                  variant="outlined"
-                  onClick={(e) => onApprove(e, item.id, item.linkId, item.approve)}
-                  type="borderRadius"
-                  color={item.approve ? 'error' : 'success'}
-                  loading={editedId === item.id && (approveRecommendationsLoading || updateRecommendationsLoading)}
-                >
-                  {item.approve ? 'Reject' : 'Approve'}
-                </Button>
-              }
-            />
-          ))}
-        </Flex>
-      </Flex>
-      <Loader loading={recommendationDataLoading} />
+      </ShimmerPlaceholder>
     </Container>
   )
 }

@@ -15,6 +15,7 @@ import {
   AddKeyWordsPayloadTypes,
   NotificationsAPIResponseTypes,
   NotificationAPIPayloadTypes,
+  GetSitePathSearchResultsResponseTypes,
 } from '../sitesTypes'
 
 const {
@@ -30,6 +31,7 @@ const {
   UPDATE_RECOMMENDATION,
   SAVE_SELECTED_KEYWORDS,
   APPROVE_RECOMMENDATIONS,
+  LINKS_PATH_SEARCH_RESULTS,
   GET_RECOMMENDATIONS_BY_TYPE,
 } = APIEndpoint
 
@@ -75,16 +77,28 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         params: params,
       }),
     }),
-    getSiteCrawledInfo: builder.query<CrawledInfoAPIResponseTypes, string>({
-      query: (site_id) => ({
-        url: `${SITE_CRAWLING_INFO}/${site_id}`,
+    getSitePathSearchResults: builder.query<GetSitePathSearchResultsResponseTypes, { path: string; site_id: string }>({
+      query: (params) => ({
+        url: `${LINKS_PATH_SEARCH_RESULTS}/${params.site_id}`,
+        method: 'GET',
+        params: {
+          path: params.path,
+        },
+      }),
+    }),
+    getSiteCrawledInfo: builder.query<CrawledInfoAPIResponseTypes, { site_id: string; link_id?: string }>({
+      query: (payload) => ({
+        url: `${SITE_CRAWLING_INFO}/${payload.site_id}${payload?.link_id ? `?link_id=${payload.link_id}` : ''}`,
         method: 'GET',
       }),
       providesTags: ['recommendationsData'],
     }),
-    getRecommendationsByType: builder.query<GetRecommendationsByModelAPIResponseTypes, GetRecommendationsByTypesPayloadTypes & { site_id: string }>({
+    getRecommendationsByType: builder.query<
+      GetRecommendationsByModelAPIResponseTypes,
+      GetRecommendationsByTypesPayloadTypes & { site_id: string; link_id?: string }
+    >({
       query: (params) => ({
-        url: `${GET_RECOMMENDATIONS_BY_TYPE}/${params.site_id}`,
+        url: `${GET_RECOMMENDATIONS_BY_TYPE}/${params.site_id}${params?.link_id ? `?link_id=${params.link_id}` : ''}`,
         method: 'GET',
         params: { type: params.type, per_page: params.per_page, page: params.page },
       }),
@@ -158,5 +172,6 @@ export const {
   useLazyGetSiteCrawledInfoQuery,
   useUpdateRecommendationsMutation,
   useApproveRecommendationsMutation,
+  useLazyGetSitePathSearchResultsQuery,
   useLazyGetRecommendationsByTypeQuery,
 } = sitesAPI

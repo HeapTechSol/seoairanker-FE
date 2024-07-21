@@ -1,6 +1,4 @@
-'use client'
-
-import { useRef } from 'react'
+import { useRef, KeyboardEvent, InputHTMLAttributes } from 'react'
 
 import Typography from '../Typography/Typography'
 
@@ -9,6 +7,8 @@ import { InputTypes } from './types'
 import { classMapper } from '@/utils/helper'
 
 import './Input.scss'
+
+type CustomInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, keyof InputTypes> & InputTypes
 
 const Input = ({
   placeholder,
@@ -28,9 +28,12 @@ const Input = ({
   StartIcon,
   EndIcon,
   ClearSearchIcon,
-  autoComplete="new-password",
+  autoComplete = 'new-password',
   onChange,
-}: InputTypes) => {
+  onEnterPress,
+  onClear,
+  ...restProps
+}: CustomInputProps) => {
   const inputRef = useRef<HTMLFieldSetElement>(null)
 
   const classes = classMapper(
@@ -44,19 +47,19 @@ const Input = ({
     { 'hide-number-increment': hideIncrementNumber },
     { radius: borderRadius && variant !== 'underlined' },
     { startIcon: !!StartIcon },
-    { endIcon: !!EndIcon },
+    { endIcon: !!EndIcon || !!ClearSearchIcon },
     { required: required && title }
   )
-
-  // const isStartSvgIcon = typeof StartIcon === 'object' && StartIcon?.type === 'svg'
-  // const StartIconPassed = isStartSvgIcon ? StartIcon : <img src={StartIcon as string} alt="button logo" />
-
-  // const isEndSvgIcon = typeof EndIcon === 'object' && EndIcon?.type === 'svg'
-  // const EndIconPassed = isEndSvgIcon ? EndIcon : <img src={EndIcon as string} alt="button logo" />
 
   const topTitle = titlePosition === 'top' && <Typography text={<label htmlFor={title}>{title}</label>} />
 
   const errorMessage = error && !disabled && <p className="error-text">{error}</p>
+
+  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && onEnterPress) {
+      onEnterPress(event.currentTarget.value)
+    }
+  }
 
   return (
     <div className="input-field-container">
@@ -79,9 +82,15 @@ const Input = ({
           }}
           onFocus={() => inputRef.current?.classList.add('focused')}
           onChange={onChange}
+          onKeyPress={handleKeyPress}
+          {...restProps}
         />
         {EndIcon && EndIcon}
-        {ClearSearchIcon && ClearSearchIcon}
+        {ClearSearchIcon && value && (
+          <div onClick={() => onClear?.()} style={{ cursor: 'pointer' }}>
+            {ClearSearchIcon}
+          </div>
+        )}
       </fieldset>
       {errorMessage}
     </div>

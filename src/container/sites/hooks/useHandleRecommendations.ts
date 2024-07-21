@@ -36,7 +36,7 @@ const useHandleRecommendations = () => {
     }
   }
 
-  const getRecommendationByType = async (payload: GetRecommendationsByTypesPayloadTypes) => {
+  const getRecommendationByType = async (payload: GetRecommendationsByTypesPayloadTypes & {link_id:string}) => {
     try {
       await getRecommendationsByType({ ...payload, site_id: state.siteId })
     } catch (error) {

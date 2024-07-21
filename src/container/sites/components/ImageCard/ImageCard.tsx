@@ -2,12 +2,13 @@ import React, { forwardRef } from 'react'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
+import TruncateText from '@/components/TruncateText'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
+
 import { EditIcon } from '@/assets/icons/svgs'
 
 import './ImageCard.scss'
-import TruncateText from '@/components/TruncateText'
 
 type ImageCardProps = {
   id: string

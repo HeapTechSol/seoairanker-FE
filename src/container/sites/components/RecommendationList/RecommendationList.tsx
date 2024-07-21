@@ -8,25 +8,25 @@ import HeadingRecommendationsPreview from '../HeadingRecommendationsPreview/Head
 
 import './RecommendationList.scss'
 
-const RecommendationList = ({ selectedKey }: { selectedKey: string }) => {
+const RecommendationList = ({ selectedKey, link_id }: { selectedKey: string; link_id: string }) => {
   const renderList = () => {
     switch (selectedKey) {
       case 'images':
-        return <ImagesList />
+        return <ImagesList link_id={link_id} />
       case 'missing_meta_titles':
-        return <TitlePreview />
+        return <TitlePreview link_id={link_id} />
       case 'anchor_titles':
-        return <TitleList />
+        return <TitleList link_id={link_id} />
       case 'external_links':
-        return <ExternalTitleList />
+        return <ExternalTitleList link_id={link_id} />
       case 'missing_meta_descriptions':
-        return <DescriptionPreview />
+        return <DescriptionPreview link_id={link_id} />
       case 'og_tags':
-        return <SocialPreview />
+        return <SocialPreview link_id={link_id} />
       case 'heading_suggestions':
-        return <HeadingRecommendationsPreview />
+        return <HeadingRecommendationsPreview link_id={link_id} />
       default:
-        return <TitlePreview />
+        return <TitlePreview link_id={link_id} />
     }
   }
 

@@ -8,21 +8,22 @@ import { steps, ADD_SITE_WIZARD_DEFAULT_VALUES, ADD_SITE_WIZARD_VALIDATIONS } fr
 
 import {
   useAddSiteMutation,
+  useLazyGetSitesQuery,
   useDeleteSiteMutation,
   useLazyGetSiteLinksQuery,
   useLazyGetSiteKeywordsQuery,
   useLazyGetSightInsightsQuery,
+  useLazyReadNotificationQuery,
   useLazyGetNotificationsQuery,
   useLazyGetSiteCrawledInfoQuery,
-  useLazyGetSitesQuery,
-  useLazyReadNotificationQuery,
+  useLazyGetSitePathSearchResultsQuery,
 } from '../api/sitesAPI'
 
 import { useAppDispatch, useAppSelector } from '@/api/store'
 import { EXACT_ROUTES } from '@/constant/routes'
 import { ErrorTypes } from '@/utils/commonTypes'
 import { AddSitePayloadTypes, GetKeywordsPayload, NotificationAPIPayloadTypes, SiteLinkPayloadTypes } from '../sitesTypes'
-import { setNotificationsData } from '../sitesSlice'
+import { setCrawledInfo, setNotificationsData } from '../sitesSlice'
 import { uniqBy } from '@/utils/helper'
 
 const { SITES_DASHBOARD } = EXACT_ROUTES
@@ -38,6 +39,7 @@ const useHandleSitesLogic = () => {
   })
 
   const userQuota = useAppSelector((state) => state.billing.userQuota)
+  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
   const notificationsData = useAppSelector((state) => state.sites.notificationsData)
 
   const isSiteQuotaExceeded = (userQuota?.sites_quota_left as number) >= (userQuota?.sites_quota as number)
@@ -46,11 +48,12 @@ const useHandleSitesLogic = () => {
   const [readNotification] = useLazyReadNotificationQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
   const [getSites, { isFetching: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
+  const [getNotifications, { isFetching: getNotificationLoading }] = useLazyGetNotificationsQuery()
   const [getSiteLinks, { isFetching: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
   const [getSiteKeywords, { data: keywordsData, isFetching: keywordsLoading }] = useLazyGetSiteKeywordsQuery()
+  const [getSitePathSearchResults, {isFetching:sitePathSearchLoading}] = useLazyGetSitePathSearchResultsQuery()
   const [getSightInsights, { isFetching: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
-  const [getSiteCrawledInfo, { data: crawledInfo, isFetching: crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
-  const [getNotifications, { isFetching: getNotificationLoading }] = useLazyGetNotificationsQuery()
+  const [getSiteCrawledInfo, { isFetching: crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
 
   const stepsCount = steps(control)?.length
 
@@ -128,6 +131,15 @@ const useHandleSitesLogic = () => {
     }
   }
 
+  const getPathSearchResults = async (payload: { path: string; site_id: string }) => {
+    try {
+      const data = await getSitePathSearchResults(payload).unwrap()
+      return data?.data
+    } catch (error) {
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
+    }
+  }
+
   const getInsights = async (payload: { url: string }) => {
     try {
       await getSightInsights(payload).unwrap()
@@ -145,9 +157,10 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const getSiteCrawledInfoData = async (site_id: string) => {
+  const getSiteCrawledInfoData = async (payload: { site_id: string; link_id?: string }) => {
     try {
-      await getSiteCrawledInfo(site_id).unwrap()
+      const data = await getSiteCrawledInfo(payload, false).unwrap()
+      dispatch(setCrawledInfo(data?.data))
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -187,6 +200,8 @@ const useHandleSitesLogic = () => {
     notificationsData,
     handleGetSiteLinks,
     getNotificationList,
+    getPathSearchResults,
+    sitePathSearchLoading,
     handleReadNotification,
     getNotificationLoading,
     getSiteCrawledInfoData,
@@ -194,7 +209,7 @@ const useHandleSitesLogic = () => {
     handlePreviousButtonPress,
     insightsData: insightsData?.result,
     sitesList: sitesList?.data || [],
-    crawledInfo: crawledInfo?.data,
+    crawledInfo: crawledInfo,
     siteLinks: siteLinks,
   }
 }

@@ -5,7 +5,7 @@ $colorType: primary, secondary, error, warning, info, success, common, grayClr;
     @each $inner, $innerColor in $outerName {
       --color-#{$outer}-#{$inner}: #{$innerColor};
     }
-  };
+  }
 }
 
 @function colorMapper($type, $colorName) {
@@ -18,7 +18,6 @@ $colorType: primary, secondary, error, warning, info, success, common, grayClr;
 
 $opacity-color: rgba-css-variable('color-common-main', 0.2);
 
-
 .app-container.light {
   --color-common-main: var(--color-grayClr-light-text-color);
   --background-color: var(--color-grayClr-light-background);
@@ -30,6 +29,9 @@ $opacity-color: rgba-css-variable('color-common-main', 0.2);
   --button-box-shadow: 0px 3px 1px -2px var(--color-grayClr-400), 0px 2px 2px 0px var(--color-grayClr-300), 0px 1px 5px 0px var(--color-grayClr-300);
   --button-box-shadow-hover: 0px 2px 4px -1px var(--color-grayClr-400), 0px 4px 5px 0px var(--color-grayClr-300),
     0px 1px 10px 0px var(--color-grayClr-300);
+    --shimmer-bg: var(--light-shimmer-bg);
+    --shimmer-highlight: var(--light-shimmer-highlight);
+    --background: var(--light-background);
 }
 
 .app-container.dark {
@@ -43,6 +45,9 @@ $opacity-color: rgba-css-variable('color-common-main', 0.2);
   ---button-box-shadow: 0px 3px 1px -2px var(--color-grayClr-700), 0px 2px 2px 0px var(--color-grayClr-800), 0px 1px 5px 0px var(--color-grayClr-800);
   --button-box-shadow-hover: 0px 2px 4px -1px var(--color-grayClr-700), 0px 4px 5px 0px var(--color-grayClr-800),
     0px 1px 10px 0px var(--color-grayClr-800);
+  --shimmer-bg: var(--dark-shimmer-bg);
+  --shimmer-highlight: var(--dark-shimmer-highlight);
+  --background: var(--dark-background);
 }
 
 body,

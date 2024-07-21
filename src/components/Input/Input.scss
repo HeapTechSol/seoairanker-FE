@@ -26,14 +26,6 @@
         fill: var(--color-common-main);
       }
 
-      // svg path {
-      //   fill: colorMapper($color, main);
-      //   stroke: colorMapper($color, main);
-      // }
-      // svg circle {
-      //   stroke: colorMapper($color, main);
-      // }
-
       input {
         line-height: 1.7;
         width: 100%;
@@ -49,28 +41,12 @@
         }
       }
 
-      // .input-icon {
-      //   padding: 0px 14px;
-      //   display: flex;
-      //   justify-content: center;
-      //   align-items: center;
-      //   img {
-      //     height: 1em;
-      //     width: 1em;
-      //   }
-      // }
-
       &.sm {
         font-size: 0.8125rem;
         height: 32.09px;
         input {
           padding: 4px 10px;
         }
-
-        // img {
-        //   height: 1.5em;
-        //   width: 1.5em;
-        // }
 
         legend {
           font-size: 1em;
@@ -86,11 +62,6 @@
           font-size: 1em;
         }
 
-        // img {
-        //   height: 1.5em;
-        //   width: 1.5em;
-        // }
-
         legend {
           font-size: 1em;
         }
@@ -104,11 +75,6 @@
           padding: 8px 22px;
           font-size: 1em;
         }
-
-        // img {
-        //   height: 1.5em;
-        //   width: 1.5em;
-        // }
 
         legend {
           font-size: 1em;
@@ -134,25 +100,13 @@
         }
       }
 
-      // &.outlined.focused {
-      //   border-color: colorMapper($color, main); //color
-      // }
-
-      // &.outlined:hover {
-      //   border-color: var(--color-common-main);
-      // }
-
-      // &.outlined.focused:hover {
-      //   border-color: colorMapper($color, main); //color
-      // }
-
       &.outlined.focused {
         border-color: var(--border-color);
         overflow: hidden;
       }
 
       &.outlined.focused:hover {
-        border-color: var(--border-color); //color
+        border-color: var(--border-color); 
       }
 
       $margin-left: calc(28px + 1em);
@@ -290,11 +244,6 @@
       input {
         padding: 4px 10px !important;
       }
-
-      // svg {
-      //   height: 1.5em !important;
-      //   width: 1.5em !important;
-      // }
 
       legend {
         font-size: 1em !important;

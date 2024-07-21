@@ -46,6 +46,21 @@ export type SiteLinksAPIResponseTypes = {
   total_count: number
 }
 
+export type PathSearchResults = {
+  createdAt: string
+  id: string
+  last_crawled: string
+  page_language: string
+  path: string
+  site_id: string
+  updatedAt: string
+  url: string
+}
+
+export type GetSitePathSearchResultsResponseTypes = {
+  data: PathSearchResults[]
+}
+
 export type ModalTypes =
   | 'anchor_titles'
   | 'images'
@@ -55,25 +70,29 @@ export type ModalTypes =
   | 'missing_meta_descriptions'
   | 'external_links'
 
+export type ModalDataTypes = {
+  approved: number
+  model: ModalTypes
+  total: number
+}
+
+export type SiteDataTypes = {
+  business_type: string
+  country_code: string
+  createdAt: string
+  id: number
+  language_code: string
+  site_url: string
+  total_approved: number
+  total_count: number
+  updatedAt: string
+  screenshot_url: string
+}
+
 export type CrawledInfoAPIResponseTypes = {
   data: {
-    model_data: {
-      approved: number
-      model: ModalTypes
-      total: number
-    }[]
-    site_data: {
-      business_type: string
-      country_code: string
-      createdAt: string
-      id: number
-      language_code: string
-      site_url: string
-      total_approved: number
-      total_count: number
-      updatedAt: string
-      screenshot_url: string
-    }
+    model_data: ModalDataTypes[]
+    site_data: MaybeNull<SiteDataTypes>
   }
 }
 

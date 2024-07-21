@@ -2,14 +2,14 @@ import { useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 
 import Flex from '@/components/Flex'
-import Loader from '@/components/Loader'
 import ImageCard from '../ImageCard/ImageCard'
 import Container from '@/components/Container/Container'
+import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { ImagesAltDataTypes } from '@/container/sites/sitesTypes'
 
-const ImagesList = () => {
+const ImagesList = ({ link_id }: { link_id: string }) => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>('')
   const editableRefs = useRef<(HTMLElement | null)[]>([])
@@ -61,32 +61,33 @@ const ImagesList = () => {
   }
 
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 20, type: 'images' })
+    getRecommendationByType({ page: 1, per_page: 20, type: 'images', link_id })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [link_id])
 
   return (
     <Container borderRadius boxShadow padding={40} width={70} className="images-listing container-bg">
-      <Flex justify="center" align="center" wrap gap={8}>
-        {(recommendationData?.data as ImagesAltDataTypes[])?.map((item, index) => (
-          <ImageCard
-            id={String(item.id)}
-            index={index}
-            editedId={editedId}
-            onApprove={onApprove}
-            linkId={item.link_id}
-            key={`images-${index}`}
-            handleBlur={handleBlur}
-            imageUrl={item.url}
-            isApproved={item.approved}
-            loading={approveRecommendationsLoading || updateRecommendationsLoading}
-            altText={item.alt_text}
-            editSuggestionHandler={editSuggestionHandler}
-            ref={(el) => (editableRefs.current[index] = el)}
-          />
-        ))}
-      </Flex>
-      <Loader loading={recommendationDataLoading} />
+      <ShimmerPlaceholder loading={recommendationDataLoading} count={20} width={236} height={194} gap={8} flexDirection="row">
+        <Flex justify="center" align="center" wrap gap={8}>
+          {(recommendationData?.data as ImagesAltDataTypes[])?.map((item, index) => (
+            <ImageCard
+              id={String(item.id)}
+              index={index}
+              editedId={editedId}
+              onApprove={onApprove}
+              linkId={item.link_id}
+              key={`images-${index}`}
+              handleBlur={handleBlur}
+              imageUrl={item.url}
+              isApproved={item.approved}
+              loading={approveRecommendationsLoading || updateRecommendationsLoading}
+              altText={item.alt_text}
+              editSuggestionHandler={editSuggestionHandler}
+              ref={(el) => (editableRefs.current[index] = el)}
+            />
+          ))}
+        </Flex>
+      </ShimmerPlaceholder>
     </Container>
   )
 }

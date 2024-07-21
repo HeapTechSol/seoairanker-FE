@@ -4,10 +4,10 @@ import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import Flex from '@/components/Flex'
 import Table from '@/components/Table'
 import Button from '@/components/Button'
-import Loader from '@/components/Loader'
 import TruncateText from '@/components/TruncateText'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
+import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
@@ -17,7 +17,7 @@ import { MissingTitlesDataTypes } from '@/container/sites/sitesTypes'
 import './TitlesList.scss'
 import { ColumnType } from '@/components/Table/types'
 
-const TitleList = () => {
+const TitleList = ({ link_id }: { link_id: string }) => {
   const { state } = useLocation()
   const [editedId, setEditedId] = useState<string>()
   const editableRefs = useRef<(HTMLElement | null)[]>([])
@@ -126,35 +126,36 @@ const TitleList = () => {
   const isApproved = recommendationData?.total_count == recommendationData?.approved_count
 
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles' })
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles', link_id })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [link_id])
 
   return (
     <Container borderRadius boxShadow padding={40} className="titles-list-container container-bg" width={70}>
-      <Flex vertical gap={16}>
+      <ShimmerPlaceholder loading={recommendationDataLoading}>
         <Flex vertical gap={16}>
-          <Flex align="start">
-            <Flex vertical gap={16}>
-              <Typography type="h3" text="Links Missing Titles" />
-              <Typography text="Link titles not only tell Google what your link is about, but they are also used as previews in browsers and by users with disabilities. Making your site as accessible as possible is an important quality factor." />
+          <Flex vertical gap={16}>
+            <Flex align="start">
+              <Flex vertical gap={16}>
+                <Typography type="h3" text="Links Missing Titles" />
+                <Typography text="Link titles not only tell Google what your link is about, but they are also used as previews in browsers and by users with disabilities. Making your site as accessible as possible is an important quality factor." />
+              </Flex>
+              <Button
+                size="sm"
+                variant="outlined"
+                type="borderRadius"
+                color="success"
+                disabled={isApproved}
+                loading={approveRecommendationsLoading}
+                onClick={handleAllRecommendations}
+              >
+                Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
+              </Button>
             </Flex>
-            <Button
-              size="sm"
-              variant="outlined"
-              type="borderRadius"
-              color="success"
-              disabled={isApproved}
-              loading={approveRecommendationsLoading}
-              onClick={handleAllRecommendations}
-            >
-              Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
-            </Button>
           </Flex>
+          <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
         </Flex>
-        <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
-      </Flex>
-      <Loader loading={recommendationDataLoading} />
+      </ShimmerPlaceholder>
     </Container>
   )
 }
