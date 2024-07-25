@@ -68,6 +68,7 @@
             border: none;
             outline: none;
             background-color: transparent;
+            color: var(--color-common-main);
             &::placeholder {
               color: var(--color-common-main);
               opacity: 0.3;

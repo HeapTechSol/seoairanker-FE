@@ -3225,7 +3225,7 @@ export const NoImageAvailable = (
     id="Layer_1"
     x="0px"
     y="0px"
-    enable-background="new 0 0 500 500"
+    enableBackground="new 0 0 500 500"
     viewBox="21.3 139.88 457.4 220.24"
   >
     <g>

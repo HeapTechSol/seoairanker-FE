@@ -16,8 +16,7 @@ import { rowSelectionHandler } from '@/components/Table/helper'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
-import { LuEye } from 'react-icons/lu'
-import { IoReloadCircleOutline } from 'react-icons/io5'
+import { LuEye , LuRefreshCcw} from 'react-icons/lu'
 import { MdOutlineWbSunny, MdBlock } from 'react-icons/md'
 
 import { ColumnType } from '@/components/Table/types'
@@ -61,7 +60,7 @@ const SitePages = () => {
       render: () => (
         <Flex gap={12} align="center" justify="center">
           <Button StartIcon={<LuEye />} onlyIcon noPadding variant="text" color="info" />
-          <Button StartIcon={<IoReloadCircleOutline />} onlyIcon noPadding variant="text" color="info" />
+          <Button StartIcon={<LuRefreshCcw />} onlyIcon noPadding variant="text" color="info" />
           <Button StartIcon={<MdOutlineWbSunny />} onlyIcon noPadding variant="text" color="info" />
         </Flex>
       ),

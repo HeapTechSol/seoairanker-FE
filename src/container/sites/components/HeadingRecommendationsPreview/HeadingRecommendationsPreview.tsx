@@ -131,10 +131,10 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
   }, [externalLinkId])
 
   return (
-    <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg" padding={'40px'}>
+    <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg">
       <ShimmerPlaceholder loading={recommendationDataLoading}>
         <Flex vertical gap={16}>
-          <Flex align="start">
+          <Flex align="start" padding="40px 40px 0px 40px">
             <Flex vertical gap={16}>
               <Typography type="h3" text="Optimize Headline Tags" />
               <Typography text="Headline tags show Google your content’s hierarchy and what the highest priority subject is for your page. These Recommendations will automatically optimize your h1-h6 tags by removing h1 duplicates and promoting or demoting sub-headlines to create the optimal structure. Please note! We will copy all of your existing style tags over to maintain the exact same design, though we advise you to double check." />
@@ -151,8 +151,8 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
               Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
             </Button>
           </Flex>
-          <Flex justify="center" align="center" wrap gap={8} className="preview-details-list">
-            <Flex vertical gap={10}>
+          <Flex justify="center" align="center" wrap gap={8} className="preview-details-list" padding="0px 40px 40px 40px">
+            <Flex vertical>
               {optimizedTitlesList?.map((item) => (
                 <Accordion
                   title={item.url}
@@ -173,7 +173,7 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
                 />
               ))}
             </Flex>
-             {isLoadMore && (
+            {isLoadMore && (
               <Button color="info" variant="text" type="borderRadius" onClick={handleLoadMore}>
                 Load More
               </Button>

@@ -58,20 +58,23 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
   const columns: ColumnType<MissingTitlesDataTypes>[] = [
     { header: 'Link', dataKey: 'link_path', render: (text: string) => <TruncateText text={text} line={1} width={300}></TruncateText> },
     {
-      header: 'Action',
+      header: '',
+      onCell: () => ({
+        style: {
+          textAlign: 'right',
+        },
+      }),
       render: (_, record) => (
-        <Flex gap={12} align="center" justify="center">
-          <Button
-            size="sm"
-            variant="outlined"
-            onClick={(e) => onApprove(e, record.id, record.link_id, !record.approved)}
-            type="borderRadius"
-            color={record.approved ? 'error' : 'success'}
-            loading={editedId === record.id && approveRecommendationsLoading}
-          >
-            {record.approved ? 'Reject' : 'Approve'}
-          </Button>
-        </Flex>
+        <Button
+          size="sm"
+          variant="outlined"
+          onClick={(e) => onApprove(e, record.id, record.link_id, !record.approved)}
+          type="borderRadius"
+          color={record.approved ? 'error' : 'success'}
+          loading={editedId === record.id && approveRecommendationsLoading}
+        >
+          {record.approved ? 'Reject' : 'Approve'}
+        </Button>
       ),
     },
   ]
@@ -90,10 +93,10 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
   }, [externalLinkId])
 
   return (
-    <Container borderRadius boxShadow padding={40} className="titles-list-container container-bg" width={70}>
+    <Container borderRadius boxShadow className="titles-list-container container-bg" width={70}>
       <ShimmerPlaceholder loading={recommendationDataLoading}>
         <Flex vertical gap={16}>
-          <Flex vertical gap={16}>
+          <Flex vertical gap={16} padding="40px 40px 0px 40px">
             <Flex align="start">
               <Flex vertical gap={16}>
                 <Typography type="h3" text="External Link Target" />
@@ -112,9 +115,9 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
               </Button>
             </Flex>
           </Flex>
-          <Flex vertical align="center" gap={24} className="preview-details-list">
+          <Flex vertical align="center" gap={24} className="preview-details-list" padding="0px 40px 40px 40px">
             <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
-             {isLoadMore && (
+            {isLoadMore && (
               <Button color="info" variant="text" type="borderRadius" onClick={handleLoadMore}>
                 Load More
               </Button>

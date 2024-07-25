@@ -131,10 +131,10 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
   }))
 
   return (
-    <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg" padding="40px">
+    <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg">
       <ShimmerPlaceholder loading={recommendationDataLoading}>
         <Flex vertical gap={16}>
-          <Flex align="start">
+          <Flex align="start" padding="40px 40px 0px 40px">
             <Flex vertical gap={16}>
               <Typography type="h3" text="Optimize Titles" />
               <Typography text="Currently Google will show up to 60 characters in the title of your search results, so use them! We've added suggested titles below which you may want to edit and approve. In general, we recommend including what the page is about, your brand name, as well as some adjectives or modifiers." />
@@ -151,8 +151,8 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
               Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
             </Button>
           </Flex>
-          <Flex justify="center" align="center" wrap gap={8} className="preview-details-list">
-            <Flex vertical gap={10}>
+          <Flex justify="center" align="center" wrap gap={8} className="preview-details-list" padding="0px 40px 40px 40px">
+            <Flex vertical>
               {optimizedTitlesList?.map((item) => (
                 <Accordion
                   key={item.id}
@@ -174,7 +174,7 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
                 />
               ))}
             </Flex>
-             {isLoadMore && (
+            {isLoadMore && (
               <Button color="info" variant="text" type="borderRadius" onClick={handleLoadMore}>
                 Load More
               </Button>

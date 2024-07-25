@@ -124,10 +124,10 @@ const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
   }, [externalLinkId])
 
   return (
-    <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg" padding={'40px'}>
+    <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg">
       <ShimmerPlaceholder loading={recommendationDataLoading}>
         <Flex vertical gap={16}>
-          <Flex align="start">
+          <Flex align="start" padding="40px 40px 0px 40px">
             <Flex vertical gap={16}>
               <Typography type="h3" text="Add a Social Preview" />
               <Typography text="Ever share your site on social media? That image and text you see is your social preview. You can use that to best optimize clicks and engagement. Edit and approve the recommendation to add a social preview card across your site." />
@@ -144,8 +144,8 @@ const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
               Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
             </Button>
           </Flex>
-          <Flex justify="center" align="center" wrap gap={8} className="preview-details-list">
-            <Flex vertical gap={10}>
+          <Flex justify="center" align="center" wrap gap={8} className="preview-details-list" padding="0px 40px 40px 40px">
+            <Flex vertical>
               {optimizedTitlesList?.map((item) => (
                 <Accordion
                   title={item.url}
@@ -167,7 +167,7 @@ const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
                 />
               ))}
             </Flex>
-             {isLoadMore && (
+            {isLoadMore && (
               <Button color="info" variant="text" type="borderRadius" onClick={handleLoadMore}>
                 Load More
               </Button>

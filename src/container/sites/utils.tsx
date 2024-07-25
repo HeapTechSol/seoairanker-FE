@@ -157,7 +157,7 @@ export const KEYWORDS_COLUMN: ColumnType<KeywordsDataTypes>[] = [
   {
     header: 'SCORE',
     textAlign: 'center',
-    render: (value: string) => (value === 'waiting' ? <MdOutlineWatchLater /> : <CircularProgress progress={value} size={30} />),
+    render: (value: string) => (value === 'waiting' ? <MdOutlineWatchLater /> : <CircularProgress progress={value || '0'} size={30} />),
   },
 ]
 

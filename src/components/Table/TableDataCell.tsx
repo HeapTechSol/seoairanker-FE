@@ -17,7 +17,7 @@ const TableDataCell = <T,>({ column, row, index, tableCellStyle }: TableDataCell
   }, [column, row, index])
 
   return (
-    <td className={classes} {...column?.onCell?.(row[column.dataKey as keyof typeof row], row, index, column)} style={tableCellStyle}>
+    <td className={classes} style={tableCellStyle} {...column?.onCell?.(row[column.dataKey as keyof typeof row], row, index, column)}>
       {cellContent}
     </td>
   )

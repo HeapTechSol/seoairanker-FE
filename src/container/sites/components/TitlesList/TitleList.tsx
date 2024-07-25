@@ -144,10 +144,10 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   }, [externalLinkId])
 
   return (
-    <Container borderRadius boxShadow padding={40} className="titles-list-container container-bg" width={70}>
+    <Container borderRadius boxShadow className="titles-list-container container-bg" width={70}>
       <ShimmerPlaceholder loading={recommendationDataLoading}>
         <Flex vertical gap={16}>
-          <Flex vertical gap={16}>
+          <Flex vertical gap={16} padding="40px 40px 0px 40px">
             <Flex align="start">
               <Flex vertical gap={16}>
                 <Typography type="h3" text="Links Missing Titles" />
@@ -166,9 +166,9 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
               </Button>
             </Flex>
           </Flex>
-          <Flex vertical align="center" gap={24} className="preview-details-list">
+          <Flex vertical align="center" gap={24} className="preview-details-list" padding="0px 40px 40px 40px">
             <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
-             {isLoadMore && (
+            {isLoadMore && (
               <Button color="info" variant="text" type="borderRadius" onClick={handleLoadMore}>
                 Load More
               </Button>

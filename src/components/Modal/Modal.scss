@@ -1,212 +1,209 @@
 .modal-container {
-    width: 100%;
-    height: 100vh;
-    background: rgba($color: #000000, $alpha: 0.4);
+  width: 100%;
+  height: 100vh;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  z-index: 5000;
+  overflow: hidden;
+  @include flex(center, center, row, 0px);
+
+  &.hide {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &.show {
+    transition: all 0.3s linear;
+  }
+
+  .modal {
+    background: var(--background-color);
+    min-width: 350px;
+    max-width: 90%;
+    height: auto;
+    padding: 15px;
     position: fixed;
-    left: 0px;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    z-index: 5000;
+    border-radius: 7px;
     overflow: hidden;
-    @include flex(center, center, row, 0px);
+    box-shadow: 0 10px 20px rgba(black, 0.2);
+    @include flex(center, center, column, 0px);
 
-    &.hide {
-        visibility: hidden;
-        opacity: 0;
-    }
+    &-header {
+      width: 100%;
+      @include flex(space-between, flex-start, row, 0px);
+      padding-bottom: 10px;
 
-    &.show {
-        transition: all 0.3s linear;
-    }
+      &::after {
+        content: '';
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 43px;
+        box-shadow: 0 0 0.5px 0.5px colorMapper(grayClr, 200);
+      }
 
-    .modal {
-        background: var(--background-color);
-        min-width: 350px;
-        max-width: 90%;
-        height: auto;
-        padding: 15px;
-        position: fixed;
-        border-radius: 7px;
-        overflow: hidden;
-        box-shadow: 0 10px 20px rgba(black, 0.2);
-        @include flex(center, center, column, 0px);
+      &_title {
+        font-weight: 700;
+        font-size: 16px;
+      }
 
-        &-header {
-            width: 100%;
-            @include flex(space-between, flex-start, row, 0px);
-            padding-bottom: 10px;
+      &_icon {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
 
-            &::after {
-                content: "";
-                width: 100%;
-                position: absolute;
-                left: 0;
-                top: 43px;
-                box-shadow: 0 0 0.5px 0.5px colorMapper(grayClr, 200);
-            }
-
-            &_title {
-                font-weight: 700;
-                font-size: 16px;
-            }
-
-            &_icon {
-                width: 20px;
-                height: 20px;
-                position: relative;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                cursor: pointer;
-
-                &::before {
-                    content: "";
-                    position: absolute;
-                    width: 10px;
-                    height: 12px;
-                    border-left: 2px solid colorMapper(grayClr,600);
-                    transform: rotate(45deg);
-                    top: 8px;
-                    left: 8px;
-                }
-
-                &::after {
-                    content: "";
-                    position: absolute;
-                    width: 10px;
-                    height: 12px;
-                    border-right: 2px solid colorMapper(grayClr,600);
-                    transform: rotate(-45deg);
-                    top: 8px;
-                    left: 1px;
-                }
-
-                &:hover::after {
-                    border-right: 2px solid colorMapper(error, main);
-                }
-
-                &:hover::before {
-                    border-left: 2px solid colorMapper(error, main);
-                }
-
-            }
+        &::before {
+          content: '';
+          position: absolute;
+          width: 10px;
+          height: 12px;
+          border-left: 2px solid colorMapper(grayClr, 600);
+          transform: rotate(45deg);
+          top: 8px;
+          left: 8px;
         }
 
-        &-body {
-            width: 100%;
-            height: auto;
-            padding: 10px 0px;
-            min-height: 100px;
+        &::after {
+          content: '';
+          position: absolute;
+          width: 10px;
+          height: 12px;
+          border-right: 2px solid colorMapper(grayClr, 600);
+          transform: rotate(-45deg);
+          top: 8px;
+          left: 1px;
         }
 
-        &-footer {
-            width: 100%;
-            @include flex(space-between, center, row, 0px);
-            padding-top: 10px;
-
-            &.right {
-                @include flex(flex-end, center, row, 16px);
-            }
-
-            &.left {
-                @include flex(flex-start, center, row, 16px);
-            }
-
-            &.right-no-bar {
-                @include flex(flex-end, center, row, 16px);
-
-                &::after {
-                    display: none;
-                }
-            }
-
-            &.left-no-bar {
-                @include flex(flex-start, center, row, 16px);
-
-                &::after {
-                    display: none;
-                }
-            }
-
-            &::after {
-                content: "";
-                width: 100%;
-                position: absolute;
-                left: 0;
-                bottom: 65px;
-                box-shadow: 0 0 0.5px 0.5px colorMapper(grayClr, 200);
-            }
+        &:hover::after {
+          border-right: 2px solid colorMapper(error, main);
         }
+
+        &:hover::before {
+          border-left: 2px solid colorMapper(error, main);
+        }
+      }
     }
 
-    &.hide>.modal {
-        transform: scale(0.8);
+    &-body {
+      width: 100%;
+      height: auto;
+      padding: 10px 0px;
+      min-height: 100px;
     }
 
+    &-footer {
+      width: 100%;
+      @include flex(space-between, center, row, 0px);
+      padding-top: 10px;
 
-    &.show>.modal {
-        transition: all 0.3s ease-in-out;
+      &.right {
+        @include flex(flex-end, center, row, 16px);
+      }
+
+      &.left {
+        @include flex(flex-start, center, row, 16px);
+      }
+
+      &.right-no-bar {
+        @include flex(flex-end, center, row, 16px);
+
+        &::after {
+          display: none;
+        }
+      }
+
+      &.left-no-bar {
+        @include flex(flex-start, center, row, 16px);
+
+        &::after {
+          display: none;
+        }
+      }
+
+      &::after {
+        content: '';
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 65px;
+        box-shadow: 0 0 0.5px 0.5px colorMapper(grayClr, 200);
+      }
+    }
+  }
+
+  &.hide > .modal {
+    transform: scale(0.8);
+  }
+
+  &.show > .modal {
+    transition: all 0.3s ease-in-out;
+    transform: scale(1);
+  }
+
+  &.bubble > .modal {
+    animation-name: splash;
+    animation-duration: 0.3s;
+    animation-iteration-count: 2;
+    animation-timing-function: ease-in-out;
+
+    @keyframes splash {
+      0% {
         transform: scale(1);
+      }
 
+      10% {
+        transform: scale(1.015);
+      }
+
+      20% {
+        transform: scale(1.02);
+      }
+
+      30% {
+        transform: scale(1.025);
+      }
+
+      30% {
+        transform: scale(1.03);
+      }
+
+      40% {
+        transform: scale(1.035);
+      }
+
+      50% {
+        transform: scale(1.04);
+      }
+
+      60% {
+        transform: scale(1.03);
+      }
+
+      70% {
+        transform: scale(1.025);
+      }
+
+      80% {
+        transform: scale(1.02);
+      }
+
+      90% {
+        transform: scale(1.015);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
-
-    &.bubble>.modal {
-        animation-name: splash;
-        animation-duration: 0.3s;
-        animation-iteration-count: 2;
-        animation-timing-function: ease-in-out;
-
-        @keyframes splash {
-            0% {
-                transform: scale(1);
-            }
-
-            10% {
-                transform: scale(1.015);
-            }
-
-            20% {
-                transform: scale(1.02);
-            }
-
-            30% {
-                transform: scale(1.025);
-            }
-
-            30% {
-                transform: scale(1.03);
-            }
-
-            40% {
-                transform: scale(1.035);
-            }
-
-            50% {
-                transform: scale(1.04);
-            }
-
-            60% {
-                transform: scale(1.03);
-            }
-
-            70% {
-                transform: scale(1.025);
-            }
-
-            80% {
-                transform: scale(1.02);
-            }
-
-            90% {
-                transform: scale(1.015);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-
-        }
-
-    }
+  }
 }

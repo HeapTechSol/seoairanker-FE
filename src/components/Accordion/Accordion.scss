@@ -23,6 +23,11 @@
 
     .header-icon {
       position: relative;
+      svg {
+        width: 13px;
+        height: 13px;
+        fill: var(--color-common-main);
+      }
       transition: transform 0.3s ease;
     }
 
@@ -40,7 +45,7 @@
       }
 
       .accordion-container-description {
-        max-height: 1000px; // Adjust this value based on your maximum expected content height
+        max-height: 1000px;
         opacity: 1;
         padding: 16px;
       }
