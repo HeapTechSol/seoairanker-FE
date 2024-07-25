@@ -11,7 +11,8 @@ import RecommendationInfo from '@/container/sites/components/RecommendationsInfo
 
 import { CommonValidations } from '@/utils/commonValidations'
 
-import { WatchIcon } from '@/assets/icons/svgs'
+import { MdOutlineWatchLater } from 'react-icons/md'
+
 import { KeywordsDataTypes } from './sitesTypes'
 import { ColumnType } from '@/components/Table/types'
 import { APIKeysDataTypes } from '../billing/billingTypes'
@@ -156,14 +157,7 @@ export const KEYWORDS_COLUMN: ColumnType<KeywordsDataTypes>[] = [
   {
     header: 'SCORE',
     textAlign: 'center',
-    render: (value: string) =>
-      value === 'waiting' ? (
-        <span style={{ cursor: 'auto' }} className="pointer-icon-stroke">
-          {WatchIcon}
-        </span>
-      ) : (
-        <CircularProgress progress={value} size={30} />
-      ),
+    render: (value: string) => (value === 'waiting' ? <MdOutlineWatchLater /> : <CircularProgress progress={value} size={30} />),
   },
 ]
 

@@ -8,7 +8,7 @@ import Typography from "@/components/Typography/Typography";
 
 import useChangePasswordHandler from "@/container/auth/hooks/useChangePasswordHandler";
 
-import { PasswordIcon } from "@/assets/icons/svgs";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 import "./ChangePassword.scss";
 
@@ -34,7 +34,7 @@ const ChangePassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={PasswordIcon}
+                  StartIcon={<RiLockPasswordLine/>}
                   placeholder="Enter your old password"
                 />
               );
@@ -54,7 +54,7 @@ const ChangePassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={PasswordIcon}
+                  StartIcon={<RiLockPasswordLine/>}
                   placeholder="Enter your new password"
                 />
               );
@@ -74,7 +74,7 @@ const ChangePassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={PasswordIcon}
+                  StartIcon={<RiLockPasswordLine/>}
                   placeholder="Re-enter your new password"
                 />
               );

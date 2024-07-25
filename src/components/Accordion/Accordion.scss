@@ -23,11 +23,6 @@
 
     .header-icon {
       position: relative;
-      svg {
-        width: 13px;
-        height: 13px;
-        fill: var(--color-common-main);
-      }
       transition: transform 0.3s ease;
     }
 

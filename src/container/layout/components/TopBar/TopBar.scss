@@ -61,3 +61,29 @@
     }
   }
 }
+
+.brand-icon {
+  width: 180px;
+  cursor: pointer;
+
+  &.auth-container {
+    cursor: auto;
+    width: 200px;
+  }
+}
+
+.dark .brand-icon {
+  svg {
+    g[fill='#312f30'] {
+      fill: var(--color-common-main);
+    }
+  }
+}
+
+.light .brand-icon {
+  svg {
+    g[fill='#312f30'] {
+      fill: #312f30;
+    }
+  }
+}

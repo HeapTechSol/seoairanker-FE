@@ -5,16 +5,16 @@ import Select from '@/components/Select'
 import Divider from '@/components/Divider/Divider'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
-import CountryFlag from '@/components/CountryFlag/CountryFlag'
 
 import languages from '@/constant/languages'
+import { countries } from '@/constant/countries'
 import { AddSitePayloadTypes } from '@/container/sites/sitesTypes'
 
 import './AddSiteDetails.scss'
 
 const AddSiteDetails = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
   const siteUrl = useWatch({ control, name: 'siteUrl' })
-  
+
   return (
     <Container width={100} borderRadius boxShadow className="add-site-container">
       <Flex vertical gap={32} align="center">
@@ -46,7 +46,17 @@ const AddSiteDetails = ({ control }: { control: Control<AddSitePayloadTypes> }) 
           />
           <Controller
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <CountryFlag label="Select Search Country" value={value} onChange={onChange} error={error?.message} />
+              <Select
+                Options={countries?.map((item) => ({ label: item.label, id: item.value })) || []}
+                searchable
+                title="Select Country"
+                placeholder="Select Search Country"
+                titlePosition="top"
+                setValues={onChange}
+                values={value}
+                size="md"
+                error={error ? error.message : ''}
+              />
             )}
             name="country"
             control={control}

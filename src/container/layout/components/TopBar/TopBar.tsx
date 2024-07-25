@@ -7,13 +7,12 @@ import { getElements, hasClass, toggleCSSClass, toggleCSSClasses } from '@/utils
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
 import Avatar from '@/components/Avatar/Avatar'
-import Dropdown, { Option } from '@/components/Dropdown/Dropdown'
 import Typography from '@/components/Typography/Typography'
+import Dropdown, { Option } from '@/components/Dropdown/Dropdown'
 import NotificationBadge from '@/components/NotificationBadge/NotificationBadge'
 import NotificationContainer from '@/components/NotificationContainer/NotificationContainer'
 
 import { EXACT_ROUTES } from '@/constant/routes'
-import SeodeIcon from '@/assets/images/seode.png'
 import { IoLogOutOutline } from 'react-icons/io5'
 import { FaRegUser, FaRegBell } from 'react-icons/fa'
 
@@ -22,6 +21,7 @@ import { setUser } from '@/container/auth/authSlice'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import './TopBar.scss'
+import { SEOElla } from '@/assets/icons/svgs'
 
 const { LOGIN, SIGNUP } = EXACT_ROUTES
 
@@ -76,7 +76,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
         navigate(LOGIN)
       },
       name: (
-        <Button size="md" color="common" type="borderRadius" variant="text" EndIcon={<IoLogOutOutline />}>
+        <Button size="md" color="common" type="borderRadius" variant="text" StartIcon={<IoLogOutOutline />}>
           Log out
         </Button>
       ),
@@ -124,7 +124,9 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
       <div className="topbar-content">
         <Flex align="center" justify="between">
           <Flex align="center" gap={8}>
-            <img height={40} src={SeodeIcon} alt="" onClick={() => navigate('/')} style={{ cursor: 'pointer' }} className="pointer-icon-fill" />
+            <div className="brand-icon" title="SEO Ella icon" onClick={() => navigate('/')}>
+              {SEOElla}
+            </div>
           </Flex>
           <Flex justify="end" gap={16}>
             {!user?.access_token && (
@@ -146,7 +148,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
                   scrollLoading={getNotificationLoading}
                   onScroll={handleScrollNotifications}
                 >
-                  <NotificationBadge count={notificationsData?.unread_count || 0} maxCount={100} icon={<FaRegBell />}/>
+                  <NotificationBadge count={notificationsData?.unread_count || 0} maxCount={100} icon={<FaRegBell />} />
                 </Dropdown>
                 <Dropdown options={users} onSelect={handleSelect} className="profile-dropdown-list">
                   <Avatar size={'small'} fallback={<FaRegUser />} src={user?.user?.profileImage} />

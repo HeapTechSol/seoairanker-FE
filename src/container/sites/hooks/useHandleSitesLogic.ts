@@ -20,12 +20,13 @@ import {
   useLazyExportToCSVQuery,
 } from '../api/sitesAPI'
 
-import { useAppDispatch, useAppSelector } from '@/api/store'
+import { uniqBy } from '@/utils/helper'
 import { EXACT_ROUTES } from '@/constant/routes'
 import { ErrorTypes } from '@/utils/commonTypes'
+import { createSingleExcelFile } from '@/utils/handleCSV'
+import { useAppDispatch, useAppSelector } from '@/api/store'
 import { AddSitePayloadTypes, GetKeywordsPayload, NotificationAPIPayloadTypes, SiteLinkPayloadTypes } from '../sitesTypes'
 import { setCrawledInfo, setNotificationsData } from '../sitesSlice'
-import { uniqBy } from '@/utils/helper'
 
 const { SITES_DASHBOARD } = EXACT_ROUTES
 
@@ -48,20 +49,21 @@ const useHandleSitesLogic = () => {
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
-  const [getSites, { isFetching: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
-  const [getSiteCrawledInfo, { isFetching: crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
+  const [getSites, { isLoading: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
+  const [getSiteCrawledInfo, { isLoading: crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
   const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
-  const [getNotifications, { isFetching: getNotificationLoading }] = useLazyGetNotificationsQuery()
-  const [getSiteLinks, { isFetching: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
-  const [getSiteKeywords, { data: keywordsData, isFetching: keywordsLoading }] = useLazyGetSiteKeywordsQuery()
-  const [getSitePathSearchResults, { isFetching: sitePathSearchLoading }] = useLazyGetSitePathSearchResultsQuery()
-  const [getSightInsights, { isFetching: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
+  const [getNotifications, { isLoading: getNotificationLoading }] = useLazyGetNotificationsQuery()
+  const [getSiteLinks, { isLoading: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
+  const [getSiteKeywords, { data: keywordsData, isLoading: keywordsLoading }] = useLazyGetSiteKeywordsQuery()
+  const [getSitePathSearchResults, { isLoading: sitePathSearchLoading }] = useLazyGetSitePathSearchResultsQuery()
+  const [getSightInsights, { isLoading: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
 
   const stepsCount = steps(control)?.length
 
   const handleNext = async () => {
+    const script = getValues('script')
     if (currentStep >= stepsCount) return
-    if (currentStep === 2) {
+    if (currentStep === 2 && !script) {
       const values = getValues()
       const response = await addSite({
         ...values,
@@ -127,7 +129,7 @@ const useHandleSitesLogic = () => {
 
   const handleGetSiteLinks = async (payload: SiteLinkPayloadTypes) => {
     try {
-      await getSiteLinks(payload).unwrap()
+      await getSiteLinks(payload, true).unwrap()
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -135,7 +137,7 @@ const useHandleSitesLogic = () => {
 
   const getPathSearchResults = async (payload: { path: string; site_id: string }) => {
     try {
-      const data = await getSitePathSearchResults(payload).unwrap()
+      const data = await getSitePathSearchResults(payload, true).unwrap()
       return data?.data
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
@@ -144,7 +146,7 @@ const useHandleSitesLogic = () => {
 
   const getInsights = async (payload: { url: string }) => {
     try {
-      await getSightInsights(payload).unwrap()
+      await getSightInsights(payload, true).unwrap()
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -152,7 +154,7 @@ const useHandleSitesLogic = () => {
 
   const getKeywords = async (payload: GetKeywordsPayload) => {
     try {
-      const data = await getSiteKeywords(payload).unwrap()
+      const data = await getSiteKeywords(payload, true).unwrap()
       setValue('keywords', data.data)
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
@@ -162,7 +164,27 @@ const useHandleSitesLogic = () => {
   const exportDataToCSV = async (site_id: { site_id: string }) => {
     try {
       const data = await exportToCSV(site_id).unwrap()
-      return data
+      const transactionColumns = [
+        {
+          header: 'Link',
+          key: 'Link',
+        },
+        {
+          header: 'Type',
+          key: 'Type',
+        },
+        {
+          header: 'Suggested',
+          key: 'Suggested',
+        },
+        {
+          header: 'Approved',
+          key: 'Approved',
+        },
+      ]
+
+      createSingleExcelFile({ csvData: { data: data?.data || [], columns: transactionColumns }, fileName: 'approved-recommendations' })
+      return data?.data
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }

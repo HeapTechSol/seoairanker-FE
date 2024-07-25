@@ -13,18 +13,18 @@ import TextArea from '@/components/TextArea/TextArea'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import Pagination from '@/components/Pagination/Pagination'
-import CountryFlag from '@/components/CountryFlag/CountryFlag'
 
 import useAddNewKeyword from '@/container/sites/hooks/useAddNewKeyword'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
+import { useAppSelector } from '@/api/store'
 import languages from '@/constant/languages'
 import { CiLocationOn } from 'react-icons/ci'
+import { countries } from '@/constant/countries'
 import { KEYWORDS_COLUMN } from '@/container/sites/utils'
 import { rowSelectionHandler } from '@/components/Table/helper'
 
 import './AddNewKeywords.scss'
-import { useAppSelector } from '@/api/store'
 
 const AddNewKeywords = () => {
   const [selectedKeys, SetSelectedKeys] = useState<number[]>([])
@@ -37,7 +37,7 @@ const AddNewKeywords = () => {
 
   const isLocal = useWatch({ control, name: 'track_local' })
 
-  const crawledInfo = useAppSelector(state=>state.sites.crawledInfo)
+  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
   const onPageChange = (pageNumber: number) => {
     getKeywords({
@@ -156,7 +156,17 @@ const AddNewKeywords = () => {
 
               <Controller
                 render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <CountryFlag label="Country" placeholder="Country" value={value} onChange={onChange} error={error?.message} />
+                  <Select
+                    Options={countries?.map((item) => ({ label: item.label, id: item.value })) || []}
+                    searchable
+                    title="Country"
+                    placeholder="Country"
+                    titlePosition="top"
+                    setValues={onChange}
+                    values={value}
+                    size="md"
+                    error={error ? error.message : ''}
+                  />
                 )}
                 name="country"
                 control={control}

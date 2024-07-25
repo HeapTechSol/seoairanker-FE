@@ -3,11 +3,10 @@ import { Outlet } from 'react-router-dom'
 import Flex from '@/components/Flex'
 import Container from '@/components/Container/Container'
 
-import SeodeIcon from '@/assets/images/seode.png'
-
 import AI_Image from '@/assets/images/ai_image.webp'
 
 import './AuthLayout.scss'
+import { SEOElla } from '@/assets/icons/svgs'
 
 const AuthLayout = () => {
   return (
@@ -21,9 +20,11 @@ const AuthLayout = () => {
         />
       </Container>
       <Container width={50} fullHeight contentCenter className="auth-form-section" padding={'0px 130px'}>
-        <Flex vertical gap={80} align="center">
+        <Flex vertical gap={40} align="center">
           <Flex>
-            <img height={40} src={SeodeIcon} alt="" />
+            <div className="brand-icon auth-container" title="SEO Ella icon">
+              {SEOElla}
+            </div>
           </Flex>
           <Outlet />
         </Flex>

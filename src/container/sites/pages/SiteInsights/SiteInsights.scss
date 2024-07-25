@@ -1,5 +1,4 @@
 .container.page-insight-card {
-  width: 330px !important;
   position: relative;
   svg {
     path {
@@ -21,4 +20,10 @@
   h3 {
     color: var(--text-description-color) !important;
   }
+}
+
+.site-insights{
+  position: relative;
+  min-height: 700px;
+  padding: 40px;
 }

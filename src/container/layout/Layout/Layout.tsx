@@ -14,7 +14,7 @@ const Layout = () => {
   const user = useAppSelector((state) => state.auth.user);
 
   return (
-    <div className="layout-container dark">
+    <div className="layout-container">
       {user?.access_token && <Sidebar sidebarRef={sidebarRef} />}
       <div className="layout-right-section">
         <TopBar sidebarRef={sidebarRef} />

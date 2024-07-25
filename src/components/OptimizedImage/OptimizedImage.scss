@@ -1,4 +1,4 @@
-.image-wrapper{
+.image-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,8 +16,7 @@
     height: 100%;
     object-fit: var(--object-fit, cover);
   }
-
-
+  
   .image-placeholder {
     background: #e0e0e0;
     position: absolute;

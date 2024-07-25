@@ -11,7 +11,7 @@ import RecommendationList from '@/container/sites/components/RecommendationList/
 import RecommendationOverview from '@/container/sites/components/RecommendationOverview/RecommendationOverview'
 
 import { MdClear } from 'react-icons/md'
-import { GlobalICON } from '@/assets/icons/svgs'
+import { AiOutlineGlobal } from "react-icons/ai";
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
@@ -119,7 +119,7 @@ const Recommendations = () => {
             <SearchInput
               type="text"
               value={queryText}
-              StartIcon={GlobalICON}
+              StartIcon={<AiOutlineGlobal/>}
               onSearch={handleSearch}
               name="search_automation"
               handleClearSelection={handleClearFilters}

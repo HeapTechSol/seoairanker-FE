@@ -14,7 +14,6 @@ const { PLANS, BILLING_DETAIL, PAYMENT_HISTORY, UPCOMING_INVOICES, CHECKOUT, BAS
 
 const {
   ADD_SITE,
-  SITES_LIST,
   SITES_PAGES,
   SITE_INSIGHTS,
   RECOMMENDATIONS,
@@ -110,20 +109,6 @@ export const routes = createBrowserRouter([
     path: SITES_BASE,
     element: <Layout />,
     children: [
-      {
-        path: SITES_LIST,
-        errorElement: <ErrorBoundary />,
-        async lazy() {
-          const { default: SitesList } = await import('../container/sites/pages/AllSites/AllSites')
-          return {
-            Component: (props) => (
-              <ProtectedRoute>
-                <SitesList {...props} />
-              </ProtectedRoute>
-            ),
-          }
-        },
-      },
       {
         path: RECOMMENDATIONS,
         errorElement: <ErrorBoundary />,

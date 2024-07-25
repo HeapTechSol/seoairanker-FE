@@ -1,7 +1,11 @@
 import { forwardRef, KeyboardEvent, ForwardedRef } from 'react'
+
 import LoadingIcon from '@/assets/icons/loader.gif'
+
 import { classMapper } from '@/utils/helper'
+
 import { ButtonTypes } from './types'
+
 import './Button.scss'
 
 const Button = forwardRef(
@@ -38,12 +42,6 @@ const Button = forwardRef(
       noPadding: noPadding,
       fill: fill,
     })
-
-    // const isStartSvgIcon = typeof StartIcon === 'object' && StartIcon?.type === 'svg'
-    // const StartIconPassed = isStartSvgIcon ? StartIcon : <img src={StartIcon as string} alt="button logo" />
-
-    // const isEndSvgIcon = typeof EndIcon === 'object' && EndIcon?.type === 'svg'
-    // const EndIconPassed = isEndSvgIcon ? EndIcon : <img src={EndIcon as string} alt="button logo" />
 
     const loader = !disabled && loading && <img src={LoadingIcon} alt="loading-icon" />
 

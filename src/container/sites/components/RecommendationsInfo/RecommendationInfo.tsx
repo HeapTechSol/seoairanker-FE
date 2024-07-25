@@ -3,8 +3,6 @@ import Divider from "@/components/Divider/Divider"
 import Container from "@/components/Container/Container"
 import Typography from "@/components/Typography/Typography"
 
-import { SeodeIcon } from "@/assets/icons/svgs"
-
 const RecommendationInfo = () => {
   return (
     <Container
@@ -15,7 +13,6 @@ const RecommendationInfo = () => {
     className="add-site-container"
   >
     <Flex vertical gap={32} align="center">
-      {SeodeIcon}
       <Flex vertical gap={16}>
         <Typography text={`Generating Recommendations...`} type="h3" />
         <Divider/>

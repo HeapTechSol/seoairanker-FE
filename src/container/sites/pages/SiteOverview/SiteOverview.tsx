@@ -1,21 +1,21 @@
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
 import Grid from '@/components/Grid/Grid'
+import SiteInsights from '../SiteInsights/SiteInsights'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import KeywordProgress from '@/container/sites/components/KeywordProgress/KeywordProgress'
-import KeywordsTrendingChart from '@/container/sites/components/KeywordsTrendingChart/KeywordsTrendingChart'
 
 import { VscGraphLine } from 'react-icons/vsc'
 import { GrInstallOption } from 'react-icons/gr'
 import { FaRegCircleCheck } from 'react-icons/fa6'
 import { MdOutlineRecommend, MdOutlineSchema } from 'react-icons/md'
 
-import './KeywordsRankingDetail.scss'
+import './SiteOverview.scss'
 
-const KeywordsRankingDetail = () => {
+const SiteOverview = () => {
   return (
-    <Container className="keywords-ranking-detail">
+    <Container borderRadius boxShadow className="site-overview-detail">
       <Flex vertical gap={40}>
 
         <Grid gap={16} minMax={500} minWidth={200}>
@@ -57,7 +57,7 @@ const KeywordsRankingDetail = () => {
           </Container>
         </Grid>
 
-        <Grid gap={16} minWidth={200} minMax={350} className="keywords-ranking-detail__cards">
+        <Grid gap={16} minWidth={200} minMax={300} className="keywords-ranking-detail__cards">
           <Container padding={20} className="container-bg keywords-ranking-detail__card">
             <Flex align="end">
               <Flex vertical inline align="center" gap={16}>
@@ -165,11 +165,11 @@ const KeywordsRankingDetail = () => {
           </Flex>
         </Container>
 
-        <KeywordsTrendingChart />
-
+        <SiteInsights />
+        
       </Flex>
     </Container>
   )
 }
 
-export default KeywordsRankingDetail
+export default SiteOverview

@@ -1,12 +1,12 @@
 import React from 'react'
-import classNames from 'classnames'
 import { TruncateTextTypes } from './types'
+import { classMapper } from '@/utils/helper'
 
 import './TruncateText.scss'
 
 const TruncateText: React.FC<TruncateTextTypes> = ({ text, width, line }) => {
-  const classes = classNames('truncate-text', {
-    [`truncate-text--line-${line}`]: line,
+  const classes = classMapper('truncate-text', {
+    [`truncate-text--line-${line}`]: !!line,
   })
 
   const style = {

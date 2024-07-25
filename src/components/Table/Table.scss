@@ -59,10 +59,7 @@
     padding: 10px 14px;
     position: relative;
     border-bottom: 1px solid var(--border-color);
-    color:var(--text-description-color);
-    svg{
-      stroke:var(--color-common-main);;
-    }
+    color: var(--text-description-color);
 
     &.center {
       text-align: center;
@@ -91,11 +88,11 @@
 }
 
 .fixed-left {
-	position: relative;
+  position: relative;
   z-index: 9999;
 }
 
 .fixed-right {
-	position: relative;
+  position: relative;
   z-index: 9999;
 }

@@ -73,7 +73,7 @@ const SitesDashboard = () => {
       render: (_, record) => (
         <Flex className="site-info-controls" justify="end" align="center">
           <Button onlyIcon size="sm" color="info" variant="text" StartIcon={<IoSettingsOutline />} onClick={() => console.log('clicked')} />
-          <Button onlyIcon size="sm" color="error" variant="text" StartIcon={<RiDeleteBin6Line />} fill onClick={() => deleteSite(record.id)} />
+          <Button onlyIcon size="sm" color="error" variant="text" StartIcon={<RiDeleteBin6Line />} onClick={() => deleteSite(record.id)} />
         </Flex>
       ),
     },
@@ -97,7 +97,9 @@ const SitesDashboard = () => {
         {isSitesExist && (
           <Flex gap={16}>
             <Flex vertical gap={16}>
-              {sitesList?.map((site, index) => <AddedSiteCard site={site} onClick={() => deleteSite(site.id)} key={`${index}-AddSiteCard`} />)}
+              {sitesList?.map((site, index) => (
+                <AddedSiteCard site={site} onClick={() => deleteSite(site.id)} key={`${index}-AddSiteCard`} />
+              ))}
               {/* <Pagination
               pageSize={10}
               currentPage={1}
@@ -109,8 +111,6 @@ const SitesDashboard = () => {
               <Flex vertical gap={16} align="start">
                 <Typography type="h3" text="Add Your Site" />
                 <Typography text="It's easy! Just click the button." />
-                <Divider color="warning" />
-                <Input StartIcon={<GoSearch />} name="search_site" placeholder="Search" />
                 <Divider color="warning" />
                 <Table columns={columns} data={sitesList || []} />
                 {/* <Pagination

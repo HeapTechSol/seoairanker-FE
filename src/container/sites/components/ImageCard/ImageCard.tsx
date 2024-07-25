@@ -5,11 +5,11 @@ import Button from '@/components/Button'
 import TruncateText from '@/components/TruncateText'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
+import OptimizedImage from '@/components/OptimizedImage/OptimizedImage'
 
 import { EditIcon } from '@/assets/icons/svgs'
 
 import './ImageCard.scss'
-import OptimizedImage from '@/components/OptimizedImage/OptimizedImage'
 
 type ImageCardProps = {
   id: string

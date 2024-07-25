@@ -11,7 +11,6 @@
   line-height: 1.7;
   white-space: nowrap;
 
-  img,
   rect,
   svg {
     height: 1.3em;
@@ -79,30 +78,6 @@
       box-shadow: var(--button-box-shadow);
       border: 1px solid colorMapper($color, main);
     }
-    &.filled.#{$color} svg path,
-    circle {
-      stroke: white;
-    }
-
-    &.outlined.#{$color} svg path {
-      stroke: colorMapper($color, main);
-    }
-
-    &.text.#{$color} svg path {
-      stroke: colorMapper($color, main);
-    }
-
-    &.fill.text.#{$color} svg path {
-      fill: colorMapper($color, main);
-    }
-
-    &.fill.outlined.#{$color} svg path {
-      fill: colorMapper($color, main);
-    }
-
-    &.fill.filled.#{$color} svg path {
-      fill: white;
-    }
 
     &.outlined.#{$color} {
       border: 1px solid colorMapper($color, main);
@@ -135,16 +110,18 @@
       color: colorMapper(grayClr, 500);
       box-shadow: none;
       pointer-events: none;
+      cursor: not-allowed;
       border-color: colorMapper(grayClr, 300);
       background-color: colorMapper(grayClr, 300);
     }
-    
+
     &.filled.#{$color}:disabled:hover {
       color: colorMapper(grayClr, 500);
       box-shadow: none;
       border-color: colorMapper(grayClr, 300);
       background-color: colorMapper(grayClr, 300);
       pointer-events: none;
+      cursor: not-allowed;
     }
 
     &.outlined.#{$color}:disabled {
@@ -152,11 +129,14 @@
       border-color: colorMapper(grayClr, 300);
       background-color: transparent;
       pointer-events: none;
+      cursor: not-allowed;
     }
 
     &.text.#{$color}:disabled {
       color: colorMapper(grayClr, 500);
       background-color: transparent;
+      pointer-events: none;
+      cursor: not-allowed;
     }
   }
   &.pointer {

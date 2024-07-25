@@ -1,7 +1,7 @@
 import { Control, useWatch } from 'react-hook-form'
 
 import { GoSearch } from 'react-icons/go'
-import { WatchIcon } from '@/assets/icons/svgs'
+import { MdOutlineWatchLater } from 'react-icons/md'
 
 import Flex from '@/components/Flex'
 import Input from '@/components/Input'
@@ -32,14 +32,7 @@ const AddKeywords = ({ control }: { control: Control<AddSitePayloadTypes> }) => 
       header: 'SCORE',
       dataKey: 'competition_index',
       textAlign: 'center',
-      render: (value: string) =>
-        value === 'waiting' ? (
-          <span style={{ cursor: 'auto' }} className="pointer-icon-stroke">
-            {WatchIcon}
-          </span>
-        ) : (
-          <CircularProgress progress={value} size={30} />
-        ),
+      render: (value: string) => (value === 'waiting' ? <MdOutlineWatchLater /> : <CircularProgress progress={value} size={30} />),
     },
   ]
 

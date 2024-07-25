@@ -2,14 +2,16 @@ import { useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 
 import Flex from '@/components/Flex'
+import Button from '@/components/Button'
+import Grid from '@/components/Grid/Grid'
 import ImageCard from '../ImageCard/ImageCard'
 import Container from '@/components/Container/Container'
 import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { ImagesAltDataTypes } from '@/container/sites/sitesTypes'
-import Button from '@/components/Button'
-import useHandleSitesLogic from '../../hooks/useHandleSitesLogic'
+
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { state } = useLocation()
@@ -80,7 +82,7 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
     <Container borderRadius boxShadow padding={40} width={70} className="images-listing container-bg">
       <ShimmerPlaceholder loading={recommendationDataLoading} count={20} width={236} height={194} gap={8} flexDirection="row">
         <Flex vertical align="center" gap={24}>
-          <Flex justify="center" align="center" wrap gap={8}>
+          <Grid gap={8} minWidth={190} minMax={200}>
             {(recommendationData?.data as ImagesAltDataTypes[])?.map((item, index) => (
               <ImageCard
                 id={String(item.id)}
@@ -98,7 +100,7 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
                 ref={(el) => (editableRefs.current[index] = el)}
               />
             ))}
-          </Flex>
+          </Grid>
           {isLoadMore && (
             <Button color="info" variant="text" onClick={handleLoadMore}>
               Load More

@@ -5,6 +5,7 @@ import Flex from '@/components/Flex'
 import Tabs from '@/components/Tabs/Tabs'
 import SitePages from '../SitePages/SitePages'
 import SiteInsights from '../SiteInsights/SiteInsights'
+import SiteOverview from '../SiteOverview/SiteOverview'
 import Container from '@/components/Container/Container'
 import AddNewKeywords from '../AddNewKeywords/AddNewKeywords'
 import Recommendations from '../Recommendations/Recommendations'
@@ -18,6 +19,10 @@ const SiteDetailsPage = () => {
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
 
   const tabs = [
+    {
+      title: 'Site Overview',
+      content: <SiteOverview />,
+    },
     {
       title: 'Automations',
       content: <Recommendations />,

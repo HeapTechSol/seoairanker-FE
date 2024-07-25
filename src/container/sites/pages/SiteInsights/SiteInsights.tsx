@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Loader from '@/components/Loader'
+import Grid from '@/components/Grid/Grid'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import CircularProgress from '@/components/CircularProgress/CircularProgress'
@@ -26,7 +27,7 @@ const SiteInsights = () => {
 
   useEffect(() => {
     if (state?.siteUrl) getInsights({ url: state?.siteUrl })
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const convertValueToNumber = (str: string) => parseFloat(str?.replace(' s', ''))
@@ -42,11 +43,11 @@ const SiteInsights = () => {
   const seo = (insightsData?.seo_score || 0) * 100
 
   return (
-    <Container borderRadius boxShadow width={100} className="site-insights" padding={40}>
+    <Container borderRadius boxShadow className="site-insights">
       <Loader loading={insightsLoading}>
         <Flex vertical gap={100} align="center">
-          <Flex gap={64} className="circles-chart-container">
-            <Flex gap={16} vertical align="center" justify="center">
+          <Grid gap={16} minWidth={200} minMax={300} className="circles-chart-container">
+            <Flex gap={16} vertical align="center" justify="between">
               <CircularProgress
                 color={performance ? 'success' : 'error'}
                 progress={handleFormatCurrencyAndNumber({ value: performance })}
@@ -66,9 +67,9 @@ const SiteInsights = () => {
               <CircularProgress color={seo ? 'success' : 'error'} progress={handleFormatCurrencyAndNumber({ value: seo })} size={140} />
               <Typography text="SEO" type="h3" />
             </Flex>
-          </Flex>
+          </Grid>
           <Flex vertical gap={100}>
-            <Flex gap={32} wrap align="center">
+            <Grid gap={16} minWidth={200} minMax={300}>
               <Container
                 color={largestContentColor ? 'error' : 'success'}
                 borderRadius
@@ -140,7 +141,7 @@ const SiteInsights = () => {
                   </Flex>
                 </div>
               </Container>
-            </Flex>
+            </Grid>
             {insightsData?.screenshot_url && <img src={insightsData?.screenshot_url} alt="" width={'100%'} />}
           </Flex>
         </Flex>

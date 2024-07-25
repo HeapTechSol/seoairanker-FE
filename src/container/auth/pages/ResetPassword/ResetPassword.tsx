@@ -8,7 +8,7 @@ import Typography from "@/components/Typography/Typography";
 
 import useResetPasswordHandler from "@/container/auth/hooks/useResetPasswordHandler";
 
-import { PasswordIcon } from "@/assets/icons/svgs";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 import "./ResetPassword.scss";
 
@@ -34,7 +34,7 @@ const ResetPassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={PasswordIcon}
+                  StartIcon={<RiLockPasswordLine/>}
                   placeholder="Enter your new password"
                 />
               );
@@ -54,7 +54,7 @@ const ResetPassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={PasswordIcon}
+                  StartIcon={<RiLockPasswordLine/>}
                   placeholder="Re-enter your password"
                 />
               );

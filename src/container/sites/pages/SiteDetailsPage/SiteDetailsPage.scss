@@ -1,2 +1,8 @@
-.sites-dashboard{
+.sites-dashboard {
+  .tabButtons {
+    top: 80px;
+    position: sticky;
+    z-index: 999999;
+    background-color: var(--background-color);
+  }
 }

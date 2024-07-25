@@ -2,17 +2,13 @@ import React, { useRef, useState, useCallback, useEffect } from 'react'
 
 import Chip from '../Chip'
 import Flex from '../Flex'
-import Input from '../Input'
 import Checkbox from '../Checkbox'
-
-import { GoSearch } from 'react-icons/go'
-// import { IoClose } from 'react-icons/io5'
-
-import { classMapper, isEmpty, toggleCSSClass, toggleCSSClasses } from '@/utils/helper'
 
 import useHandleClickOutSide from '@/hooks/useHandleClickOutSide'
 
 import { SelectProps } from './types'
+import { Unknown } from '@/utils/commonTypes'
+import { classMapper, isEmpty, toggleCSSClass, toggleCSSClasses } from '@/utils/helper'
 
 import './Select.scss'
 
@@ -33,6 +29,7 @@ const Select = ({
 }: SelectProps) => {
   const selectedOptionsRef = useRef<HTMLDivElement>(null)
   const inputToggleBtnRef = useRef<HTMLInputElement>(null)
+  const inputFocused = useRef<HTMLInputElement>(null)
   const toggleOptionListRef = useRef<HTMLDivElement | null>(null)
   const selectContainerRef = useRef<HTMLDivElement | null>(null)
 
@@ -90,21 +87,17 @@ const Select = ({
     if (inputToggleBtnRef.current && !inputToggleBtnRef.current.checked) {
       toggleCSSClass(toggleOptionListRef.current, 'open', 'add')
       optionsListToggler(true)
+      inputFocused.current?.focus()
       return
     }
     if (inputToggleBtnRef.current && inputToggleBtnRef.current.checked) {
       optionsListToggler(false)
       toggleCSSClass(toggleOptionListRef.current, 'open', 'remove')
+      inputFocused.current?.blur()
     }
   }
 
-  // const closeOptionList = () => {
-  //   if (inputToggleBtnRef.current) toggleCSSClass(toggleOptionListRef.current, 'open', 'remove')
-  //   optionsListToggler(false)
-  // }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSearch = (e: any) => {
+  const onSearch = (e: Unknown) => {
     if (!searchable) return e.preventDefault()
     setQuery({ label: e.target.value, value: e.target.value })
   }
@@ -205,11 +198,9 @@ const Select = ({
     [size]: size,
   })
 
-  const placeholderHandler = () => {
-    if (placeholder) return <span className="placeholder-text">{placeholder}</span>
-  }
-
   const topTitle = titlePosition === 'top' && <label htmlFor={title}>{title}</label>
+
+  const searchInputWidth = values.length ? (query.label.length ? query.label.length : 1) : 40
 
   return (
     <Flex
@@ -225,28 +216,25 @@ const Select = ({
         <Flex align="center" justify="between" className={selectedOptionsContainerStyleClasses} onClick={handleFocusOnInput}>
           {title && <legend>{title}</legend>}
           <input type="checkbox" id={title} className="toggle-arrow-icon" onChange={toggleOptionsList} ref={inputToggleBtnRef} />
+
           <Flex gap={5} align="center" ref={selectedOptionsRef} className="selected-options-list">
-            {isEmpty(selected) ? placeholderHandler() : selectedOptions}
+            {!isEmpty(selected) && selectedOptions}
+            <input
+              type="text"
+              aria-expanded
+              ref={inputFocused}
+              value={query.label}
+              onChange={onSearch}
+              size={searchInputWidth}
+              className="select-input-search"
+              placeholder={!isEmpty(selected) ? '' : placeholder}
+            />
             {counter}
           </Flex>
         </Flex>
 
         <div className={'options-container'} ref={toggleOptionListRef}>
           <Flex vertical align="center">
-            {searchable && (
-              <Flex vertical gap={24} className="option-container__search">
-                <Input
-                  value={query.label}
-                  onChange={onSearch}
-                  name="query"
-                  StartIcon={<GoSearch />}
-                  size={size}
-                  borderRadius
-                  placeholder="Search"
-                  // ClearSearchIcon={<IoClose />}
-                />
-              </Flex>
-            )}
             <Flex vertical className="options-list">
               {checkAllOption}
               {optionsList}

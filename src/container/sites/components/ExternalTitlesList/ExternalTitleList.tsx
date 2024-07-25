@@ -114,8 +114,8 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
           </Flex>
           <Flex vertical align="center" gap={24} className="preview-details-list">
             <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
-            {isLoadMore && (
-              <Button color="info" variant="text" onClick={handleLoadMore}>
+             {isLoadMore && (
+              <Button color="info" variant="text" type="borderRadius" onClick={handleLoadMore}>
                 Load More
               </Button>
             )}

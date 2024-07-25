@@ -131,7 +131,7 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
   }, [externalLinkId])
 
   return (
-    <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg" padding={'40px 20px'}>
+    <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg" padding={'40px'}>
       <ShimmerPlaceholder loading={recommendationDataLoading}>
         <Flex vertical gap={16}>
           <Flex align="start">
@@ -173,8 +173,8 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
                 />
               ))}
             </Flex>
-            {isLoadMore && (
-              <Button color="info" variant="text" onClick={handleLoadMore}>
+             {isLoadMore && (
+              <Button color="info" variant="text" type="borderRadius" onClick={handleLoadMore}>
                 Load More
               </Button>
             )}

@@ -64,9 +64,15 @@
         }
 
         .selected-options-list {
-          .placeholder-text {
-            color: var(--color-common-main);
-            opacity: 0.3;
+          .select-input-search {
+            border: none;
+            outline: none;
+            background-color: transparent;
+            &::placeholder {
+              color: var(--color-common-main);
+              opacity: 0.3;
+            }
+            caret-color: var(--color-common-main);
           }
         }
 

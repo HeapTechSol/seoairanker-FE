@@ -15,7 +15,10 @@ import Pagination from '@/components/Pagination/Pagination'
 import { rowSelectionHandler } from '@/components/Table/helper'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
-import { BlockIcon, EyeIcon, ReloadIcon, SunLight } from '@/assets/icons/svgs'
+
+import { LuEye } from 'react-icons/lu'
+import { IoReloadCircleOutline } from 'react-icons/io5'
+import { MdOutlineWbSunny, MdBlock } from 'react-icons/md'
 
 import { ColumnType } from '@/components/Table/types'
 import { SiteLinksDataTypes } from '@/container/sites/sitesTypes'
@@ -48,7 +51,7 @@ const SitePages = () => {
       textAlign: 'center',
       render: () => (
         <Tooltip content="Looks like widgets is not installed on this page">
-          <Button StartIcon={BlockIcon} onlyIcon noPadding variant="text" color="error" />
+          <Button StartIcon={<MdBlock />} onlyIcon noPadding variant="text" color="error" />
         </Tooltip>
       ),
     },
@@ -57,9 +60,9 @@ const SitePages = () => {
       textAlign: 'center',
       render: () => (
         <Flex gap={12} align="center" justify="center">
-          <Button StartIcon={EyeIcon} onlyIcon noPadding variant="text" color="info" />
-          <Button StartIcon={ReloadIcon} onlyIcon noPadding variant="text" color="info" fill />
-          <Button StartIcon={SunLight} onlyIcon noPadding variant="text" color="info" />
+          <Button StartIcon={<LuEye />} onlyIcon noPadding variant="text" color="info" />
+          <Button StartIcon={<IoReloadCircleOutline />} onlyIcon noPadding variant="text" color="info" />
+          <Button StartIcon={<MdOutlineWbSunny />} onlyIcon noPadding variant="text" color="info" />
         </Flex>
       ),
     },
@@ -100,7 +103,9 @@ const SitePages = () => {
             <Flex vertical gap={16}>
               <Typography text="Found Pages" type="h2" />
               <Typography
-                text={`We routinely crawl ${state?.siteUrl || ''} in order to understand your site structure and to better identify potential SEO improvements. Here are the pages we found. Click the toggle icon to ignore pages on future crawls.`}
+                text={`We routinely crawl ${
+                  state?.siteUrl || ''
+                } in order to understand your site structure and to better identify potential SEO improvements. Here are the pages we found. Click the toggle icon to ignore pages on future crawls.`}
               />
               <Typography text={`You have approved 1 recommendation. Click any link below to see them live.`} />
               <Typography text={`Status: completed (last crawled 3 days ago)`} />
