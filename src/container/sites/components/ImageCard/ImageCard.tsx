@@ -39,7 +39,7 @@ const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
             </span>
             <Typography
               color="warning"
-              text={<TruncateText text={altText} width={150} line={1} key={1} />}
+              text={<TruncateText text={altText} line={3} key={1} />}
               contentEditable={id === editedId}
               onBlur={(e) => handleBlur(e, id, index, altText, linkId)}
               ref={ref}
