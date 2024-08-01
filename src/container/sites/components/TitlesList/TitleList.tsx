@@ -33,13 +33,13 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const handleAllRecommendations = async () => {
     if (state?.siteId) {
       await handleUpdateRecommendations({
-        model: 'anchor_titles',
+        model: 'missing_link_title_attr',
         filter_conditions: { link_id: recommendation?.link_id, site_id: state?.siteId },
         update_data: { approved: true },
         bulk: true,
       })
       await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles', link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
   }
 
@@ -48,13 +48,13 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
     e.stopPropagation()
     if (state?.siteId) {
       await handleUpdateRecommendations({
-        model: 'anchor_titles',
+        model: 'missing_link_title_attr',
         filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
         update_data: { approved: status },
         bulk: false,
       })
       await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles', link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
   }
 
@@ -77,20 +77,20 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
     const text = e.target.innerText
     if (state?.siteId && currentText != text) {
       await handleUpdateRecommendations({
-        model: 'anchor_titles',
+        model: 'missing_link_title_attr',
         filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
         update_data: { approved: true, suggested_title: text },
         bulk: false,
       })
       await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles', link_id: externalLinkId })
+      await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
   }
 
   const columns: ColumnType<MissingTitlesDataTypes>[] = [
-    { header: 'Link', dataKey: 'link_path', render: (text: string) => <TruncateText text={text} line={1} width={300}></TruncateText> },
+    { header: 'Link', dataKey: 'url', render: (text: string) => <TruncateText text={text} line={1} width={300}></TruncateText> },
     {
       header: 'Title',
       dataKey: 'suggested_title',
@@ -133,13 +133,13 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const isLoadMore = (recommendationData?.total_count || 0) > (recommendationData?.data?.length || 0)
 
   const handleLoadMore = () => {
-    getRecommendationByType({ page: (recommendationData?.page || 0) + 1, per_page: 10, type: 'anchor_titles', link_id: externalLinkId })
+    getRecommendationByType({ page: (recommendationData?.page || 0) + 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
   }
 
   const isApproved = recommendationData?.total_count == recommendationData?.approved_count
 
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 10, type: 'anchor_titles', link_id: externalLinkId })
+    getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [externalLinkId])
 

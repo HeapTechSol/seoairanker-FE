@@ -10,6 +10,9 @@
     }
     .checkmark-icon {
       color: colorMapper(success, main);
+      &.watch {
+        color: var(--color-main-common);
+      }
     }
     .body-text {
       color: var(--color-main-common) !important;

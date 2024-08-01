@@ -54,13 +54,15 @@ const BillingDetail = () => {
                     <Typography text="Sites" type="h4" />
                     <Chip
                       color="info"
-                      text={`${handleFormatCurrencyAndNumber({ value: userQuota?.sites_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.sites_quota || 0 })}`}
+                      text={`${handleFormatCurrencyAndNumber({ value: userQuota?.remaining_sites_quota || 0 })} of ${handleFormatCurrencyAndNumber({
+                        value: userQuota?.total_sites_quota || 0,
+                      })}`}
                       circled
                       size="sm"
                       bordered
                     />
                   </Flex>
-                  <HorizontalProgressBar max={userQuota?.sites_quota || 0} value={userQuota?.sites_quota_left || 0} />
+                  <HorizontalProgressBar max={userQuota?.total_sites_quota || 0} value={userQuota?.remaining_sites_quota || 0} />
                 </Flex>
                 <Flex padding={5} vertical>
                   <Flex justify="between" align="center">
@@ -74,26 +76,30 @@ const BillingDetail = () => {
                     <Typography text="Keywords" type="h4" />
                     <Chip
                       color="info"
-                      text={`${handleFormatCurrencyAndNumber({ value: userQuota?.keywords_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.keywords_quota || 0 })}`}
+                      text={`${handleFormatCurrencyAndNumber({ value: userQuota?.remaining_keywords_quota || 0 })} of ${handleFormatCurrencyAndNumber(
+                        { value: userQuota?.total_keywords_quota || 0 }
+                      )}`}
                       circled
                       size="sm"
                       bordered
                     />
                   </Flex>
-                  <HorizontalProgressBar max={userQuota?.keywords_quota || 0} value={userQuota?.keywords_quota_left || 0} />
+                  <HorizontalProgressBar max={userQuota?.total_keywords_quota || 0} value={userQuota?.remaining_keywords_quota || 0} />
                 </Flex>
                 <Flex padding={5} vertical>
                   <Flex justify="between" align="center">
                     <Typography text="Pages Optimized" type="h4" />
                     <Chip
                       color="info"
-                      text={`${handleFormatCurrencyAndNumber({ value: userQuota?.pages_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.pages_quota || 0 })}`}
+                      text={`${handleFormatCurrencyAndNumber({ value: userQuota?.remaining_pages_quota || 0 })} of ${handleFormatCurrencyAndNumber({
+                        value: userQuota?.total_pages_quota || 0,
+                      })}`}
                       circled
                       size="sm"
                       bordered
                     />
                   </Flex>
-                  <HorizontalProgressBar max={userQuota?.pages_quota || 0} value={userQuota?.pages_quota_left || 0} />
+                  <HorizontalProgressBar max={userQuota?.total_pages_quota || 0} value={userQuota?.remaining_pages_quota || 0} />
                 </Flex>
               </Flex>
               <Flex padding={5} align="center" gap={16}>
@@ -144,26 +150,30 @@ const BillingDetail = () => {
 
                   <Chip
                     color="info"
-                    text={`${handleFormatCurrencyAndNumber({ value: userQuota?.meta_title_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.meta_title_quota || 0 })}`}
+                    text={`${handleFormatCurrencyAndNumber({ value: userQuota?.remaining_meta_title_quota || 0 })} of ${handleFormatCurrencyAndNumber(
+                      { value: userQuota?.total_meta_title_quota || 0 }
+                    )}`}
                     circled
                     size="sm"
                     bordered
                   />
                 </Flex>
-                <HorizontalProgressBar max={userQuota?.meta_title_quota || 0} value={userQuota?.meta_title_quota_left || 0} />
+                <HorizontalProgressBar max={userQuota?.total_meta_title_quota || 0} value={userQuota?.remaining_meta_title_quota || 0} />
               </Flex>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Meta Descriptions" type="h4" />
                   <Chip
                     color="info"
-                    text={`${handleFormatCurrencyAndNumber({ value: userQuota?.meta_description_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.meta_description_quota || 0 })}`}
+                    text={`${handleFormatCurrencyAndNumber({
+                      value: userQuota?.remaining_meta_description_quota || 0,
+                    })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.total_meta_description_quota || 0 })}`}
                     circled
                     size="sm"
                     bordered
                   />
                 </Flex>
-                <HorizontalProgressBar max={userQuota?.meta_description_quota || 0} value={userQuota?.meta_description_quota_left || 0} />
+                <HorizontalProgressBar max={userQuota?.total_meta_description_quota || 0} value={userQuota?.remaining_meta_description_quota || 0} />
               </Flex>
             </Flex>
           </Flex>
@@ -185,13 +195,15 @@ const BillingDetail = () => {
                   <Typography text="Page Crawls" type="h4" />
                   <Chip
                     color="info"
-                    text={`${handleFormatCurrencyAndNumber({ value: userQuota?.pages_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.pages_quota || 0 })}`}
+                    text={`${handleFormatCurrencyAndNumber({ value: userQuota?.remaining_pages_quota || 0 })} of ${handleFormatCurrencyAndNumber({
+                      value: userQuota?.total_pages_quota || 0,
+                    })}`}
                     circled
                     size="sm"
                     bordered
                   />
                 </Flex>
-                <HorizontalProgressBar max={userQuota?.pages_quota || 0} value={userQuota?.pages_quota_left || 0} />
+                <HorizontalProgressBar max={userQuota?.total_pages_quota || 0} value={userQuota?.remaining_pages_quota || 0} />
               </Flex>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">

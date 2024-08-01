@@ -1,7 +1,7 @@
 export const AUTH = {
   AUTH: 'auth/',
   LOGIN: 'login',
-  SIGNUP: 'signup',
+  SIGNUP: 'register',
   GOOGLE_AUTH: 'social-auth',
 }
 
@@ -11,7 +11,7 @@ export const USERS = {
 }
 
 export const SITES = {
-  SITES: 'sites/',
+  SITES: 'websites/',
   ADD_SITE: 'add_site',
   DELETE_SITE: 'delete',
   SITES_LIST: 'user_sites',

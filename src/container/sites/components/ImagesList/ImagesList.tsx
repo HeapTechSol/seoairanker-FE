@@ -33,7 +33,7 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
         bulk: false,
       })
     await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
-    await getRecommendationByType({ page: 1, per_page: 20, type: 'images', link_id: externalLinkId })
+    await getRecommendationByType({ page: 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
   }
 
   const editSuggestionHandler = (index: number, id: string) => {
@@ -53,7 +53,7 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId: string) => {
     setEditedId(type_id)
     const text = e.target.innerText
-    if (state?.siteId && currentText != text) {
+    if (state?.siteId && currentText != text && text) {
       await handleUpdateRecommendations({
         model: 'images',
         filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
@@ -61,7 +61,7 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
         bulk: false,
       })
       await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: recommendationData?.page, per_page: 20, type: 'images', link_id: externalLinkId })
+      await getRecommendationByType({ page: recommendationData?.page, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
@@ -70,11 +70,11 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const isLoadMore = (recommendationData?.total_count || 0) > (recommendationData?.data?.length || 0)
 
   const handleLoadMore = () => {
-    getRecommendationByType({ page: (recommendationData?.page || 0) + 1, per_page: 20, type: 'images', link_id: externalLinkId })
+    getRecommendationByType({ page: (recommendationData?.page || 0) + 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
   }
 
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 20, type: 'images', link_id: externalLinkId })
+    getRecommendationByType({ page: 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [externalLinkId])
 

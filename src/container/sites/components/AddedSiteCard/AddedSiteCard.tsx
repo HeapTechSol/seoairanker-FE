@@ -14,12 +14,13 @@ import { SitesAPIResponse } from '@/container/sites/sitesTypes'
 import { GiWorld } from 'react-icons/gi'
 import { FaDownload } from 'react-icons/fa'
 import { RiDeleteBin6Line } from 'react-icons/ri'
-import { IoSettingsOutline } from 'react-icons/io5'
 import { TiLocationArrowOutline } from 'react-icons/ti'
+import { IoWarningOutline } from 'react-icons/io5'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import './AddedSiteCard.scss'
+import Tooltip from '@/components/Tooltip'
 
 const { SITE_DETAILS_PAGE, KEYWORDS_RANKING } = EXACT_ROUTES
 
@@ -32,14 +33,14 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
   const isKeywords = false
 
   const reportsMenu = [
-    {
-      id: 1,
-      name: (
-        <Button fullWidth variant="filled" color="primary" type="borderRadius">
-          Download PDF
-        </Button>
-      ),
-    },
+    // {
+    //   id: 1,
+    //   name: (
+    //     <Button fullWidth variant="filled" color="primary" type="borderRadius">
+    //       Download PDF
+    //     </Button>
+    //   ),
+    // },
     {
       id: 2,
       onClick: () => exportDataToCSV({ site_id: String(site?.id) }),
@@ -77,10 +78,29 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
             </Link>
           </Flex>
           <Flex className="site-info-controls" justify="end" align="center">
-            <Button onlyIcon size="sm" color="info" variant="text" StartIcon={<IoSettingsOutline />} onClick={() => console.log('clicked')} />
-            <Button onlyIcon size="sm" color="error" variant="text" fill StartIcon={<RiDeleteBin6Line />} onClick={onClick} />
+            <Tooltip content={'Snippet is not installed'}>
+              <Button
+                type="borderRadius"
+                onlyIcon
+                size="sm"
+                color="warning"
+                variant="text"
+                StartIcon={<IoWarningOutline />}
+                onClick={() => console.log('clicked')}
+              />
+            </Tooltip>
+            {/* <Button
+              type="borderRadius"
+              onlyIcon
+              size="sm"
+              color="info"
+              variant="text"
+              StartIcon={<IoSettingsOutline />}
+              onClick={() => console.log('clicked')}
+            /> */}
+            <Button type="borderRadius" onlyIcon size="sm" color="error" variant="text" fill StartIcon={<RiDeleteBin6Line />} onClick={onClick} />
             <Dropdown options={reportsMenu} onSelect={() => null} className="profile-dropdown-list" dropDownPlacement="right">
-              <Button onlyIcon size="sm" color="primary" variant="text" StartIcon={<FaDownload />} onClick={() => null} />
+              <Button type="borderRadius" onlyIcon size="sm" color="primary" variant="text" StartIcon={<FaDownload />} onClick={() => null} />
             </Dropdown>
           </Flex>
         </Flex>

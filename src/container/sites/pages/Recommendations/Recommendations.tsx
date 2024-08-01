@@ -34,10 +34,10 @@ const Recommendations = () => {
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
   const recommendationTitles = {
-    images: 'No Image Alt/Title Text',
+    missing_alt_images: 'No Image Alt/Title Text',
     og_tags: 'Add a Social Preview',
     heading_suggestions: 'Optimize Headline Tags',
-    anchor_titles: 'Link Missing Titles',
+    missing_link_title_attr: 'Link Missing Titles',
     missing_meta_descriptions: 'Add Meta Description',
     missing_meta_titles: 'Optimize Title',
     external_links: 'External Link Target',

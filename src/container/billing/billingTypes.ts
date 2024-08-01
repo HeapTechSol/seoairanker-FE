@@ -37,18 +37,18 @@ export type CheckoutStateTypes = {
 }
 
 export type GetUserQuotaAPIResponseTypes = {
-  pages_quota: number
-  sites_quota: number
-  keywords_quota: number
-  pages_quota_left: number
-  meta_title_quota: number
-  sites_quota_left: number
-  team_members_quota: number
-  keywords_quota_left: number
-  meta_title_quota_left: number
-  meta_description_quota: number
-  team_members_quota_left: number
-  meta_description_quota_left: number
+  total_pages_quota: number
+  total_sites_quota: number
+  total_keywords_quota: number
+  remaining_sites_quota: number
+  remaining_pages_quota: number
+  total_meta_title_quota: number
+  total_team_members_quota: number
+  remaining_keywords_quota: number
+  remaining_meta_title_quota: number
+  remaining_team_members_quota: number
+  total_meta_description_quota: number
+  remaining_meta_description_quota: number
 }
 
 export type APIKeysDataTypes = { token: string; last_used: string }

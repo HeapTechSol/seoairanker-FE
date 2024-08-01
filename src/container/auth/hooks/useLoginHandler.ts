@@ -30,7 +30,7 @@ const useLoginHandler = () => {
   const loginHandler = async (credentials: LoginPayloadTypes) => {
     try {
       const data = await signIn(credentials).unwrap()
-      dispatch(setUser(data.result))
+      dispatch(setUser(data.data))
       navigate(SITES_DASHBOARD)
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
@@ -55,7 +55,7 @@ const useLoginHandler = () => {
       const { email, given_name: firstName, family_name: lastName, picture: profileImage } = userInfo
 
       const data = await googleAuth({ email, firstName, lastName, profileImage }).unwrap()
-      dispatch(setUser(data.result))
+      dispatch(setUser(data.data))
       navigate(SITES_DASHBOARD)
     } catch (error) {
       console.error('Error during Google login:', error instanceof Error ? error.message : String(error))

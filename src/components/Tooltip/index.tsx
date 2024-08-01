@@ -1,40 +1,52 @@
-import React, { useState, ReactNode, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Tooltip.scss';
 
 interface TooltipProps {
-  content: ReactNode;
-  children: ReactNode;
+  content: string;
+  children: React.ReactNode;
+  placement?: 'top' | 'bottom' | 'left' | 'right';
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
-  const [visible, setVisible] = useState(false);
+const Tooltip: React.FC<TooltipProps> = ({ content, children, placement = 'top' }) => {
+  const [isVisible, setIsVisible] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseEnter = () => {
-    setVisible(true);
-  };
-
-  const handleMouseLeave = () => {
-    setVisible(false);
-  };
+  const triggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
-        setVisible(false);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node) &&
+          triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
+        setIsVisible(false);
       }
     };
 
-    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
+  const showTooltip = () => setIsVisible(true);
+  const hideTooltip = () => setIsVisible(false);
+
   return (
-    <div className="tooltip-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={tooltipRef}>
-      {children}
-      {visible && <div className="tooltip-content">{content}</div>}
+    <div className="tooltip-container">
+      <div
+        ref={triggerRef}
+        className="tooltip-trigger"
+        onMouseEnter={showTooltip}
+        onMouseLeave={hideTooltip}
+      >
+        {children}
+      </div>
+      {isVisible && (
+        <div
+          ref={tooltipRef}
+          className={`tooltip ${placement}`}
+        >
+          {content}
+        </div>
+      )}
     </div>
   );
 };

@@ -13,6 +13,7 @@ import { CommonValidations } from '@/utils/commonValidations'
 
 import { MdOutlineWatchLater } from 'react-icons/md'
 
+import { Unknown } from '@/utils/commonTypes'
 import { KeywordsDataTypes } from './sitesTypes'
 import { ColumnType } from '@/components/Table/types'
 import { APIKeysDataTypes } from '../billing/billingTypes'
@@ -109,8 +110,7 @@ export const ADD_KEYWORDS_VALIDATIONS = z
   })
   .optional()
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const steps = (control: any) => [
+export const steps = (control: Unknown) => [
   {
     title: 'Add Site',
     stepLabel: '1',

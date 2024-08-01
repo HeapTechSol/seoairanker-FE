@@ -17,9 +17,9 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode | JSX.Element 
     return <Navigate to={LOGIN} />
   }
 
-  if (!isUserSubscribed && !allowedRoutesWithoutSubscription.includes(pathname)) {
-    return <Navigate to={PLANS}/>
-  }
+  // if (!isUserSubscribed && !allowedRoutesWithoutSubscription.includes(pathname)) {
+  //   return <Navigate to={PLANS}/>
+  // }
 
   return <>{children}</>
 }

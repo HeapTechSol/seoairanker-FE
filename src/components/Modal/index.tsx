@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import Loader from "@/components/Loader";
 
 import { ModalProps } from "./types";
+import { Unknown } from "@/utils/commonTypes";
 
 import "./Modal.scss";
 
@@ -26,8 +27,7 @@ const Modal = ({
 }: ModalProps) => {
   const bubbleRef = useRef<HTMLDivElement>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const outSideClick = (e: any) => {
+  const outSideClick = (e: Unknown) => {
     e.stopPropagation();
     if (e.target.classList[0] === "modal-container") {
       if (

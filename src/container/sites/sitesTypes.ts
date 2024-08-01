@@ -1,27 +1,27 @@
 import { MaybeNull } from '@/utils/commonTypes'
 
 export type AddSitePayload = {
-  siteUrl: string
   pages: number
-  jsonSchemas: boolean
-  businessType: string
+  siteUrl: string
   country: string
   language: string
+  jsonSchemas: boolean
+  businessType: string
 }
 
 export type SitesAPIResponse = {
-  business_type: string
-  country: string
-  created_at: string
-  favicon_url: string
   id: number
-  language: string
-  screenshot_url: MaybeNull<string>
-  site_url: string
-  total_approved_count: number
-  total_count: number
-  total_unapproved_count: number
+  country: string
   user_id: number
+  language: string
+  site_url: string
+  created_at: string
+  total_count: number
+  favicon_url: string
+  business_type: string
+  total_approved_count: number
+  total_unapproved_count: number
+  screenshot_url: MaybeNull<string>
 }
 
 export type SitesAPIResponseTypes = {
@@ -30,31 +30,31 @@ export type SitesAPIResponseTypes = {
 
 export type SiteLinksDataTypes = {
   id: string
-  site_id: string
   url: string
   path: string
-  last_crawled: string
-  page_language: string
+  site_id: string
   createdAt: string
   updatedAt: string
+  last_crawled: string
+  page_language: string
 }
 
 export type SiteLinksAPIResponseTypes = {
-  data: SiteLinksDataTypes[]
   page: number
   per_page: number
   total_count: number
+  data: SiteLinksDataTypes[]
 }
 
 export type PathSearchResults = {
-  createdAt: string
   id: string
-  last_crawled: string
-  page_language: string
+  url: string
   path: string
   site_id: string
+  createdAt: string
   updatedAt: string
-  url: string
+  last_crawled: string
+  page_language: string
 }
 
 export type GetSitePathSearchResultsResponseTypes = {
@@ -62,31 +62,36 @@ export type GetSitePathSearchResultsResponseTypes = {
 }
 
 export type ModalTypes =
-  | 'anchor_titles'
-  | 'images'
   | 'og_tags'
-  | 'heading_suggestions'
-  | 'missing_meta_titles'
-  | 'missing_meta_descriptions'
   | 'external_links'
+  | 'missing_alt_images'
+  | 'missing_meta_titles'
+  | 'heading_suggestions'
+  | 'missing_link_title_attr'
+  | 'missing_meta_descriptions'
 
 export type ModalDataTypes = {
+  total: number
   approved: number
   model: ModalTypes
-  total: number
 }
 
 export type SiteDataTypes = {
-  business_type: string
-  country_code: string
-  createdAt: string
   id: number
-  language_code: string
   site_url: string
-  total_approved: number
-  total_count: number
   updatedAt: string
+  createdAt: string
+  total_count: number
+  favicon_url: string
+  country_code: string
+  language_code: string
+  business_type: string
+  total_approved: number
   screenshot_url: string
+  schema_configured: boolean
+  snippet_installed: boolean
+  keywords_add_to_track: boolean
+  recommendations_generated: boolean
 }
 
 export type CrawledInfoAPIResponseTypes = {
@@ -99,94 +104,100 @@ export type CrawledInfoAPIResponseTypes = {
 export type GetRecommendationsByTypesPayloadTypes = { type: ModalTypes; per_page: number; page: number }
 
 export type SiteLinkPayloadTypes = {
-  site_id: string
   page: number
+  site_id: string
   per_page: number
 }
 
 export type GetKeywordsPayload = {
-  site_id: string
   page: number
+  site_id: string
   per_page: number
 }
 
 export type MissingTitlesDataTypes = {
   id: string
-  link_id: string
-  suggested_title: string
-  approved: boolean
-  existing_title: string
+  url: string
   xpath: string
+  link_id: string
+  approved: boolean
   link_path: string
   css_selector: string
+  existing_title: string
+  suggested_title: string
 }
 
 export type ImagesAltDataTypes = {
-  alt_text: string
-  approved: boolean
   id: number
-  link_id: string
-  link_path: string
   url: string
+  xpath: string
+  page_id: string
+  link_id: string
+  alt_text: string
+  link_path: string
+  approved: boolean
+  updated_at: string
+  css_selector: string
 }
 
 export type OgTagsDataTypes = {
-  approved: boolean
-  existing_og_tag: string
   id: string
   link_id: string
   link_path: string
+  approved: boolean
+  existing_og_tag: string
   suggested_og_tag: string
 }
 
 export type MetaTitleDataTypes = {
-  approved: boolean
-  suggested_title: string
   id: string
   link_id: string
   link_path: string
+  approved: boolean
+  suggested_title: string
   existing_meta_title: string
 }
 
 export type MetaDescriptionDataTypes = {
-  approved: boolean
-  suggested_description: string
   id: string
   link_id: string
+  approved: boolean
   link_path: string
+  suggested_description: string
   existing_meta_description: string
 }
 
 export type HeadingOptimizationDataTypes = {
-  approved: boolean
-  css_selector: string
-  current_heading: string
-  heading_content: string
   id: string
   link_id: string
   link_path: string
-  suggested_heading: string
+  approved: boolean
   suggestion: string
+  css_selector: string
+  current_heading: string
+  heading_content: string
+  suggested_heading: string
 }
 
 export type AllModalDataTypes =
-  | ImagesAltDataTypes[]
   | OgTagsDataTypes[]
-  | HeadingOptimizationDataTypes[]
+  | ImagesAltDataTypes[]
   | MetaTitleDataTypes[]
   | MissingTitlesDataTypes[]
   | MetaDescriptionDataTypes[]
+  | HeadingOptimizationDataTypes[]
 
 export type GetRecommendationsByModelAPIResponseTypes = {
-  approved_count: number
-  data: AllModalDataTypes
   page: number
   total_count: number
+  approved_count: number
+  data: AllModalDataTypes
   unapproved_count: number
 }
 
 export type ApproveRecommendationsPayloadTypes = {
-  filter_conditions: { site_id: string; id?: string; link_id?: string }
+  bulk: boolean
+  model?: string
   update_data: {
     approved: boolean
     alt_text?: string
@@ -195,43 +206,43 @@ export type ApproveRecommendationsPayloadTypes = {
     suggested_og_tag?: string
     suggested_heading?: string
   }
-  bulk: boolean
-  model?: string
+  filter_conditions: { site_id: string; id?: string; link_id?: string }
 }
 
 export type AddSitePayloadTypes = {
-  siteUrl: string
   pages: number
-  jsonSchemas: boolean
-  businessType: string
+  script: string
+  siteUrl: string
   country: string
   language: string
-  script: string
+  jsonSchemas: boolean
+  businessType: string
   keywords: MaybeNull<KeywordsDataTypes[]>
 }
 
 export type KeywordsDataTypes = {
-  competition: string
-  competition_index: number
-  cpc: number
-  createdAt: string
-  high_top_of_page_bid: number
   id: number
+  cpc: number
   keyword: string
-  language_code: string
-  location_code: MaybeNull<number>
-  low_top_of_page_bid: number
-  search_partners: boolean
-  search_volume: number
   site_id: number
+  createdAt: string
+  competition: string
+  language_code: string
+  search_volume: number
+  search_partners: boolean
+  competition_index: number
+  snippet_installed: boolean
+  low_top_of_page_bid: number
+  high_top_of_page_bid: number
+  location_code: MaybeNull<number>
 }
 
 export type GetKeywordsAPIResponseTypes = {
-  data: KeywordsDataTypes[]
   page: number
   pages: number
-  per_page: number
   total: number
+  per_page: number
+  data: KeywordsDataTypes[]
 }
 
 export type AddKeywordsDefaultValues = {
@@ -256,18 +267,18 @@ export type AddKeyWordsPayloadTypes = {
 export type NotificationDataTypes = {
   id: string
   title: string
+  read: boolean
   user_id: string
   message: string
   timestamp: string
-  read: boolean
 }
 
 export type NotificationsAPIResponseTypes = {
-  data: NotificationDataTypes[]
   page: number
-  unread_count: number
   total: number
   per_page: number
+  unread_count: number
+  data: NotificationDataTypes[]
 }
 
 export type NotificationAPIPayloadTypes = {

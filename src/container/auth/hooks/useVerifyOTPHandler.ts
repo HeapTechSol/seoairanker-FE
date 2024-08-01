@@ -1,6 +1,9 @@
-import { EXACT_ROUTES } from "@/constant/routes";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import { Unknown } from "@/utils/commonTypes";
+
+import { EXACT_ROUTES } from "@/constant/routes";
 
 const { RESET_PASSWORD } = EXACT_ROUTES;
 
@@ -26,8 +29,7 @@ const useVerifyOTPHandler = () => {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleBackspaceAndEnter = (e: any, index: number) => {
+  const handleBackspaceAndEnter = (e: Unknown, index: number) => {
     if (e.key === "Backspace" && !e.target.value && index > 0) {
       otpBoxReference.current[index - 1].focus();
     }

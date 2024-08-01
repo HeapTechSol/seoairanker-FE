@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import Flex from '@/components/Flex'
 import Tabs from '@/components/Tabs/Tabs'
 import SitePages from '../SitePages/SitePages'
-import SiteInsights from '../SiteInsights/SiteInsights'
+// import SiteInsights from '../SiteInsights/SiteInsights'
 import SiteOverview from '../SiteOverview/SiteOverview'
 import Container from '@/components/Container/Container'
 import AddNewKeywords from '../AddNewKeywords/AddNewKeywords'
@@ -29,7 +29,7 @@ const SiteDetailsPage = () => {
     },
     { title: 'Keywords', content: <AddNewKeywords /> },
     { title: 'Pages', content: <SitePages /> },
-    { title: 'Speed Metrics', content: <SiteInsights /> },
+    // { title: 'Speed Metrics', content: <SiteInsights /> },
   ]
 
   useEffect(() => {

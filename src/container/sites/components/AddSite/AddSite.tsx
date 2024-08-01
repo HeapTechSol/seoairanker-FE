@@ -54,7 +54,7 @@ const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
                 value={value}
                 min={0}
                 step={10}
-                max={userQuota?.pages_quota}
+                max={userQuota?.total_pages_quota}
                 filledRangeColor="primary"
                 emptyRangeColor="secondary"
               />
@@ -64,7 +64,9 @@ const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
           />
 
           <Typography
-            text={`Current Limit: ${pages >= (userQuota?.pages_quota || 0) ? 'unlimited' : pages || ''} ${userQuota?.pages_quota} Included in your plan`}
+            text={`Current Limit: ${pages >= (userQuota?.total_pages_quota || 0) ? 'unlimited' : pages || ''} ${
+              userQuota?.total_pages_quota
+            } Included in your plan`}
           />
           <Flex align="center" gap={16}>
             <Controller

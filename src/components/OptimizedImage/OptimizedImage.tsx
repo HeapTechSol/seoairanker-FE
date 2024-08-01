@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Loader from '../Loader'
+
 import { NoImageAvailable } from '@/assets/icons/svgs'
 
 import './OptimizedImage.scss'
@@ -32,13 +34,25 @@ const OptimizedImage: React.FC<ImageProps> = ({
 }) => {
   const [imageSrc, setImageSrc] = React.useState(src)
   const [loaded, setLoaded] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(true)
+  const [hasError, setHasError] = React.useState(false)
 
   React.useEffect(() => {
     setImageSrc(src)
+    setIsLoading(true)
+    setLoaded(false)
+    setHasError(false)
   }, [src])
 
   const handleLoad = () => {
     setLoaded(true)
+    setIsLoading(false)
+  }
+
+  const handleError = () => {
+    setLoaded(false)
+    setIsLoading(false)
+    setHasError(true)
   }
 
   const imgStyle: React.CSSProperties = {
@@ -61,6 +75,8 @@ const OptimizedImage: React.FC<ImageProps> = ({
 
   return (
     <div className={`optimized-image-container ${className}`} style={wrapperStyle} onClick={onClick} {...divProps}>
+      {isLoading && <Loader loading />}
+      {!isLoading && hasError && NoImageAvailable}
       <img
         src={imageSrc}
         alt={alt}
@@ -69,8 +85,8 @@ const OptimizedImage: React.FC<ImageProps> = ({
         style={imgStyle}
         loading={priority ? 'eager' : loading}
         onLoad={handleLoad}
+        onError={handleError}
       />
-      {!loaded && NoImageAvailable}
     </div>
   )
 }

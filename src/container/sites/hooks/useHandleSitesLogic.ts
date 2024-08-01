@@ -44,7 +44,7 @@ const useHandleSitesLogic = () => {
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
   const notificationsData = useAppSelector((state) => state.sites.notificationsData)
 
-  const isSiteQuotaExceeded = (userQuota?.sites_quota_left as number) >= (userQuota?.sites_quota as number)
+  const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota as number) >= (userQuota?.total_sites_quota as number)
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()
@@ -65,13 +65,18 @@ const useHandleSitesLogic = () => {
     if (currentStep >= stepsCount) return
     if (currentStep === 2 && !script) {
       const values = getValues()
-      const response = await addSite({
-        ...values,
-      }).unwrap()
-      toast.success(response?.message)
-      setValue('script', response.data || '')
-      setCurrentStep((prev) => prev + 1)
-      return
+      try {
+        const response = await addSite({
+          ...values,
+        }).unwrap()
+        toast.success(response?.message)
+        setValue('script', response.data || '')
+        setCurrentStep((prev) => prev + 1)
+        return
+      } catch (error) {
+        if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
+        return
+      }
     }
     setCurrentStep((prev) => prev + 1)
   }

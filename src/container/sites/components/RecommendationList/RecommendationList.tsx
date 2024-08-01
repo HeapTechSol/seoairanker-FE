@@ -11,11 +11,11 @@ import './RecommendationList.scss'
 const RecommendationList = ({ selectedKey, link_id }: { selectedKey: string; link_id: string }) => {
   const renderList = () => {
     switch (selectedKey) {
-      case 'images':
+      case 'missing_alt_images':
         return <ImagesList link_id={link_id} />
       case 'missing_meta_titles':
         return <TitlePreview link_id={link_id} />
-      case 'anchor_titles':
+      case 'missing_link_title_attr':
         return <TitleList link_id={link_id} />
       case 'external_links':
         return <ExternalTitleList link_id={link_id} />

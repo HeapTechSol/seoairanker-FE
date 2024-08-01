@@ -29,7 +29,7 @@ const PaymentHistory = () => {
     declined: <Chip circled text="Declined" color="error" />,
   }
 
-  const columns:ColumnType<PaymentHistoryResponseTypes>[] = [
+  const columns: ColumnType<PaymentHistoryResponseTypes>[] = [
     { header: 'Payment ID', dataKey: 'stripe_transaction_id', render: (text: string) => text || '-' },
     { header: 'Date', dataKey: 'payment_date', render: (date: string) => formatDate(date) },
     { header: 'Type', dataKey: 'payment_method' },
@@ -54,7 +54,11 @@ const PaymentHistory = () => {
             {PersonIcon}
             <Flex vertical gap={8}>
               <Typography type="h3" text="Team Members" />
-              <Typography text="3 of 10" />
+              <Typography
+                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.remaining_team_members_quota || 0 })} of ${handleFormatCurrencyAndNumber({
+                  value: userQuota?.total_team_members_quota || 0,
+                })}`}
+              />
             </Flex>
           </Flex>
         </Container>
@@ -64,7 +68,9 @@ const PaymentHistory = () => {
             <Flex vertical gap={8}>
               <Typography type="h3" text="Site Crawls" />
               <Typography
-                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.sites_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.sites_quota || 0 })}`}
+                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.remaining_sites_quota || 0 })} of ${handleFormatCurrencyAndNumber({
+                  value: userQuota?.total_sites_quota || 0,
+                })}`}
               />
             </Flex>
           </Flex>
@@ -75,7 +81,9 @@ const PaymentHistory = () => {
             <Flex vertical gap={8}>
               <Typography type="h3" text="Keyword Searches" />
               <Typography
-                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.keywords_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.keywords_quota || 0 })}`}
+                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.remaining_keywords_quota || 0 })} of ${handleFormatCurrencyAndNumber({
+                  value: userQuota?.total_keywords_quota || 0,
+                })}`}
               />
             </Flex>
           </Flex>
@@ -86,7 +94,9 @@ const PaymentHistory = () => {
             <Flex vertical gap={8}>
               <Typography type="h3" text="Pages" />
               <Typography
-                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.pages_quota_left || 0 })} of ${handleFormatCurrencyAndNumber({ value: userQuota?.pages_quota || 0 })}`}
+                text={`${handleFormatCurrencyAndNumber({ value: userQuota?.remaining_pages_quota || 0 })} of ${handleFormatCurrencyAndNumber({
+                  value: userQuota?.total_pages_quota || 0,
+                })}`}
               />
             </Flex>
           </Flex>

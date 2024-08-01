@@ -28,7 +28,7 @@ const useSignUpHandler = () => {
   const signUpHandler = async (values: SignUpPayload) => {
     try {
       const data = await signUp(values).unwrap();
-      dispatch(setUser(data.result))
+      dispatch(setUser(data?.data))
       toast.success(data?.message);
       navigate(SITES_DASHBOARD)
     } catch (error) {
