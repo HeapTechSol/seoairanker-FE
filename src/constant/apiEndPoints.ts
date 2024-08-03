@@ -3,11 +3,11 @@ export const AUTH = {
   LOGIN: 'login',
   SIGNUP: 'register',
   GOOGLE_AUTH: 'social-auth',
+  NOTIFICATION_LISTING: 'notifications',
 }
 
 export const USERS = {
   USER: 'users/',
-  NOTIFICATION_LISTING: 'notifications',
 }
 
 export const SITES = {
@@ -15,11 +15,11 @@ export const SITES = {
   ADD_SITE: 'add_site',
   DELETE_SITE: 'delete',
   SITES_LIST: 'user_sites',
+  GET_KEYWORDS: 'get_keywords',
   USER_QUOTA: 'get_user_quota',
   RE_CRAWL_SITE: 're_crawl_site',
   GET_SITE_LINKS: 'links_by_site',
   SITE_CRAWLING_INFO: 'get_site_data',
-  GET_KEYWORDS: 'get_keyword_suggestions',
   SITE_PAGE_INSIGHTS: 'get_page_insights',
   LINKS_PATH_SEARCH_RESULTS: 'search_links',
   GET_RECOMMENDATIONS_BY_TYPE: 'data_by_type',
@@ -46,8 +46,7 @@ export const APIEndpoint = {
   LOGIN: `${AUTH.AUTH}${AUTH.LOGIN}`,
   SIGNUP: `${AUTH.AUTH}${AUTH.SIGNUP}`,
   GOOGLE_AUTH: `${AUTH.AUTH}${AUTH.GOOGLE_AUTH}`,
-
-  NOTIFICATION_LISTING: `${USERS.USER}${USERS.NOTIFICATION_LISTING}`,
+  NOTIFICATION_LISTING: `${AUTH.AUTH}${AUTH.NOTIFICATION_LISTING}`,
 
   ADD_SITE: `${SITES.SITES}${SITES.ADD_SITE}`,
   SITES_LIST: `${SITES.SITES}${SITES.SITES_LIST}`,

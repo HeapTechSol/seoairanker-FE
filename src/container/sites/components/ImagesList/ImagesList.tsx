@@ -27,7 +27,7 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
     e.stopPropagation()
     if (state?.siteId)
       await handleUpdateRecommendations({
-        model: 'images',
+        model: 'missing_alt_images',
         filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
         update_data: { approved: status },
         bulk: false,

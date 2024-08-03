@@ -47,10 +47,11 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
     }),
     getSiteKeywords: builder.query<GetKeywordsAPIResponseTypes, GetKeywordsPayload>({
       query: (params) => ({
-        url: `${GET_KEYWORDS}/${params.site_id}`,
+        url: GET_KEYWORDS,
         method: 'GET',
         params: {
           page: params.page,
+          siteId: params.site_id,
           per_page: params.per_page,
         },
       }),
@@ -139,7 +140,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
     readNotification: builder.query<NotificationsAPIResponseTypes, { id: string }>({
       query: (params) => ({
         url: `${NOTIFICATION_LISTING}/${params.id}/read`,
-        method: 'POST',
+        method: 'GET',
       }),
     }),
     deleteSite: builder.mutation({
