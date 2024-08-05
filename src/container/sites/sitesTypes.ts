@@ -92,6 +92,20 @@ export type SiteDataTypes = {
   snippet_installed: boolean
   keywords_add_to_track: boolean
   recommendations_generated: boolean
+  keywordsSummary: {
+    id: number
+    website_id: number
+    top_10: number
+    top_30: number
+    top_50: number
+    top_100: number
+    trend_top_10: number
+    trend_top_30: number
+    trend_top_50: number
+    trend_top_100: number
+    created_at: string
+    updated_at: string
+  }
 }
 
 export type CrawledInfoAPIResponseTypes = {

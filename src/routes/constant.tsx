@@ -16,6 +16,7 @@ const {
   ADD_SITE,
   SITES_PAGES,
   SITE_INSIGHTS,
+  SCRIPT_SECTION,
   RECOMMENDATIONS,
   SITES_DASHBOARD,
   SITE_ACCESS_KEYS,
@@ -230,6 +231,20 @@ export const routes = createBrowserRouter([
             Component: (props) => (
               <ProtectedRoute>
                 <APIKeys {...props} />
+              </ProtectedRoute>
+            ),
+          }
+        },
+      },
+      {
+        path: SCRIPT_SECTION,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const { default: ScriptPage } = await import('../container/sites/pages/ScriptPage/ScriptPage')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <ScriptPage {...props} />
               </ProtectedRoute>
             ),
           }

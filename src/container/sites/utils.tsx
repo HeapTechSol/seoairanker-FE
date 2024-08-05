@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
+import ScriptStep from './components/ScriptStep/ScriptStep'
 import Typography from '@/components/Typography/Typography'
 import AddSite from '@/container/sites/components/AddSite/AddSite'
-import ScriptPage from '@/container/sites/components/ScriptPage/ScriptPage'
 import CircularProgress from '@/components/CircularProgress/CircularProgress'
 // import AddKeywords from '@/container/sites/components/AddKeywords/AddKeywords'
 // import KeywordsInfo from '@/container/sites/components/KeywordsInfo/KeywordsInfo'
@@ -139,7 +139,7 @@ export const steps = (control: Unknown) => [
   {
     title: 'Install',
     stepLabel: '4',
-    component: <ScriptPage control={control} />,
+    component: <ScriptStep control={control} />,
   },
 ]
 

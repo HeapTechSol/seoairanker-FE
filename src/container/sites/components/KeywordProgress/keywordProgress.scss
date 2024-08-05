@@ -1,0 +1,11 @@
+.keyword-progress {
+  svg {
+    fill: colorMapper(success, main);
+  }
+  &.decrement {
+    svg {
+      transform: rotate(180deg);
+      fill: colorMapper(error, main);
+    }
+  }
+}

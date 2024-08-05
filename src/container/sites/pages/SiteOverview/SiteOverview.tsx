@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
 import Grid from '@/components/Grid/Grid'
@@ -13,20 +15,26 @@ import { MdOutlineRecommend, MdOutlineSchema, MdOutlineWatchLater } from 'react-
 
 import { useAppSelector } from '@/api/store'
 
+import { EXACT_ROUTES } from '@/constant/routes'
 import { ModalTypes } from '@/container/sites/sitesTypes'
 
 import './SiteOverview.scss'
 
+const { SCRIPT_SECTION } = EXACT_ROUTES
+
 const SiteOverview = () => {
+  const navigate = useNavigate()
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
   const getModalRecommendationsCountByType = (modal: ModalTypes) => crawledInfo?.model_data?.find((item) => item.model === modal)?.total
+
+  const keywordsMatrics = crawledInfo?.site_data?.keywordsSummary
 
   return (
     <Container borderRadius boxShadow className="site-overview-detail">
       <Flex vertical gap={40}>
         <Grid gap={16} minMax={500} minWidth={200}>
-          <Container className="container-bg checklist__item">
+          <Container className="container-bg checklist__item" style={{ cursor: 'pointer' }} onClick={() => navigate(SCRIPT_SECTION)}>
             <Flex>
               <Flex align="center" gap={16}>
                 <GrInstallOption className="item-icon" />
@@ -82,39 +90,39 @@ const SiteOverview = () => {
 
         <Grid gap={16} minWidth={200} minMax={300} className="keywords-ranking-detail__cards">
           <Container padding={20} className="container-bg keywords-ranking-detail__card">
-            <Flex align="end">
-              <Flex vertical inline align="center" gap={16}>
-                <Typography text="TOP 5" />
-                <Typography className={'keywords-ranking-detail__card__count'} text="3" inline />
-              </Flex>
-              <KeywordProgress count={22} />
-            </Flex>
-          </Container>
-          <Container padding={20} className="container-bg keywords-ranking-detail__card">
-            <Flex align="end">
+            <Flex align="end" gap={16}>
               <Flex vertical inline align="center" gap={16}>
                 <Typography text="TOP 10" />
-                <Typography className={'keywords-ranking-detail__card__count'} text="4" inline />
+                <Typography className={'keywords-ranking-detail__card__count'} text={keywordsMatrics?.top_10 || 0} inline />
               </Flex>
-              <KeywordProgress count={22} />
+              <KeywordProgress count={keywordsMatrics?.trend_top_10 || 0} />
             </Flex>
           </Container>
           <Container padding={20} className="container-bg keywords-ranking-detail__card">
-            <Flex align="end">
+            <Flex align="end" gap={16}>
               <Flex vertical inline align="center" gap={16}>
-                <Typography text="TOP 25" />
-                <Typography className={'keywords-ranking-detail__card__count'} text="6" inline />
+                <Typography text="TOP 30" />
+                <Typography className={'keywords-ranking-detail__card__count'} text={keywordsMatrics?.top_30 || 0} inline />
               </Flex>
-              <KeywordProgress count={22} />
+              <KeywordProgress count={keywordsMatrics?.trend_top_30 || 0} />
             </Flex>
           </Container>
           <Container padding={20} className="container-bg keywords-ranking-detail__card">
-            <Flex align="end">
+            <Flex align="end" gap={16}>
+              <Flex vertical inline align="center" gap={16}>
+                <Typography text="TOP 50" />
+                <Typography className={'keywords-ranking-detail__card__count'} text={keywordsMatrics?.top_50 || 0} inline />
+              </Flex>
+              <KeywordProgress count={keywordsMatrics?.trend_top_50 || 0} />
+            </Flex>
+          </Container>
+          <Container padding={20} className="container-bg keywords-ranking-detail__card">
+            <Flex align="end" gap={16}>
               <Flex vertical inline align="center" gap={16}>
                 <Typography text="TOP 100" />
-                <Typography className={'keywords-ranking-detail__card__count'} text="8" inline />
+                <Typography className={'keywords-ranking-detail__card__count'} text={keywordsMatrics?.top_100 || 0} inline />
               </Flex>
-              <KeywordProgress count={22} />
+              <KeywordProgress count={keywordsMatrics?.trend_top_100 || 0} />
             </Flex>
           </Container>
         </Grid>

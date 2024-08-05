@@ -47,11 +47,10 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
     }),
     getSiteKeywords: builder.query<GetKeywordsAPIResponseTypes, GetKeywordsPayload>({
       query: (params) => ({
-        url: GET_KEYWORDS,
+        url: `${GET_KEYWORDS}/${params.site_id}`,
         method: 'GET',
         params: {
           page: params.page,
-          siteId: params.site_id,
           per_page: params.per_page,
         },
       }),

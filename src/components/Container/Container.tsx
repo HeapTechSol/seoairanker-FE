@@ -1,37 +1,39 @@
-import { classMapper } from "@/utils/helper";
+import { classMapper } from '@/utils/helper'
 
-import { ColorsTypes } from "@/utils/commonTypes";
+import { ColorsTypes } from '@/utils/commonTypes'
 
-import "./Container.scss";
+import './Container.scss'
+import { HTMLAttributes } from 'react'
 
-type ContainerTypes = {
-  className?: string;
-  boxShadow?: boolean;
-  color?: ColorsTypes;
-  fullHeight?: boolean;
-  transparent?: boolean;
-  borderRadius?: boolean;
-  width?: "auto" | number;
-  contentCenter?: boolean;
-  padding?: number | string;
-  maxWidth?: "auto" | number;
-  children: React.ReactNode | JSX.Element;
-};
+type ContainerTypes = HTMLAttributes<HTMLDivElement> & {
+  className?: string
+  boxShadow?: boolean
+  color?: ColorsTypes
+  fullHeight?: boolean
+  transparent?: boolean
+  borderRadius?: boolean
+  width?: 'auto' | number
+  contentCenter?: boolean
+  padding?: number | string
+  maxWidth?: 'auto' | number
+  children: React.ReactNode | JSX.Element
+}
 
 const Container = ({
   padding,
   children,
-  className = "",
-  width = "auto",
+  className = '',
+  width = 'auto',
   boxShadow = false,
-  maxWidth = "auto",
-  color = "common",
+  maxWidth = 'auto',
+  color = 'common',
   transparent = false,
   borderRadius = false,
   contentCenter = false,
   fullHeight = false,
+  ...rest
 }: ContainerTypes) => {
-  const containerCSSClasses = classMapper("container", {
+  const containerCSSClasses = classMapper('container', {
     fullHeight: fullHeight,
     contentCenter: contentCenter,
     [color]: color,
@@ -39,19 +41,19 @@ const Container = ({
     transparent: transparent,
     [className]: className,
     borderRadius: borderRadius,
-  });
+  })
 
   const containerStyles = {
-    maxWidth: maxWidth === "auto" ? "100%" : `${maxWidth}%`,
-    width: width === "auto" ? width : `${width}%`,
+    maxWidth: maxWidth === 'auto' ? '100%' : `${maxWidth}%`,
+    width: width === 'auto' ? width : `${width}%`,
     padding: padding ?? undefined,
-  };
+  }
 
   return (
-    <div className={containerCSSClasses} style={containerStyles}>
+    <div className={containerCSSClasses} style={containerStyles} {...rest}>
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default Container;
+export default Container

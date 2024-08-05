@@ -21,16 +21,17 @@ export const BILLING = {
 
 export const SITES = {
   BASE: '/sites',
-  SITES_LIST: 'all-sites',
   ADD_SITE: 'add-site',
   SITES_PAGES: 'pages',
+  SITES_LIST: 'all-sites',
   SITES_DASHBOARD: 'dashboard',
+  SITE_INSIGHTS: 'site-insights',
+  SITE_DETAILS_PAGE: 'site-detail',
+  SCRIPT_SECTION: 'script-section',
   SITE_ACCESS_KEYS: 'access-tokens',
   RECOMMENDATIONS: 'recommendations',
-  ADD_SITES_NEW_KEYWORDS: 'add-new-keywords',
-  SITE_DETAILS_PAGE: 'site-detail',
-  SITE_INSIGHTS: 'site-insights',
   KEYWORDS_RANKING: 'keywords-ranking',
+  ADD_SITES_NEW_KEYWORDS: 'add-new-keywords',
 }
 
 export const EXACT_ROUTES = {
@@ -53,6 +54,7 @@ export const EXACT_ROUTES = {
   SITES_LIST: `${SITES.BASE}/${SITES.SITES_LIST}`,
   SITES_PAGES: `${SITES.BASE}/${SITES.SITES_PAGES}`,
   SITE_INSIGHTS: `${SITES.BASE}/${SITES.SITE_INSIGHTS}`,
+  SCRIPT_SECTION: `${SITES.BASE}/${SITES.SCRIPT_SECTION}`,
   RECOMMENDATIONS: `${SITES.BASE}/${SITES.RECOMMENDATIONS}`,
   SITES_DASHBOARD: `${SITES.BASE}/${SITES.SITES_DASHBOARD}`,
   KEYWORDS_RANKING: `${SITES.BASE}/${SITES.KEYWORDS_RANKING}`,

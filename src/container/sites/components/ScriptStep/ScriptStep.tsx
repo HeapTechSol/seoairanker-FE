@@ -11,9 +11,9 @@ import { handleCopyClick } from '@/utils/helper'
 import { AddSitePayloadTypes } from '@/container/sites/sitesTypes'
 import TruncateText from '@/components/TruncateText'
 
-const ScriptPage = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
+const ScriptStep = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
   const script = useWatch({ control, name: 'script' })
-  console.log('script', script)
+
   return (
     <Container width={100} borderRadius boxShadow className="add-site-container">
       <Flex vertical gap={32} align="center">
@@ -77,4 +77,4 @@ const ScriptPage = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
   )
 }
 
-export default ScriptPage
+export default ScriptStep
