@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Table from '@/components/Table'
@@ -14,6 +14,7 @@ import Pagination from '@/components/Pagination/Pagination'
 
 import { rowSelectionHandler } from '@/components/Table/helper'
 
+import { useAppSelector } from '@/api/store'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import { LuEye, LuRefreshCcw } from 'react-icons/lu'
@@ -25,12 +26,12 @@ import { SiteLinksDataTypes } from '@/container/sites/sitesTypes'
 import './SitePages.scss'
 
 const SitePages = () => {
-  const [searchParams] = useSearchParams()
-  const siteId = searchParams.get('id')
-  const siteUrl = searchParams.get('url')
+  const { id: siteId } = useParams()
   const [selectedRowKeys, SetSelectedRowKeys] = useState<string[]>([])
 
   const { handleGetSiteLinks, siteLinks, siteLinksLoading } = useHandleSitesLogic()
+
+  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
   const PAGES_COLUMN: ColumnType<SiteLinksDataTypes>[] = [
     {
@@ -97,7 +98,7 @@ const SitePages = () => {
   return (
     <Container className="site-pages-container">
       <Flex vertical gap={16}>
-        <Typography text={`Pages on ${siteUrl || ''}`} type="h1" />
+        <Typography text={`Pages on ${crawledInfo?.site_data?.site_url || ''}`} type="h1" />
         <Divider color="warning" />
         <Flex gap={16} className="container-screens">
           <Container borderRadius boxShadow padding={'40px'} className="site-pages-table-container  container-bg" width={100}>
@@ -105,7 +106,7 @@ const SitePages = () => {
               <Typography text="Found Pages" type="h2" />
               <Typography
                 text={`We routinely crawl ${
-                  siteUrl || ''
+                  crawledInfo?.site_data?.site_url || ''
                 } in order to understand your site structure and to better identify potential SEO improvements. Here are the pages we found. Click the toggle icon to ignore pages on future crawls.`}
               />
               <Typography text={`You have approved 1 recommendation. Click any link below to see them live.`} />

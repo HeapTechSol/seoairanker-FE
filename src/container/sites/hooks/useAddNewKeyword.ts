@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useLocation, useSearchParams, useNavigate } from 'react-router-dom'
+import { useLocation, useSearchParams, useNavigate, useParams } from 'react-router-dom'
 
 import { ErrorTypes } from '@/utils/commonTypes'
 import { AddKeywordsDefaultValues } from '../sitesTypes'
@@ -10,6 +10,7 @@ import { ADD_KEYWORDS_DEFAULT_VALUES, ADD_KEYWORDS_VALIDATIONS } from '../utils'
 
 const useAddNewKeyword = () => {
   const navigate = useNavigate()
+  const { id: siteId } = useParams()
   const [searchParams] = useSearchParams()
   const location = useLocation()
 
@@ -17,8 +18,6 @@ const useAddNewKeyword = () => {
     defaultValues: ADD_KEYWORDS_DEFAULT_VALUES,
     resolver: zodResolver(ADD_KEYWORDS_VALIDATIONS),
   })
-
-  const siteId = searchParams.get('id') as string
 
   const [saveKeywords, { isLoading }] = useLazySaveKeywordsQuery()
 
@@ -34,9 +33,9 @@ const useAddNewKeyword = () => {
 
   const onSaveKeywords = async (values: AddKeywordsDefaultValues) => {
     try {
-      await saveKeywords({ ...values, keywords: values.keywords.split('\n'), site_id: siteId }).unwrap()
+      await saveKeywords({ ...values, keywords: values.keywords.split('\n'), site_id: siteId || '' }).unwrap()
       toast.success('Keywords saved successfully')
-      navigateToTab('site+overview')
+      navigateToTab('site_overview')
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }

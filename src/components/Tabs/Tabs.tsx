@@ -8,13 +8,17 @@ import { ColorsTypes, SizeTypes } from '@/utils/commonTypes'
 
 import './Tabs.scss'
 
-type Tab = {
+type BaseTab = {
   title: string
   content: React.ReactNode
 }
 
-type TabsProps = {
-  tabs: Tab[]
+type TabWithKey = BaseTab & {
+  key: string
+}
+
+type TabsProps<T extends boolean> = {
+  tabs: T extends true ? TabWithKey[] : BaseTab[]
   size?: SizeTypes
   className?: string
   tabColor?: ColorsTypes
@@ -24,10 +28,10 @@ type TabsProps = {
   variant?: 'outlined' | 'text'
   tabsPlacement?: 'center' | 'left' | 'right'
   contentPlacement?: 'center' | 'left' | 'right'
-  activeByUrl?: boolean
+  activeByUrl: T
 }
 
-const Tabs = ({
+const Tabs = <T extends boolean>({
   tabs,
   size = 'md',
   className = '',
@@ -38,15 +42,15 @@ const Tabs = ({
   activeColor = 'primary',
   tabsPlacement = 'center',
   contentPlacement = 'center',
-  activeByUrl = false,
-}: TabsProps) => {
+  activeByUrl,
+}: TabsProps<T>) => {
   const location = useLocation()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const getTabFromUrl = () => {
     const tabParam = searchParams.get('tab')
     if (tabParam) {
-      const index = tabs.findIndex((tab) => tab.title.toLowerCase() === tabParam.toLowerCase())
+      const index = (tabs as TabWithKey[]).findIndex((tab) => tab.key.toLowerCase() === tabParam.toLowerCase())
       return index !== -1 ? index : defaultActiveTab
     }
     return defaultActiveTab
@@ -64,7 +68,7 @@ const Tabs = ({
     setActiveIndex(index)
     if (activeByUrl) {
       const newParams = new URLSearchParams(searchParams)
-      newParams.set('tab', tabs[index].title.toLowerCase())
+      newParams.set('tab', (tabs as TabWithKey[])[index].key.toLowerCase())
       setSearchParams(newParams)
     }
   }

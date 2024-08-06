@@ -2,20 +2,16 @@ import { toast } from 'react-toastify'
 
 import { ErrorTypes } from '@/utils/commonTypes'
 
-import {
-  useApproveRecommendationsMutation,
-  useLazyGetRecommendationsByTypeQuery,
-  useLazyReCrawlSiteQuery,
-} from '../api/sitesAPI'
+import { useApproveRecommendationsMutation, useLazyGetRecommendationsByTypeQuery, useLazyReCrawlSiteQuery } from '../api/sitesAPI'
 import { AllModalDataTypes, ApproveRecommendationsPayloadTypes, GetRecommendationsByTypesPayloadTypes } from '../sitesTypes'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setRecommendationsData } from '../sitesSlice'
 import { useAppSelector } from '@/api/store'
 import { uniqBy } from '@/utils/helper'
 
 const useHandleRecommendations = () => {
-  const { state } = useLocation()
+  const { id: siteId } = useParams()
   const dispatch = useDispatch()
 
   const recommendationData = useAppSelector((state) => state.sites.recommendationData)
@@ -35,7 +31,7 @@ const useHandleRecommendations = () => {
 
   const getRecommendationByType = async (payload: GetRecommendationsByTypesPayloadTypes & { link_id: string }) => {
     try {
-      const { data } = await getRecommendationsByType({ ...payload, site_id: state.siteId })
+      const { data } = await getRecommendationsByType({ ...payload, site_id: siteId || '' })
       const mergedData = [...(recommendationData?.data || []), ...(data?.data || [])]
       const uniqueData = uniqBy(mergedData, (item) => item.id)
       const isScrolling = payload.page > 1

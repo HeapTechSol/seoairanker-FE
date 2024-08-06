@@ -39,7 +39,7 @@ const Pricing = () => {
       extra_pages: 'price_1PVTrzKhs45SIh5yI4Cvzl6t',
       extra_sites: 'price_1PVTqNKhs45SIh5yCGNmCoHH',
       extra_keywords: 'price_1PVTrFKhs45SIh5yjBEJk7DG',
-    }
+    },
   }
 
   const handleCheckoutPage = (data: PlanDefaultValuesTypes) => {
@@ -55,7 +55,13 @@ const Pricing = () => {
     }))
 
     navigate(CHECKOUT, {
-      state: { plan_type: data.selectedPlan, pricing_id: prices_keys.id, planId:data.planId, addOns: modifiedAddOns, amount: data.selectedPlanData.planAmount },
+      state: {
+        plan_type: data.selectedPlan,
+        pricing_id: prices_keys.id,
+        planId: data.planId,
+        addOns: modifiedAddOns,
+        amount: data.selectedPlanData.planAmount,
+      },
     })
   }
 
@@ -66,11 +72,12 @@ const Pricing = () => {
   return (
     <Container className="plans-cards">
       <Tabs
+        activeByUrl={false}
         variant="text"
         activeColor="info"
         tabColor="primary"
         // className="pricing-tabs"
-        tabsPlacement='left'
+        tabsPlacement="left"
         tabs={[
           {
             title: 'Monthly',
@@ -136,7 +143,6 @@ const Pricing = () => {
                         planType={item.planType}
                         itemAmount={item.amount}
                         planId={item.planId}
-
                         loading={false}
                       />
                     ))}

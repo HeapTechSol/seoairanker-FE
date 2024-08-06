@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
@@ -23,9 +23,7 @@ import { CrawledInfoAPIResponseTypes, ModalTypes } from '@/container/sites/sites
 import './Recommendations.scss'
 
 const Recommendations = () => {
-  const [searchParams] = useSearchParams()
-  const siteId = searchParams.get('id') as string
-  const siteUrl = searchParams.get('url')
+  const { id: siteId } = useParams()
   const [key, setKey] = useState<ModalTypes>('og_tags')
   const [queryText, setQueryText] = useState<string>('')
   const [link_id, setLink_id] = useState<string>('')
@@ -54,24 +52,24 @@ const Recommendations = () => {
   }))
 
   const reCrawlSite = () => {
-    if (siteId && siteUrl) handleReCrawlSite({ site_id: siteId, siteUrl: siteUrl })
+    if (siteId && crawledInfo.site_data?.site_url) handleReCrawlSite({ site_id: siteId, siteUrl: crawledInfo.site_data?.site_url })
   }
 
   const handleSearch = async (query: string) => {
-    const data = await getPathSearchResults({ path: query, site_id: siteId })
+    const data = await getPathSearchResults({ path: query, site_id: siteId || '' })
     return data?.map((item) => ({ id: item.id, label: item.url })) || []
   }
 
   const handleSelectResult = async (result: { id: string | number; label: string }) => {
     setLink_id(result.id as string)
-    await getSiteCrawledInfoData({ site_id: siteId, link_id: result.id as string })
+    await getSiteCrawledInfoData({ site_id: siteId || '', link_id: result.id as string })
   }
 
   const handleClearFilters = async (isFilterApplied: boolean) => {
     setQueryText('')
     if (isFilterApplied) {
       setLink_id('')
-      await getSiteCrawledInfoData({ site_id: siteId })
+      await getSiteCrawledInfoData({ site_id: siteId || '' })
     }
   }
 
@@ -138,7 +136,7 @@ const Recommendations = () => {
             recommendationsList={recommendationsList || []}
             onClick={(e) => setKey(e)}
             selectedKey={key}
-            site_id={siteId}
+            site_id={siteId || ''}
             link_id={link_id}
             crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}
           />

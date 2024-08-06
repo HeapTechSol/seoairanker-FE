@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 
 import Flex from '@/components/Flex'
@@ -14,7 +14,7 @@ import { ImagesAltDataTypes } from '@/container/sites/sitesTypes'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
-  const { state } = useLocation()
+  const { id: siteId } = useParams()
   const [editedId, setEditedId] = useState<string>('')
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
@@ -25,14 +25,14 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const onApprove = async (e: React.SyntheticEvent, type_id: string, linkId: string, status: boolean) => {
     setEditedId(type_id)
     e.stopPropagation()
-    if (state?.siteId)
+    if (siteId)
       await handleUpdateRecommendations({
         model: 'missing_alt_images',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
+        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
         update_data: { approved: status },
         bulk: false,
       })
-    await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+    await getSiteCrawledInfoData({ site_id: siteId || '', link_id: externalLinkId })
     await getRecommendationByType({ page: 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
   }
 
@@ -53,14 +53,14 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId: string) => {
     setEditedId(type_id)
     const text = e.target.innerText
-    if (state?.siteId && currentText != text && text) {
+    if (siteId && currentText != text && text) {
       await handleUpdateRecommendations({
         model: 'images',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
+        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
         update_data: { approved: true, alt_text: text },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
       await getRecommendationByType({ page: recommendationData?.page, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]

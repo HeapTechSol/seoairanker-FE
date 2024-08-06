@@ -58,12 +58,7 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
         <Flex className="site-info" justify="between" align="center">
           <Flex
             gap={8}
-            onClick={() =>
-              navigate({
-                pathname: isKeywords ? KEYWORDS_RANKING : SITE_DETAILS_PAGE,
-                search: `?id=${site.id}&url=${encodeURIComponent(site.site_url)}`,
-              })
-            }
+            onClick={() => navigate(isKeywords ? KEYWORDS_RANKING : `${SITE_DETAILS_PAGE}/${site?.id}`)}
             align="center"
             className="site-info-card__header"
           >

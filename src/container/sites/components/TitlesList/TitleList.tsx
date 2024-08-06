@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 
 import Flex from '@/components/Flex'
@@ -19,7 +19,7 @@ import { MissingTitlesDataTypes } from '@/container/sites/sitesTypes'
 import './TitlesList.scss'
 
 const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
-  const { state } = useLocation()
+  const { id: siteId } = useParams()
   const [editedId, setEditedId] = useState<string>()
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
@@ -31,14 +31,14 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const recommendation = recommendationData?.data.find((item) => item.link_id)
 
   const handleAllRecommendations = async () => {
-    if (state?.siteId) {
+    if (siteId) {
       await handleUpdateRecommendations({
         model: 'missing_link_title_attr',
-        filter_conditions: { link_id: recommendation?.link_id, site_id: state?.siteId },
+        filter_conditions: { link_id: recommendation?.link_id, site_id: siteId },
         update_data: { approved: true },
         bulk: true,
       })
-      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
       await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
   }
@@ -46,14 +46,14 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const onApprove = async (e: SyntheticEvent, type_id: string, linkId: string, status: boolean) => {
     setEditedId(type_id)
     e.stopPropagation()
-    if (state?.siteId) {
+    if (siteId) {
       await handleUpdateRecommendations({
         model: 'missing_link_title_attr',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
+        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
         update_data: { approved: status },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
       await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
   }
@@ -75,14 +75,14 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId: string) => {
     setEditedId(type_id)
     const text = e.target.innerText
-    if (state?.siteId && currentText != text) {
+    if (siteId && currentText != text) {
       await handleUpdateRecommendations({
         model: 'missing_link_title_attr',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: state?.siteId },
+        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
         update_data: { approved: true, suggested_title: text },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: state?.siteId, link_id: externalLinkId })
+      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
       await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Tabs from '@/components/Tabs/Tabs'
@@ -15,26 +15,27 @@ import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import './SiteDetailsPage.scss'
 
 const SiteDetailsPage = () => {
-  const [searchParams] = useSearchParams()
-  const siteId = searchParams.get('id')
+  const { id } = useParams()
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
 
   const tabs = [
     {
       title: 'Site Overview',
+      key: 'site_overview',
       content: <SiteOverview />,
     },
     {
       title: 'Automations',
+      key: 'automation',
       content: <Recommendations />,
     },
-    { title: 'Keywords', content: <AddNewKeywords /> },
-    { title: 'Pages', content: <SitePages /> },
+    { title: 'Keywords', key: 'keywords', content: <AddNewKeywords /> },
+    { title: 'Pages', key: 'pages', content: <SitePages /> },
     // { title: 'Speed Metrics', content: <SiteInsights /> },
   ]
 
   useEffect(() => {
-    if (siteId) getSiteCrawledInfoData({ site_id: siteId })
+    if (id) getSiteCrawledInfoData({ site_id: id })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

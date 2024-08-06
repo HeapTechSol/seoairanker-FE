@@ -167,7 +167,7 @@ export const routes = createBrowserRouter([
         },
       },
       {
-        path: SITE_DETAILS_PAGE,
+        path: `${SITE_DETAILS_PAGE}/:id`,
         errorElement: <ErrorBoundary />,
         async lazy() {
           const { default: SiteDetailsPage } = await import('../container/sites/pages/SiteDetailsPage/SiteDetailsPage')

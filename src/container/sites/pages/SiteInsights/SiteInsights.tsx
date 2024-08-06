@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Loader from '@/components/Loader'
@@ -8,6 +7,7 @@ import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import CircularProgress from '@/components/CircularProgress/CircularProgress'
 
+import { useAppSelector } from '@/api/store'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import { MdBlock } from 'react-icons/md'
@@ -21,12 +21,12 @@ import { handleFormatCurrencyAndNumber } from '@/utils/helper'
 import './SiteInsights.scss'
 
 const SiteInsights = () => {
-  const { state } = useLocation()
-
   const { getInsights, insightsData, insightsLoading } = useHandleSitesLogic()
 
+  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+
   useEffect(() => {
-    if (state?.siteUrl) getInsights({ url: state?.siteUrl })
+    if (crawledInfo?.site_data?.site_url) getInsights({ url: crawledInfo?.site_data?.site_url })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
