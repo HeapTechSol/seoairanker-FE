@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
@@ -11,7 +11,7 @@ import RecommendationList from '@/container/sites/components/RecommendationList/
 import RecommendationOverview from '@/container/sites/components/RecommendationOverview/RecommendationOverview'
 
 import { MdClear } from 'react-icons/md'
-import { AiOutlineGlobal } from "react-icons/ai";
+import { AiOutlineGlobal } from 'react-icons/ai'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
@@ -23,7 +23,9 @@ import { CrawledInfoAPIResponseTypes, ModalTypes } from '@/container/sites/sites
 import './Recommendations.scss'
 
 const Recommendations = () => {
-  const { state } = useLocation()
+  const [searchParams] = useSearchParams()
+  const siteId = searchParams.get('id') as string
+  const siteUrl = searchParams.get('url')
   const [key, setKey] = useState<ModalTypes>('og_tags')
   const [queryText, setQueryText] = useState<string>('')
   const [link_id, setLink_id] = useState<string>('')
@@ -52,24 +54,24 @@ const Recommendations = () => {
   }))
 
   const reCrawlSite = () => {
-    if (state.siteId && state.siteUrl) handleReCrawlSite({ site_id: state.siteId, siteUrl: state.siteUrl })
+    if (siteId && siteUrl) handleReCrawlSite({ site_id: siteId, siteUrl: siteUrl })
   }
 
   const handleSearch = async (query: string) => {
-    const data = await getPathSearchResults({ path: query, site_id: state.siteId })
+    const data = await getPathSearchResults({ path: query, site_id: siteId })
     return data?.map((item) => ({ id: item.id, label: item.url })) || []
   }
 
   const handleSelectResult = async (result: { id: string | number; label: string }) => {
     setLink_id(result.id as string)
-    await getSiteCrawledInfoData({ site_id: state.siteId, link_id: result.id as string })
+    await getSiteCrawledInfoData({ site_id: siteId, link_id: result.id as string })
   }
 
   const handleClearFilters = async (isFilterApplied: boolean) => {
     setQueryText('')
     if (isFilterApplied) {
       setLink_id('')
-      await getSiteCrawledInfoData({ site_id: state.siteId })
+      await getSiteCrawledInfoData({ site_id: siteId })
     }
   }
 
@@ -119,7 +121,7 @@ const Recommendations = () => {
             <SearchInput
               type="text"
               value={queryText}
-              StartIcon={<AiOutlineGlobal/>}
+              StartIcon={<AiOutlineGlobal />}
               onSearch={handleSearch}
               name="search_automation"
               handleClearSelection={handleClearFilters}
@@ -136,7 +138,7 @@ const Recommendations = () => {
             recommendationsList={recommendationsList || []}
             onClick={(e) => setKey(e)}
             selectedKey={key}
-            site_id={state?.siteId}
+            site_id={siteId}
             link_id={link_id}
             crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}
           />

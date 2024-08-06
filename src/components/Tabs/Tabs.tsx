@@ -1,63 +1,92 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react'
+import { useLocation, useSearchParams } from 'react-router-dom'
 
-import Button from "../Button";
+import Button from '../Button'
 
-import { classMapper } from "@/utils/helper";
+import { classMapper } from '@/utils/helper'
+import { ColorsTypes, SizeTypes } from '@/utils/commonTypes'
 
-import { ColorsTypes, SizeTypes } from "@/utils/commonTypes";
-
-import "./Tabs.scss";
+import './Tabs.scss'
 
 type Tab = {
-  title: string;
-  content: React.ReactNode;
-};
+  title: string
+  content: React.ReactNode
+}
 
 type TabsProps = {
-  tabs: Tab[];
-  size?: SizeTypes;
-  className?: string;
-  tabColor?: ColorsTypes;
-  bottomBordered?: boolean;
-  activeColor?: ColorsTypes;
-  defaultActiveTab?: number;
-  variant?: "outlined" | "text";
-  tabsPlacement?: "center" | "left" | "right";
-  contentPlacement?: "center" | "left" | "right";
-};
+  tabs: Tab[]
+  size?: SizeTypes
+  className?: string
+  tabColor?: ColorsTypes
+  bottomBordered?: boolean
+  activeColor?: ColorsTypes
+  defaultActiveTab?: number
+  variant?: 'outlined' | 'text'
+  tabsPlacement?: 'center' | 'left' | 'right'
+  contentPlacement?: 'center' | 'left' | 'right'
+  activeByUrl?: boolean
+}
 
 const Tabs = ({
   tabs,
-  size = "md",
-  className = "",
-  variant = "text",
-  tabColor = "primary",
+  size = 'md',
+  className = '',
+  variant = 'text',
+  tabColor = 'primary',
   defaultActiveTab = 0,
   bottomBordered = false,
-  activeColor = "primary",
-  tabsPlacement = "center",
-  contentPlacement = "center",
+  activeColor = 'primary',
+  tabsPlacement = 'center',
+  contentPlacement = 'center',
+  activeByUrl = false,
 }: TabsProps) => {
-  const [activeIndex, setActiveIndex] = useState(defaultActiveTab);
+  const location = useLocation()
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const tabsCSSClasses = classMapper("tabs", {
+  const getTabFromUrl = () => {
+    const tabParam = searchParams.get('tab')
+    if (tabParam) {
+      const index = tabs.findIndex((tab) => tab.title.toLowerCase() === tabParam.toLowerCase())
+      return index !== -1 ? index : defaultActiveTab
+    }
+    return defaultActiveTab
+  }
+
+  const [activeIndex, setActiveIndex] = useState(getTabFromUrl())
+
+  useEffect(() => {
+    if (activeByUrl) {
+      setActiveIndex(getTabFromUrl())
+    }
+  }, [location.search, activeByUrl])
+
+  const handleTabClick = (index: number) => {
+    setActiveIndex(index)
+    if (activeByUrl) {
+      const newParams = new URLSearchParams(searchParams)
+      newParams.set('tab', tabs[index].title.toLowerCase())
+      setSearchParams(newParams)
+    }
+  }
+
+  const tabsCSSClasses = classMapper('tabs', {
     bottomBordered: bottomBordered,
     [activeColor]: activeColor,
     [tabsPlacement]: tabsPlacement,
-  });
+  })
 
   const buttonCSSClasses = (index: number) =>
-    classMapper("btn tabs-button", {
+    classMapper('btn tabs-button', {
       active: index === activeIndex,
-    });
+    })
 
-  const tabsButtonContainerCSSClasses = classMapper("tabButtons", {
+  const tabsButtonContainerCSSClasses = classMapper('tabButtons', {
     [className]: className,
-  });
+  })
 
-  const tabsContentCSSClasses = classMapper("tabContent", {
+  const tabsContentCSSClasses = classMapper('tabContent', {
     [contentPlacement]: contentPlacement,
-  });
+  })
 
   return (
     <div className={tabsCSSClasses}>
@@ -70,7 +99,7 @@ const Tabs = ({
             variant={variant}
             type="borderRadius"
             className={buttonCSSClasses(index)}
-            onClick={() => setActiveIndex(index)}
+            onClick={() => handleTabClick(index)}
           >
             {tab.title}
           </Button>
@@ -78,7 +107,7 @@ const Tabs = ({
       </div>
       <div className={tabsContentCSSClasses}>{tabs[activeIndex].content}</div>
     </div>
-  );
-};
+  )
+}
 
-export default Tabs;
+export default Tabs

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Tabs from '@/components/Tabs/Tabs'
@@ -15,7 +15,8 @@ import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import './SiteDetailsPage.scss'
 
 const SiteDetailsPage = () => {
-  const { state } = useLocation()
+  const [searchParams] = useSearchParams()
+  const siteId = searchParams.get('id')
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
 
   const tabs = [
@@ -33,14 +34,14 @@ const SiteDetailsPage = () => {
   ]
 
   useEffect(() => {
-    if (state.siteId) getSiteCrawledInfoData({ site_id: state.siteId })
+    if (siteId) getSiteCrawledInfoData({ site_id: siteId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <Container className="sites-dashboard">
       <Flex vertical gap={24}>
-        <Tabs tabs={tabs} defaultActiveTab={0} tabsPlacement="left" tabColor="primary" />
+        <Tabs tabs={tabs} defaultActiveTab={0} tabsPlacement="left" tabColor="primary" activeByUrl />
       </Flex>
     </Container>
   )

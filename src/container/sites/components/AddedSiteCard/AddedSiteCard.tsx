@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Chip from '@/components/Chip'
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
+import Tooltip from '@/components/Tooltip'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
@@ -20,7 +21,6 @@ import { IoWarningOutline } from 'react-icons/io5'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import './AddedSiteCard.scss'
-import Tooltip from '@/components/Tooltip'
 
 const { SITE_DETAILS_PAGE, KEYWORDS_RANKING } = EXACT_ROUTES
 
@@ -59,8 +59,9 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
           <Flex
             gap={8}
             onClick={() =>
-              navigate(isKeywords ? KEYWORDS_RANKING : SITE_DETAILS_PAGE, {
-                state: { siteId: site.id, siteUrl: site.site_url },
+              navigate({
+                pathname: isKeywords ? KEYWORDS_RANKING : SITE_DETAILS_PAGE,
+                search: `?id=${site.id}&url=${encodeURIComponent(site.site_url)}`,
               })
             }
             align="center"

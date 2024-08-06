@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Table from '@/components/Table'
@@ -16,7 +16,7 @@ import { rowSelectionHandler } from '@/components/Table/helper'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
-import { LuEye , LuRefreshCcw} from 'react-icons/lu'
+import { LuEye, LuRefreshCcw } from 'react-icons/lu'
 import { MdOutlineWbSunny, MdBlock } from 'react-icons/md'
 
 import { ColumnType } from '@/components/Table/types'
@@ -25,7 +25,9 @@ import { SiteLinksDataTypes } from '@/container/sites/sitesTypes'
 import './SitePages.scss'
 
 const SitePages = () => {
-  const { state } = useLocation()
+  const [searchParams] = useSearchParams()
+  const siteId = searchParams.get('id')
+  const siteUrl = searchParams.get('url')
   const [selectedRowKeys, SetSelectedRowKeys] = useState<string[]>([])
 
   const { handleGetSiteLinks, siteLinks, siteLinksLoading } = useHandleSitesLogic()
@@ -69,7 +71,7 @@ const SitePages = () => {
 
   const onPageChange = (pageNumber: number) => {
     handleGetSiteLinks({
-      site_id: state?.siteId as string,
+      site_id: siteId as string,
       page: pageNumber,
       per_page: siteLinks?.per_page || 10,
     })
@@ -77,7 +79,7 @@ const SitePages = () => {
 
   const handlePerPageItems = (perPageItems: string) => {
     handleGetSiteLinks({
-      site_id: state?.siteId as string,
+      site_id: siteId as string,
       page: 1,
       per_page: Number(perPageItems),
     })
@@ -85,7 +87,7 @@ const SitePages = () => {
 
   useEffect(() => {
     handleGetSiteLinks({
-      site_id: state?.siteId as string,
+      site_id: siteId as string,
       page: 1,
       per_page: 10,
     })
@@ -95,7 +97,7 @@ const SitePages = () => {
   return (
     <Container className="site-pages-container">
       <Flex vertical gap={16}>
-        <Typography text={`Pages on ${state?.siteUrl || ''}`} type="h1" />
+        <Typography text={`Pages on ${siteUrl || ''}`} type="h1" />
         <Divider color="warning" />
         <Flex gap={16} className="container-screens">
           <Container borderRadius boxShadow padding={'40px'} className="site-pages-table-container  container-bg" width={100}>
@@ -103,7 +105,7 @@ const SitePages = () => {
               <Typography text="Found Pages" type="h2" />
               <Typography
                 text={`We routinely crawl ${
-                  state?.siteUrl || ''
+                  siteUrl || ''
                 } in order to understand your site structure and to better identify potential SEO improvements. Here are the pages we found. Click the toggle icon to ignore pages on future crawls.`}
               />
               <Typography text={`You have approved 1 recommendation. Click any link below to see them live.`} />
