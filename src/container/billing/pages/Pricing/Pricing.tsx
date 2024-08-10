@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm, useWatch } from 'react-hook-form'
 
@@ -8,7 +9,19 @@ import Loader from '@/components/Loader'
 import PlanCard from '@/components/PlanCard/PlanCard'
 import Container from '@/components/Container/Container'
 
-import { yearlyPlans, PlansTitles, monthlyPlans, planDefaultValues, PlanDefaultValuesTypes, addOnInfoTypes } from '@/constant/plans'
+import { AgencyIcon, EnterpriseIcon, PersonIcon } from '@/assets/icons/svgs'
+
+import {
+  PlansTitles,
+  planDefaultValues,
+  PlanDefaultValuesTypes,
+  displaySiteQuotaDetails,
+  addsOnInfoGenerator,
+  addsOnKeyTypes,
+} from '@/constant/plans'
+
+import { ColorsTypes } from '@/utils/commonTypes'
+import { extraAddOns, PlanDataType } from '@/container/billing/billingTypes'
 
 import useStripeHandling from '@/container/billing/hooks/useStripeHandling'
 
@@ -20,25 +33,26 @@ const { CHECKOUT } = EXACT_ROUTES
 
 const Pricing = () => {
   const navigate = useNavigate()
-  const { plansLoading } = useStripeHandling()
+  const { allPlansList, plansLoading, getPlansList } = useStripeHandling()
   const { control, setValue, handleSubmit } = useForm({
     defaultValues: planDefaultValues as PlanDefaultValuesTypes,
   })
 
   const values = useWatch({ control })
 
-  const totalAmount = (planType: PlansTitles, amount: number, addOnInfo: addOnInfoTypes[]) => {
+  const totalAmount = (planType: PlansTitles, amount: number, addOnInfo: extraAddOns) => {
+    const addOnsObject = values[planType as keyof typeof values] as addsOnKeyTypes
     const totalAmount =
-      ((values[planType]?.extra_sites || 0) / addOnInfo[0].step) * addOnInfo[0].amount +
-      ((values[planType]?.extra_keywords || 0) / addOnInfo[1].step) * addOnInfo[1].amount +
-      ((values[planType]?.extra_pages || 0) / addOnInfo[2].step) * addOnInfo[2].amount +
+      ((addOnsObject?.price_extra_sites || 0) / addOnInfo[0].step) * addOnInfo[0].value +
+      ((addOnsObject?.price_extra_keywords || 0) / addOnInfo[1].step) * addOnInfo[1].value +
+      ((addOnsObject?.price_extra_pages || 0) / addOnInfo[2].step) * addOnInfo[2].value +
       amount
 
     return totalAmount
   }
 
   const pricesIds = {
-    business: {
+    Basic: {
       id: 'price_1PUsWGKhs45SIh5yuS25cc29',
       extra_pages: 'price_1PVTrzKhs45SIh5yI4Cvzl6t',
       extra_sites: 'price_1PVTqNKhs45SIh5yCGNmCoHH',
@@ -47,11 +61,11 @@ const Pricing = () => {
   }
 
   const handleCheckoutPage = (data: PlanDefaultValuesTypes) => {
-    const addOns = data[data.selectedPlan]
+    const addOns = data[data.selectedPlan as keyof typeof data]
     const prices_keys = pricesIds[data.selectedPlan as keyof typeof pricesIds]
     const addonsData = data.selectedPlanData.addOnsData
-    const filterAddons = addonsData.filter((item) => addOns[item.key as keyof typeof addOns])
-    const modifiedAddOns = filterAddons.map((item) => ({
+    const filterAddons = addonsData?.filter((item) => addOns[item.key as keyof typeof addOns])
+    const modifiedAddOns = filterAddons?.map((item) => ({
       ...item,
       amount: item.amount * (addOns[item.key as keyof typeof addOns] / item.step),
       quantity: addOns[item.key as keyof typeof addOns],
@@ -69,15 +83,50 @@ const Pricing = () => {
     })
   }
 
-  // console.log('allPlansList' ,allPlansList)
-
   const submitForm = () => {
     handleSubmit(handleCheckoutPage)()
   }
 
-  // useEffect(() => {
-  //   getPlansList()
-  // }, [])
+  const BUTTON_TEXT = {
+    Basic: 'Request Demo',
+    Enterprise: 'Get Started',
+    Pro: 'Get Started',
+    'Basic Annual': 'Request Demo',
+    'Pro Annual': 'Get Started',
+    'Enterprise Annual': 'Get Started',
+  }
+
+  const COLORS = {
+    Basic: 'warning',
+    Enterprise: 'primary',
+    Pro: 'info',
+    'Basic Annual': 'warning',
+    'Pro Annual': 'primary',
+    'Enterprise Annual': 'info',
+  }
+
+  const ICONS = {
+    Basic: AgencyIcon,
+    Enterprise: EnterpriseIcon,
+    Pro: PersonIcon,
+    'Basic Annual': AgencyIcon,
+    'Pro Annual': EnterpriseIcon,
+    'Enterprise Annual': PersonIcon,
+  }
+
+  const displaySiteQuota = (plan: PlanDataType) => {
+    return [
+      { amount: plan?.sites_quota || 0, text: 'Sites' },
+      { amount: plan?.pages_quota || 0, text: 'Pages' },
+      { amount: plan?.keywords_quota || 0, text: 'Keywords' },
+      { amount: plan?.team_members_quota || 0, text: 'Team Members' },
+    ]
+  }
+
+  useEffect(() => {
+    getPlansList()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Container className="plans-cards">
@@ -96,28 +145,28 @@ const Pricing = () => {
               <Container className="plan-card-container">
                 <Flex gap={16} justify="center" className="plan-card-flex">
                   <Grid>
-                    {monthlyPlans.map((item, index) => (
+                    {allPlansList?.data?.monthly?.map((item, index) => (
                       <PlanCard
                         key={`${index}PlanCard`}
                         duration="Monthly"
-                        amount={totalAmount(item.planType, item.amount, item.addOnInfo)}
+                        amount={totalAmount(item.name, item.base_price, item?.extra_addons)}
                         setValue={setValue}
-                        Icon={item.Icon}
-                        color={item.color}
-                        type={item.type}
+                        Icon={ICONS[item?.name as keyof typeof ICONS]}
+                        color={COLORS[item?.name as keyof typeof ICONS] as ColorsTypes}
+                        type={item.name}
                         description={item.description}
-                        generalInfo={item.generalInfo}
-                        detailsInfo={item.detailsInfo}
-                        isAPIAccess={item.isAPIAccess}
-                        crawlSchedule={item.crawlSchedule}
-                        addOnInfo={item.addOnInfo}
+                        generalInfo={displaySiteQuota(item)}
+                        detailsInfo={displaySiteQuotaDetails(item)}
+                        isAPIAccess={item.api_access}
+                        crawlSchedule={item.crawl_interval}
+                        addOnInfo={addsOnInfoGenerator(item)}
                         control={control}
                         handleSubmit={submitForm}
-                        buttonText={item.buttonText}
-                        buttonColor={item.buttonColor}
-                        planType={item.planType}
-                        itemAmount={item.amount}
-                        planId={item.planId}
+                        buttonText={BUTTON_TEXT[item?.name as keyof typeof ICONS]}
+                        buttonColor={COLORS[item?.name as keyof typeof ICONS] as ColorsTypes}
+                        planType={item.name}
+                        itemAmount={item.base_price}
+                        planId={item.id}
                         loading={false}
                       />
                     ))}
@@ -132,28 +181,28 @@ const Pricing = () => {
               <Container className="plan-card-container">
                 <Flex gap={16} justify="center" className="plan-card-flex">
                   <Grid>
-                    {yearlyPlans.map((item, index) => (
+                    {allPlansList?.data?.annually?.map((item, index) => (
                       <PlanCard
                         key={`${index}PlanCard`}
                         duration="Year"
-                        amount={totalAmount(item.planType, item.amount, item.addOnInfo)}
+                        amount={totalAmount(item.name, item.base_price, item?.extra_addons)}
                         setValue={setValue}
-                        Icon={item.Icon}
-                        color={item.color}
-                        type={item.type}
+                        Icon={ICONS[item?.name as keyof typeof ICONS]}
+                        color={COLORS[item?.name as keyof typeof ICONS] as ColorsTypes}
+                        type={item.name}
                         description={item.description}
-                        generalInfo={item.generalInfo}
-                        detailsInfo={item.detailsInfo}
-                        isAPIAccess={item.isAPIAccess}
-                        crawlSchedule={item.crawlSchedule}
-                        addOnInfo={item.addOnInfo}
+                        generalInfo={displaySiteQuota(item)}
+                        detailsInfo={displaySiteQuotaDetails(item)}
+                        isAPIAccess={item.api_access}
+                        crawlSchedule={item.crawl_interval}
+                        addOnInfo={addsOnInfoGenerator(item)}
                         control={control}
                         handleSubmit={submitForm}
-                        buttonText={item.buttonText}
-                        buttonColor={item.buttonColor}
-                        planType={item.planType}
-                        itemAmount={item.amount}
-                        planId={item.planId}
+                        buttonText={BUTTON_TEXT[item?.name as keyof typeof ICONS]}
+                        buttonColor={COLORS[item?.name as keyof typeof ICONS] as ColorsTypes}
+                        planType={item.name}
+                        itemAmount={item.base_price}
+                        planId={item.id}
                         loading={false}
                       />
                     ))}

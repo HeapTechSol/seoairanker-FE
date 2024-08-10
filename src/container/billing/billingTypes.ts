@@ -51,9 +51,58 @@ export type GetUserQuotaAPIResponseTypes = {
   remaining_meta_description_quota: number
 }
 
+export type extraAddOns = [
+  {
+    key: 'price_extra_sites'
+    step: 1
+    value: 39
+    per_set: 1
+  },
+  {
+    key: 'price_extra_keywords'
+    step: 100
+    value: 24.99
+    per_set: 100
+  },
+  {
+    key: 'price_extra_pages'
+    step: 250
+    value: 14.99
+    per_set: 250
+  }
+]
+
+export type planDetailDescription = [
+  {
+    key: 'metaDescription'
+    value: 500
+    per_price: 0.1
+  },
+  {
+    key: 'metaTitles'
+    value: 5000
+    per_price: 0.1
+  },
+  {
+    key: 'keywordRanking'
+    value: 2500
+    per_price: 0.01
+  },
+  {
+    key: 'pageCrawls'
+    value: 7500
+    per_price: 0.01
+  },
+  {
+    key: 'Schema'
+    value: 0
+    per_price: 0.2
+  }
+]
+
 export type PlanDataType = {
   id: string
-  name: string
+  name: 'Basic' | 'Pro' | 'Enterprise' | 'Basic Annual' | 'Pro Annual' | 'Enterprise Annual'
   duration: string
   base_price: number
   created_at: string
@@ -67,6 +116,8 @@ export type PlanDataType = {
   crawl_interval: string
   stripe_price_id: string
   team_members_quota: number
+  extra_addons: extraAddOns
+  quota_details: planDetailDescription
 }
 
 export type AllPlansAPIResponseTypes = {

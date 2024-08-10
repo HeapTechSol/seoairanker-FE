@@ -21,7 +21,7 @@ export type PlanCard = PlanTypes & {
   duration: 'Monthly' | 'Year'
   loading: boolean
   itemAmount: number
-  planId: number
+  planId: string
 }
 
 const PlanCard = ({
@@ -37,7 +37,7 @@ const PlanCard = ({
   isAPIAccess,
   crawlSchedule,
   buttonText = '',
-  planType = 'business',
+  planType = 'Basic',
   control,
   setValue,
   itemAmount,
@@ -64,7 +64,7 @@ const PlanCard = ({
           </sup>
         </Flex>
         <Flex vertical gap={8}>
-          {generalInfo.map((item, index) => (
+          {generalInfo?.map((item, index) => (
             <RadioButton
               readOnly
               size="lg"
@@ -78,7 +78,7 @@ const PlanCard = ({
       </Flex>
       <Divider color="warning" margin={30} />
       <Flex vertical gap={8}>
-        {detailsInfo.map((item, index) => (
+        {detailsInfo?.map((item, index) => (
           <RadioButton
             readOnly
             size="lg"
@@ -121,7 +121,7 @@ const PlanCard = ({
               render={({ field: { onChange, value } }) => {
                 return (
                   <RangeSelector
-                    value={value}
+                    value={value as number}
                     onChange={(e) => onChange((e.target as HTMLInputElement).value)}
                     size="md"
                     thumbColor="primary"
@@ -150,9 +150,9 @@ const PlanCard = ({
                 onChange(planType)
                 setValue('totalAmount', amount)
                 setValue('planId', planId)
-                const addOnsData = addOnInfo.map((item) => ({ key: item.key, amount: item.amount, step: item.step }))
+                const addOnsData = addOnInfo?.map((item) => ({ key: item.key, amount: item.amount, step: item.step }))
                 setValue('selectedPlanData', { planAmount: itemAmount, planType: planType, addOnsData })
-                handleSubmit()
+                handleSubmit?.()
               }}
             >
               {buttonText}

@@ -1,4 +1,8 @@
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+
 import Flex from '@/components/Flex'
+import Loader from '@/components/Loader'
 import Button from '@/components/Button'
 import Divider from '@/components/Divider/Divider'
 import TruncateText from '@/components/TruncateText'
@@ -9,15 +13,14 @@ import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 // import { IoArrowBackCircleOutline } from 'react-icons/io5'
 
 import { handleCopyClick } from '@/utils/helper'
-import { useEffect } from 'react'
-import Loader from '@/components/Loader'
 
 const ScriptPage = () => {
+  const { id } = useParams()
   const { getScript, siteScript, scriptLoading } = useHandleSitesLogic()
 
   useEffect(() => {
-    getScript({ id: '1' })
-     // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (id) getScript({ id })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

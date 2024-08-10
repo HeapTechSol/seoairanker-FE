@@ -67,7 +67,7 @@ const Checkout = () => {
                     <Flex justify="between" key={item.plan_id}>
                       <Flex gap={8}>
                         <Typography text={item.quantity} size="lg" inline />
-                        <Typography text={convertFirstCharToCapital(item.key?.replace('_', ' '))} size="lg" inline />
+                        <Typography text={convertFirstCharToCapital(item.key?.replaceAll('_', ' '))} size="lg" inline />
                       </Flex>
                       <Typography text={`${currencyNumberWithDollar({ value: item?.amount || 0, showUSD: false })}`} type="h3" inline />
                     </Flex>

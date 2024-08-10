@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 
 import Flex from '@/components/Flex'
@@ -12,17 +10,13 @@ import useStripeHandling from '@/container/billing/hooks/useStripeHandling'
 import { isEmpty } from '@/utils/helper'
 import { EXACT_ROUTES } from '@/constant/routes'
 import { CheckoutStateTypes } from '../billingTypes'
-import { setUser } from '@/container/auth/authSlice'
 import { useAppSelector } from '@/api/store'
-import { UserTypes } from '@/container/auth/authTypes'
 
 type CheckoutFormProps = {
   state: CheckoutStateTypes
 }
 
 const CheckoutForm = ({ state }: CheckoutFormProps) => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
   const [loading, setIsLoading] = useState(false)
 
   const stripe = useStripe()
@@ -85,24 +79,20 @@ const CheckoutForm = ({ state }: CheckoutFormProps) => {
   }
 
   const createSubscription = async (paymentMethodId: string) => {
-    const body = {
-      plan_id: state.pricing_id,
-      email: userInfo?.user.email as string,
-      payment_method_id: paymentMethodId,
-      userSelectedPlanId: state.planId,
-      addons: state?.addOns?.map((item) => ({
-        price_id: item.plan_id,
-        quantity: item.quantity / item.step,
-        feature_name: item.key,
-      })),
-    }
-
-    const data = await handleCheckout(body)
-    if (!data?.error) {
-      dispatch(setUser({ ...userInfo, isActiveSubscription: true } as UserTypes))
-      toast.success('Subscription created successfully')
-      navigate(EXACT_ROUTES.ADD_SITE)
-    } else {
+    try {
+      const body = {
+        plan_id: state.pricing_id,
+        email: userInfo?.user.email as string,
+        payment_method_id: paymentMethodId,
+        userSelectedPlanId: state.planId,
+        addons: state?.addOns?.map((item) => ({
+          price_id: item.plan_id,
+          quantity: item.quantity / item.step,
+          feature_name: item.key,
+        })),
+      }
+      await handleCheckout(body)
+    } catch (error) {
       toast.error('Failed to create subscription')
     }
   }

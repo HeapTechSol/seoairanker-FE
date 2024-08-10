@@ -237,7 +237,7 @@ export const routes = createBrowserRouter([
         },
       },
       {
-        path: SCRIPT_SECTION,
+        path: `${SCRIPT_SECTION}/:id`,
         errorElement: <ErrorBoundary />,
         async lazy() {
           const { default: ScriptPage } = await import('../container/sites/pages/ScriptPage/ScriptPage')

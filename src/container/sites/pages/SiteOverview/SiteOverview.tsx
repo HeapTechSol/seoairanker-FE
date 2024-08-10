@@ -34,7 +34,11 @@ const SiteOverview = () => {
     <Container borderRadius boxShadow className="site-overview-detail">
       <Flex vertical gap={40}>
         <Grid gap={16} minMax={500} minWidth={200}>
-          <Container className="container-bg checklist__item" style={{ cursor: 'pointer' }} onClick={() => navigate(SCRIPT_SECTION)}>
+          <Container
+            className="container-bg checklist__item"
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate(`${SCRIPT_SECTION}/${crawledInfo?.site_data?.id}`)}
+          >
             <Flex>
               <Flex align="center" gap={16}>
                 <GrInstallOption className="item-icon" />
