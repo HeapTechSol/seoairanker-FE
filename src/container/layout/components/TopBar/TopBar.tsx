@@ -21,7 +21,7 @@ import { setUser } from '@/container/auth/authSlice'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import './TopBar.scss'
-import { SEOElla } from '@/assets/icons/svgs'
+import { SEOELLA } from '@/assets/icons/svgs'
 
 const { LOGIN, SIGNUP } = EXACT_ROUTES
 
@@ -125,7 +125,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
         <Flex align="center" justify="between">
           <Flex align="center" gap={8}>
             <div className="brand-icon" title="SEO Ella icon" onClick={() => navigate('/')}>
-              {SEOElla}
+              {SEOELLA}
             </div>
           </Flex>
           <Flex justify="end" gap={16}>

@@ -6,7 +6,7 @@ import Container from '@/components/Container/Container'
 import AI_Image from '@/assets/images/ai_image.webp'
 
 import './AuthLayout.scss'
-import { SEOElla } from '@/assets/icons/svgs'
+import { SEOELLA } from '@/assets/icons/svgs'
 
 const AuthLayout = () => {
   return (
@@ -23,7 +23,7 @@ const AuthLayout = () => {
         <Flex vertical gap={40} align="center">
           <Flex>
             <div className="brand-icon auth-container" title="SEO Ella icon">
-              {SEOElla}
+              {SEOELLA}
             </div>
           </Flex>
           <Outlet />

@@ -28,7 +28,7 @@ const ScriptPage = () => {
       <Loader loading={scriptLoading} overlay />
       <Flex vertical gap={32} align="center">
         <Flex vertical gap={16} align="start">
-          <Typography text={`How to Install Seode on Your Site`} type="h3" />
+          <Typography text={`How to Install SEOELLA on Your Site`} type="h3" />
           <Divider />
           <ol style={{ paddingLeft: '40px' }}>
             <li>

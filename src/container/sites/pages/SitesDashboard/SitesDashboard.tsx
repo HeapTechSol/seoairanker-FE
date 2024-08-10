@@ -85,7 +85,7 @@ const SitesDashboard = () => {
     <Container className="sites-dashboard">
       <Loader loading={sitesListLoading}>
         <Flex vertical gap={24}>
-          <Typography text="Seode's Dashboard" type="h1" />
+          <Typography text="SEOELLA's Dashboard" type="h1" />
           <Divider color="warning" />
           <Container className="sites-dashboard-header container-bg" borderRadius boxShadow>
             <Flex justify="between">
