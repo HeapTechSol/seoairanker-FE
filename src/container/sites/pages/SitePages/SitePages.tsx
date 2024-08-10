@@ -16,9 +16,10 @@ import { rowSelectionHandler } from '@/components/Table/helper'
 
 import { useAppSelector } from '@/api/store'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
+import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
-import { LuEye, LuRefreshCcw } from 'react-icons/lu'
-import { MdOutlineWbSunny, MdBlock } from 'react-icons/md'
+import { LuRefreshCcw } from 'react-icons/lu'
+import { MdBlock } from 'react-icons/md'
 
 import { ColumnType } from '@/components/Table/types'
 import { SiteLinksDataTypes } from '@/container/sites/sitesTypes'
@@ -28,10 +29,14 @@ import './SitePages.scss'
 const SitePages = () => {
   const { id: siteId } = useParams()
   const [selectedRowKeys, SetSelectedRowKeys] = useState<string[]>([])
+  const [editedId, setEditedId] = useState<string>('')
 
   const { handleGetSiteLinks, siteLinks, siteLinksLoading } = useHandleSitesLogic()
+  const { reCrawlPageLoading, handleReCrawlSitePage } = useHandleRecommendations()
 
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+
+  console.log(editedId, reCrawlPageLoading)
 
   const PAGES_COLUMN: ColumnType<SiteLinksDataTypes>[] = [
     {
@@ -39,7 +44,7 @@ const SitePages = () => {
       dataKey: 'url',
       render: (text) => <TruncateText text={text} line={1} width={200}></TruncateText>,
     },
-    { header: 'DEPTH' },
+    // { header: 'DEPTH' },
     {
       header: 'Lang',
       dataKey: 'page_language',
@@ -60,12 +65,29 @@ const SitePages = () => {
     {
       header: 'ACTIONS',
       textAlign: 'center',
-      render: () => (
-        <Flex gap={12} align="center" justify="center">
-          <Button StartIcon={<LuEye />} onlyIcon noPadding variant="text" color="info" />
-          <Button StartIcon={<LuRefreshCcw />} onlyIcon noPadding variant="text" color="info" />
-          <Button StartIcon={<MdOutlineWbSunny />} onlyIcon noPadding variant="text" color="info" />
-        </Flex>
+      render: (_, row) => (
+        <>
+          {editedId === row.id && reCrawlPageLoading ? (
+            <Loader loading overlay={false} size={24} />
+          ) : (
+            <Flex gap={12} align="center" justify="center">
+              {/* <Button StartIcon={<LuEye />} onlyIcon noPadding variant="text" color="info" /> */}
+              <Button
+                StartIcon={<LuRefreshCcw />}
+                onlyIcon
+                noPadding
+                variant="text"
+                color="info"
+                onClick={async () => {
+                  setEditedId(row.id)
+                  await handleReCrawlSitePage({ site_id: siteId || '', link_id: row.id })
+                }}
+                loading={editedId === row.id && reCrawlPageLoading}
+              />
+              {/* <Button StartIcon={<MdOutlineWbSunny />approveRecommendationsLoading} onlyIcon noPadding variant="text" color="info" /> */}
+            </Flex>
+          )}
+        </>
       ),
     },
   ]

@@ -18,6 +18,7 @@ import {
   useLazyGetSiteCrawledInfoQuery,
   useLazyGetSitePathSearchResultsQuery,
   useLazyExportToCSVQuery,
+  useLazyGetSiteScriptQuery,
 } from '../api/sitesAPI'
 
 import { uniqBy } from '@/utils/helper'
@@ -54,6 +55,7 @@ const useHandleSitesLogic = () => {
   const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
   const [getNotifications, { isLoading: getNotificationLoading }] = useLazyGetNotificationsQuery()
   const [getSiteLinks, { isLoading: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
+  const [getSiteScript, { isLoading: scriptLoading, data: siteScript }] = useLazyGetSiteScriptQuery()
   const [getSiteKeywords, { data: keywordsData, isLoading: keywordsLoading }] = useLazyGetSiteKeywordsQuery()
   const [getSitePathSearchResults, { isLoading: sitePathSearchLoading }] = useLazyGetSitePathSearchResultsQuery()
   const [getSightInsights, { isLoading: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
@@ -100,6 +102,14 @@ const useHandleSitesLogic = () => {
   const getSitesList = async () => {
     try {
       await getSites().unwrap()
+    } catch (error) {
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
+    }
+  }
+
+  const getScript = async (id: {id:string}) => {
+    try {
+      await getSiteScript(id).unwrap()
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -223,6 +233,9 @@ const useHandleSitesLogic = () => {
     control,
     csvData,
     isLoading,
+    getScript,
+    siteScript,
+    scriptLoading,
     getKeywords,
     getInsights,
     currentStep,

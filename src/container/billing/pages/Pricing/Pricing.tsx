@@ -4,10 +4,13 @@ import { useForm, useWatch } from 'react-hook-form'
 import Flex from '@/components/Flex'
 import Tabs from '@/components/Tabs/Tabs'
 import Grid from '@/components/Grid/Grid'
+import Loader from '@/components/Loader'
 import PlanCard from '@/components/PlanCard/PlanCard'
 import Container from '@/components/Container/Container'
 
 import { yearlyPlans, PlansTitles, monthlyPlans, planDefaultValues, PlanDefaultValuesTypes, addOnInfoTypes } from '@/constant/plans'
+
+import useStripeHandling from '@/container/billing/hooks/useStripeHandling'
 
 import { EXACT_ROUTES } from '@/constant/routes'
 
@@ -17,6 +20,7 @@ const { CHECKOUT } = EXACT_ROUTES
 
 const Pricing = () => {
   const navigate = useNavigate()
+  const { plansLoading } = useStripeHandling()
   const { control, setValue, handleSubmit } = useForm({
     defaultValues: planDefaultValues as PlanDefaultValuesTypes,
   })
@@ -65,12 +69,19 @@ const Pricing = () => {
     })
   }
 
+  // console.log('allPlansList' ,allPlansList)
+
   const submitForm = () => {
     handleSubmit(handleCheckoutPage)()
   }
 
+  // useEffect(() => {
+  //   getPlansList()
+  // }, [])
+
   return (
     <Container className="plans-cards">
+      <Loader loading={plansLoading} />
       <Tabs
         activeByUrl={false}
         variant="text"

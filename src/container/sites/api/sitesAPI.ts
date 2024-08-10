@@ -20,9 +20,11 @@ import {
 
 const {
   ADD_SITE,
+  GET_SCRIPT,
   SITES_LIST,
   DELETE_SITE,
   GET_KEYWORDS,
+  RE_CRAWL_PAGE,
   RE_CRAWL_SITE,
   GET_SITE_LINKS,
   SITE_PAGE_INSIGHTS,
@@ -109,6 +111,13 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         body: payload,
       }),
     }),
+    reCrawlSitePage: builder.query<GetRecommendationsByModelAPIResponseTypes, { site_id: string; link_id: string }>({
+      query: (payload) => ({
+        url: RE_CRAWL_PAGE,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
     approveRecommendations: builder.mutation<{ message: string }, ApproveRecommendationsPayloadTypes>({
       query: (payload) => ({
         url: APPROVE_RECOMMENDATIONS,
@@ -142,6 +151,12 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getSiteScript: builder.query<NotificationsAPIResponseTypes, { id: string }>({
+      query: (params) => ({
+        url: `${GET_SCRIPT}/${params.id}`,
+        method: 'POST',
+      }),
+    }),
     deleteSite: builder.mutation({
       query: (id) => ({
         url: `${DELETE_SITE}/${id}`,
@@ -161,7 +176,9 @@ export const {
   useLazyReCrawlSiteQuery,
   useLazySaveKeywordsQuery,
   useLazyGetSiteLinksQuery,
+  useLazyGetSiteScriptQuery,
   useLazyGetSiteKeywordsQuery,
+  useLazyReCrawlSitePageQuery,
   useLazyReadNotificationQuery,
   useLazyGetNotificationsQuery,
   useLazyGetSightInsightsQuery,

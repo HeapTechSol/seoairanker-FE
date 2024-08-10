@@ -62,6 +62,7 @@ const Tabs = <T extends boolean>({
     if (activeByUrl) {
       setActiveIndex(getTabFromUrl())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search, activeByUrl])
 
   const handleTabClick = (index: number) => {

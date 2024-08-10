@@ -51,4 +51,26 @@ export type GetUserQuotaAPIResponseTypes = {
   remaining_meta_description_quota: number
 }
 
+export type PlanDataType = {
+  id: string
+  name: string
+  duration: string
+  base_price: number
+  created_at: string
+  updated_at: string
+  pages_quota: number
+  api_access: boolean
+  description: string
+  sites_quota: number
+  rank_interval: string
+  keywords_quota: number
+  crawl_interval: string
+  stripe_price_id: string
+  team_members_quota: number
+}
+
+export type AllPlansAPIResponseTypes = {
+  data: { annually: PlanDataType[]; monthly: PlanDataType[] }
+}
+
 export type APIKeysDataTypes = { token: string; last_used: string }

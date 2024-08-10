@@ -1,8 +1,8 @@
 import { baseQueryApi } from '@/api/queryAPI'
 import { APIEndpoint } from '@/constant/apiEndPoints'
-import { GetPaymentHistoryAPIResponseTypes, GetPaymentHistoryPayloadTypes, GetUserQuotaAPIResponseTypes } from '../billingTypes'
+import { AllPlansAPIResponseTypes, GetPaymentHistoryAPIResponseTypes, GetPaymentHistoryPayloadTypes, GetUserQuotaAPIResponseTypes } from '../billingTypes'
 
-const { CHECKOUT, BILLING_HISTORY, STRIPE_PAYMENT_INTENT, USER_QUOTA, CANCEL_SUBSCRIPTION } = APIEndpoint
+const { CHECKOUT, BILLING_HISTORY, STRIPE_PAYMENT_INTENT, USER_QUOTA, GET_ALL_PLANS, CANCEL_SUBSCRIPTION } = APIEndpoint
 
 export const billingAPI = baseQueryApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -42,12 +42,19 @@ export const billingAPI = baseQueryApi.injectEndpoints({
       }),
       providesTags: ['userQuota'],
     }),
+    getAllPlans: builder.query<AllPlansAPIResponseTypes, void>({
+      query: () => ({
+        url: `${GET_ALL_PLANS}`,
+        method: 'GET',
+      }),
+    }),
   }),
   overrideExisting: false,
 })
 
 export const {
   useCheckoutMutation,
+  useLazyGetAllPlansQuery,
   useLazyGetUserQuotaQuery,
   useCancelSubscriptionMutation,
   useLazyGetBillingHistoryQuery,

@@ -1,4 +1,7 @@
 .titles-list-container {
   background: white;
   position: relative;
+  &:has(.shimmer-wrapper) {
+    padding: 40px;
+  }
 }

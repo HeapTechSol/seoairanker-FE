@@ -14,9 +14,11 @@ export const SITES = {
   SITES: 'websites/',
   ADD_SITE: 'add_site',
   DELETE_SITE: 'delete',
+  GET_SCRIPT: 'get_script',
   SITES_LIST: 'user_sites',
   GET_KEYWORDS: 'get_keywords',
   USER_QUOTA: 'get_user_quota',
+  RE_CRAWL_PAGE: 're_crawl_page',
   RE_CRAWL_SITE: 're_crawl_site',
   GET_SITE_LINKS: 'links_by_site',
   SITE_CRAWLING_INFO: 'get_site_data',
@@ -30,15 +32,17 @@ export const SITES = {
 }
 
 export const BILLING = {
-  STRIPE: '/stripe',
-  CHECKOUT: '/create-subscription',
-  BILLING_HISTORY: '/get-payment-history',
-  CANCEL_SUBSCRIPTION: '/cancel_subscription',
-  STRIPE_PAYMENT_INTENT: '/create-payment-intent',
+  STRIPE: 'stripe/',
+  GET_ALL_PLANS: 'all',
+  CHECKOUT: 'create-subscription',
+  BILLING_HISTORY: 'get-payment-history',
+  CANCEL_SUBSCRIPTION: 'cancel_subscription',
+  STRIPE_PAYMENT_INTENT: 'create-payment-intent',
 }
 
 export const APIEndpoint = {
   CHECKOUT: `${BILLING.STRIPE}${BILLING.CHECKOUT}`,
+  GET_ALL_PLANS: `${BILLING.STRIPE}${BILLING.GET_ALL_PLANS}`,
   BILLING_HISTORY: `${BILLING.STRIPE}${BILLING.BILLING_HISTORY}`,
   CANCEL_SUBSCRIPTION: `${BILLING.STRIPE}${BILLING.CANCEL_SUBSCRIPTION}`,
   STRIPE_PAYMENT_INTENT: `${BILLING.STRIPE}${BILLING.STRIPE_PAYMENT_INTENT}`,
@@ -49,11 +53,13 @@ export const APIEndpoint = {
   NOTIFICATION_LISTING: `${AUTH.AUTH}${AUTH.NOTIFICATION_LISTING}`,
 
   ADD_SITE: `${SITES.SITES}${SITES.ADD_SITE}`,
+  GET_SCRIPT: `${SITES.SITES}${SITES.GET_SCRIPT}`,
   SITES_LIST: `${SITES.SITES}${SITES.SITES_LIST}`,
   USER_QUOTA: `${SITES.SITES}${SITES.USER_QUOTA}`,
   DELETE_SITE: `${SITES.SITES}${SITES.DELETE_SITE}`,
   GET_KEYWORDS: `${SITES.SITES}${SITES.GET_KEYWORDS}`,
   RE_CRAWL_SITE: `${SITES.SITES}${SITES.RE_CRAWL_SITE}`,
+  RE_CRAWL_PAGE: `${SITES.SITES}${SITES.RE_CRAWL_PAGE}`,
   GET_SITE_LINKS: `${SITES.SITES}${SITES.GET_SITE_LINKS}`,
   SITE_PAGE_INSIGHTS: `${SITES.SITES}${SITES.SITE_PAGE_INSIGHTS}`,
   SITE_CRAWLING_INFO: `${SITES.SITES}${SITES.SITE_CRAWLING_INFO}`,

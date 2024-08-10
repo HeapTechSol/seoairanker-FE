@@ -5,14 +5,24 @@ import TruncateText from '@/components/TruncateText'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 
+import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 // import { IoArrowBackCircleOutline } from 'react-icons/io5'
 
 import { handleCopyClick } from '@/utils/helper'
+import { useEffect } from 'react'
+import Loader from '@/components/Loader'
 
 const ScriptPage = () => {
-  const script = ''
+  const { getScript, siteScript, scriptLoading } = useHandleSitesLogic()
+
+  useEffect(() => {
+    getScript({ id: '1' })
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <Container width={100} borderRadius boxShadow className="add-site-container">
+      <Loader loading={scriptLoading} overlay />
       <Flex vertical gap={32} align="center">
         <Flex vertical gap={16} align="start">
           <Typography text={`How to Install Seode on Your Site`} type="h3" />
@@ -38,7 +48,6 @@ const ScriptPage = () => {
             </li>
           </ol>
           <TruncateText
-            line={4}
             text={
               <pre
                 style={{
@@ -51,7 +60,7 @@ const ScriptPage = () => {
                 }}
                 onClick={handleCopyClick}
               >
-                <code>{`${script}`}</code>
+                <code>{`${siteScript?.data || ''}`}</code>
               </pre>
             }
           />
@@ -64,7 +73,7 @@ const ScriptPage = () => {
             }
           />
           <Flex justify="end">
-            <Button variant="outlined" size="sm" onClick={() => handleCopyClick(script)} type="borderRadius">
+            <Button variant="outlined" size="sm" onClick={() => handleCopyClick(siteScript?.data || '')} type="borderRadius">
               Click to copy the code
             </Button>
           </Flex>
