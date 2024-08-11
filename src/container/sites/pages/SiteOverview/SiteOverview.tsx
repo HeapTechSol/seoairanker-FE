@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
@@ -24,11 +24,22 @@ const { SCRIPT_SECTION } = EXACT_ROUTES
 
 const SiteOverview = () => {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
   const getModalRecommendationsCountByType = (modal: ModalTypes) => crawledInfo?.model_data?.find((item) => item.model === modal)?.total
 
   const keywordsMatrics = crawledInfo?.site_data?.keywordsSummary
+
+  const navigateToTab = (tabName: string) => {
+    const newSearchParams = new URLSearchParams(searchParams)
+    newSearchParams.set('tab', tabName.toLowerCase())
+
+    navigate({
+      pathname: location.pathname,
+      search: newSearchParams.toString(),
+    })
+  }
 
   return (
     <Container borderRadius boxShadow className="site-overview-detail">
@@ -51,7 +62,7 @@ const SiteOverview = () => {
               )}
             </Flex>
           </Container>
-          <Container className="container-bg checklist__item">
+          <Container className="container-bg checklist__item" style={{ cursor: 'pointer' }} onClick={() => navigateToTab('keywords')}>
             <Flex>
               <Flex align="center" gap={16}>
                 <VscGraphLine className="item-icon" />
@@ -140,7 +151,7 @@ const SiteOverview = () => {
                   <Typography text={crawledInfo?.site_data?.total_approved || 0} className={'recommendations-overview__left-container__count'} />
                   <Typography text={`of ${crawledInfo?.site_data?.total_count || 0} Available`} />
                 </Flex>
-                <Button size="sm" type="borderRadius">
+                <Button size="sm" type="borderRadius" onClick={() => navigateToTab('automation')}>
                   Recommendations
                 </Button>
               </Flex>

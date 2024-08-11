@@ -24,7 +24,7 @@ import './Recommendations.scss'
 
 const Recommendations = () => {
   const { id: siteId } = useParams()
-  const [key, setKey] = useState<ModalTypes>('og_tags')
+  const [key, setKey] = useState<ModalTypes>('missing_alt_images')
   const [queryText, setQueryText] = useState<string>('')
   const [link_id, setLink_id] = useState<string>('')
 
