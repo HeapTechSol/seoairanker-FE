@@ -1,43 +1,44 @@
-import { classMapper } from "@/utils/helper";
+import { useRef, MouseEvent } from 'react'
 
-import { ToggleButtonTypes } from "./types";
+import { classMapper } from '@/utils/helper'
+import { ToggleButtonTypes } from './types'
 
-import "./ToggleButton.scss";
-import { useRef } from "react";
+import './ToggleButton.scss'
 
 const ToggleButton = ({
   label,
-  labelPosition = "left",
+  labelPosition = 'left',
   checked = false,
   disabled = false,
-  color = "primary",
+  color = 'primary',
   onChange,
-  id = "toggle",
+  id = 'toggle',
 }: ToggleButtonTypes) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const classes = classMapper("switch-container", {
+  const classes = classMapper('switch-container', {
     [labelPosition]: labelPosition,
     [color]: color,
     disabled: disabled,
-  });
+  })
 
-  const handleToggleClick = () => {
-    if (inputRef.current) {
-      inputRef.current?.click();
+  const handleToggle = (e: MouseEvent) => {
+    e.preventDefault()
+    if (!disabled && inputRef.current) {
+      const newCheckedState = !inputRef.current.checked
+      inputRef.current.checked = newCheckedState
+      onChange?.(newCheckedState)
     }
-  };
-
-  const buttonLabel = label && (
-    <label className="label" htmlFor={id}>
-      {label}
-    </label>
-  );
+  }
 
   return (
-    <div className={classes} onClick={handleToggleClick}>
-      {buttonLabel}
-      <div className="switch">
+    <div className={classes}>
+      {label && (
+        <label className="label" onClick={handleToggle}>
+          {label}
+        </label>
+      )}
+      <div className="switch" onClick={handleToggle}>
         <input
           className="toggle-input"
           id={id}
@@ -45,12 +46,12 @@ const ToggleButton = ({
           type="checkbox"
           checked={checked}
           disabled={disabled}
-          onChange={onChange}
+          onChange={(val) => onChange?.(val.target.checked)}
         />
-        <label className="slider" htmlFor={id} onClick={(e)=>e.stopPropagation()}></label>
+        <label className="slider" htmlFor={id}></label>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ToggleButton;
+export default ToggleButton

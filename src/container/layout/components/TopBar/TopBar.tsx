@@ -16,14 +16,15 @@ import { EXACT_ROUTES } from '@/constant/routes'
 import { IoLogOutOutline } from 'react-icons/io5'
 import { FaRegUser, FaRegBell } from 'react-icons/fa'
 
+import { SEOELLA } from '@/assets/icons/svgs'
+
 import { useAppSelector } from '@/api/store'
 import { setUser } from '@/container/auth/authSlice'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import './TopBar.scss'
-import { SEOELLA } from '@/assets/icons/svgs'
 
-const { LOGIN, SIGNUP } = EXACT_ROUTES
+const { LOGIN, SIGNUP, PROFILE_PAGE } = EXACT_ROUTES
 
 const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }) => {
   const navigate = useNavigate()
@@ -60,7 +61,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
     {
       id: 2,
       name: (
-        <Flex align="center" gap={6}>
+        <Flex align="center" gap={6} onClick={() => navigate(`${PROFILE_PAGE}/${user?.user?.id}`)}>
           <Avatar size={'large'} fallback={<FaRegUser />} src={user?.user?.profileImage} />
           <Flex vertical justify="between" gap={6}>
             <Typography text={`${user?.user?.firstName} ${user?.user?.lastName}`} size="lg" className="user-name" />
@@ -151,7 +152,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
                   <NotificationBadge count={notificationsData?.unread_count || 0} maxCount={100} icon={<FaRegBell />} />
                 </Dropdown>
                 <Dropdown options={users} onSelect={handleSelect} className="profile-dropdown-list">
-                  <Avatar size={'small'} fallback={<FaRegUser />} src={user?.user?.profileImage} />
+                  <Avatar size={'small'} fallback={<FaRegUser />} src={user?.user?.profileImage} onClick={() => null} />
                 </Dropdown>
               </Flex>
             )}

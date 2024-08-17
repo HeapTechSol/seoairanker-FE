@@ -3,6 +3,8 @@ export const AUTH = {
   LOGIN: 'login',
   SIGNUP: 'register',
   GOOGLE_AUTH: 'social-auth',
+  UPDATE_PROFILE: 'update-profile',
+  UPDATE_PASSWORD: 'update-password',
   NOTIFICATION_LISTING: 'notifications',
 }
 
@@ -50,6 +52,8 @@ export const APIEndpoint = {
   LOGIN: `${AUTH.AUTH}${AUTH.LOGIN}`,
   SIGNUP: `${AUTH.AUTH}${AUTH.SIGNUP}`,
   GOOGLE_AUTH: `${AUTH.AUTH}${AUTH.GOOGLE_AUTH}`,
+  UPDATE_PROFILE: `${AUTH.AUTH}${AUTH.UPDATE_PROFILE}`,
+  UPDATE_PASSWORD: `${AUTH.AUTH}${AUTH.UPDATE_PASSWORD}`,
   NOTIFICATION_LISTING: `${AUTH.AUTH}${AUTH.NOTIFICATION_LISTING}`,
 
   ADD_SITE: `${SITES.SITES}${SITES.ADD_SITE}`,

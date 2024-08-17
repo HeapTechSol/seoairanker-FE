@@ -64,13 +64,13 @@ const BillingDetail = () => {
                   </Flex>
                   <HorizontalProgressBar max={userQuota?.total_sites_quota || 0} value={userQuota?.remaining_sites_quota || 0} />
                 </Flex>
-                <Flex padding={5} vertical>
+                {/* <Flex padding={5} vertical>
                   <Flex justify="between" align="center">
                     <Typography text="Membership" type="h4" />
                     <Chip color="info" text="4 of 25" circled size="sm" bordered />
                   </Flex>
                   <HorizontalProgressBar max={25} value={4} />
-                </Flex>
+                </Flex> */}
                 <Flex padding={5} vertical>
                   <Flex justify="between" align="center">
                     <Typography text="Keywords" type="h4" />
@@ -178,7 +178,7 @@ const BillingDetail = () => {
             </Flex>
           </Flex>
         </Container>
-        <Container boxShadow borderRadius width={100} className="billing-details-container container-bg" padding={'40px'}>
+        {/* <Container boxShadow borderRadius width={100} className="billing-details-container container-bg" padding={'40px'}>
           <Flex vertical gap={16} align="start">
             <Typography text="Crawls and Ranking Updates" type="h3" />
             <Divider color="warning" />
@@ -222,7 +222,7 @@ const BillingDetail = () => {
             </Flex>
             <Typography text="* Estimated value calculated for the current billing period. The number is not exact and may change in accordance with account preferences, such as ranking refresh an crawl intervals, newly added keywords, and discovered pages." />
           </Flex>
-        </Container>
+        </Container> */}
       </Flex>
       <Loader loading={userQuotaLoading} />
       <Modal

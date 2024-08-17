@@ -136,7 +136,7 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
           <Flex align="start" padding="40px 40px 0px 40px">
             <Flex vertical gap={16}>
               <Typography type="h3" text="Optimize Description" />
-              <Typography text="Currently Google will show up to 60 characters in the title of your search results, so use them! We've added suggested descriptions below which you may want to edit and approve. In general, we recommend including what the page is about, your brand name, as well as some adjectives or modifiers." />
+              <Typography text="A meta description provides an explanation to Google and to users for what your page is about. Often times, the text in this description is what is used by Google in the search results page below your page's title. You can add, edit and approve your descriptions below." />
             </Flex>
             <Button
               size="sm"

@@ -2,6 +2,7 @@ export const AUTH = {
   BASE: '/auth',
   LOGIN: 'login',
   SIGNUP: 'signup',
+  PROFILE_PAGE: 'profile',
   VERIFY_OTP: 'verify_otp',
   UNAUTHORIZED: 'unauthorized',
   RESET_PASSWORD: 'reset_password',
@@ -24,6 +25,8 @@ export const SITES = {
   ADD_SITE: 'add-site',
   SITES_PAGES: 'pages',
   SITES_LIST: 'all-sites',
+  SITE_SCHEMA_PAGE: 'schema',
+  SITE_SETTING_PAGE: 'setting',
   SITES_DASHBOARD: 'dashboard',
   SITE_INSIGHTS: 'site-insights',
   SITE_DETAILS_PAGE: 'site-detail',
@@ -36,6 +39,7 @@ export const SITES = {
 
 export const EXACT_ROUTES = {
   LOGIN: `${AUTH.BASE}/${AUTH.LOGIN}`,
+  PROFILE_PAGE: `/${AUTH.PROFILE_PAGE}`,
   SIGNUP: `${AUTH.BASE}/${AUTH.SIGNUP}`,
   VERIFY_OTP: `${AUTH.BASE}/${AUTH.VERIFY_OTP}`,
   UNAUTHORIZED: `${AUTH.BASE}/${AUTH.UNAUTHORIZED}`,

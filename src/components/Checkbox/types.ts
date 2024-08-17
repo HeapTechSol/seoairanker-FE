@@ -8,5 +8,5 @@ export type CheckboxTypes = {
   indeterminate?: boolean;
   size?: "sm" | "md" | "lg";
   labelPosition?: "left" | "right" | "top" | "bottom";
-  onChange: (event: React.ChangeEvent<HTMLInputElement> | boolean) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement> | boolean) => void;
 };

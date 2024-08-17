@@ -5,6 +5,7 @@ export type InputTypes = {
   name: string
   disabled?: boolean
   required?: boolean
+  fullWidth?: boolean
   error?: string
   onClear?: () => void
   title?: string

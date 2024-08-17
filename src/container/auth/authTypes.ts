@@ -1,12 +1,14 @@
+export type User = {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  profileImage: string
+}
+
 export type UserTypes = {
+  user: User
   access_token: string
-  user: {
-    id: string
-    firstName: string
-    lastName: string
-    email: string
-    profileImage: string
-  }
   isActiveSubscription: boolean
 }
 
@@ -24,6 +26,17 @@ export type SignUpPayload = {
   lastName: string
   email: string
   password: string
+}
+
+export type UpdateUserProfilePayload = {
+  email: string
+  first_name: string
+  last_name: string
+  profile_img: string
+}
+
+export type UpdateUserPasswordPayload = {
+ new_password:string
 }
 
 export type GoogleLoginPayload = {

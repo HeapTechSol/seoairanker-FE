@@ -8,7 +8,7 @@ import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
 
 import { AUTH, BILLING, EXACT_ROUTES, SITES } from '@/constant/routes'
 
-const { LOGIN, SIGNUP, RESET_PASSWORD, VERIFY_OTP, CHANGE_PASSWORD, FORGET_PASSWORD, BASE: AUTH_BASE } = AUTH
+const { LOGIN, SIGNUP, RESET_PASSWORD, VERIFY_OTP, CHANGE_PASSWORD, FORGET_PASSWORD, PROFILE_PAGE, BASE: AUTH_BASE } = AUTH
 
 const { PLANS, BILLING_DETAIL, PAYMENT_HISTORY, UPCOMING_INVOICES, CHECKOUT, BASE: BILLING_BASE } = BILLING
 
@@ -19,9 +19,11 @@ const {
   SCRIPT_SECTION,
   RECOMMENDATIONS,
   SITES_DASHBOARD,
+  SITE_SCHEMA_PAGE,
   SITE_ACCESS_KEYS,
   KEYWORDS_RANKING,
   SITE_DETAILS_PAGE,
+  SITE_SETTING_PAGE,
   ADD_SITES_NEW_KEYWORDS,
   BASE: SITES_BASE,
 } = SITES
@@ -33,6 +35,26 @@ export const routes = createBrowserRouter([
     path: '/',
     element: <Navigate to={DASHBOARD} replace />,
     errorElement: <ErrorBoundary />,
+  },
+  {
+    path: `${PROFILE_PAGE}/:id`,
+    errorElement: <ErrorBoundary />,
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        async lazy() {
+          const { default: ProfilePage } = await import('../container/auth/pages/ProfilePage/ProfilePage')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <ProfilePage {...props} />
+              </ProtectedRoute>
+            ),
+          }
+        },
+      },
+    ],
   },
   {
     path: BILLING_BASE,
@@ -245,6 +267,34 @@ export const routes = createBrowserRouter([
             Component: (props) => (
               <ProtectedRoute>
                 <ScriptPage {...props} />
+              </ProtectedRoute>
+            ),
+          }
+        },
+      },
+      {
+        path: `${SITE_DETAILS_PAGE}/:id/${SITE_SETTING_PAGE}`,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const { default: SiteSettings } = await import('../container/sites/pages/Settings/Settings')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <SiteSettings {...props} />
+              </ProtectedRoute>
+            ),
+          }
+        },
+      },
+      {
+        path: `${SITE_DETAILS_PAGE}/:id/${SITE_SCHEMA_PAGE}`,
+        errorElement: <ErrorBoundary />,
+        async lazy() {
+          const { default: SiteSchema } = await import('../container/sites/pages/SiteSchema/SiteSchema')
+          return {
+            Component: (props) => (
+              <ProtectedRoute>
+                <SiteSchema {...props} />
               </ProtectedRoute>
             ),
           }

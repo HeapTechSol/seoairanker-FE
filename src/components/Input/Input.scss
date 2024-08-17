@@ -1,5 +1,8 @@
 .input-field-container {
   line-height: 1.7;
+  &:has(.fullWidth) {
+    width: 100%;
+  }
   @each $color in $colorType {
     .input-field.#{$color} {
       display: flex;
@@ -105,7 +108,7 @@
       }
 
       &.outlined.focused:hover {
-        border-color: var(--border-color); 
+        border-color: var(--border-color);
       }
 
       $margin-left: calc(28px + 1em);

@@ -21,6 +21,10 @@
     justify-content: flex-end;
   }
 
+  label {
+    cursor: pointer;
+  }
+
   &.disabled label {
     color: colorMapper(grayClr, 400);
   }

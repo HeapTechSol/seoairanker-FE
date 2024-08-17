@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
 import Grid from '@/components/Grid/Grid'
+import Divider from '@/components/Divider/Divider'
 import SiteInsights from '../SiteInsights/SiteInsights'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
@@ -234,8 +235,13 @@ const SiteOverview = () => {
             </Container>
           </Flex>
         </Container>
-
-        <SiteInsights />
+        <Flex vertical gap={32}>
+          <Flex vertical gap={16}>
+            <Typography text="Google Site Insights" type="h2" />
+            <Divider margin={0} color='common'/>
+          </Flex>
+          <SiteInsights />
+        </Flex>
       </Flex>
     </Container>
   )

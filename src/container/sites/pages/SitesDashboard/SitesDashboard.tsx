@@ -33,6 +33,7 @@ const SitesDashboard = () => {
   const navigate = useNavigate()
 
   const [siteId, setSiteId] = useState<number>()
+  const [query, setQuery] = useState('')
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false)
 
   const { getSitesList, sitesListLoading, sitesList, handleDeleteSite, deleteSideLoading } = useHandleSitesLogic()
@@ -81,6 +82,8 @@ const SitesDashboard = () => {
 
   const isSitesExist = !!sitesList?.length
 
+  const filteredSiteList = sitesList?.filter((site) => site?.site_url?.includes(query))
+
   return (
     <Container className="sites-dashboard">
       <Loader loading={sitesListLoading}>
@@ -89,7 +92,7 @@ const SitesDashboard = () => {
           <Divider color="warning" />
           <Container className="sites-dashboard-header container-bg" borderRadius boxShadow>
             <Flex justify="between">
-              <Input StartIcon={<GoSearch />} name="search_site" placeholder="Search" />
+              <Input StartIcon={<GoSearch />} name="search_site" placeholder="Search" value={query} onChange={(e) => setQuery(e.target.value)} />
               <Button onClick={() => navigate(ADD_SITE)} size="sm" type="borderRadius">
                 Add a New Site
               </Button>
@@ -98,7 +101,7 @@ const SitesDashboard = () => {
           {isSitesExist ? (
             <Flex gap={16}>
               <Flex vertical gap={16}>
-                {sitesList?.map((site, index) => (
+                {filteredSiteList?.map((site, index) => (
                   <AddedSiteCard site={site} onClick={() => deleteSite(site.id)} key={`${index}-AddSiteCard`} />
                 ))}
               </Flex>

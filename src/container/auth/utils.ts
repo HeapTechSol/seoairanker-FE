@@ -17,8 +17,7 @@ export const resetPasswordInitialValues = {
 };
 
 export const changePasswordInitialValues = {
-  oldPassword: "",
-  password: "",
+  new_password: "",
   confirmPassword: "",
 };
 

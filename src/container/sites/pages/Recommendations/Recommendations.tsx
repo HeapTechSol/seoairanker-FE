@@ -81,11 +81,9 @@ const Recommendations = () => {
             <Flex vertical gap={16}>
               <Typography text="SEO Automation Recommendations" type="h2" />
               <Typography
-                text="The right to rectification – You have the right to request that we correct any
-                information you believe is inaccurate. You also have the right to request that we
-                complete the information you believe is incomplete. The right to data portability – You have the right to request that we transfer the
-                data that we have collected to another organization, or directly to you, under
-                certain conditions"
+                text={`Below is the list of SEO recommendations for ${
+                  crawledInfo?.site_data?.site_url || ''
+                } that can be implemented automatically. First review changes, and then click Approve to deploy changes automatically. You can approve or unapprove changes across your entire site or to individual pages by clicking the Category titles.`}
               />
               <Typography
                 text={

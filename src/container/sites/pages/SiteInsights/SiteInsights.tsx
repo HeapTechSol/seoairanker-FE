@@ -69,7 +69,7 @@ const SiteInsights = () => {
             </Flex>
           </Grid>
           <Flex vertical gap={100}>
-            <Grid gap={16} minWidth={200} minMax={300}>
+            <Grid gap={16} minWidth={200} minMax={350}>
               <Container
                 color={largestContentColor ? 'error' : 'success'}
                 borderRadius

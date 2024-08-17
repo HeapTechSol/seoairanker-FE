@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Accordion from '@/components/Accordion'
@@ -19,6 +19,7 @@ const Sidebar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { pathname } = useLocation()
+  const { id } = useParams()
 
   const isUserSubscribed = useAppSelector((state) => state.auth.user?.isActiveSubscription)
 
@@ -39,18 +40,22 @@ const Sidebar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }
   }
 
   const menuLink = (menu: menuTypes) => (
-    <Flex
-      align="center"
-      gap={8}
-      className={`sidebar-container__menu__link ${menu.path === pathname ? 'active' : ''} ${isLinkDisabled(menu.path) ? 'disabled' : ''}`}
-      onClick={(e) => {
-        e.stopPropagation()
-        navigate(menu.path)
-      }}
-    >
-      {menu.icon}
-      <span className="sidebar-container__menu__link__title">{menu.name}</span>
-    </Flex>
+    <>
+      {menu?.hide ? null : (
+        <Flex
+          align="center"
+          gap={8}
+          className={`sidebar-container__menu__link ${menu.path === pathname ? 'active' : ''} ${isLinkDisabled(menu.path) ? 'disabled' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation()
+            navigate(menu.path)
+          }}
+        >
+          {menu.icon}
+          <span className="sidebar-container__menu__link__title">{menu.name}</span>
+        </Flex>
+      )}
+    </>
   )
 
   const menuItem = (menu: menuTypes) => (
@@ -60,7 +65,7 @@ const Sidebar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }
     </Flex>
   )
 
-  const menuList = sidebarMenuData.map((menu, index) => (
+  const menuList = sidebarMenuData((pathname?.includes('sites') && id) || '')?.map((menu, index) => (
     <React.Fragment key={`${index}-SidebarMenu`}>
       {menu.children ? (
         <Accordion

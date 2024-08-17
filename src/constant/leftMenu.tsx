@@ -1,26 +1,27 @@
-import { menuTypes } from '@/container/layout/components/Menu/types'
-import { EXACT_ROUTES, BILLING } from './routes'
+import { EXACT_ROUTES, BILLING, SITES } from './routes'
 
 import { BiDetail } from 'react-icons/bi'
 // import { TbInvoice } from 'react-icons/tb'
 import { PiBankLight } from 'react-icons/pi'
 import { RxDashboard } from 'react-icons/rx'
 import { BsClockHistory } from 'react-icons/bs'
-import { MdOutlineAddToQueue } from 'react-icons/md'
-import { IoKeyOutline, IoPricetagOutline } from 'react-icons/io5'
+import { MdOutlineAddToQueue, MdOutlineSchema } from 'react-icons/md'
+import { IoPricetagOutline, IoSettingsOutline } from 'react-icons/io5'
 
 const {
   ADD_SITE,
   SITES_DASHBOARD,
-  SITE_ACCESS_KEYS,
-
+  // SITE_ACCESS_KEYS,
   PLANS,
   BILLING_DETAIL,
   PAYMENT_HISTORY,
+  SITE_DETAILS_PAGE,
   // UPCOMING_INVOICES,
 } = EXACT_ROUTES
 
-export const sidebarMenuData: menuTypes[] = [
+const { SITE_SETTING_PAGE, SITE_SCHEMA_PAGE } = SITES
+
+export const sidebarMenuData = (id: string) => [
   {
     name: "Site's Dashboard",
     icon: <RxDashboard />,
@@ -31,10 +32,22 @@ export const sidebarMenuData: menuTypes[] = [
     icon: <MdOutlineAddToQueue />,
     path: ADD_SITE,
   },
+  // {
+  //   name: 'API Keys',
+  //   icon: <IoKeyOutline />,
+  //   path: SITE_ACCESS_KEYS,
+  // },
   {
-    name: 'API Keys',
-    icon: <IoKeyOutline />,
-    path: SITE_ACCESS_KEYS,
+    hide: !id,
+    name: 'Setting',
+    icon: <IoSettingsOutline />,
+    path: `${SITE_DETAILS_PAGE}/${id}/${SITE_SETTING_PAGE}`,
+  },
+  {
+    hide: !id,
+    name: 'Schema',
+    icon: <MdOutlineSchema />,
+    path: `${SITE_DETAILS_PAGE}/${id}/${SITE_SCHEMA_PAGE}`,
   },
   {
     name: 'Billing',

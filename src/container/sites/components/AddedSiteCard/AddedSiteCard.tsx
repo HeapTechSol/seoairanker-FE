@@ -162,11 +162,7 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
                   color="info"
                   variant="text"
                   StartIcon={<TiLocationArrowOutline />}
-                  onClick={() =>
-                    navigate(isKeywords ? KEYWORDS_RANKING : SITE_DETAILS_PAGE, {
-                      state: { siteId: site.id, siteUrl: site.site_url },
-                    })
-                  }
+                  onClick={() => navigate(isKeywords ? KEYWORDS_RANKING : `${SITE_DETAILS_PAGE}/${site?.id}`)}
                 />
               </Flex>
               <Flex align="center" gap={8} className="keywords-performance-stats__graphs">
