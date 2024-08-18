@@ -24,7 +24,6 @@ import './Recommendations.scss'
 
 const Recommendations = () => {
   const { id: siteId } = useParams()
-  const [key, setKey] = useState<ModalTypes>('missing_alt_images')
   const [queryText, setQueryText] = useState<string>('')
   const [link_id, setLink_id] = useState<string>('')
 
@@ -32,6 +31,10 @@ const Recommendations = () => {
   const { getPathSearchResults, getSiteCrawledInfoData } = useHandleSitesLogic()
 
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+
+  const defaultModal = crawledInfo?.model_data?.find((modal) => modal.total > 0)
+
+  const [key, setKey] = useState<ModalTypes>(defaultModal?.model as ModalTypes)
 
   const recommendationTitles = {
     missing_alt_images: 'No Image Alt/Title Text',
@@ -133,12 +136,12 @@ const Recommendations = () => {
           <RecommendationOverview
             recommendationsList={recommendationsList || []}
             onClick={(e) => setKey(e)}
-            selectedKey={key}
+            selectedKey={key || defaultModal?.model as ModalTypes}
             site_id={siteId || ''}
             link_id={link_id}
             crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}
           />
-          <RecommendationList selectedKey={key} link_id={link_id} />
+          <RecommendationList selectedKey={key} link_id={link_id} defaultKey={defaultModal?.model as ModalTypes}/>
         </Flex>
       </Flex>
     </Container>
