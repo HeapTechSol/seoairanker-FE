@@ -21,7 +21,7 @@ const ChangePassword = () => {
       <Flex vertical gap={24} align="center" justify="center">
         <Typography text="Change Password" type="h2" />
         <Flex vertical justify="center" gap={16}>
-          <Controller
+          {/* <Controller
             name="oldPassword"
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
@@ -60,7 +60,7 @@ const ChangePassword = () => {
               );
             }}
             control={control}
-          />
+          /> */}
           <Controller
             name="confirmPassword"
             render={({ field: { onChange, value }, fieldState: { error } }) => {

@@ -1,35 +1,33 @@
 import { useEffect } from 'react'
-import { Controller, useWatch } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router-dom'
+// import { Controller, useWatch } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 
-import Flex from '@/components/Flex'
-import Button from '@/components/Button'
-import Select from '@/components/Select'
-import Divider from '@/components/Divider/Divider'
-import ToggleButton from '@/components/ToggleButton'
+// import Flex from '@/components/Flex'
+// import Button from '@/components/Button'
+// import Select from '@/components/Select'
+// import Divider from '@/components/Divider/Divider'
+// import ToggleButton from '@/components/ToggleButton'
 import Container from '@/components/Container/Container'
-import Typography from '@/components/Typography/Typography'
-import RangeSelector from '@/components/RangeSelector/RangeSelector'
+// import Typography from '@/components/Typography/Typography'
+// import RangeSelector from '@/components/RangeSelector/RangeSelector'
 
-import { useAppSelector } from '@/api/store'
+// import { useAppSelector } from '@/api/store'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
-import useHandleSiteSetting from '@/container/sites/hooks/useHandleSiteSetting'
+// import useHandleSiteSetting from '@/container/sites/hooks/useHandleSiteSetting'
 
 import './Settings.scss'
 
 const Settings = () => {
   const { id } = useParams()
-  const navigate = useNavigate()
-  
-  const userQuota = useAppSelector((state) => state.billing.userQuota)
-  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+  // const navigate = useNavigate()
 
-  const { control } = useHandleSiteSetting()
+  // const userQuota = useAppSelector((state) => state.billing.userQuota)
+  // const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+
+  // const { control } = useHandleSiteSetting()
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
 
-  const pages = useWatch({ control, name: 'pages' })
-
-
+  // const pages = useWatch({ control, name: 'pages' })
 
   useEffect(() => {
     if (id) getSiteCrawledInfoData({ site_id: id })
@@ -38,7 +36,8 @@ const Settings = () => {
 
   return (
     <Container className="add-new-keywords-container ">
-      <Flex vertical gap={16}>
+      Setting
+      {/* <Flex vertical gap={16}>
         <Typography text={crawledInfo?.site_data?.site_url || ''} type="h1" />
         <Divider color="warning" />
         <Container width={100} borderRadius boxShadow className="site-setting-page container-bg">
@@ -136,7 +135,7 @@ const Settings = () => {
             </Flex>
           </Flex>
         </Container>
-      </Flex>
+      </Flex> */}
     </Container>
   )
 }
