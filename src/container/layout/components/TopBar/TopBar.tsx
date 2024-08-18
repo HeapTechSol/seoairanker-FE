@@ -16,7 +16,7 @@ import { EXACT_ROUTES } from '@/constant/routes'
 import { IoLogOutOutline } from 'react-icons/io5'
 import { FaRegUser, FaRegBell } from 'react-icons/fa'
 
-import { SEOELLA } from '@/assets/icons/svgs'
+import { SeoEllaIcon } from '@/assets/icons/svgs'
 
 import { useAppSelector } from '@/api/store'
 import { setUser } from '@/container/auth/authSlice'
@@ -126,7 +126,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
         <Flex align="center" justify="between">
           <Flex align="center" gap={8}>
             <div className="brand-icon" title="SEO Ella icon" onClick={() => navigate('/')}>
-              {SEOELLA}
+              {SeoEllaIcon}
             </div>
           </Flex>
           <Flex justify="end" gap={16}>

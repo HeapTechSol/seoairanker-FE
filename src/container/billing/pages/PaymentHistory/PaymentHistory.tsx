@@ -104,7 +104,7 @@ const PaymentHistory = () => {
       </Grid>
       <Flex padding={40} vertical gap={32} className="payment-history-listing container-bg">
         <Typography text="Payment History" type="h1" size="lg" />
-        <Table columns={columns} data={billingHistoryList?.payments || []} />
+        <Table columns={columns} data={billingHistoryList || []} />
       </Flex>
       <Loader loading={billingHistoryLoading || userQuotaLoading} />
     </Flex>

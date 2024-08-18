@@ -84,10 +84,10 @@ const useHandleSitesLogic = () => {
   }
 
   const handleForwardButtonPress = () => {
-    // if (isSiteQuotaExceeded) {
-    //   toast.error('You cannot add a new site, your quota to add site is exceeded')
-    //   return
-    // }
+    if (isSiteQuotaExceeded) {
+      toast.error('You cannot add a new site, your quota to add site is exceeded')
+      return
+    }
     handleSubmit(handleNext)()
   }
 
@@ -107,7 +107,7 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const getScript = async (id: {id:string}) => {
+  const getScript = async (id: { id: string }) => {
     try {
       await getSiteScript(id).unwrap()
     } catch (error) {
@@ -198,8 +198,8 @@ const useHandleSitesLogic = () => {
         },
       ]
 
-      createSingleExcelFile({ csvData: { data: data?.data || [], columns: transactionColumns }, fileName: 'approved-recommendations' })
-      return data?.data
+      createSingleExcelFile({ csvData: { data: data?.approvedItems || [], columns: transactionColumns }, fileName: 'approved-recommendations' })
+      return data?.approvedItems
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }

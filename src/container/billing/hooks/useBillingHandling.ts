@@ -36,7 +36,7 @@ const useBillingHandling = () => {
 
   const cancelUserSubscription = async (setIsShowDeleteModal: GenericDispatch<boolean>) => {
     try {
-      await cancelSubscription({ user_id: userInfo?.user?.id as string }).unwrap()
+      await cancelSubscription().unwrap()
       toast.success('Subscription cancelled successfully')
       setIsShowDeleteModal(false)
       dispatch(setUser({ ...userInfo, isActiveSubscription: false } as UserTypes))
@@ -52,7 +52,7 @@ const useBillingHandling = () => {
     getUserQuotas,
     cancelUserSubscription,
     cancelSubscriptionLoading,
-    billingHistoryList: billingHistoryList?.result,
+    billingHistoryList: billingHistoryList?.data,
   }
 }
 

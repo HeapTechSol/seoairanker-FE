@@ -8,7 +8,7 @@ export type PaymentHistoryResponseTypes = {
 }
 
 export type GetPaymentHistoryAPIResponseTypes = {
-  result: { next_page_token: string; payments: PaymentHistoryResponseTypes[] }
+  data: PaymentHistoryResponseTypes[]
 }
 
 export type GetPaymentHistoryPayloadTypes = { limit: number; starting_after: string | null }

@@ -139,7 +139,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         params: params,
       }),
     }),
-    exportToCSV: builder.query<NotificationsAPIResponseTypes, { site_id: string }>({
+    exportToCSV: builder.query<{approvedItems:''}, { site_id: string }>({
       query: (payload) => ({
         url: `${EXPORT_RECOMMENDATIONS_TO_CSV}/${payload.site_id}`,
         method: 'GET',

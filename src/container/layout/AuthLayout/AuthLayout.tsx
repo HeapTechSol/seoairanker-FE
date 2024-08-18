@@ -3,10 +3,11 @@ import { Outlet } from 'react-router-dom'
 import Flex from '@/components/Flex'
 import Container from '@/components/Container/Container'
 
+import { SeoEllaIcon } from '@/assets/icons/svgs'
+
 import AI_Image from '@/assets/images/ai_image.webp'
 
 import './AuthLayout.scss'
-import { SEOELLA } from '@/assets/icons/svgs'
 
 const AuthLayout = () => {
   return (
@@ -23,7 +24,7 @@ const AuthLayout = () => {
         <Flex vertical gap={40} align="center">
           <Flex>
             <div className="brand-icon auth-container" title="SEO Ella icon">
-              {SEOELLA}
+              {SeoEllaIcon}
             </div>
           </Flex>
           <Outlet />
