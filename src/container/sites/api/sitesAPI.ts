@@ -16,6 +16,7 @@ import {
   NotificationsAPIResponseTypes,
   NotificationAPIPayloadTypes,
   GetSitePathSearchResultsResponseTypes,
+  SchemaResponseTypes,
 } from '../sitesTypes'
 
 const {
@@ -27,6 +28,7 @@ const {
   RE_CRAWL_PAGE,
   RE_CRAWL_SITE,
   GET_SITE_LINKS,
+  GET_SCHEMA_TYPES,
   SITE_PAGE_INSIGHTS,
   SITE_CRAWLING_INFO,
   NOTIFICATION_LISTING,
@@ -157,6 +159,12 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'POST',
       }),
     }),
+    getSchemaTypes: builder.query<SchemaResponseTypes, { id: string }>({
+      query: (params) => ({
+        url: `${GET_SCHEMA_TYPES}/${params.id}`,
+        method: 'GET',
+      }),
+    }),
     deleteSite: builder.mutation({
       query: (id) => ({
         url: `${DELETE_SITE}/${id}`,
@@ -177,6 +185,7 @@ export const {
   useLazySaveKeywordsQuery,
   useLazyGetSiteLinksQuery,
   useLazyGetSiteScriptQuery,
+  useLazyGetSchemaTypesQuery,
   useLazyGetSiteKeywordsQuery,
   useLazyReCrawlSitePageQuery,
   useLazyReadNotificationQuery,

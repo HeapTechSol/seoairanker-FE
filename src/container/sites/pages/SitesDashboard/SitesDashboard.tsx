@@ -88,8 +88,8 @@ const SitesDashboard = () => {
     <Container className="sites-dashboard">
       <Loader loading={sitesListLoading}>
         <Flex vertical gap={24}>
-          <Typography text="SEOELLA's Dashboard" type="h1" />
-          <Divider color="warning" />
+          <Typography text="Ella’s Dashboard" type="h1" />
+          <Divider color="primary" />
           <Container className="sites-dashboard-header container-bg" borderRadius boxShadow>
             <Flex justify="between">
               <Input StartIcon={<GoSearch />} name="search_site" placeholder="Search" value={query} onChange={(e) => setQuery(e.target.value)} />
@@ -109,7 +109,7 @@ const SitesDashboard = () => {
                 <Flex vertical gap={16} align="start">
                   <Typography type="h3" text="Add Your Site" />
                   <Typography text="It's easy! Just click the button." />
-                  <Divider color="warning" />
+                  <Divider color="primary" />
                   <Table columns={columns} data={sitesList || []} />
                   <Button onClick={() => navigate(ADD_SITE)} size="sm" type="borderRadius">
                     Add a New Site

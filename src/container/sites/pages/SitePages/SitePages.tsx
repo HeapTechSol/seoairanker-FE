@@ -121,7 +121,7 @@ const SitePages = () => {
     <Container className="site-pages-container">
       <Flex vertical gap={16}>
         <Typography text={`Pages on ${crawledInfo?.site_data?.site_url || ''}`} type="h1" />
-        <Divider color="warning" />
+        <Divider color="primary" />
         <Flex gap={16} className="container-screens">
           <Container borderRadius boxShadow padding={'40px'} className="site-pages-table-container  container-bg" width={100}>
             <Flex vertical gap={16}>
@@ -133,7 +133,7 @@ const SitePages = () => {
               />
               <Typography text={`You have approved 1 recommendation. Click any link below to see them live.`} />
               <Typography text={`Status: completed (last crawled 3 days ago)`} />
-              <Divider color="warning" />
+              <Divider color="primary" />
               <Table
                 columns={PAGES_COLUMN}
                 data={siteLinks?.data || []}

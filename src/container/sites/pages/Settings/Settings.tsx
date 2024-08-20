@@ -39,7 +39,7 @@ const Settings = () => {
       Setting
       {/* <Flex vertical gap={16}>
         <Typography text={crawledInfo?.site_data?.site_url || ''} type="h1" />
-        <Divider color="warning" />
+        <Divider color="primary" />
         <Container width={100} borderRadius boxShadow className="site-setting-page container-bg">
           <Flex vertical gap={32} align="start">
             <Controller
@@ -76,7 +76,7 @@ const Settings = () => {
             </Flex>
             <Container width={100}>
               <Typography text="Crawl Setting" type="h3" />
-              <Divider color="warning" margin={20} />
+              <Divider color="primary" margin={20} />
               <Flex vertical gap={32}>
                 <Controller
                   render={({ field: { onChange, value }, fieldState: { error } }) => (

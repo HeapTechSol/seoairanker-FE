@@ -89,7 +89,7 @@ const AddNewKeywords = () => {
     <Container className="add-new-keywords-container ">
       <Flex vertical gap={16}>
         <Typography text="Add New Keywords" type="h1" />
-        <Divider color="warning" />
+        <Divider color="primary" />
         <Flex gap={16} className="container-screens">
           <Container borderRadius boxShadow padding={'40px'} className="recommended-keywords-table-container container-bg">
             <Flex vertical align="start" gap={16} className="keywords-table-container">
@@ -97,7 +97,7 @@ const AddNewKeywords = () => {
               <Typography
                 text={`SEOELLA found these keywords for your site. Click on a keyword to add it to your keyword box. Once you're done selecting your target keywords, click the "Save Your Keywords" button to save your keywords.`}
               />
-              <Divider color="warning" />
+              <Divider color="primary" />
 
               <Table
                 columns={KEYWORDS_COLUMN}

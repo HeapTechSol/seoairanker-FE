@@ -28,7 +28,7 @@ const Typography = React.forwardRef(
       link,
       onClick,
       onBlur,
-      size = 'md',
+      size = 'lg',
       color = 'common',
       textAlign = 'left',
       type = 'body-text',

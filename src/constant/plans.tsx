@@ -13,6 +13,7 @@ export const addsOnInfoGenerator = (plan: PlanDataType) => {
       amount: extraSite?.value,
       max: 100,
       step: extraSite?.step,
+      stripe_price_id:extraSite?.stripe_price_id,
       key: 'price_extra_sites',
       text: (
         <>
@@ -24,6 +25,7 @@ export const addsOnInfoGenerator = (plan: PlanDataType) => {
       amount: extraKeyword?.value,
       max: 10000,
       step: extraKeyword?.step,
+      stripe_price_id:extraKeyword?.stripe_price_id,
       key: 'price_extra_keywords',
       text: (
         <>
@@ -36,6 +38,7 @@ export const addsOnInfoGenerator = (plan: PlanDataType) => {
       amount: extraPages?.value,
       max: 25000,
       step: extraPages?.step,
+      stripe_price_id:extraPages?.stripe_price_id,
       key: 'price_extra_pages',
       text: (
         <>
@@ -85,6 +88,7 @@ export type addOnInfoTypes = infoTypes & {
   key: 'price_extra_sites' | 'price_extra_pages' | 'price_extra_keywords'
   max: number
   step: number
+  stripe_price_id:string,
 }
 
 export type PlanTypes = {
@@ -102,6 +106,7 @@ export type PlanTypes = {
   buttonText: string
   buttonColor: ColorsTypes
   planType: PlansTitles
+  stripe_price_id:string
 }
 
 export type PlansTitles = 'Basic' | 'Pro' | 'Enterprise' | 'Basic Annual' | 'Pro Annual' | 'Enterprise Annual'
@@ -110,6 +115,7 @@ export type addsOnKeyTypes = {
   price_extra_sites: number
   price_extra_keywords: number
   price_extra_pages: number
+  stripe_price_id:string
 }
 
 export type addOnsData = { key: string; amount: number; step: number; quantity: number; plan_id: string }
@@ -128,7 +134,8 @@ export type PlanDefaultValuesTypes = {
   selectedPlanData: {
     planAmount: number
     planType: string
-    addOnsData: { key: string; amount: number; step: number }[]
+    stripe_price_id:string
+    addOnsData: { key: string; amount: number; step: number, stripe_price_id:string }[]
   }
 }
 

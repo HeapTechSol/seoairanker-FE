@@ -51,31 +51,21 @@ const Pricing = () => {
     return totalAmount
   }
 
-  const pricesIds = {
-    Basic: {
-      id: 'price_1PUsWGKhs45SIh5yuS25cc29',
-      extra_pages: 'price_1PVTrzKhs45SIh5yI4Cvzl6t',
-      extra_sites: 'price_1PVTqNKhs45SIh5yCGNmCoHH',
-      extra_keywords: 'price_1PVTrFKhs45SIh5yjBEJk7DG',
-    },
-  }
-
   const handleCheckoutPage = (data: PlanDefaultValuesTypes) => {
     const addOns = data[data.selectedPlan as keyof typeof data]
-    const prices_keys = pricesIds[data.selectedPlan as keyof typeof pricesIds]
     const addonsData = data.selectedPlanData.addOnsData
     const filterAddons = addonsData?.filter((item) => addOns[item.key as keyof typeof addOns])
     const modifiedAddOns = filterAddons?.map((item) => ({
       ...item,
       amount: item.amount * (addOns[item.key as keyof typeof addOns] / item.step),
       quantity: addOns[item.key as keyof typeof addOns],
-      plan_id: prices_keys[item.key as keyof typeof addOns],
+      plan_id: item.stripe_price_id,
     }))
 
     navigate(CHECKOUT, {
       state: {
         plan_type: data.selectedPlan,
-        pricing_id: prices_keys.id,
+        pricing_id: data.selectedPlanData.stripe_price_id,
         planId: data.planId,
         addOns: modifiedAddOns,
         amount: data.selectedPlanData.planAmount,
@@ -168,6 +158,7 @@ const Pricing = () => {
                         itemAmount={item.base_price}
                         planId={item.id}
                         loading={false}
+                        stripe_price_id={item.stripe_price_id}
                       />
                     ))}
                   </Grid>
@@ -204,6 +195,7 @@ const Pricing = () => {
                         itemAmount={item.base_price}
                         planId={item.id}
                         loading={false}
+                        stripe_price_id={item.stripe_price_id}
                       />
                     ))}
                   </Grid>

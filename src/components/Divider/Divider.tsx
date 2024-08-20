@@ -4,7 +4,7 @@ import { ColorsTypes } from "@/utils/commonTypes";
 import "./Divider.scss";
 
 const Divider = ({
-  color = "warning",
+  color = "primary",
   margin = 0,
 }: {
   color?: ColorsTypes;

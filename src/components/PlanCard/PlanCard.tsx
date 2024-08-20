@@ -45,6 +45,7 @@ const PlanCard = ({
   duration = 'Monthly',
   handleSubmit,
   planId,
+  stripe_price_id,
 }: PlanCard) => {
   return (
     <Container boxShadow borderRadius padding={40} className="plan-card  container-bg">
@@ -55,7 +56,7 @@ const PlanCard = ({
         </Flex>
         <Typography size="lg" textAlign="left" text={description} />
       </Flex>
-      <Divider color="warning" margin={30} />
+      <Divider color="primary" margin={30} />
       <Flex gap={20} vertical>
         <Flex gap={4}>
           <Typography type="h2" size="lg" text={`$${currencyConverter(amount)}`} />
@@ -76,7 +77,7 @@ const PlanCard = ({
           ))}
         </Flex>
       </Flex>
-      <Divider color="warning" margin={30} />
+      <Divider color="primary" margin={30} />
       <Flex vertical gap={8}>
         {detailsInfo?.map((item, index) => (
           <RadioButton
@@ -97,7 +98,7 @@ const PlanCard = ({
           />
         ))}
       </Flex>
-      <Divider color="warning" margin={30} />
+      <Divider color="primary" margin={30} />
       <Flex vertical gap={8}>
         <RadioButton
           readOnly
@@ -110,7 +111,7 @@ const PlanCard = ({
         />
         <RadioButton readOnly checked size="lg" label={<Typography text={`${crawlSchedule} Crawl Interval`} />} labelPosition="right" />
       </Flex>
-      <Divider color="warning" margin={30} />
+      <Divider color="primary" margin={30} />
       <Flex vertical gap={32}>
         {addOnInfo?.map((item, index) => (
           <Flex vertical gap={12} key={`${index}addOnInfo`}>
@@ -150,8 +151,13 @@ const PlanCard = ({
                 onChange(planType)
                 setValue('totalAmount', amount)
                 setValue('planId', planId)
-                const addOnsData = addOnInfo?.map((item) => ({ key: item.key, amount: item.amount, step: item.step }))
-                setValue('selectedPlanData', { planAmount: itemAmount, planType: planType, addOnsData })
+                const addOnsData = addOnInfo?.map((item) => ({
+                  key: item.key,
+                  amount: item.amount,
+                  step: item.step,
+                  stripe_price_id: item?.stripe_price_id,
+                }))
+                setValue('selectedPlanData', { planAmount: itemAmount, planType: planType, addOnsData, stripe_price_id: stripe_price_id })
                 handleSubmit?.()
               }}
             >

@@ -90,7 +90,7 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   }
 
   const columns: ColumnType<MissingTitlesDataTypes>[] = [
-    { header: 'Link', dataKey: 'url', render: (text: string) => <TruncateText text={text} line={1} width={300}></TruncateText> },
+    { header: 'Link', dataKey: 'url', render: (text: string) => <TruncateText text={text} line={1} width={400}></TruncateText> },
     {
       header: 'Title',
       dataKey: 'suggested_title',

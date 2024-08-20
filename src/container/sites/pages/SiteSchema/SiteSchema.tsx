@@ -20,7 +20,7 @@ const SiteSchema = () => {
 
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
-  const { getSiteCrawledInfoData } = useHandleSitesLogic()
+  const { getSiteCrawledInfoData, getSchemaTypesData, schemaTypesLoading, schemaTypesData } = useHandleSitesLogic()
   const { reCrawlLoading, handleReCrawlSite } = useHandleRecommendations()
 
   const reCrawlSite = () => {
@@ -28,16 +28,18 @@ const SiteSchema = () => {
   }
 
   useEffect(() => {
+    console.log(document.activeElement, '********************')
     if (id) getSiteCrawledInfoData({ site_id: id })
+    if (id) getSchemaTypesData({ id })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <Container className="add-new-keywords-container ">
-      <Loader loading={reCrawlLoading} />
+      <Loader loading={reCrawlLoading || schemaTypesLoading} />
       <Flex vertical gap={16}>
         <Typography text={crawledInfo?.site_data?.site_url || ''} type="h1" />
-        <Divider color="warning" />
+        <Divider color="primary" />
         <Flex vertical gap={16}>
           <Container width={100} borderRadius boxShadow className="site-schema-page container-bg">
             <Flex vertical gap={16}>
@@ -54,66 +56,18 @@ const SiteSchema = () => {
               <Typography text="Settings" type="h2" />
               <Typography text={`Limit page types to generate schemas for:`} />
               <Flex vertical gap={8}>
-                <Flex align="center" gap={8}>
-                  <Checkbox name="article" label="Article" labelPosition="right" borderRadius />
-                  <Typography
-                    text={
-                      <>
-                        (<Typography text={`139 pages`} link inline color="info" />)
-                      </>
-                    }
-                  />
-                </Flex>
-                <Flex align="center" gap={8}>
-                  <Checkbox name="event" label="Event" labelPosition="right" borderRadius />
-                  <Typography
-                    text={
-                      <>
-                        (<Typography text={`9 pages`} link inline color="info" />)
-                      </>
-                    }
-                  />
-                </Flex>
-                <Flex align="center" gap={8}>
-                  <Checkbox name="faq" label="Faq" labelPosition="right" borderRadius />
-                  <Typography
-                    text={
-                      <>
-                        (<Typography text={`1 pages`} link inline color="info" />)
-                      </>
-                    }
-                  />
-                </Flex>
-                <Flex align="center" gap={8}>
-                  <Checkbox name="organization" label="Organization" labelPosition="right" borderRadius />
-                  <Typography
-                    text={
-                      <>
-                        (<Typography text={`104 pages`} link inline color="info" />)
-                      </>
-                    }
-                  />
-                </Flex>
-                <Flex align="center" gap={8}>
-                  <Checkbox name="person" label="Person" labelPosition="right" borderRadius />
-                  <Typography
-                    text={
-                      <>
-                        (<Typography text={`4 pages`} link inline color="info" />)
-                      </>
-                    }
-                  />
-                </Flex>
-                <Flex align="center" gap={8}>
-                  <Checkbox name="product" label="Product" labelPosition="right" borderRadius />
-                  <Typography
-                    text={
-                      <>
-                        (<Typography text={`139 pages`} link inline color="info" />)
-                      </>
-                    }
-                  />
-                </Flex>
+                {schemaTypesData?.map((item, index) => (
+                  <Flex align="center" gap={8} key={`${index}${item.label}`}>
+                    <Checkbox name="article" label={item?.label || ''} labelPosition="right" borderRadius />
+                    <Typography
+                      text={
+                        <>
+                          (<Typography text={`${item?.count || 0} pages`} link inline color="info" />)
+                        </>
+                      }
+                    />
+                  </Flex>
+                ))}
               </Flex>
               <Typography text={`Leave blank to generate schemas for all pages where it is missing (default).`} />
             </Flex>

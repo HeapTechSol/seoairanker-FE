@@ -19,6 +19,7 @@ import {
   useLazyGetSitePathSearchResultsQuery,
   useLazyExportToCSVQuery,
   useLazyGetSiteScriptQuery,
+  useLazyGetSchemaTypesQuery,
 } from '../api/sitesAPI'
 
 import { uniqBy } from '@/utils/helper'
@@ -51,6 +52,7 @@ const useHandleSitesLogic = () => {
   const [readNotification] = useLazyReadNotificationQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
   const [getSites, { isLoading: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
+  const [getSchemaTypes, { isLoading: schemaTypesLoading, data: schemaTypesData }] = useLazyGetSchemaTypesQuery()
   const [getSiteCrawledInfo, { isLoading: crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
   const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
   const [getNotifications, { isLoading: getNotificationLoading }] = useLazyGetNotificationsQuery()
@@ -176,6 +178,14 @@ const useHandleSitesLogic = () => {
     }
   }
 
+  const getSchemaTypesData = async (payload:{id:string}) => {
+    try {
+      await getSchemaTypes(payload, true).unwrap()
+    } catch (error) {
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
+    }
+  }
+
   const exportDataToCSV = async (site_id: { site_id: string }) => {
     try {
       const data = await exportToCSV(site_id).unwrap()
@@ -242,6 +252,9 @@ const useHandleSitesLogic = () => {
     getSitesList,
     keywordsData,
     submitHandler,
+    schemaTypesLoading,
+    schemaTypesData:schemaTypesData?.data,
+    getSchemaTypesData,
     exportDataToCSV,
     keywordsLoading,
     insightsLoading,

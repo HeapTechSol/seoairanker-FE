@@ -38,7 +38,7 @@ const BillingDetail = () => {
           <Container boxShadow borderRadius className="billing-details-container lg container-bg" padding={'40px'}>
             <Flex vertical gap={12}>
               <Typography text="You're Subscribed" type="h3" />
-              <Divider color="warning" />
+              <Divider color="primary" />
               <Typography
                 text={
                   <>
@@ -116,7 +116,7 @@ const BillingDetail = () => {
             <Container boxShadow borderRadius className="billing-details-container sub-container container-bg" padding={'40px'}>
               <Flex vertical gap={16} align="start">
                 <Typography text="Payment Information" type="h3" />
-                <Divider color="warning" />
+                <Divider color="primary" />
                 <Typography text="The card on file for your account ends with 8679." />
                 <Button type="borderRadius" size="sm">
                   Update Payment Information
@@ -126,7 +126,7 @@ const BillingDetail = () => {
             <Container boxShadow borderRadius className="billing-details-container sub-container container-bg" padding={'40px'}>
               <Flex vertical gap={16} align="start">
                 <Typography text="Thank You" type="h3" />
-                <Divider color="warning" />
+                <Divider color="primary" />
                 <Typography text="SEOELLA wouldn't be possible without you! If we can do anything to make your experience better, reach out at support@SEOELLA.com." />
               </Flex>
             </Container>
@@ -135,7 +135,7 @@ const BillingDetail = () => {
         <Container boxShadow borderRadius width={100} className="billing-details-container container-bg" padding={'40px'}>
           <Flex vertical gap={16} align="start">
             <Typography text="AI Engine Usage Information" type="h3" />
-            <Divider color="warning" />
+            <Divider color="primary" />
             <Flex vertical gap={4}>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
@@ -181,7 +181,7 @@ const BillingDetail = () => {
         {/* <Container boxShadow borderRadius width={100} className="billing-details-container container-bg" padding={'40px'}>
           <Flex vertical gap={16} align="start">
             <Typography text="Crawls and Ranking Updates" type="h3" />
-            <Divider color="warning" />
+            <Divider color="primary" />
             <Flex vertical gap={4}>
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">

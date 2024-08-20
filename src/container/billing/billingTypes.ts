@@ -54,21 +54,24 @@ export type GetUserQuotaAPIResponseTypes = {
 export type extraAddOns = [
   {
     key: 'price_extra_sites'
-    step: 1
-    value: 39
-    per_set: 1
+    step: number
+    value: number
+    per_set: number
+    stripe_price_id:string
   },
   {
     key: 'price_extra_keywords'
-    step: 100
-    value: 24.99
-    per_set: 100
+    step: number
+    value: number
+    per_set: number
+    stripe_price_id:string
   },
   {
     key: 'price_extra_pages'
-    step: 250
-    value: 14.99
-    per_set: 250
+    step: number
+    value: number
+    per_set: number
+    stripe_price_id:string
   }
 ]
 

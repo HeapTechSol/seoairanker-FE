@@ -14,13 +14,13 @@ const APIKeys = () => {
     <Container className="api-keys-container">
       <Flex vertical gap={16}>
         <Typography text="Sites’s API Keys" type="h1" />
-        <Divider color="warning" />
+        <Divider color="primary" />
         <Flex gap={16} className="container-screens">
           <Container borderRadius boxShadow padding={'40px'} className="site-pages-table-container container-bg" width={100}>
             <Flex vertical gap={16} align="start">
               <Typography text="API Keys" type="h2" />
               <Typography text={`Please keep the keys secure.`} />
-              <Divider color="warning" />
+              <Divider color="primary" />
               <Table
                 columns={API_KEYS_COLUMN}
                 data={API_KEYS_DATA}
