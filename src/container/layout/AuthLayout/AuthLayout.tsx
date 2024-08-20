@@ -5,7 +5,7 @@ import Container from '@/components/Container/Container'
 
 import { SeoEllaIcon } from '@/assets/icons/svgs'
 
-import AI_Image from '@/assets/images/ai_image.webp'
+// import AI_Image from '@/assets/images/ai_image.webp'
 
 import './AuthLayout.scss'
 
