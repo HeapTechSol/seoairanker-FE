@@ -1,14 +1,14 @@
-import { Control, Controller, useWatch } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 
 import Flex from '@/components/Flex'
 import Input from '@/components/Input'
 import Divider from '@/components/Divider/Divider'
-import ToggleButton from '@/components/ToggleButton'
+// import ToggleButton from '@/components/ToggleButton'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
-import RangeSelector from '@/components/RangeSelector/RangeSelector'
+// import RangeSelector from '@/components/RangeSelector/RangeSelector'
 
-import { useAppSelector } from '@/api/store'
+// import { useAppSelector } from '@/api/store'
 import { RiGlobalLine } from 'react-icons/ri'
 
 import { AddSitePayloadTypes } from '@/container/sites/sitesTypes'
@@ -17,9 +17,9 @@ import './AddSite.scss'
 
 const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
   
-  const userQuota = useAppSelector((state) => state.billing.userQuota)
+  // const userQuota = useAppSelector((state) => state.billing.userQuota)
 
-  const pages = useWatch({ control, name: 'pages' })
+  // const pages = useWatch({ control, name: 'pages' })
 
   return (
     <Container width={100} borderRadius boxShadow padding={'40px 20px 0px 20px'} className="add-site-container">
@@ -45,7 +45,7 @@ const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
             name="siteUrl"
             control={control}
           />
-          <Typography text="Limit the number of pages to crawl. This allows you to distribute the global per-team limit across your sites." />
+          {/* <Typography text="Limit the number of pages to crawl. This allows you to distribute the global per-team limit across your sites." />
           <Controller
             render={({ field: { onChange, value } }) => (
               <RangeSelector
@@ -61,9 +61,9 @@ const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
             )}
             name="pages"
             control={control}
-          />
+          /> */}
 
-          <Typography
+          {/* <Typography
             text={`Current Limit: ${pages >= (userQuota?.total_pages_quota || 0) ? 'unlimited' : pages || ''} ${
               userQuota?.total_pages_quota
             } Included in your plan`}
@@ -75,7 +75,7 @@ const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
               control={control}
             />
             <Typography text="Use AI Engine to generate JSON Schemas for pages?" />
-          </Flex>
+          </Flex> */}
         </Flex>
       </Flex>
     </Container>

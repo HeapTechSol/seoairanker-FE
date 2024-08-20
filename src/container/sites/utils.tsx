@@ -17,6 +17,7 @@ import { Unknown } from '@/utils/commonTypes'
 import { KeywordsDataTypes } from './sitesTypes'
 import { ColumnType } from '@/components/Table/types'
 import { APIKeysDataTypes } from '../billing/billingTypes'
+import { URL_REGEX } from '@/utils/regex'
 
 const { requiredMessage } = CommonValidations
 
@@ -46,7 +47,7 @@ export const ADD_SITE_WIZARD_VALIDATIONS = [
         invalid_type_error: requiredMessage('Site URL'),
         required_error: requiredMessage('Site URL'),
       })
-      .url({ message: 'Site URL is invalid' })
+      .regex(URL_REGEX, 'Site URL is invalid')
       .min(5, requiredMessage('Site URL')),
     pages: z.number().optional(),
     jsonSchemas: z.boolean().optional(),
