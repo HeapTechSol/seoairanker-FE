@@ -52,26 +52,48 @@ const useHandleSitesLogic = () => {
   const [readNotification] = useLazyReadNotificationQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
   const [getSites, { isLoading: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
-  const [getSchemaTypes, { isLoading: schemaTypesLoading, data: schemaTypesData }] = useLazyGetSchemaTypesQuery()
   const [getSiteCrawledInfo, { isLoading: crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
   const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
   const [getNotifications, { isLoading: getNotificationLoading }] = useLazyGetNotificationsQuery()
   const [getSiteLinks, { isLoading: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
   const [getSiteScript, { isLoading: scriptLoading, data: siteScript }] = useLazyGetSiteScriptQuery()
   const [getSiteKeywords, { data: keywordsData, isLoading: keywordsLoading }] = useLazyGetSiteKeywordsQuery()
-  const [getSitePathSearchResults, { isLoading: sitePathSearchLoading }] = useLazyGetSitePathSearchResultsQuery()
   const [getSightInsights, { isLoading: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
+  const [getSitePathSearchResults, { isLoading: sitePathSearchLoading }] = useLazyGetSitePathSearchResultsQuery()
+  const [getSchemaTypes, { isLoading: schemaTypesLoading, data: schemaTypesData }] = useLazyGetSchemaTypesQuery()
 
   const stepsCount = steps(control)?.length
+
+  const validateUrl = async (url: string): Promise<string | null> => {
+    try {
+      let normalizedUrl = url
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        normalizedUrl = `http://${url}`
+      }
+      const response = await fetch(normalizedUrl, { method: 'HEAD' })
+      if (response.ok) {
+        return response.url
+      }
+    } catch (error) {
+      console.error('URL is not valid', error)
+    }
+    return null
+  }
 
   const handleNext = async () => {
     const script = getValues('script')
     if (currentStep >= stepsCount) return
     if (currentStep === 2 && !script) {
       const values = getValues()
+      const isSiteURLExist = await validateUrl(values.siteUrl)
+      if (!isSiteURLExist) {
+        toast.error('Site URL is not reachable, Please provide correct URL of the site')
+        return
+      }
       try {
         const response = await addSite({
           ...values,
+          siteUrl: isSiteURLExist,
         }).unwrap()
         toast.success(response?.message)
         setValue('script', response.data || '')
@@ -178,7 +200,7 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const getSchemaTypesData = async (payload:{id:string}) => {
+  const getSchemaTypesData = async (payload: { id: string }) => {
     try {
       await getSchemaTypes(payload, true).unwrap()
     } catch (error) {
@@ -253,7 +275,7 @@ const useHandleSitesLogic = () => {
     keywordsData,
     submitHandler,
     schemaTypesLoading,
-    schemaTypesData:schemaTypesData?.data,
+    schemaTypesData: schemaTypesData?.data,
     getSchemaTypesData,
     exportDataToCSV,
     keywordsLoading,

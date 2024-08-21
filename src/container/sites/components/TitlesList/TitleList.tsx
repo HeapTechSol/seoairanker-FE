@@ -90,7 +90,7 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   }
 
   const columns: ColumnType<MissingTitlesDataTypes>[] = [
-    { header: 'Link', dataKey: 'url', render: (text: string) => <TruncateText text={text} line={1} width={400}></TruncateText> },
+    { header: 'Link', dataKey: 'url', render: (text: string) => <TruncateText text={text} line={1} ></TruncateText> },
     {
       header: 'Title',
       dataKey: 'suggested_title',
@@ -99,7 +99,7 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
           <Flex align="center" gap={16}>
             <Typography
               color="warning"
-              text={<TruncateText text={text} line={1} width={400}></TruncateText>}
+              text={<TruncateText text={text} line={1} ></TruncateText>}
               contentEditable={record.id === editedId}
               onBlur={(e) => handleBlur(e, record.id, index, record.suggested_title, record.link_id)}
               ref={(el) => (editableRefs.current[index] = el)}
