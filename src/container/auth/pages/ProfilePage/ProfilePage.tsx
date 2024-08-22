@@ -7,6 +7,7 @@ import Grid from '@/components/Grid/Grid'
 import Avatar from '@/components/Avatar/Avatar'
 import Container from '@/components/Container/Container'
 
+import { FaRegUser } from 'react-icons/fa'
 import { RiLockPasswordLine } from 'react-icons/ri'
 
 import useUpdateUserProfile from '@/container/auth/hooks/useUpdateUserProfile'
@@ -21,14 +22,30 @@ const ProfilePage = () => {
   const { control, handleSubmit, updatePasswordLoading, changePasswordHandler } = useChangePasswordHandler()
   const { userProfileControl, saveUserProfile, updateProfile, updateUserLoading } = useUpdateUserProfile()
 
+  console.log('user?.profileImage', user?.profileImage)
+
   return (
     <Flex gap={32} align="start">
-      <Container width={50} padding={40} borderRadius boxShadow className="container-bg">
+      <Container width={50} padding={40} borderRadius boxShadow className="profile-container container-bg">
         <Flex vertical gap={64} align="center">
           <Controller
             name="profile_img"
             render={({ field: { onChange, value } }) => {
-              return <Avatar src={user?.profileImage} size={200} fallback="loading...." showEditIcon tempImageSrc={value} onImageUpload={onChange} />
+              return (
+                <Avatar
+                  src={user?.profileImage}
+                  size={200}
+                  // fallback={`${convertFirstCharToCapital(user?.firstName[0] || '')}${convertFirstCharToCapital(user?.lastName[0] || '')}`}
+                  fallback={
+                    <span className="avatar-placeholder">
+                      <FaRegUser />
+                    </span>
+                  }
+                  showEditIcon
+                  tempImageSrc={value}
+                  onImageUpload={onChange}
+                />
+              )
             }}
             control={userProfileControl}
           />
