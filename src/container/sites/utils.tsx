@@ -132,14 +132,14 @@ export const steps = (control: Unknown) => [
   //   stepLabel: '4',
   //   component: <AddKeywords control={control}/>,
   // },
-  {
-    title: 'Generating',
-    stepLabel: '3',
-    component: <RecommendationInfo />,
-  },
+  // {
+  //   title: 'Generating',
+  //   stepLabel: '3',
+  //   component: <RecommendationInfo />,
+  // },
   {
     title: 'Install',
-    stepLabel: '4',
+    stepLabel: '3',
     component: <ScriptStep control={control} />,
   },
 ]

@@ -1,12 +1,34 @@
-// import SpinnerIcon from "@/assets/icons/spinner.svg";
+import { useState, useEffect } from 'react'
 import LoadingIcon from '@/assets/icons/loader.gif'
 
 import { LoaderProps } from './types'
 
 import './Loader.scss'
 
-const Loader = ({ loading, overlay = true, size = 0, children }: LoaderProps) => {
-  if (!loading) {
+const Loader = ({ loading, overlay = true, size = 0, delay = 0, children }: LoaderProps) => {
+  const [showLoader, setShowLoader] = useState(!delay)
+
+  useEffect(() => {
+    if (delay && delay > 0) {
+      let timer: NodeJS.Timeout
+
+      if (loading) {
+        timer = setTimeout(() => {
+          setShowLoader(true)
+        }, delay)
+      } else {
+        // @ts-ignore
+        clearTimeout(timer)
+        setShowLoader(false)
+      }
+
+      return () => clearTimeout(timer)
+    } else {
+      setShowLoader(loading)
+    }
+  }, [loading, delay])
+
+  if (!showLoader) {
     return <>{children}</>
   }
 
@@ -18,4 +40,5 @@ const Loader = ({ loading, overlay = true, size = 0, children }: LoaderProps) =>
     </div>
   )
 }
+
 export default Loader

@@ -77,13 +77,17 @@ const AddNewKeywords = () => {
   }, [keywords])
 
   useEffect(() => {
-    getKeywords({
-      site_id: String(crawledInfo?.site_data?.id) || '',
-      page: 1,
-      per_page: 10,
-    })
+    if (crawledInfo?.site_data?.id) {
+      setValue('country', crawledInfo?.site_data?.country_code || '')
+      setValue('language', crawledInfo?.site_data?.language_code || '')
+      getKeywords({
+        site_id: String(crawledInfo?.site_data?.id) || '',
+        page: 1,
+        per_page: 10,
+      })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [crawledInfo])
 
   return (
     <Container className="add-new-keywords-container ">

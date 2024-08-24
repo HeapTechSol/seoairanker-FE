@@ -16,13 +16,13 @@ import './SiteDetailsPage.scss'
 
 const SiteDetailsPage = () => {
   const { id } = useParams()
-  const { getSiteCrawledInfoData } = useHandleSitesLogic()
+  const { getSiteCrawledInfoData, crawlInfoLoading } = useHandleSitesLogic()
 
   const tabs = [
     {
       title: 'Site Overview',
       key: 'site_overview',
-      content: <SiteOverview />,
+      content: <SiteOverview crawlInfoLoading={crawlInfoLoading}/>,
     },
     {
       title: 'Automations',

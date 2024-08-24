@@ -101,7 +101,7 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
       {!!item?.existing_meta_title?.length && (
         <>
           <Typography text="Content:" />
-          <Typography text={`Title tag is currently ${item?.existing_meta_title?.length} characters vs 30-65 recommendation`} color="warning" />
+          <Typography text={`Title tag is currently ${item?.existing_meta_title?.length} characters vs 30-65 recommended`} color="warning" />
         </>
       )}
       <Typography text="Existing:" />

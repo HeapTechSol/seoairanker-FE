@@ -57,7 +57,7 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
       {!!item?.existing_meta_description?.length && (
         <>
           <Typography text="Content:" />
-          <Typography text={`Description is currently ${item?.existing_meta_description?.length} characters vs 120-320 recommendation`} color="warning" />
+          <Typography text={`Description is currently ${item?.existing_meta_description?.length} characters vs 120-320 recommended`} color="warning" />
         </>
       )}
       <Typography text="Existing:" />

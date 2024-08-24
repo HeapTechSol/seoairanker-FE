@@ -64,37 +64,13 @@ const useHandleSitesLogic = () => {
 
   const stepsCount = steps(control)?.length
 
-  const validateUrl = async (url: string): Promise<string | null> => {
-    try {
-      let normalizedUrl = url
-      if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        normalizedUrl = `http://${url}`
-      }
-      const response = await fetch(normalizedUrl, { method: 'HEAD' })
-      if (response.ok) {
-        return response.url
-      }
-    } catch (error) {
-      console.error('URL is not valid', error)
-    }
-    return null
-  }
-
   const handleNext = async () => {
     const script = getValues('script')
     if (currentStep >= stepsCount) return
-    if (currentStep === 2 && !script) {
+    if (currentStep === 1 && !script) {
       const values = getValues()
-      const isSiteURLExist = await validateUrl(values.siteUrl)
-      if (!isSiteURLExist) {
-        toast.error('Site URL is not reachable, Please provide correct URL of the site')
-        return
-      }
       try {
-        const response = await addSite({
-          ...values,
-          siteUrl: isSiteURLExist,
-        }).unwrap()
+        const response = await addSite(values).unwrap()
         toast.success(response?.message)
         setValue('script', response.data || '')
         setCurrentStep((prev) => prev + 1)
