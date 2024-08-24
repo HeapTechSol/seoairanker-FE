@@ -31,6 +31,7 @@ const {
   GET_SCHEMA_TYPES,
   SITE_PAGE_INSIGHTS,
   SITE_CRAWLING_INFO,
+  GENERATE_SITE_SCHEMA,
   NOTIFICATION_LISTING,
   SAVE_SELECTED_KEYWORDS,
   APPROVE_RECOMMENDATIONS,
@@ -127,6 +128,13 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         body: payload,
       }),
     }),
+    approveSiteSchema: builder.mutation<{ message: string }, { id: string; schema_types: string[] }>({
+      query: (payload) => ({
+        url: `${GENERATE_SITE_SCHEMA}/${payload.id}`,
+        method: 'PATCH',
+        body: { schema_types: payload.schema_types },
+      }),
+    }),
     getSightInsights: builder.query({
       query: (payload) => ({
         url: SITE_PAGE_INSIGHTS,
@@ -141,7 +149,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         params: params,
       }),
     }),
-    exportToCSV: builder.query<{approvedItems:''}, { site_id: string }>({
+    exportToCSV: builder.query<{ approvedItems: '' }, { site_id: string }>({
       query: (payload) => ({
         url: `${EXPORT_RECOMMENDATIONS_TO_CSV}/${payload.site_id}`,
         method: 'GET',
@@ -189,6 +197,7 @@ export const {
   useLazyGetSiteKeywordsQuery,
   useLazyReCrawlSitePageQuery,
   useLazyReadNotificationQuery,
+  useApproveSiteSchemaMutation,
   useLazyGetNotificationsQuery,
   useLazyGetSightInsightsQuery,
   useLazyGetSiteCrawledInfoQuery,

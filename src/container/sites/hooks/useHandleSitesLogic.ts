@@ -20,6 +20,7 @@ import {
   useLazyExportToCSVQuery,
   useLazyGetSiteScriptQuery,
   useLazyGetSchemaTypesQuery,
+  useApproveSiteSchemaMutation,
 } from '../api/sitesAPI'
 
 import { uniqBy } from '@/utils/helper'
@@ -52,6 +53,7 @@ const useHandleSitesLogic = () => {
   const [readNotification] = useLazyReadNotificationQuery()
   const [getSiteCrawledInfo] = useLazyGetSiteCrawledInfoQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
+  const [approveSiteSchema, { isLoading: approveSchemaLoading }] = useApproveSiteSchemaMutation()
   const [getSites, { isLoading: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
   const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
   const [getNotifications, { isLoading: getNotificationLoading }] = useLazyGetNotificationsQuery()
@@ -232,6 +234,15 @@ const useHandleSitesLogic = () => {
     }
   }
 
+  const approveSchema = async (payload: { id: string; schema_types: string[] }) => {
+    try {
+      const response = await approveSiteSchema(payload).unwrap()
+      toast.success(response?.message, { autoClose: 1000 })
+    } catch (error) {
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
+    }
+  }
+
   const handlePreviousButtonPress = () => {
     if (currentStep === stepsCount) return
     setCurrentStep((prev) => prev - 1)
@@ -250,7 +261,9 @@ const useHandleSitesLogic = () => {
     getSitesList,
     keywordsData,
     submitHandler,
+    approveSchema,
     schemaTypesLoading,
+    approveSchemaLoading,
     schemaTypesData: schemaTypesData?.data,
     getSchemaTypesData,
     exportDataToCSV,

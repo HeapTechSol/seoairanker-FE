@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
@@ -13,26 +13,42 @@ import { useAppSelector } from '@/api/store'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
+import { SchemaTypes } from '@/container/sites/sitesTypes'
+
 import './SiteSchema.scss'
+import { uniqBy } from '@/utils/helper'
 
 const SiteSchema = () => {
   const { id } = useParams()
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([])
 
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
-  const { getSiteCrawledInfoData, getSchemaTypesData, schemaTypesLoading, schemaTypesData } = useHandleSitesLogic()
+  const { getSiteCrawledInfoData, getSchemaTypesData, schemaTypesLoading, schemaTypesData, approveSchema, approveSchemaLoading } =
+    useHandleSitesLogic()
   const { reCrawlLoading, handleReCrawlSite } = useHandleRecommendations()
 
   const reCrawlSite = () => {
     if (id && crawledInfo.site_data?.site_url) handleReCrawlSite({ site_id: id || '', siteUrl: crawledInfo.site_data?.site_url })
   }
 
+  const handleSchemaSelection = (selected: boolean, item: SchemaTypes) => {
+    if (selected) {
+      const updatedKeys = uniqBy([...selectedKeys, ...item.ids], (item) => item)
+      setSelectedKeys(updatedKeys)
+    } else {
+      const updatedKeys = selectedKeys?.filter((key) => !item.ids?.includes(key))
+      setSelectedKeys(updatedKeys)
+    }
+  }
+
   useEffect(() => {
-    console.log(document.activeElement, '********************')
     if (id) getSiteCrawledInfoData({ site_id: id })
     if (id) getSchemaTypesData({ id })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  console.log('selectedKeys', selectedKeys)
 
   return (
     <Container className="add-new-keywords-container ">
@@ -58,7 +74,14 @@ const SiteSchema = () => {
               <Flex vertical gap={8}>
                 {schemaTypesData?.map((item, index) => (
                   <Flex align="center" gap={8} key={`${index}${item.label}`}>
-                    <Checkbox name="article" label={item?.label || ''} labelPosition="right" borderRadius />
+                    <Checkbox
+                      name="article"
+                      onChange={(e) => handleSchemaSelection((e.target as HTMLInputElement).checked, item)}
+                      label={item?.label || ''}
+                      labelPosition="right"
+                      borderRadius
+                      checked={item.ids.every((id) => selectedKeys.includes(id))}
+                    />
                     <Typography
                       text={
                         <>
@@ -72,7 +95,14 @@ const SiteSchema = () => {
               <Typography text={`Leave blank to generate schemas for all pages where it is missing (default).`} />
             </Flex>
             <Divider margin={24} />
-            <Button type="borderRadius">Save Changes</Button>
+            <Button
+              type="borderRadius"
+              loading={approveSchemaLoading}
+              disabled={!selectedKeys?.length}
+              onClick={() => approveSchema({ id: id || '', schema_types: selectedKeys })}
+            >
+              Save Changes
+            </Button>
           </Container>
           <Container width={100} borderRadius boxShadow className="site-schema-page container-bg">
             <Flex vertical gap={16}>

@@ -295,12 +295,14 @@ export type NotificationsAPIResponseTypes = {
   data: NotificationDataTypes[]
 }
 
+export type SchemaTypes = {
+  label: string
+  count: string
+  ids: string[]
+}
+
 export type SchemaResponseTypes = {
-  data: {
-    label: string
-    count: string
-    ids: string[]
-  }[]
+  data: SchemaTypes[]
 }
 
 export type NotificationAPIPayloadTypes = {

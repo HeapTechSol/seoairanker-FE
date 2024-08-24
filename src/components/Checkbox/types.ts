@@ -1,3 +1,5 @@
+import { KeyboardEvent } from "react";
+
 export type CheckboxTypes = {
   name: string;
   label?: string;
@@ -8,5 +10,5 @@ export type CheckboxTypes = {
   indeterminate?: boolean;
   size?: "sm" | "md" | "lg";
   labelPosition?: "left" | "right" | "top" | "bottom";
-  onChange?: (event: React.ChangeEvent<HTMLInputElement> | boolean) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>) => void;
 };

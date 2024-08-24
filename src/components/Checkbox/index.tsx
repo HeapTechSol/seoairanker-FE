@@ -30,7 +30,7 @@ const Checkbox = ({
 
   const onEnterPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      onChange?.(!checked);
+      onChange?.(e);
     }
   };
 
