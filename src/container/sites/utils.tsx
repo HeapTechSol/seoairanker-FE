@@ -7,7 +7,7 @@ import CircularProgress from '@/components/CircularProgress/CircularProgress'
 // import AddKeywords from '@/container/sites/components/AddKeywords/AddKeywords'
 // import KeywordsInfo from '@/container/sites/components/KeywordsInfo/KeywordsInfo'
 import AddSiteDetails from '@/container/sites/components/AddSiteDetails/AddSiteDetails'
-import RecommendationInfo from '@/container/sites/components/RecommendationsInfo/RecommendationInfo'
+// import RecommendationInfo from '@/container/sites/components/RecommendationsInfo/RecommendationInfo'
 
 import { CommonValidations } from '@/utils/commonValidations'
 

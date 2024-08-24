@@ -38,6 +38,7 @@ const AddNewKeywords = () => {
   const isLocal = useWatch({ control, name: 'track_local' })
 
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+  const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
 
   const onPageChange = (pageNumber: number) => {
     getKeywords({
@@ -264,7 +265,7 @@ const AddNewKeywords = () => {
           </Container>
         </Flex>
       </Flex>
-      <Loader loading={keywordsLoading} overlay />
+      <Loader loading={keywordsLoading || isGetSiteDataPending} overlay />
     </Container>
   )
 }

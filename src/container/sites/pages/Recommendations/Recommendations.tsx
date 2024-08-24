@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
+import Loader from '@/components/Loader'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import SearchInput from '@/components/SearchInput/SearchInput'
@@ -31,6 +32,7 @@ const Recommendations = () => {
   const { getPathSearchResults, getSiteCrawledInfoData } = useHandleSitesLogic()
 
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+  const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
 
   const defaultModal = crawledInfo?.model_data?.find((modal) => modal.total > 0)
 
@@ -80,6 +82,7 @@ const Recommendations = () => {
     <Container width={100}>
       <Flex vertical gap={16}>
         <Container padding={'40px 20px'} className="container-bg" borderRadius boxShadow>
+          <Loader loading={isGetSiteDataPending} overlay/>
           <Flex gap={16}>
             <Flex vertical gap={16}>
               <Typography text="SEO Automation Recommendations" type="h2" />

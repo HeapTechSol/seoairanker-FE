@@ -35,8 +35,7 @@ const SitePages = () => {
   const { reCrawlPageLoading, handleReCrawlSitePage } = useHandleRecommendations()
 
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
-
-  console.log(editedId, reCrawlPageLoading)
+  const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
 
   const PAGES_COLUMN: ColumnType<SiteLinksDataTypes>[] = [
     {
@@ -172,7 +171,7 @@ const SitePages = () => {
           </Container>
         </Flex>
       </Flex>
-      <Loader loading={siteLinksLoading} />
+      <Loader loading={siteLinksLoading || isGetSiteDataPending} />
     </Container>
   )
 }

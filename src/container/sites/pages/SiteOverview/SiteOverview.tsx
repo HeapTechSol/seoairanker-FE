@@ -24,10 +24,11 @@ import './SiteOverview.scss'
 
 const { SCRIPT_SECTION } = EXACT_ROUTES
 
-const SiteOverview = ({crawlInfoLoading=false}) => {
+const SiteOverview = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const siteInfo = useAppSelector((state) => state.sites.crawledInfo)
+  const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
 
   const getModalRecommendationsCountByType = (modal: ModalTypes) => siteInfo?.model_data?.find((item) => item.model === modal)?.total
 
@@ -47,7 +48,7 @@ const SiteOverview = ({crawlInfoLoading=false}) => {
     <Container borderRadius boxShadow className="site-overview-detail">
       <Flex vertical gap={40}>
         <Flex vertical gap={40} className='top-container'>
-          <Loader loading={crawlInfoLoading} overlay delay={400}/>
+          <Loader loading={isGetSiteDataPending} overlay/>
           <Grid gap={16} minMax={500} minWidth={200}>
             <Container
               className="container-bg checklist__item"

@@ -1,10 +1,11 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Chip from '@/components/Chip'
 import Modal from '@/components/Modal'
-import Button from '@/components/Button'
 import Loader from '@/components/Loader'
+import Button from '@/components/Button'
 import Divider from '@/components/Divider/Divider'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
@@ -12,14 +13,14 @@ import HorizontalProgressBar from '@/components/ProgressIndicator/HorizontalProg
 
 import { EXACT_ROUTES } from '@/constant/routes'
 
+import { WarningIcon } from '@/assets/icons/svgs'
+
 import { useAppSelector } from '@/api/store'
 import useBillingHandling from '@/container/billing/hooks/useBillingHandling'
 
 import { handleFormatCurrencyAndNumber } from '@/utils/helper'
 
 import './BillingDetail.scss'
-import { WarningIcon } from '@/assets/icons/svgs'
-import { useState } from 'react'
 
 const { PAYMENT_HISTORY, PLANS } = EXACT_ROUTES
 
@@ -28,22 +29,25 @@ const BillingDetail = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false)
 
   const userQuota = useAppSelector((state) => state.billing.userQuota)
+  const cardNumber = useAppSelector((state) => state.billing.cardNumber)
+  const isUserQuotaLoading = useAppSelector((state) => state.billing.isUserQuotaLoading)
 
-  const { userQuotaLoading, cancelUserSubscription, cancelSubscriptionLoading } = useBillingHandling()
+  const { cancelUserSubscription, cancelSubscriptionLoading } = useBillingHandling()
 
   return (
     <Container width={100}>
       <Flex vertical gap={16}>
         <Flex gap={16}>
           <Container boxShadow borderRadius className="billing-details-container lg container-bg" padding={'40px'}>
+            <Loader loading={isUserQuotaLoading} overlay />
             <Flex vertical gap={12}>
               <Typography text="You're Subscribed" type="h3" />
               <Divider color="primary" />
               <Typography
                 text={
                   <>
-                    You're currently subscribed to the Agency plan. See your billing history and current month usage{' '}
-                    <Typography color="info" text="here." onClick={() => navigate(PAYMENT_HISTORY)} inline link />
+                    You're currently subscribed to the <strong>{userQuota?.plan_name?.toUpperCase() || ''}</strong> plan. See your billing history and
+                    current month usage <Typography color="info" text="here." onClick={() => navigate(PAYMENT_HISTORY)} inline link />
                   </>
                 }
               />
@@ -117,10 +121,10 @@ const BillingDetail = () => {
               <Flex vertical gap={16} align="start">
                 <Typography text="Payment Information" type="h3" />
                 <Divider color="primary" />
-                <Typography text="The card on file for your account ends with 8679." />
-                <Button type="borderRadius" size="sm">
+                <Typography text={`The card on file for your account ends with **** **** **** ${cardNumber || '####'}.`} />
+                {/* <Button type="borderRadius" size="sm">
                   Update Payment Information
-                </Button>
+                </Button> */}
               </Flex>
             </Container>
             <Container boxShadow borderRadius className="billing-details-container sub-container container-bg" padding={'40px'}>
@@ -224,7 +228,6 @@ const BillingDetail = () => {
           </Flex>
         </Container> */}
       </Flex>
-      <Loader loading={userQuotaLoading} />
       <Modal
         show={isShowDeleteModal}
         OkText="Confirm"

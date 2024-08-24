@@ -27,7 +27,7 @@ import { SitesAPIResponse } from '@/container/sites/sitesTypes'
 
 import './SitesDashboard.scss'
 
-const { ADD_SITE, SITE_DETAILS_PAGE } = EXACT_ROUTES
+const { ADD_SITE, SITE_DETAILS_PAGE, KEYWORDS_RANKING } = EXACT_ROUTES
 
 const SitesDashboard = () => {
   const navigate = useNavigate()
@@ -48,24 +48,14 @@ const SitesDashboard = () => {
     setIsShowDeleteModal(true)
   }
 
+  const isKeywords = false
+
   const columns: ColumnType<SitesAPIResponse>[] = [
     {
       header: 'Sites',
       dataKey: 'site_url',
       render: (value, record) => (
-        <Typography
-          text={value}
-          color="info"
-          link
-          onClick={() =>
-            navigate(SITE_DETAILS_PAGE, {
-              state: {
-                siteId: record.id,
-                siteUrl: value,
-              },
-            })
-          }
-        />
+        <Typography text={value} color="info" link onClick={() => navigate(isKeywords ? KEYWORDS_RANKING : `${SITE_DETAILS_PAGE}/${record?.id}`)} />
       ),
     },
     { header: 'Date', dataKey: 'created_at' },

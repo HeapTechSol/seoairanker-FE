@@ -49,6 +49,7 @@ export type GetUserQuotaAPIResponseTypes = {
   remaining_team_members_quota: number
   total_meta_description_quota: number
   remaining_meta_description_quota: number
+  plan_name:string
 }
 
 export type extraAddOns = [

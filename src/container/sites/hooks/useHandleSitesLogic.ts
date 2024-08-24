@@ -50,9 +50,9 @@ const useHandleSitesLogic = () => {
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()
+  const [getSiteCrawledInfo] = useLazyGetSiteCrawledInfoQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
   const [getSites, { isLoading: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
-  const [getSiteCrawledInfo, { isLoading: crawlInfoLoading }] = useLazyGetSiteCrawledInfoQuery()
   const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
   const [getNotifications, { isLoading: getNotificationLoading }] = useLazyGetNotificationsQuery()
   const [getSiteLinks, { isLoading: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
@@ -256,7 +256,6 @@ const useHandleSitesLogic = () => {
     exportDataToCSV,
     keywordsLoading,
     insightsLoading,
-    crawlInfoLoading,
     exportCSVLoading,
     handleDeleteSite,
     sitesListLoading,

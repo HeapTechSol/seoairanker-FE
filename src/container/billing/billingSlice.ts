@@ -6,10 +6,14 @@ import { MaybeNull } from '@/utils/commonTypes'
 import { billingAPI } from './api/billingAPI'
 
 type initialType = {
+  isUserQuotaLoading: boolean
+  cardNumber: MaybeNull<string>
   userQuota: MaybeNull<GetUserQuotaAPIResponseTypes>
 }
 const initialState: initialType = {
   userQuota: null,
+  cardNumber: null,
+  isUserQuotaLoading: false,
 }
 
 export const billingSlice = createSlice({
@@ -21,8 +25,13 @@ export const billingSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addMatcher(billingAPI.endpoints.getUserQuota.matchPending, (state) => {
+      state.isUserQuotaLoading = true
+    })
     builder.addMatcher(billingAPI.endpoints.getUserQuota.matchFulfilled, (state, { payload }) => {
-      state.userQuota = payload
+      state.userQuota = payload?.data
+      state.cardNumber = payload?.card?.user_card || ''
+      state.isUserQuotaLoading = false
     })
   },
 })

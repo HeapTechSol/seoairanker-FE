@@ -40,7 +40,7 @@ export const billingAPI = baseQueryApi.injectEndpoints({
       }),
       invalidatesTags: (_result, error) => (error ? [] : ['userQuota']),
     }),
-    getUserQuota: builder.query<GetUserQuotaAPIResponseTypes, { user_id: number }>({
+    getUserQuota: builder.query<{ data: GetUserQuotaAPIResponseTypes; card: { user_card: string } }, { user_id: number }>({
       query: (payload) => ({
         url: `${USER_QUOTA}/${payload.user_id}`,
         method: 'GET',
