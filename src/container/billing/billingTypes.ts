@@ -49,7 +49,7 @@ export type GetUserQuotaAPIResponseTypes = {
   remaining_team_members_quota: number
   total_meta_description_quota: number
   remaining_meta_description_quota: number
-  plan_name:string
+  plan_name: string
 }
 
 export type extraAddOns = [
@@ -58,21 +58,21 @@ export type extraAddOns = [
     step: number
     value: number
     per_set: number
-    stripe_price_id:string
+    stripe_price_id: string
   },
   {
     key: 'price_extra_keywords'
     step: number
     value: number
     per_set: number
-    stripe_price_id:string
+    stripe_price_id: string
   },
   {
     key: 'price_extra_pages'
     step: number
     value: number
     per_set: number
-    stripe_price_id:string
+    stripe_price_id: string
   }
 ]
 

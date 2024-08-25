@@ -47,8 +47,6 @@ const useHandleSitesLogic = () => {
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
   const notificationsData = useAppSelector((state) => state.sites.notificationsData)
 
-  const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota as number) >= (userQuota?.total_sites_quota as number)
-
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()
   const [getSiteCrawledInfo] = useLazyGetSiteCrawledInfoQuery()
@@ -86,7 +84,7 @@ const useHandleSitesLogic = () => {
   }
 
   const handleForwardButtonPress = () => {
-    if (isSiteQuotaExceeded) {
+    if (!userQuota?.remaining_sites_quota) {
       toast.error('You cannot add a new site, your quota to add site is exceeded')
       return
     }

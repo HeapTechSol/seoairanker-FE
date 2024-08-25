@@ -13,10 +13,10 @@ import { useAppSelector } from '@/api/store'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
+import { uniqBy } from '@/utils/helper'
 import { SchemaTypes } from '@/container/sites/sitesTypes'
 
 import './SiteSchema.scss'
-import { uniqBy } from '@/utils/helper'
 
 const SiteSchema = () => {
   const { id } = useParams()
@@ -34,13 +34,15 @@ const SiteSchema = () => {
 
   const handleSchemaSelection = (selected: boolean, item: SchemaTypes) => {
     if (selected) {
-      const updatedKeys = uniqBy([...selectedKeys, ...item.ids], (item) => item)
+      const updatedKeys = uniqBy([...selectedKeys, item.label], (item) => item)
       setSelectedKeys(updatedKeys)
     } else {
-      const updatedKeys = selectedKeys?.filter((key) => !item.ids?.includes(key))
+      const updatedKeys = selectedKeys?.filter((key) => key !== item?.label)
       setSelectedKeys(updatedKeys)
     }
   }
+
+  const isUnKnownExits = schemaTypesData?.some((item) => item.label === 'Unknown')
 
   useEffect(() => {
     if (id) getSiteCrawledInfoData({ site_id: id })
@@ -48,12 +50,10 @@ const SiteSchema = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log('selectedKeys', selectedKeys)
-
   return (
     <Container className="add-new-keywords-container ">
-      <Loader loading={reCrawlLoading || schemaTypesLoading} />
       <Flex vertical gap={16}>
+        <Loader loading={reCrawlLoading || schemaTypesLoading} />
         <Typography text={crawledInfo?.site_data?.site_url || ''} type="h1" />
         <Divider color="primary" />
         <Flex vertical gap={16}>
@@ -72,25 +72,31 @@ const SiteSchema = () => {
               <Typography text="Settings" type="h2" />
               <Typography text={`Limit page types to generate schemas for:`} />
               <Flex vertical gap={8}>
-                {schemaTypesData?.map((item, index) => (
-                  <Flex align="center" gap={8} key={`${index}${item.label}`}>
-                    <Checkbox
-                      name="article"
-                      onChange={(e) => handleSchemaSelection((e.target as HTMLInputElement).checked, item)}
-                      label={item?.label || ''}
-                      labelPosition="right"
-                      borderRadius
-                      checked={item.ids.every((id) => selectedKeys.includes(id))}
-                    />
-                    <Typography
-                      text={
-                        <>
-                          (<Typography text={`${item?.count || 0} pages`} link inline color="info" />)
-                        </>
-                      }
-                    />
-                  </Flex>
-                ))}
+                {isUnKnownExits ? (
+                  <Typography text="We are generating schema, Once you will got the email that we are done with recommendations, setting for schema will be enabled" />
+                ) : (
+                  <>
+                    {schemaTypesData?.map((item, index) => (
+                      <Flex align="center" gap={8} key={`${index}${item.label}`}>
+                        <Checkbox
+                          name="article"
+                          onChange={(e) => handleSchemaSelection((e.target as HTMLInputElement).checked, item)}
+                          label={item?.label || ''}
+                          labelPosition="right"
+                          borderRadius
+                          checked={selectedKeys.includes(item.label)}
+                        />
+                        <Typography
+                          text={
+                            <>
+                              (<Typography text={`${item?.count || 0} pages`} link inline color="info" />)
+                            </>
+                          }
+                        />
+                      </Flex>
+                    ))}
+                  </>
+                )}
               </Flex>
               <Typography text={`Leave blank to generate schemas for all pages where it is missing (default).`} />
             </Flex>
