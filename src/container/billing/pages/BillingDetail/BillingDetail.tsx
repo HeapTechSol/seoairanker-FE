@@ -141,13 +141,13 @@ const BillingDetail = () => {
             <Typography text="AI Engine Usage Information" type="h3" />
             <Divider color="primary" />
             <Flex vertical gap={4}>
-              <Flex padding={5} vertical>
+              {/* <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Page Schemas" type="h4" />
                   <Chip color="info" text="19 of 25" circled size="sm" bordered />
                 </Flex>
                 <HorizontalProgressBar max={25} value={19} />
-              </Flex>
+              </Flex> */}
               <Flex padding={5} vertical>
                 <Flex justify="between" align="center">
                   <Typography text="Meta Titles" type="h4" />
