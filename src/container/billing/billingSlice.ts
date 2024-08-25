@@ -28,6 +28,9 @@ export const billingSlice = createSlice({
     builder.addMatcher(billingAPI.endpoints.getUserQuota.matchPending, (state) => {
       state.isUserQuotaLoading = true
     })
+    builder.addMatcher(billingAPI.endpoints.getUserQuota.matchRejected, (state) => {
+      state.isUserQuotaLoading = false
+    })
     builder.addMatcher(billingAPI.endpoints.getUserQuota.matchFulfilled, (state, { payload }) => {
       state.userQuota = payload?.data
       state.cardNumber = payload?.card?.user_card || ''
