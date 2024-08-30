@@ -43,6 +43,9 @@ export const sitesSlicer = createSlice({
     builder.addMatcher(sitesAPI.endpoints.getSiteCrawledInfo.matchPending, (state) => {
       state.isGetSiteDataPending = true
     })
+    builder.addMatcher(sitesAPI.endpoints.getSiteCrawledInfo.matchRejected, (state) => {
+      state.isGetSiteDataPending = false
+    })
     builder.addMatcher(sitesAPI.endpoints.getSiteCrawledInfo.matchFulfilled, (state) => {
       state.isGetSiteDataPending = false
     })
