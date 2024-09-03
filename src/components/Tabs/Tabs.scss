@@ -55,6 +55,7 @@
     }
 
     .tabs-button.#{$color}.btn.text:hover {
+      color: var(--hovered-text-color) !important;
       background-color: var(--bg-hover-color);
     }
 
