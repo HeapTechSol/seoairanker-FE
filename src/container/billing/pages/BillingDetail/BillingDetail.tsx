@@ -131,7 +131,7 @@ const BillingDetail = () => {
               <Flex vertical gap={16} align="start">
                 <Typography text="Thank You" type="h3" />
                 <Divider color="primary" />
-                <Typography text="SEOELLA wouldn't be possible without you! If we can do anything to make your experience better, reach out at support@SEOELLA.com." />
+                <Typography text="SEOAIRanker wouldn't be possible without you! If we can do anything to make your experience better, reach out at support@SEOAIRanker.com." />
               </Flex>
             </Container>
           </Flex>

@@ -144,7 +144,7 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
           {!isKeywords && (
             <Container className="alert-message-container" width={100} contentCenter>
               <Chip
-                text="Alert! Please select your keywords so SEOELLA can start analyzing your site."
+                text="Alert! Please select your keywords so SEOAIRanker can start analyzing your site."
                 color="error"
                 rounded
                 bordered

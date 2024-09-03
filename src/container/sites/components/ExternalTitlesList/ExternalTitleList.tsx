@@ -7,7 +7,7 @@ import Button from '@/components/Button'
 import TruncateText from '@/components/TruncateText'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
-import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
+import ShimmerPlaceholder from '@/components/ShimmerPlaceholder/ShimmerPlaceholder'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'

@@ -17,10 +17,10 @@ const AddSiteWizard = () => {
         color="common"
         minHeight={'480px'}
         steps={steps(control)}
-        requestLoading={isLoading || keywordsLoading}
         componentControl={false}
         activeStepper={currentStep}
         submitHandler={submitHandler}
+        requestLoading={isLoading || keywordsLoading}
         handleForwardButtonPress={handleForwardButtonPress}
         handlePreviousButtonPress={handlePreviousButtonPress}
       />

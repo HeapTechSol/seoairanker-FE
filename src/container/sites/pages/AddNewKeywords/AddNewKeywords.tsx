@@ -100,7 +100,7 @@ const AddNewKeywords = () => {
             <Flex vertical align="start" gap={16} className="keywords-table-container">
               <Typography text="Your Recommended Keywords" type="h2" />
               <Typography
-                text={`SEOELLA found these keywords for your site. Click on a keyword to add it to your keyword box. Once you're done selecting your target keywords, click the "Save Your Keywords" button to save your keywords.`}
+                text={`SEOAIRanker found these keywords for your site. Click on a keyword to add it to your keyword box. Once you're done selecting your target keywords, click the "Save Your Keywords" button to save your keywords.`}
               />
               <Divider color="primary" />
 

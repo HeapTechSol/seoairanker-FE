@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 import Flex from '@/components/Flex'
 import Container from '@/components/Container/Container'
 
-import { SeoEllaIcon } from '@/assets/icons/svgs'
+import { SEOAIRankerIcon } from '@/assets/icons/svgs'
 
 // import AI_Image from '@/assets/images/ai_image.webp'
 
@@ -23,8 +23,8 @@ const AuthLayout = () => {
       <Container width={50} fullHeight contentCenter className="auth-form-section" padding={'0px 130px'}>
         <Flex vertical gap={40} align="center">
           <Flex>
-            <div className="brand-icon auth-container" title="SEO Ella icon">
-              {SeoEllaIcon}
+            <div className="brand-icon auth-container" title="SEO AI Ranker icon">
+              {SEOAIRankerIcon}
             </div>
           </Flex>
           <Outlet />

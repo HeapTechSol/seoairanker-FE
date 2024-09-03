@@ -21,6 +21,7 @@ export type StepperProps = {
   steps: steps[]
   requestLoading?: boolean
   componentControl?: boolean
+  showInternalButtons?: boolean
   isEdit?: boolean
   color?: ColorsTypes
   nextButtonDisabled?: boolean

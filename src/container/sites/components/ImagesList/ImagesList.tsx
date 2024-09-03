@@ -6,7 +6,7 @@ import Button from '@/components/Button'
 import Grid from '@/components/Grid/Grid'
 import ImageCard from '../ImageCard/ImageCard'
 import Container from '@/components/Container/Container'
-import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
+import ShimmerPlaceholder from '@/components/ShimmerPlaceholder/ShimmerPlaceholder'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { ImagesAltDataTypes } from '@/container/sites/sitesTypes'

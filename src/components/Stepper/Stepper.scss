@@ -1,6 +1,7 @@
 @each $color in $colorType {
   .stepper-container.#{$color} {
     padding: 40px 80px;
+    height: 100%;
     @include flex(flex-start, flex-start, column, 20px);
 
     // Horizontal alignment

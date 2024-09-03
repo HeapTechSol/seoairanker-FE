@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { getElements, hasClass, toggleCSSClass, toggleCSSClasses } from '@/utils/helper'
+import { convertFirstCharToCapital, getElements, hasClass, toggleCSSClass, toggleCSSClasses } from '@/utils/helper'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
@@ -12,17 +12,19 @@ import Dropdown, { Option } from '@/components/Dropdown/Dropdown'
 import NotificationBadge from '@/components/NotificationBadge/NotificationBadge'
 import NotificationContainer from '@/components/NotificationContainer/NotificationContainer'
 
+import { IoIosArrowDown } from 'react-icons/io'
 import { EXACT_ROUTES } from '@/constant/routes'
 import { IoLogOutOutline } from 'react-icons/io5'
 import { FaRegUser, FaRegBell } from 'react-icons/fa'
 
-import { SeoEllaIcon } from '@/assets/icons/svgs'
+import { SEOAIRankerIcon } from '@/assets/icons/svgs'
 
 import { useAppSelector } from '@/api/store'
-import { setUser } from '@/container/auth/authSlice'
+import { setTheme, setUser } from '@/container/auth/authSlice'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import './TopBar.scss'
+import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
 
 const { LOGIN, SIGNUP, PROFILE_PAGE } = EXACT_ROUTES
 
@@ -33,6 +35,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
   const { getNotificationList, getNotificationLoading, notificationsData, handleReadNotification } = useHandleSitesLogic()
 
   const user = useAppSelector((state) => state.auth.user)
+  const theme = useAppSelector((state) => state.auth.theme)
 
   const sidebarToggleHandler = () => {
     if (sidebarRef.current) {
@@ -51,6 +54,18 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
     }
   }
 
+  const handleThemeSwitching = (isDark: boolean) => {
+    if (isDark) {
+      dispatch(setTheme('dark'))
+      document.querySelector('body')?.classList.remove('light')
+      document.querySelector('body')?.classList.add('dark')
+    } else {
+      dispatch(setTheme('light'))
+      document.querySelector('body')?.classList.remove('dark')
+      document.querySelector('body')?.classList.add('light')
+    }
+  }
+
   const lines = Array.from({ length: 5 }, (_, index) => <div key={index} className="line no-pointer"></div>)
 
   const handleSelect = (option: { id: number; name: string | JSX.Element | React.ReactNode }) => {
@@ -59,7 +74,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
 
   const users = [
     {
-      id: 2,
+      id: 1,
       name: (
         <Flex align="center" gap={6} onClick={() => navigate(`${PROFILE_PAGE}/${user?.user?.id}`)}>
           <Avatar size={'large'} fallback={<FaRegUser />} src={user?.user?.profileImage} />
@@ -71,7 +86,15 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
       ),
     },
     {
-      id: 3,
+      id: 2,
+      name: (
+        <Flex align="center" justify="center" gap={6}>
+          <ThemeSwitcher onClick={handleThemeSwitching} value={theme == 'dark'} />
+        </Flex>
+      ),
+    },
+    {
+      id: 2,
       onClick: () => {
         dispatch(setUser(null))
         navigate(LOGIN)
@@ -125,8 +148,8 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
       <div className="topbar-content">
         <Flex align="center" justify="between">
           <Flex align="center" gap={8}>
-            <div className="brand-icon" title="SEO Ella icon" onClick={() => navigate('/')}>
-              {SeoEllaIcon}
+            <div className="brand-icon" title="SEO AI Ranker icon" onClick={() => navigate('/')}>
+              {SEOAIRankerIcon}
             </div>
           </Flex>
           <Flex justify="end" gap={16}>
@@ -152,7 +175,11 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
                   <NotificationBadge count={notificationsData?.unread_count || 0} maxCount={100} icon={<FaRegBell />} />
                 </Dropdown>
                 <Dropdown options={users} onSelect={handleSelect} className="profile-dropdown-list">
-                  <Avatar size={'small'} fallback={<FaRegUser />} src={user?.user?.profileImage} onClick={() => null} />
+                  <div className="profile-dropdown-list__header">
+                    <Avatar size={'medium'} fallback={<FaRegUser />} src={user?.user?.profileImage} onClick={() => null} />
+                    <span>{convertFirstCharToCapital(user?.user?.firstName || '')}</span>
+                    <IoIosArrowDown />
+                  </div>
                 </Dropdown>
               </Flex>
             )}

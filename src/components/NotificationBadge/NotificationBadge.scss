@@ -6,16 +6,19 @@
   align-items: center;
   cursor: pointer;
   color: var(--color-common-main);
+  padding: 10px;
+  border-radius: 7px;
+  background-color:colorMapper(grayClr, 100) ;
 
   svg {
-    fill: colorMapper(primary, main);
-    font-size: 25px;
+    fill: colorMapper(grayClr, 600);
+    font-size: 20px;
   }
 
   &__count {
     position: absolute;
     top: -8px;
-    right: -8px;
+    right: 0px;
     min-width: 16px;
     height: 16px;
     padding: 0 4px;

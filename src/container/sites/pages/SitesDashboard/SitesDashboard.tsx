@@ -7,6 +7,8 @@ import Modal from '@/components/Modal'
 import Table from '@/components/Table'
 import Button from '@/components/Button'
 import Loader from '@/components/Loader'
+// import Stepper from '@/components/Stepper'
+// import Drawer from '@/components/Drawer/Drawer'
 import Divider from '@/components/Divider/Divider'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
@@ -22,6 +24,7 @@ import { RiDeleteBin6Line } from 'react-icons/ri'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
+// import { steps } from '@/container/sites/utils'
 import { ColumnType } from '@/components/Table/types'
 import { SitesAPIResponse } from '@/container/sites/sitesTypes'
 
@@ -34,9 +37,23 @@ const SitesDashboard = () => {
 
   const [siteId, setSiteId] = useState<number>()
   const [query, setQuery] = useState('')
+  // const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false)
 
-  const { getSitesList, sitesListLoading, sitesList, handleDeleteSite, deleteSideLoading } = useHandleSitesLogic()
+  const {
+    // control,
+    sitesList,
+    // isLoading,
+    // currentStep,
+    getSitesList,
+    // submitHandler,
+    // keywordsLoading,
+    sitesListLoading,
+    handleDeleteSite,
+    deleteSideLoading,
+    // handleForwardButtonPress,
+    // handlePreviousButtonPress,
+  } = useHandleSitesLogic()
 
   useEffect(() => {
     getSitesList()
@@ -74,12 +91,42 @@ const SitesDashboard = () => {
 
   const filteredSiteList = sitesList?.filter((site) => site?.site_url?.includes(query))
 
+  // const toggleDrawer = () => {
+  //   setIsDrawerOpen(!isDrawerOpen)
+  // }
+
   return (
     <Container className="sites-dashboard">
+      {/* <div>
+        <Drawer
+          showCloseIcon
+          position="right"
+          cancelText="Back"
+          submitText="Submit"
+          title="Add New Site"
+          isOpen={isDrawerOpen}
+          onClose={toggleDrawer}
+          onSubmit={handleForwardButtonPress}
+          onCancel={handlePreviousButtonPress}
+          disableCancelButton={false}
+          disableSubmitButton={false}
+          submitButtonLoading={isLoading || keywordsLoading}
+          footerPosition="between"
+        >
+          <Stepper
+            color="common"
+            minHeight={'480px'}
+            steps={steps(control)}
+            componentControl={false}
+            activeStepper={currentStep}
+            showInternalButtons={false}
+            submitHandler={submitHandler}
+          />
+        </Drawer>
+      </div> */}
       <Loader loading={sitesListLoading}>
         <Flex vertical gap={24}>
-          <Typography text="Ella’s Dashboard" type="h1" />
-          <Divider color="primary" />
+          <Typography text="SEOAIRanker's Dashboard" type="h1" />
           <Container className="sites-dashboard-header container-bg" borderRadius boxShadow>
             <Flex justify="between">
               <Input StartIcon={<GoSearch />} name="search_site" placeholder="Search" value={query} onChange={(e) => setQuery(e.target.value)} />

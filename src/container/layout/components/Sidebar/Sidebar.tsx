@@ -1,29 +1,23 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Accordion from '@/components/Accordion'
-import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
 
 import { menuTypes } from '../Menu/types'
 import { sidebarMenuData } from '@/constant/leftMenu'
 import { allowedRoutesWithoutSubscription } from '@/constant/constant'
 
 import { useAppSelector } from '@/api/store'
-import { setTheme } from '@/container/auth/authSlice'
 
 import './Sidebar.scss'
 
 const Sidebar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }) => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const { pathname } = useLocation()
   const { id } = useParams()
 
   const isUserSubscribed = useAppSelector((state) => state.auth.user?.isActiveSubscription)
-
-  const theme = useAppSelector((state) => state.auth.theme)
 
   const isLinkDisabled = (path: string) => {
     return !isUserSubscribed && !allowedRoutesWithoutSubscription.includes(path)
@@ -79,24 +73,12 @@ const Sidebar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> }
     </React.Fragment>
   ))
 
-  const handleThemeSwitching = (isDark: boolean) => {
-    if (isDark) {
-      dispatch(setTheme('dark'))
-      document.querySelector('body')?.classList.remove('light')
-      document.querySelector('body')?.classList.add('dark')
-    } else {
-      dispatch(setTheme('light'))
-      document.querySelector('body')?.classList.remove('dark')
-      document.querySelector('body')?.classList.add('light')
-    }
-  }
 
   return (
     <div className="sidebar-container" ref={sidebarRef}>
       <Flex vertical gap={16} className="sidebar-container__menu">
         {menuList}
       </Flex>
-      <ThemeSwitcher onClick={handleThemeSwitching} value={theme == 'dark'} />
     </div>
   )
 }

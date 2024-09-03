@@ -22,8 +22,6 @@ const ProfilePage = () => {
   const { control, handleSubmit, updatePasswordLoading, changePasswordHandler } = useChangePasswordHandler()
   const { userProfileControl, saveUserProfile, updateProfile, updateUserLoading } = useUpdateUserProfile()
 
-  console.log('user?.profileImage', user?.profileImage)
-
   return (
     <Flex gap={32} align="start">
       <Container width={50} padding={40} borderRadius boxShadow className="profile-container container-bg">

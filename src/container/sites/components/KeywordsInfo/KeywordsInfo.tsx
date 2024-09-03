@@ -13,7 +13,7 @@ const KeywordsInfo = () => {
           <Typography text={`Adding Your Keywords`} type="h3" />
           <Divider />
           <Typography text="On the next page, you'll find some search keywords suggestions from us." />
-          <Typography text="The keyword's SEOELLA Score is our estimate of how much monthly revenue you'll gain from a quick improvements." />
+          <Typography text="The keyword's SEOAIRanker Score is our estimate of how much monthly revenue you'll gain from a quick improvements." />
           <Typography text="You'll be able to add you own (with local targeting) later on, but let's start with these." />
         </Flex>
       </Flex>
