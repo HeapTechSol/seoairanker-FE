@@ -1,6 +1,7 @@
 .profile-container{
   .avatar-placeholder{
     svg{
+      fill:  colorMapper(grayClr, 600);
       font-size: 5em;
     }
   }

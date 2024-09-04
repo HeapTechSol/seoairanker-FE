@@ -63,6 +63,11 @@
 }
 
 .profile-dropdown-list {
+  .avatar-placeholder {
+    svg {
+      fill: colorMapper(grayClr, 600);
+    }
+  }
   &__header {
     gap: 8px;
     display: flex;

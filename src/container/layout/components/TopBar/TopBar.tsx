@@ -9,6 +9,7 @@ import Button from '@/components/Button'
 import Avatar from '@/components/Avatar/Avatar'
 import Typography from '@/components/Typography/Typography'
 import Dropdown, { Option } from '@/components/Dropdown/Dropdown'
+import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
 import NotificationBadge from '@/components/NotificationBadge/NotificationBadge'
 import NotificationContainer from '@/components/NotificationContainer/NotificationContainer'
 
@@ -24,7 +25,6 @@ import { setTheme, setUser } from '@/container/auth/authSlice'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import './TopBar.scss'
-import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
 
 const { LOGIN, SIGNUP, PROFILE_PAGE } = EXACT_ROUTES
 
@@ -77,7 +77,15 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
       id: 1,
       name: (
         <Flex align="center" gap={6} onClick={() => navigate(`${PROFILE_PAGE}/${user?.user?.id}`)}>
-          <Avatar size={'large'} fallback={<FaRegUser />} src={user?.user?.profileImage} />
+          <Avatar
+            size={'large'}
+            fallback={
+              <span className="avatar-placeholder">
+                <FaRegUser />
+              </span>
+            }
+            src={user?.user?.profileImage}
+          />
           <Flex vertical justify="between" gap={6}>
             <Typography text={`${user?.user?.firstName} ${user?.user?.lastName}`} size="lg" className="user-name" />
             <Typography text={user?.user?.email} size="lg" />
@@ -176,7 +184,16 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
                 </Dropdown>
                 <Dropdown options={users} onSelect={handleSelect} className="profile-dropdown-list">
                   <div className="profile-dropdown-list__header">
-                    <Avatar size={'medium'} fallback={<FaRegUser />} src={user?.user?.profileImage} onClick={() => null} />
+                    <Avatar
+                      size={'medium'}
+                      fallback={
+                        <span className="avatar-placeholder">
+                          <FaRegUser />
+                        </span>
+                      }
+                      src={user?.user?.profileImage}
+                      onClick={() => null}
+                    />
                     <span>{convertFirstCharToCapital(user?.user?.firstName || '')}</span>
                     <IoIosArrowDown />
                   </div>

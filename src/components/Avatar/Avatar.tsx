@@ -55,9 +55,10 @@ const Avatar: React.FC<AvatarProps> = ({
     switch (size) {
       case 'small':
         return 32
+      case 'medium':
+        return 38
       case 'large':
         return 48
-      case 'medium':
       default:
         return 40
     }
