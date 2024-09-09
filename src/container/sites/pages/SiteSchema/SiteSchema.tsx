@@ -13,7 +13,7 @@ import { useAppSelector } from '@/api/store'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
-import { uniqBy } from '@/utils/helper'
+import { formatDate, uniqBy } from '@/utils/helper'
 import { SchemaTypes } from '@/container/sites/sitesTypes'
 
 import './SiteSchema.scss'
@@ -117,7 +117,7 @@ const SiteSchema = () => {
               <Typography
                 text={
                   <>
-                    The next crawl is scheduled on Sun, 18 Aug 2024. You can also force{' '}
+                    The next crawl is scheduled on {formatDate(crawledInfo?.site_data?.next_crawl || '')}. You can also force{' '}
                     <Typography text="recrawl now." link inline color="info" onClick={reCrawlSite} />
                   </>
                 }

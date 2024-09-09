@@ -22,13 +22,13 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, approveRecommendationsLoading } =
     useHandleRecommendations()
 
-  const onApprove = async (e: React.SyntheticEvent, type_id: string, linkId: string, status: boolean) => {
+  const onApprove = async (e: React.SyntheticEvent, type_id: string, linkId: string, url:string, status: boolean) => {
     setEditedId(type_id)
     e.stopPropagation()
     if (siteId)
       await handleUpdateRecommendations({
         model: 'missing_alt_images',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
+        filter_conditions: { id: type_id, url, link_id: linkId, site_id: siteId },
         update_data: { approved: status },
         bulk: false,
       })
@@ -93,6 +93,7 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
                 key={`images-${index}`}
                 handleBlur={handleBlur}
                 imageUrl={item.url}
+                occurrenceLabel={item?.label}
                 isApproved={item.approved}
                 loading={approveRecommendationsLoading}
                 altText={item.alt_text}

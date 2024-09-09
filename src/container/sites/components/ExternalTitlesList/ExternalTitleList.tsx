@@ -40,13 +40,13 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
     }
   }
 
-  const onApprove = async (e: SyntheticEvent, type_id: string, linkId: string, status: boolean) => {
+  const onApprove = async (e: SyntheticEvent, type_id: string, linkId: string, url: string, status: boolean) => {
     setEditedId(type_id)
     e.stopPropagation()
     if (siteId) {
       await handleUpdateRecommendations({
         model: 'external_links',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
+        filter_conditions: { id: type_id, url, link_id: linkId, site_id: siteId },
         update_data: { approved: status },
         bulk: false,
       })
@@ -56,7 +56,15 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
   }
 
   const columns: ColumnType<MissingTitlesDataTypes>[] = [
-    { header: 'Link', dataKey: 'url', render: (text: string) => <TruncateText text={text} line={1}></TruncateText> },
+    {
+      header: 'Link',
+      dataKey: 'url',
+      render: (text, record) => (
+        <Flex justify="start" align="center">
+          <TruncateText text={text} line={1}></TruncateText> {record.label && record.label}
+        </Flex>
+      ),
+    },
     {
       header: '',
       onCell: () => ({
@@ -68,7 +76,7 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
         <Button
           size="sm"
           variant="outlined"
-          onClick={(e) => onApprove(e, record.id, record.link_id, !record.approved)}
+          onClick={(e) => onApprove(e, record.id, record.link_id, record.url, !record.approved)}
           type="borderRadius"
           color={record.approved ? 'error' : 'success'}
           loading={editedId === record.id && approveRecommendationsLoading}

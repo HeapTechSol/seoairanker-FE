@@ -193,7 +193,7 @@ export const currencyNumberWithDollar = ({
 export const convertFirstCharToCapital = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
 
 export const formatDate = (date: string) => {
-  return format(new Date(date), 'd MMMM, yyyy')
+  return date ? format(new Date(date), 'd MMMM, yyyy') : null
 }
 
 export const formatUnixDate = (unixTimestamp: number) => {
