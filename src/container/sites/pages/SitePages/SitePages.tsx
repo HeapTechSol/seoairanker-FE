@@ -130,7 +130,9 @@ const SitePages = () => {
                   crawledInfo?.site_data?.site_url || ''
                 } in order to understand your site structure and to better identify potential SEO improvements. Here are the pages we found. Click the toggle icon to ignore pages on future crawls.`}
               />
-              <Typography text={`You have approved 1 recommendation. Click any link below to see them live.`} />
+              <Typography
+                text={`You have approved ${crawledInfo?.site_data?.total_approved || 0} recommendation.`}
+              />
               <Typography text={`Status: completed ${crawledInfo?.site_data?.last_crawled || ''}`} />
               <Divider color="primary" />
               <Table

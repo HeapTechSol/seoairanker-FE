@@ -106,6 +106,8 @@ export const countries = [
   { value: 'IM', label: '🇮🇲 Isle of Man' },
   { value: 'IN', label: '🇮🇳 India' },
   { value: 'IO', label: '🇮🇴 British Indian Ocean Territory' },
+  { value: 'GB', label: '🇬🇧 Great Britain' },
+  { value: 'ENG', label: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 England' },
   { value: 'IE', label: '🇮🇪 Ireland' },
   { value: 'IR', label: '🇮🇷 Iran' },
   { value: 'IQ', label: '🇮🇶 Iraq' },

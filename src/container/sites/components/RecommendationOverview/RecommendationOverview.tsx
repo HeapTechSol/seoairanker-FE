@@ -80,7 +80,7 @@ const RecommendationOverview = ({
         loading={statusType === true && approveRecommendationsLoading}
         onClick={() => handleApproveAllRecommendations(true)}
       >
-        I'm Feeling Lucky (Approve All)
+        Approve All
       </Button>
       {!!crawledInfo?.site_data?.total_approved && (
         <Button

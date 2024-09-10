@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { AddKeywordsDefaultValues } from '../sitesTypes'
-import { useLazySaveKeywordsQuery } from '../api/sitesAPI'
+import { useSaveKeywordsMutation } from '../api/sitesAPI'
 import { ADD_KEYWORDS_DEFAULT_VALUES, ADD_KEYWORDS_VALIDATIONS } from '../utils'
 
 const useHandleSiteSetting = () => {
@@ -11,7 +11,7 @@ const useHandleSiteSetting = () => {
     resolver: zodResolver(ADD_KEYWORDS_VALIDATIONS),
   })
 
-  const [saveKeywords, { isLoading }] = useLazySaveKeywordsQuery()
+  const [saveKeywords, { isLoading }] = useSaveKeywordsMutation()
 
   const handleClearKeywordData = () => {
     saveKeywords

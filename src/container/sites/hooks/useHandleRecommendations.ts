@@ -3,10 +3,10 @@ import { toast } from 'react-toastify'
 import { ErrorTypes } from '@/utils/commonTypes'
 
 import {
+  useReCrawlSiteMutation,
+  useReCrawlSitePageMutation,
   useApproveRecommendationsMutation,
   useLazyGetRecommendationsByTypeQuery,
-  useLazyReCrawlSitePageQuery,
-  useLazyReCrawlSiteQuery,
 } from '../api/sitesAPI'
 import { AllModalDataTypes, ApproveRecommendationsPayloadTypes, GetRecommendationsByTypesPayloadTypes } from '../sitesTypes'
 import { useParams } from 'react-router-dom'
@@ -21,10 +21,10 @@ const useHandleRecommendations = () => {
 
   const recommendationData = useAppSelector((state) => state.sites.recommendationData)
 
-  const [reCrawlSite, { isFetching: reCrawlLoading }] = useLazyReCrawlSiteQuery()
-  const [reCrawlSitePage, { isFetching: reCrawlPageLoading }] = useLazyReCrawlSitePageQuery()
+  const [reCrawlSite, { isLoading: reCrawlLoading }] = useReCrawlSiteMutation()
+  const [reCrawlSitePage, { isLoading: reCrawlPageLoading }] = useReCrawlSitePageMutation()
   const [approveRecommendations, { isLoading: approveRecommendationsLoading }] = useApproveRecommendationsMutation()
-  const [getRecommendationsByType, { isLoading: recommendationDataLoading }] = useLazyGetRecommendationsByTypeQuery()
+  const [getRecommendationsByType, { isFetching: recommendationDataLoading }] = useLazyGetRecommendationsByTypeQuery()
 
   const handleUpdateRecommendations = async (payload: ApproveRecommendationsPayloadTypes) => {
     try {

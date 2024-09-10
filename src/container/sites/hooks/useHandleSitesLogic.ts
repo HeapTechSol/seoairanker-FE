@@ -47,7 +47,7 @@ const useHandleSitesLogic = () => {
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
   const notificationsData = useAppSelector((state) => state.sites.notificationsData)
 
-  const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota || 0) >= (userQuota?.total_sites_quota || 0)
+  const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota as number) >= (userQuota?.total_sites_quota as number)
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()

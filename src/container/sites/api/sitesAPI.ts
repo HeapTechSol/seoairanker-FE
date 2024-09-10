@@ -48,7 +48,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['sitesList'],
+      invalidatesTags: (_result, error) => (error ? [] : ['sitesList', 'userQuota']),
     }),
     getSiteKeywords: builder.query<GetKeywordsAPIResponseTypes, GetKeywordsPayload>({
       query: (params) => ({
@@ -60,13 +60,13 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         },
       }),
     }),
-    saveKeywords: builder.query<SitesAPIResponseTypes, AddKeyWordsPayloadTypes>({
+    saveKeywords: builder.mutation<SitesAPIResponseTypes, AddKeyWordsPayloadTypes>({
       query: (payload) => ({
         url: SAVE_SELECTED_KEYWORDS,
         method: 'POST',
         body: payload,
       }),
-      providesTags: ['sitesList'],
+      invalidatesTags: (_result, error) => (error ? [] : ['sitesList', 'userQuota']),
     }),
     getSites: builder.query<SitesAPIResponseTypes, void>({
       query: () => ({
@@ -107,19 +107,21 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         params: { type: params.type, per_page: params.per_page, page: params.page },
       }),
     }),
-    reCrawlSite: builder.query<GetRecommendationsByModelAPIResponseTypes, { site_id: string; siteUrl: string }>({
+    reCrawlSite: builder.mutation<GetRecommendationsByModelAPIResponseTypes, { site_id: string; siteUrl: string }>({
       query: (payload) => ({
         url: RE_CRAWL_SITE,
         method: 'POST',
         body: payload,
       }),
+      invalidatesTags: (_result, error) => (error ? [] : ['userQuota']),
     }),
-    reCrawlSitePage: builder.query<GetRecommendationsByModelAPIResponseTypes, { site_id: string; link_id: string }>({
+    reCrawlSitePage: builder.mutation<GetRecommendationsByModelAPIResponseTypes, { site_id: string; link_id: string }>({
       query: (payload) => ({
         url: RE_CRAWL_PAGE,
         method: 'POST',
         body: payload,
       }),
+      invalidatesTags: (_result, error) => (error ? [] : ['userQuota']),
     }),
     approveRecommendations: builder.mutation<{ message: string }, ApproveRecommendationsPayloadTypes>({
       query: (payload) => ({
@@ -127,6 +129,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
+      invalidatesTags: (_result, error) => (error ? [] : ['userQuota']),
     }),
     approveSiteSchema: builder.mutation<{ message: string }, { id: string; schema_types: string[] }>({
       query: (payload) => ({
@@ -178,7 +181,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         url: `${DELETE_SITE}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (_result, error) => (error ? [] : ['sitesList']),
+      invalidatesTags: (_result, error) => (error ? [] : ['sitesList', 'userQuota']),
     }),
   }),
   overrideExisting: false,
@@ -188,14 +191,14 @@ export const {
   useAddSiteMutation,
   useLazyGetSitesQuery,
   useDeleteSiteMutation,
+  useReCrawlSiteMutation,
+  useSaveKeywordsMutation,
   useLazyExportToCSVQuery,
-  useLazyReCrawlSiteQuery,
-  useLazySaveKeywordsQuery,
   useLazyGetSiteLinksQuery,
   useLazyGetSiteScriptQuery,
   useLazyGetSchemaTypesQuery,
   useLazyGetSiteKeywordsQuery,
-  useLazyReCrawlSitePageQuery,
+  useReCrawlSitePageMutation,
   useLazyReadNotificationQuery,
   useApproveSiteSchemaMutation,
   useLazyGetNotificationsQuery,
