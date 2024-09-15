@@ -1,0 +1,27 @@
+.recommendations-suspense-loader {
+  text-align: center;
+  margin-bottom: 20px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  .suspense-loader {
+    padding: 40px;
+    border-radius: 16px;
+    background-color: white;
+    left: 50%;
+    top: 30%;
+    width: 30%;
+    z-index: 9999;
+    position: absolute;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, -50%);
+  }
+}

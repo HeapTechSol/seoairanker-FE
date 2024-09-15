@@ -4,33 +4,35 @@ import { useParams } from 'react-router-dom'
 import Flex from '@/components/Flex'
 import Tabs from '@/components/Tabs/Tabs'
 import SitePages from '../SitePages/SitePages'
-// import SiteInsights from '../SiteInsights/SiteInsights'
 import SiteOverview from '../SiteOverview/SiteOverview'
 import Container from '@/components/Container/Container'
 import AddNewKeywords from '../AddNewKeywords/AddNewKeywords'
 import Recommendations from '../Recommendations/Recommendations'
+import RecommendationSuspense from '@/container/sites/components/RecommendationsSuspense/RecommendationSuspense'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
+
+import { CrawledInfoAPIResponseTypes } from '@/container/sites/sitesTypes'
 
 import './SiteDetailsPage.scss'
 
 const SiteDetailsPage = () => {
   const { id } = useParams()
-  const { getSiteCrawledInfoData } = useHandleSitesLogic()
+  const { getSiteCrawledInfoData, isGetSiteDataPending, crawledInfo } = useHandleSitesLogic()
 
   const tabs = [
     {
       title: 'Site Overview',
       key: 'site_overview',
-      content: <SiteOverview />,
+      content: <SiteOverview isGetSiteDataPending={isGetSiteDataPending} crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}/>,
     },
     {
       title: 'Automations',
       key: 'automation',
-      content: <Recommendations />,
+      content: <Recommendations isGetSiteDataPending={isGetSiteDataPending} crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']} />,
     },
-    { title: 'Keywords', key: 'keywords', content: <AddNewKeywords /> },
-    { title: 'Pages', key: 'pages', content: <SitePages /> },
+    { title: 'Keywords', key: 'keywords', content: <AddNewKeywords isGetSiteDataPending={isGetSiteDataPending} /> },
+    { title: 'Pages', key: 'pages', content: <SitePages isGetSiteDataPending={isGetSiteDataPending} crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}/> },
     // { title: 'Speed Metrics', content: <SiteInsights /> },
   ]
 
@@ -41,6 +43,7 @@ const SiteDetailsPage = () => {
 
   return (
     <Container className="sites-dashboard">
+      {crawledInfo?.site_data?.crawl_in_progress && !isGetSiteDataPending && <RecommendationSuspense />}
       <Flex vertical gap={24}>
         <Tabs tabs={tabs} defaultActiveTab={0} tabsPlacement="left" tabColor="primary" activeByUrl />
       </Flex>

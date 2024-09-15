@@ -12,26 +12,35 @@ import { AllModalDataTypes, ApproveRecommendationsPayloadTypes, GetRecommendatio
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setRecommendationsData } from '../sitesSlice'
-import { useAppSelector } from '@/api/store'
 import { uniqBy } from '@/utils/helper'
+import { useState } from 'react'
 
 const useHandleRecommendations = () => {
   const { id: siteId } = useParams()
   const dispatch = useDispatch()
 
-  const recommendationData = useAppSelector((state) => state.sites.recommendationData)
+  const [isBulkApproveLoading, setIsBulkApproveLoading] = useState<boolean>(false)
+  const [isSingleApproveLoading, setIsSingleApproveLoading] = useState<boolean>(false)
+  const [isSubBulkApproveLoading, setIsSubBulkApproveLoading] = useState<boolean>(false)
 
   const [reCrawlSite, { isLoading: reCrawlLoading }] = useReCrawlSiteMutation()
   const [reCrawlSitePage, { isLoading: reCrawlPageLoading }] = useReCrawlSitePageMutation()
-  const [approveRecommendations, { isLoading: approveRecommendationsLoading }] = useApproveRecommendationsMutation()
-  const [getRecommendationsByType, { isFetching: recommendationDataLoading }] = useLazyGetRecommendationsByTypeQuery()
+  const [approveRecommendations] = useApproveRecommendationsMutation()
+  const [getRecommendationsByType, { isFetching: recommendationDataLoading, data: recommendationData }] = useLazyGetRecommendationsByTypeQuery()
 
   const handleUpdateRecommendations = async (payload: ApproveRecommendationsPayloadTypes) => {
     try {
+      if (!payload.model && payload.bulk) setIsBulkApproveLoading(true)
+      if (payload.model && payload.bulk) setIsSubBulkApproveLoading(true)
+      if (payload.model && !payload.bulk) setIsSingleApproveLoading(true)
       const data = await approveRecommendations(payload).unwrap()
       toast.success(data?.message || '')
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
+    } finally {
+      setIsBulkApproveLoading(false)
+      setIsSingleApproveLoading(false)
+      setIsSubBulkApproveLoading(false)
     }
   }
 
@@ -41,7 +50,16 @@ const useHandleRecommendations = () => {
       const mergedData = [...(recommendationData?.data || []), ...(data?.data || [])]
       const uniqueData = uniqBy(mergedData, (item) => item.id)
       const isScrolling = payload.page > 1
-      dispatch(setRecommendationsData({ ...recommendationData, ...data, data: ((isScrolling ? uniqueData : data?.data) as AllModalDataTypes) || [] }))
+      dispatch(
+        setRecommendationsData({
+          ...recommendationData,
+          ...data,
+          data: ((isScrolling ? uniqueData : data?.data) as AllModalDataTypes) || [],
+          modal: payload.type,
+          page:payload.page,
+          per_page:payload.per_page,
+        })
+      )
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -66,6 +84,9 @@ const useHandleRecommendations = () => {
   }
 
   return {
+    isBulkApproveLoading,
+    isSingleApproveLoading,
+    isSubBulkApproveLoading,
     getRecommendationByType,
     recommendationData: recommendationData,
     recommendationDataLoading,
@@ -74,7 +95,6 @@ const useHandleRecommendations = () => {
     reCrawlPageLoading,
     handleReCrawlSitePage,
     handleUpdateRecommendations,
-    approveRecommendationsLoading,
   }
 }
 

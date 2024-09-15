@@ -5,8 +5,8 @@ import { BiDetail } from 'react-icons/bi'
 import { PiBankLight } from 'react-icons/pi'
 import { RxDashboard } from 'react-icons/rx'
 import { BsClockHistory } from 'react-icons/bs'
-import { MdOutlineAddToQueue, MdOutlineSchema } from 'react-icons/md'
-import { IoPricetagOutline } from 'react-icons/io5'
+import { MdOutlineAddToQueue } from 'react-icons/md'
+import { IoPricetagOutline, IoSettingsOutline } from 'react-icons/io5'
 
 const {
   ADD_SITE,
@@ -45,8 +45,8 @@ export const sidebarMenuData = (id: string) => [
   // },
   {
     hide: !id,
-    name: 'Schema',
-    icon: <MdOutlineSchema />,
+    name: 'Setting',
+    icon: <IoSettingsOutline />,
     path: `${SITE_DETAILS_PAGE}/${id}/${SITE_SCHEMA_PAGE}`,
   },
   {

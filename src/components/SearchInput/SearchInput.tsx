@@ -22,7 +22,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, onSelectResult, han
   const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
-  const [isItemSeleted, setIsItemSelected] = useState(false)
+  const [isItemSelected, setIsItemSelected] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, onSelectResult, han
 
   const handleResetSelection = () => {
     setSearchResults([])
-    handleClearSelection?.(isItemSeleted)
+    handleClearSelection?.(isItemSelected)
     setIsItemSelected(false)
   }
 
