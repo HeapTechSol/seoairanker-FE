@@ -44,10 +44,10 @@ const useHandleSitesLogic = () => {
   })
 
 
-  const userQuota = useAppSelector((state) => state.billing.userQuota)
+  // const userQuota = useAppSelector((state) => state.billing.userQuota)
   const notificationsData = useAppSelector((state) => state.sites.notificationsData)
 
-  const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota as number) >= (userQuota?.total_sites_quota as number)
+  // const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota as number) >= (userQuota?.total_sites_quota as number)
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()
@@ -86,10 +86,10 @@ const useHandleSitesLogic = () => {
   }
 
   const handleForwardButtonPress = () => {
-    if (isSiteQuotaExceeded) {
-      toast.error('You cannot add a new site, your quota to add site is exceeded')
-      return
-    }
+    // if (isSiteQuotaExceeded) {
+    //   toast.error('You cannot add a new site, your quota to add site is exceeded')
+    //   return
+    // }
     handleSubmit(handleNext)()
   }
 
