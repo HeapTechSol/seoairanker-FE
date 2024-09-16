@@ -13,13 +13,16 @@ import { useAppSelector } from '@/api/store'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
-import { uniqBy } from '@/utils/helper'
+import { formatDate, uniqBy } from '@/utils/helper'
 import { SchemaTypes } from '@/container/sites/sitesTypes'
+
+import Select from '@/components/Select'
 
 import './SiteSchema.scss'
 
 const SiteSchema = () => {
   const { id } = useParams()
+  const [durationValue, setDurationValue] = useState<string | string[]>('')
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
 
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
@@ -70,6 +73,21 @@ const SiteSchema = () => {
           <Container width={100} borderRadius boxShadow className="site-schema-page container-bg">
             <Flex vertical gap={16}>
               <Typography text="Settings" type="h2" />
+              <Select
+                Options={[
+                  { label: 'Daily', id: 'daily' },
+                  { label: 'Weekly', id: 'weekly' },
+                  { label: 'Monthly', id: 'monthly' },
+                  { label: 'Annually', id: 'annually' },
+                  { label: 'Team Default (Daily)', id: 'daily' },
+                ]}
+                title="How often would you like to refresh ranking stats for this keyword?"
+                placeholder="Schedule"
+                titlePosition="top"
+                setValues={setDurationValue}
+                values={durationValue}
+                size="md"
+              />
               <Typography text={`Limit page types to generate schemas for:`} />
               <Flex vertical gap={8}>
                 {isUnKnownExits ? (
@@ -117,7 +135,7 @@ const SiteSchema = () => {
               <Typography
                 text={
                   <>
-                    The next crawl is scheduled on Sun, 18 Aug 2024. You can also force{' '}
+                    The next crawl is scheduled on {formatDate(crawledInfo?.site_data?.next_crawl || '')}. You can also force{' '}
                     <Typography text="recrawl now." link inline color="info" onClick={reCrawlSite} />
                   </>
                 }

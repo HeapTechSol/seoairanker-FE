@@ -5,7 +5,7 @@ import { useLocation, useSearchParams, useNavigate, useParams } from 'react-rout
 
 import { ErrorTypes } from '@/utils/commonTypes'
 import { AddKeywordsDefaultValues } from '../sitesTypes'
-import { useLazySaveKeywordsQuery } from '../api/sitesAPI'
+import { useSaveKeywordsMutation } from '../api/sitesAPI'
 import { ADD_KEYWORDS_DEFAULT_VALUES, ADD_KEYWORDS_VALIDATIONS } from '../utils'
 
 const useAddNewKeyword = () => {
@@ -19,7 +19,7 @@ const useAddNewKeyword = () => {
     resolver: zodResolver(ADD_KEYWORDS_VALIDATIONS),
   })
 
-  const [saveKeywords, { isLoading }] = useLazySaveKeywordsQuery()
+  const [saveKeywords, { isLoading }] = useSaveKeywordsMutation()
 
   const navigateToTab = (tabName: string) => {
     const newSearchParams = new URLSearchParams(searchParams)

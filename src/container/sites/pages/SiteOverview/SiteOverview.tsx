@@ -15,24 +15,21 @@ import { GrInstallOption } from 'react-icons/gr'
 import { FaRegCircleCheck } from 'react-icons/fa6'
 import { MdOutlineRecommend, MdOutlineSchema, MdOutlineWatchLater } from 'react-icons/md'
 
-import { useAppSelector } from '@/api/store'
 
 import { EXACT_ROUTES } from '@/constant/routes'
-import { ModalTypes } from '@/container/sites/sitesTypes'
+import { CrawledInfoAPIResponseTypes, ModalTypes } from '@/container/sites/sitesTypes'
 
 import './SiteOverview.scss'
 
 const { SCRIPT_SECTION } = EXACT_ROUTES
 
-const SiteOverview = () => {
+const SiteOverview = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPending: boolean; crawledInfo: CrawledInfoAPIResponseTypes['data'] }) => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const siteInfo = useAppSelector((state) => state.sites.crawledInfo)
-  const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
 
-  const getModalRecommendationsCountByType = (modal: ModalTypes) => siteInfo?.model_data?.find((item) => item.model === modal)?.total
+  const getModalRecommendationsCountByType = (modal: ModalTypes) => crawledInfo?.model_data?.find((item) => item.model === modal)?.total
 
-  const keywordInfo = siteInfo?.site_data?.keywordsSummary
+  const keywordInfo = crawledInfo?.site_data?.keywordsSummary
 
   const navigateToTab = (tabName: string) => {
     const newSearchParams = new URLSearchParams(searchParams)
@@ -47,20 +44,20 @@ const SiteOverview = () => {
   return (
     <Container borderRadius boxShadow className="site-overview-detail">
       <Flex vertical gap={40}>
-        <Flex vertical gap={40} className='top-container'>
-          <Loader loading={isGetSiteDataPending} overlay/>
+        <Flex vertical gap={40} className="top-container">
+          <Loader loading={isGetSiteDataPending} overlay />
           <Grid gap={16} minMax={500} minWidth={200}>
             <Container
               className="container-bg checklist__item"
               style={{ cursor: 'pointer' }}
-              onClick={() => navigate(`${SCRIPT_SECTION}/${siteInfo?.site_data?.id}`)}
+              onClick={() => navigate(`${SCRIPT_SECTION}/${crawledInfo?.site_data?.id}`)}
             >
               <Flex>
                 <Flex align="center" gap={16}>
                   <GrInstallOption className="item-icon" />
                   <Typography text="Install Snippet" />
                 </Flex>
-                {siteInfo?.site_data?.snippet_installed ? (
+                {crawledInfo?.site_data?.snippet_installed ? (
                   <FaRegCircleCheck className="checkmark-icon" />
                 ) : (
                   <MdOutlineWatchLater className="checkmark-icon watch" />
@@ -73,7 +70,7 @@ const SiteOverview = () => {
                   <VscGraphLine className="item-icon" />
                   <Typography text="Add Keywords to Track" />
                 </Flex>
-                {siteInfo?.site_data?.keywords_add_to_track ? (
+                {crawledInfo?.site_data?.keywords_add_to_track ? (
                   <FaRegCircleCheck className="checkmark-icon" />
                 ) : (
                   <MdOutlineWatchLater className="checkmark-icon watch" />
@@ -86,7 +83,7 @@ const SiteOverview = () => {
                   <MdOutlineRecommend className="item-icon" />
                   <Typography text="Configure Recommendations" />
                 </Flex>
-                {siteInfo?.site_data?.recommendations_generated ? (
+                {crawledInfo?.site_data?.recommendations_generated ? (
                   <FaRegCircleCheck className="checkmark-icon" />
                 ) : (
                   <MdOutlineWatchLater className="checkmark-icon watch" />
@@ -99,7 +96,7 @@ const SiteOverview = () => {
                   <MdOutlineSchema className="item-icon" />
                   <Typography text="Configure Schema" />
                 </Flex>
-                {siteInfo?.site_data?.schema_configured ? (
+                {crawledInfo?.site_data?.schema_configured ? (
                   <FaRegCircleCheck className="checkmark-icon" />
                 ) : (
                   <MdOutlineWatchLater className="checkmark-icon watch" />
@@ -153,8 +150,8 @@ const SiteOverview = () => {
                 <Flex vertical gap={32} align="start" justify="between">
                   <Typography text="Recommendations" type="h3" />
                   <Flex gap={16}>
-                    <Typography text={siteInfo?.site_data?.total_approved || 0} className={'recommendations-overview__left-container__count'} />
-                    <Typography text={`of ${siteInfo?.site_data?.total_count || 0} Available`} />
+                    <Typography text={crawledInfo?.site_data?.total_approved || 0} className={'recommendations-overview__left-container__count'} />
+                    <Typography text={`of ${crawledInfo?.site_data?.total_count || 0} Available`} />
                   </Flex>
                   <Button size="sm" type="borderRadius" onClick={() => navigateToTab('automation')}>
                     Recommendations

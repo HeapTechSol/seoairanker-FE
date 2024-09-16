@@ -29,7 +29,7 @@ import { ErrorTypes } from '@/utils/commonTypes'
 import { createSingleExcelFile } from '@/utils/handleCSV'
 import { useAppDispatch, useAppSelector } from '@/api/store'
 import { AddSitePayloadTypes, GetKeywordsPayload, NotificationAPIPayloadTypes, SiteLinkPayloadTypes } from '../sitesTypes'
-import { setCrawledInfo, setNotificationsData } from '../sitesSlice'
+import { setNotificationsData } from '../sitesSlice'
 
 const { SITES_DASHBOARD } = EXACT_ROUTES
 
@@ -43,15 +43,15 @@ const useHandleSitesLogic = () => {
     resolver: zodResolver(ADD_SITE_WIZARD_VALIDATIONS[currentStep]),
   })
 
-  // const userQuota = useAppSelector((state) => state.billing.userQuota)
-  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+
+  const userQuota = useAppSelector((state) => state.billing.userQuota)
   const notificationsData = useAppSelector((state) => state.sites.notificationsData)
 
-  // const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota || 0) >= (userQuota?.total_sites_quota || 0)
+  const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota as number) >= (userQuota?.total_sites_quota as number)
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()
-  const [getSiteCrawledInfo] = useLazyGetSiteCrawledInfoQuery()
+  const [getSiteCrawledInfo, { isLoading: isGetSiteDataPending, data: crawledInfo }] = useLazyGetSiteCrawledInfoQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
   const [approveSiteSchema, { isLoading: approveSchemaLoading }] = useApproveSiteSchemaMutation()
   const [getSites, { isLoading: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
@@ -86,10 +86,10 @@ const useHandleSitesLogic = () => {
   }
 
   const handleForwardButtonPress = () => {
-    // if (isSiteQuotaExceeded) {
-    //   toast.error('You cannot add a new site, your quota to add site is exceeded')
-    //   return
-    // }
+    if (isSiteQuotaExceeded) {
+      toast.error('You cannot add a new site, your quota to add site is exceeded')
+      return
+    }
     handleSubmit(handleNext)()
   }
 
@@ -154,7 +154,7 @@ const useHandleSitesLogic = () => {
 
   const getPathSearchResults = async (payload: { path: string; site_id: string }) => {
     try {
-      const data = await getSitePathSearchResults(payload, true).unwrap()
+      const data = await getSitePathSearchResults(payload, false).unwrap()
       return data?.data
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
@@ -217,8 +217,7 @@ const useHandleSitesLogic = () => {
 
   const getSiteCrawledInfoData = async (payload: { site_id: string; link_id?: string }) => {
     try {
-      const data = await getSiteCrawledInfo(payload, false).unwrap()
-      dispatch(setCrawledInfo(data?.data))
+      await getSiteCrawledInfo(payload).unwrap()
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -278,12 +277,13 @@ const useHandleSitesLogic = () => {
     handleGetSiteLinks,
     getNotificationList,
     siteLinks: siteLinks,
+    isGetSiteDataPending,
     getPathSearchResults,
     sitePathSearchLoading,
     handleReadNotification,
     getNotificationLoading,
     getSiteCrawledInfoData,
-    crawledInfo: crawledInfo,
+    crawledInfo: crawledInfo?.data,
     handleForwardButtonPress,
     handlePreviousButtonPress,
     sitesList: sitesList?.data || [],

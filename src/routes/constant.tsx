@@ -7,6 +7,7 @@ import AuthLayout from '@/container/layout/AuthLayout/AuthLayout'
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
 
 import { AUTH, BILLING, EXACT_ROUTES, SITES } from '@/constant/routes'
+import { useAppSelector } from '@/api/store'
 
 const { LOGIN, SIGNUP, RESET_PASSWORD, VERIFY_OTP, CHANGE_PASSWORD, FORGET_PASSWORD, PROFILE_PAGE, BASE: AUTH_BASE } = AUTH
 
@@ -137,10 +138,12 @@ export const routes = createBrowserRouter([
         errorElement: <ErrorBoundary />,
         async lazy() {
           const { default: Recommendations } = await import('../container/sites/pages/Recommendations/Recommendations')
+          const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
+          const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
           return {
             Component: (props) => (
               <ProtectedRoute>
-                <Recommendations {...props} />
+                <Recommendations {...props} isGetSiteDataPending={isGetSiteDataPending} crawledInfo={crawledInfo} />
               </ProtectedRoute>
             ),
           }
@@ -221,10 +224,11 @@ export const routes = createBrowserRouter([
         errorElement: <ErrorBoundary />,
         async lazy() {
           const { default: AddNewKeywords } = await import('../container/sites/pages/AddNewKeywords/AddNewKeywords')
+          const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
           return {
             Component: (props) => (
               <ProtectedRoute>
-                <AddNewKeywords {...props} />
+                <AddNewKeywords {...props} isGetSiteDataPending={isGetSiteDataPending} />
               </ProtectedRoute>
             ),
           }
@@ -235,10 +239,12 @@ export const routes = createBrowserRouter([
         errorElement: <ErrorBoundary />,
         async lazy() {
           const { default: SitePages } = await import('../container/sites/pages/SitePages/SitePages')
+          const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
+          const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
           return {
             Component: (props) => (
               <ProtectedRoute>
-                <SitePages {...props} />
+                <SitePages {...props} isGetSiteDataPending={isGetSiteDataPending} crawledInfo={crawledInfo} />
               </ProtectedRoute>
             ),
           }

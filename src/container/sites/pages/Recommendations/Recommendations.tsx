@@ -18,12 +18,18 @@ import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { getTime } from '@/utils/helper'
-import { useAppSelector } from '@/api/store'
+// import { useAppSelector } from '@/api/store'
 import { CrawledInfoAPIResponseTypes, ModalTypes } from '@/container/sites/sitesTypes'
 
 import './Recommendations.scss'
 
-const Recommendations = () => {
+const Recommendations = ({
+  isGetSiteDataPending,
+  crawledInfo,
+}: {
+  isGetSiteDataPending: boolean
+  crawledInfo: CrawledInfoAPIResponseTypes['data']
+}) => {
   const { id: siteId } = useParams()
   const [queryText, setQueryText] = useState<string>('')
   const [link_id, setLink_id] = useState<string>('')
@@ -31,8 +37,7 @@ const Recommendations = () => {
   const { reCrawlLoading, handleReCrawlSite } = useHandleRecommendations()
   const { getPathSearchResults, getSiteCrawledInfoData } = useHandleSitesLogic()
 
-  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
-  const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
+  // const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
   const defaultModal = crawledInfo?.model_data?.find((modal) => modal.total > 0)
 
@@ -82,7 +87,7 @@ const Recommendations = () => {
     <Container width={100}>
       <Flex vertical gap={16}>
         <Container padding={'40px 20px'} className="container-bg" borderRadius boxShadow>
-          <Loader loading={isGetSiteDataPending} overlay/>
+          <Loader loading={isGetSiteDataPending} overlay />
           <Flex gap={16}>
             <Flex vertical gap={16}>
               <Typography text="SEO Automation Recommendations" type="h2" />
@@ -103,7 +108,7 @@ const Recommendations = () => {
                 <Button type="borderRadius" loading={reCrawlLoading} onClick={reCrawlSite}>
                   Regenerate Recommendation
                 </Button>
-                <Typography text={`Last updated ${getTime(crawledInfo?.site_data?.updatedAt || '')}`} />
+                <Typography text={`Last updated ${getTime(crawledInfo?.site_data?.last_crawl || '') || ''}`} />
               </Flex>
             </Flex>
             {crawledInfo?.site_data?.screenshot_url && (
@@ -139,12 +144,12 @@ const Recommendations = () => {
           <RecommendationOverview
             recommendationsList={recommendationsList || []}
             onClick={(e) => setKey(e)}
-            selectedKey={key || defaultModal?.model as ModalTypes}
+            selectedKey={key || (defaultModal?.model as ModalTypes)}
             site_id={siteId || ''}
             link_id={link_id}
             crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}
           />
-          <RecommendationList selectedKey={key} link_id={link_id} defaultKey={defaultModal?.model as ModalTypes}/>
+          <RecommendationList selectedKey={key} link_id={link_id} defaultKey={defaultModal?.model as ModalTypes} />
         </Flex>
       </Flex>
     </Container>

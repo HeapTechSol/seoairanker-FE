@@ -13,6 +13,8 @@ import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommend
 
 import { EditIcon } from '@/assets/icons/svgs'
 import { OgTagsDataTypes } from '@/container/sites/sitesTypes'
+import { sitesAPI } from '../../api/sitesAPI'
+import { store } from '@/api/store'
 
 const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { id: siteId } = useParams()
@@ -20,8 +22,14 @@ const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
-  const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, approveRecommendationsLoading } =
-    useHandleRecommendations()
+  const {
+    recommendationData,
+    getRecommendationByType,
+    recommendationDataLoading,
+    handleUpdateRecommendations,
+    isSingleApproveLoading,
+    isSubBulkApproveLoading,
+  } = useHandleRecommendations()
 
   const recommendation = recommendationData?.data.find((item) => item.link_id)
 
@@ -34,7 +42,7 @@ const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
         bulk: true,
       })
       await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
+      // await getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
     }
   }
 
@@ -49,7 +57,7 @@ const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
         bulk: false,
       })
       await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
+      // await getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
     }
   }
 
@@ -77,7 +85,7 @@ const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
         bulk: false,
       })
       await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
+      // await getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
@@ -120,6 +128,20 @@ const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
 
   useEffect(() => {
     getRecommendationByType({ page: 1, per_page: 10, type: 'og_tags', link_id: externalLinkId })
+    const interval = setInterval(() => {
+      const afterCached = sitesAPI.endpoints.getRecommendationsByType.select({
+        site_id: siteId || '',
+        link_id: externalLinkId,
+        page: 1,
+        per_page: 10,
+        type: 'og_tags',
+      })(store.getState())
+      if (afterCached?.status === 'fulfilled') {
+        clearInterval(interval)
+      }
+    }, 500)
+
+    return () => clearInterval(interval)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [externalLinkId])
 
@@ -138,7 +160,7 @@ const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
               type="borderRadius"
               color="success"
               disabled={isApproved}
-              loading={approveRecommendationsLoading}
+              loading={isSubBulkApproveLoading}
               onClick={handleAllRecommendations}
             >
               Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
@@ -159,7 +181,7 @@ const SocialPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
                       onClick={(e) => onApprove(e, item.id, item.linkId, !item.approve)}
                       type="borderRadius"
                       color={item.approve ? 'error' : 'success'}
-                      loading={editedId === item.id && approveRecommendationsLoading}
+                      loading={editedId === item.id && isSingleApproveLoading}
                     >
                       {item.approve ? 'Reject' : 'Approve'}
                     </Button>

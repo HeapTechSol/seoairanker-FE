@@ -26,7 +26,7 @@ import { rowSelectionHandler } from '@/components/Table/helper'
 
 import './AddNewKeywords.scss'
 
-const AddNewKeywords = () => {
+const AddNewKeywords = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean }) => {
   const [selectedKeys, SetSelectedKeys] = useState<number[]>([])
 
   const { getKeywords, keywordsData, keywordsLoading } = useHandleSitesLogic()
@@ -38,7 +38,6 @@ const AddNewKeywords = () => {
   const isLocal = useWatch({ control, name: 'track_local' })
 
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
-  const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
 
   const onPageChange = (pageNumber: number) => {
     getKeywords({

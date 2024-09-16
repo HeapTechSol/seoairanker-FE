@@ -14,28 +14,25 @@ import Pagination from '@/components/Pagination/Pagination'
 
 import { rowSelectionHandler } from '@/components/Table/helper'
 
-import { useAppSelector } from '@/api/store'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
-import { LuRefreshCcw } from 'react-icons/lu'
 import { MdBlock } from 'react-icons/md'
+import { LuRefreshCcw } from 'react-icons/lu'
 
+import { formatDate } from '@/utils/helper'
 import { ColumnType } from '@/components/Table/types'
-import { SiteLinksDataTypes } from '@/container/sites/sitesTypes'
+import { CrawledInfoAPIResponseTypes, SiteLinksDataTypes } from '@/container/sites/sitesTypes'
 
 import './SitePages.scss'
 
-const SitePages = () => {
+const SitePages = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPending: boolean; crawledInfo: CrawledInfoAPIResponseTypes['data'] }) => {
   const { id: siteId } = useParams()
   const [selectedRowKeys, SetSelectedRowKeys] = useState<string[]>([])
   const [editedId, setEditedId] = useState<string>('')
 
   const { handleGetSiteLinks, siteLinks, siteLinksLoading } = useHandleSitesLogic()
   const { reCrawlPageLoading, handleReCrawlSitePage } = useHandleRecommendations()
-
-  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
-  const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
 
   const PAGES_COLUMN: ColumnType<SiteLinksDataTypes>[] = [
     {
@@ -130,8 +127,8 @@ const SitePages = () => {
                   crawledInfo?.site_data?.site_url || ''
                 } in order to understand your site structure and to better identify potential SEO improvements. Here are the pages we found. Click the toggle icon to ignore pages on future crawls.`}
               />
-              <Typography text={`You have approved 1 recommendation. Click any link below to see them live.`} />
-              <Typography text={`Status: completed (last crawled 3 days ago)`} />
+              <Typography text={`You have approved ${crawledInfo?.site_data?.total_approved || 0} recommendation.`} />
+              <Typography text={`Status: completed on ${formatDate(crawledInfo?.site_data?.last_crawl || '') || ''}`} />
               <Divider color="primary" />
               <Table
                 columns={PAGES_COLUMN}

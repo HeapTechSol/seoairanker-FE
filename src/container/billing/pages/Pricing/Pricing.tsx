@@ -80,27 +80,27 @@ const Pricing = () => {
   const BUTTON_TEXT = {
     Basic: 'Request Demo',
     Enterprise: 'Get Started',
-    Pro: 'Get Started',
+    Agency: 'Get Started',
     'Basic Annual': 'Request Demo',
-    'Pro Annual': 'Get Started',
+    'Agency Annual': 'Get Started',
     'Enterprise Annual': 'Get Started',
   }
 
   const COLORS = {
     Basic: 'warning',
     Enterprise: 'primary',
-    Pro: 'info',
+    Agency: 'info',
     'Basic Annual': 'warning',
-    'Pro Annual': 'primary',
+    'Agency Annual': 'primary',
     'Enterprise Annual': 'info',
   }
 
   const ICONS = {
     Basic: AgencyIcon,
     Enterprise: EnterpriseIcon,
-    Pro: PersonIcon,
+    Agency: PersonIcon,
     'Basic Annual': AgencyIcon,
-    'Pro Annual': EnterpriseIcon,
+    'Agency Annual': EnterpriseIcon,
     'Enterprise Annual': PersonIcon,
   }
 

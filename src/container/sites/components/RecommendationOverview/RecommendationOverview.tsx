@@ -39,7 +39,7 @@ const RecommendationOverview = ({
   const [statusType, setStatusType] = useState<boolean>(false)
 
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
-  const { handleUpdateRecommendations, approveRecommendationsLoading, getRecommendationByType } = useHandleRecommendations()
+  const { handleUpdateRecommendations, isBulkApproveLoading } = useHandleRecommendations()
 
   const handleApproveAllRecommendations = async (status: boolean) => {
     setStatusType(status)
@@ -49,7 +49,7 @@ const RecommendationOverview = ({
       bulk: true,
     })
     await getSiteCrawledInfoData({ site_id: site_id, link_id: externalLinkId })
-    await getRecommendationByType({ page: 1, per_page: 10, type: selectedKey, link_id: externalLinkId })
+    // await getRecommendationByType({ page: 1, per_page: selectedKey === 'missing_alt_images' ? 20 : 10, type: selectedKey, link_id: externalLinkId })
   }
 
   const isAllApproved = crawledInfo?.site_data?.total_approved == crawledInfo?.site_data?.total_count
@@ -77,17 +77,17 @@ const RecommendationOverview = ({
         variant="outlined"
         color="success"
         disabled={isAllApproved}
-        loading={statusType === true && approveRecommendationsLoading}
+        loading={statusType === true && isBulkApproveLoading}
         onClick={() => handleApproveAllRecommendations(true)}
       >
-       Approve All
+        Approve All
       </Button>
       {!!crawledInfo?.site_data?.total_approved && (
         <Button
           fullWidth
           variant="outlined"
           color="error"
-          loading={statusType === false && approveRecommendationsLoading}
+          loading={statusType === false && isBulkApproveLoading}
           onClick={() => handleApproveAllRecommendations(false)}
         >
           Reject All

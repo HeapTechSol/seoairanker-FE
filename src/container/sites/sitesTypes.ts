@@ -81,6 +81,8 @@ export type SiteDataTypes = {
   site_url: string
   updatedAt: string
   createdAt: string
+  last_crawl: string
+  next_crawl: string
   total_count: number
   favicon_url: string
   country_code: string
@@ -90,6 +92,7 @@ export type SiteDataTypes = {
   screenshot_url: string
   schema_configured: boolean
   snippet_installed: boolean
+  crawl_in_progress: boolean
   keywords_add_to_track: boolean
   recommendations_generated: boolean
   keywordsSummary: {
@@ -132,6 +135,8 @@ export type GetKeywordsPayload = {
 export type MissingTitlesDataTypes = {
   id: string
   url: string
+  count: string
+  label: string
   xpath: string
   link_id: string
   approved: boolean
@@ -145,6 +150,8 @@ export type ImagesAltDataTypes = {
   id: number
   url: string
   xpath: string
+  count: string
+  label: string
   page_id: string
   link_id: string
   alt_text: string
@@ -156,6 +163,8 @@ export type ImagesAltDataTypes = {
 
 export type OgTagsDataTypes = {
   id: string
+  count: string
+  label: string
   link_id: string
   link_path: string
   approved: boolean
@@ -165,6 +174,8 @@ export type OgTagsDataTypes = {
 
 export type MetaTitleDataTypes = {
   id: string
+  count: string
+  label: string
   link_id: string
   link_path: string
   approved: boolean
@@ -174,6 +185,8 @@ export type MetaTitleDataTypes = {
 
 export type MetaDescriptionDataTypes = {
   id: string
+  count: string
+  label: string
   link_id: string
   approved: boolean
   link_path: string
@@ -183,6 +196,8 @@ export type MetaDescriptionDataTypes = {
 
 export type HeadingOptimizationDataTypes = {
   id: string
+  count: string
+  label: string
   link_id: string
   link_path: string
   approved: boolean
@@ -207,6 +222,8 @@ export type GetRecommendationsByModelAPIResponseTypes = {
   approved_count: number
   data: AllModalDataTypes
   unapproved_count: number
+  modal?: ModalTypes
+  per_page?: number
 }
 
 export type ApproveRecommendationsPayloadTypes = {
@@ -220,7 +237,7 @@ export type ApproveRecommendationsPayloadTypes = {
     suggested_og_tag?: string
     suggested_heading?: string
   }
-  filter_conditions: { site_id: string; id?: string; link_id?: string }
+  filter_conditions: { site_id: string; id?: string; url?: string; link_id?: string }
 }
 
 export type AddSitePayloadTypes = {
