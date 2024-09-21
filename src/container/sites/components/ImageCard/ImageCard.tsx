@@ -22,7 +22,7 @@ type ImageCardProps = {
   linkId: string
   occurrenceLabel: string
   editSuggestionHandler: (index: number, id: string) => void
-  onApprove: (e: React.SyntheticEvent, type_id: string, linkId: string, status: boolean) => void
+  onApprove: (e: React.SyntheticEvent, type_id: string, linkId: string, imageUrl: string, status: boolean) => void
   handleBlur: (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId: string) => void
 }
 
@@ -53,7 +53,7 @@ const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
           <Button
             size="sm"
             variant="outlined"
-            onClick={(e) => onApprove(e, id, linkId, !isApproved)}
+            onClick={(e) => onApprove(e, id, linkId, imageUrl, !isApproved)}
             type="borderRadius"
             color={isApproved ? 'error' : 'success'}
             loading={id === editedId && loading}

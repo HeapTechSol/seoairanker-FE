@@ -81,17 +81,18 @@ export type SiteDataTypes = {
   site_url: string
   updatedAt: string
   createdAt: string
+  last_crawl: string
   next_crawl: string
   total_count: number
   favicon_url: string
   country_code: string
-  last_crawled: string
   language_code: string
   business_type: string
   total_approved: number
   screenshot_url: string
   schema_configured: boolean
   snippet_installed: boolean
+  crawl_in_progress: boolean
   keywords_add_to_track: boolean
   recommendations_generated: boolean
   keywordsSummary: {
@@ -221,6 +222,8 @@ export type GetRecommendationsByModelAPIResponseTypes = {
   approved_count: number
   data: AllModalDataTypes
   unapproved_count: number
+  modal?: ModalTypes
+  per_page?: number
 }
 
 export type ApproveRecommendationsPayloadTypes = {

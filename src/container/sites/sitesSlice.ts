@@ -46,12 +46,13 @@ export const sitesSlicer = createSlice({
     builder.addMatcher(sitesAPI.endpoints.getSiteCrawledInfo.matchRejected, (state) => {
       state.isGetSiteDataPending = false
     })
-    builder.addMatcher(sitesAPI.endpoints.getSiteCrawledInfo.matchFulfilled, (state) => {
+    builder.addMatcher(sitesAPI.endpoints.getSiteCrawledInfo.matchFulfilled, (state, { payload }) => {
       state.isGetSiteDataPending = false
+      state.crawledInfo = payload.data
     })
   },
 })
 
-export const { setNotificationsData, setCrawledInfo, setRecommendationsData } = sitesSlicer.actions
+export const { setNotificationsData, setRecommendationsData } = sitesSlicer.actions
 
 export default sitesSlicer.reducer

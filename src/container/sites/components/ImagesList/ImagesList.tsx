@@ -9,9 +9,12 @@ import Container from '@/components/Container/Container'
 import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
+import { sitesAPI } from '@/container/sites/api/sitesAPI'
 import { ImagesAltDataTypes } from '@/container/sites/sitesTypes'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
+
+import { store } from '@/api/store'
 
 const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { id: siteId } = useParams()
@@ -19,21 +22,21 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
-  const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, approveRecommendationsLoading } =
+  const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, isSingleApproveLoading } =
     useHandleRecommendations()
 
-  const onApprove = async (e: React.SyntheticEvent, type_id: string, linkId: string, status: boolean) => {
+  const onApprove = async (e: React.SyntheticEvent, type_id: string, linkId: string, imageUrl: string, status: boolean) => {
     setEditedId(type_id)
     e.stopPropagation()
     if (siteId)
       await handleUpdateRecommendations({
         model: 'missing_alt_images',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
+        filter_conditions: { id: type_id, link_id: linkId, url: imageUrl, site_id: siteId },
         update_data: { approved: status },
         bulk: false,
       })
     await getSiteCrawledInfoData({ site_id: siteId || '', link_id: externalLinkId })
-    await getRecommendationByType({ page: 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
+    // await getRecommendationByType({ page: 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
   }
 
   const editSuggestionHandler = (index: number, id: string) => {
@@ -61,7 +64,7 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
         bulk: false,
       })
       await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: recommendationData?.page, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
+      // await getRecommendationByType({ page: recommendationData?.page as number, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
@@ -75,6 +78,20 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
 
   useEffect(() => {
     getRecommendationByType({ page: 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
+    const interval = setInterval(() => {
+      const afterCached = sitesAPI.endpoints.getRecommendationsByType.select({
+        site_id: siteId || '',
+        link_id: externalLinkId,
+        page: 1,
+        per_page: 10,
+        type: 'missing_alt_images',
+      })(store.getState())
+      if (afterCached?.status === 'fulfilled') {
+        clearInterval(interval)
+      }
+    }, 200)
+
+    return () => clearInterval(interval)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [externalLinkId])
 
@@ -95,7 +112,7 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
                 imageUrl={item.url}
                 occurrenceLabel={item?.label}
                 isApproved={item.approved}
-                loading={approveRecommendationsLoading}
+                loading={isSingleApproveLoading}
                 altText={item.alt_text}
                 editSuggestionHandler={editSuggestionHandler}
                 ref={(el) => (editableRefs.current[index] = el)}

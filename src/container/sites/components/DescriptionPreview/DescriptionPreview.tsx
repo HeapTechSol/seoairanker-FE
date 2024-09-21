@@ -13,6 +13,8 @@ import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommend
 
 import { EditIcon } from '@/assets/icons/svgs'
 import { MetaDescriptionDataTypes } from '@/container/sites/sitesTypes'
+import { sitesAPI } from '../../api/sitesAPI'
+import { store } from '@/api/store'
 
 const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { id: siteId } = useParams()
@@ -20,8 +22,14 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
-  const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, approveRecommendationsLoading } =
-    useHandleRecommendations()
+  const {
+    recommendationData,
+    getRecommendationByType,
+    recommendationDataLoading,
+    handleUpdateRecommendations,
+    isSubBulkApproveLoading,
+    isSingleApproveLoading,
+  } = useHandleRecommendations()
   const recommendation = recommendationData?.data?.find((item) => item.link_id)
 
   const handleAllRecommendations = async () => {
@@ -33,7 +41,7 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
         bulk: true,
       })
       await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
+      // await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
     }
   }
 
@@ -48,7 +56,7 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
         bulk: false,
       })
       await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
+      // await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
     }
   }
 
@@ -57,7 +65,10 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
       {!!item?.existing_meta_description?.length && (
         <>
           <Typography text="Content:" />
-          <Typography text={`Description is currently ${item?.existing_meta_description?.length} characters vs 120-320 recommended`} color="warning" />
+          <Typography
+            text={`Description is currently ${item?.existing_meta_description?.length} characters vs 120-320 recommended`}
+            color="warning"
+          />
         </>
       )}
       <Typography text="Existing:" />
@@ -112,7 +123,7 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
         bulk: false,
       })
       await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
+      // await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
@@ -126,6 +137,20 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
 
   useEffect(() => {
     getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
+    const interval = setInterval(() => {
+      const afterCached = sitesAPI.endpoints.getRecommendationsByType.select({
+        site_id: siteId || '',
+        link_id: externalLinkId,
+        page: 1,
+        per_page: 10,
+        type: 'missing_meta_descriptions',
+      })(store.getState())
+      if (afterCached?.status === 'fulfilled') {
+        clearInterval(interval)
+      }
+    }, 500)
+
+    return () => clearInterval(interval)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [externalLinkId])
 
@@ -144,7 +169,7 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
               type="borderRadius"
               color="success"
               disabled={isApproved}
-              loading={approveRecommendationsLoading}
+              loading={isSubBulkApproveLoading}
               onClick={handleAllRecommendations}
             >
               Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
@@ -152,8 +177,9 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
           </Flex>
           <Flex justify="center" align="center" wrap gap={8} className="preview-details-list" padding="0px 40px 40px 40px">
             <Flex vertical>
-              {optimizedTitlesList?.map((item) => (
+              {optimizedTitlesList?.map((item, index) => (
                 <Accordion
+                  key={`${item.url}${index}`}
                   title={item.url}
                   description={item.content}
                   color="primary"
@@ -164,7 +190,7 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
                       onClick={(e) => onApprove(e, item.id, item.linkId, !item.approve)}
                       type="borderRadius"
                       color={item.approve ? 'error' : 'success'}
-                      loading={editedId === item.id && approveRecommendationsLoading}
+                      loading={editedId === item.id && isSingleApproveLoading}
                     >
                       {item.approve ? 'Reject' : 'Approve'}
                     </Button>
