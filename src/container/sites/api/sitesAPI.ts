@@ -274,10 +274,10 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
       }),
     }),
     getSightInsights: builder.query({
-      query: (payload) => ({
+      query: (id) => ({
         url: SITE_PAGE_INSIGHTS,
         method: 'GET',
-        params: payload,
+        params: { id },
       }),
     }),
     getNotifications: builder.query<NotificationsAPIResponseTypes, NotificationAPIPayloadTypes>({
