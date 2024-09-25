@@ -51,10 +51,9 @@ const useHandleSitesLogic = () => {
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()
-  const [getSiteCrawledInfo, { isLoading: isGetSiteDataPending, data: crawledInfo }] = useLazyGetSiteCrawledInfoQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
-  const [approveSiteSchema, { isLoading: approveSchemaLoading }] = useApproveSiteSchemaMutation()
   const [getSites, { isLoading: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
+  const [approveSiteSchema, { isLoading: approveSchemaLoading }] = useApproveSiteSchemaMutation()
   const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
   const [getNotifications, { isLoading: getNotificationLoading }] = useLazyGetNotificationsQuery()
   const [getSiteLinks, { isLoading: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
@@ -63,6 +62,7 @@ const useHandleSitesLogic = () => {
   const [getSightInsights, { isLoading: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
   const [getSitePathSearchResults, { isLoading: sitePathSearchLoading }] = useLazyGetSitePathSearchResultsQuery()
   const [getSchemaTypes, { isLoading: schemaTypesLoading, data: schemaTypesData }] = useLazyGetSchemaTypesQuery()
+  const [getSiteCrawledInfo, { isLoading: isGetSiteDataPending, data: crawledInfo }] = useLazyGetSiteCrawledInfoQuery()
 
   const stepsCount = steps(control)?.length
 
@@ -161,9 +161,9 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const getInsights = async (payload: { url: string }) => {
+  const getInsights = async (id: string) => {
     try {
-      await getSightInsights(payload, true).unwrap()
+      await getSightInsights(id, true).unwrap()
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }

@@ -26,6 +26,7 @@ import { ColumnType } from '@/components/Table/types'
 import { SitesAPIResponse } from '@/container/sites/sitesTypes'
 
 import './SitesDashboard.scss'
+import { formatDate } from '@/utils/helper'
 
 const { ADD_SITE, SITE_DETAILS_PAGE, KEYWORDS_RANKING } = EXACT_ROUTES
 
@@ -58,7 +59,7 @@ const SitesDashboard = () => {
         <Typography text={value} color="info" link onClick={() => navigate(isKeywords ? KEYWORDS_RANKING : `${SITE_DETAILS_PAGE}/${record?.id}`)} />
       ),
     },
-    { header: 'Date', dataKey: 'created_at' },
+    { header: 'Date', dataKey: 'created_at', render: (text) => formatDate(text) },
     {
       header: '',
       render: (_, record) => (

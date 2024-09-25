@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Loader from '@/components/Loader'
@@ -7,7 +8,6 @@ import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import CircularProgress from '@/components/CircularProgress/CircularProgress'
 
-import { useAppSelector } from '@/api/store'
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
 import { MdBlock } from 'react-icons/md'
@@ -21,14 +21,13 @@ import { handleFormatCurrencyAndNumber } from '@/utils/helper'
 import './SiteInsights.scss'
 
 const SiteInsights = () => {
+  const { id } = useParams()
   const { getInsights, insightsData, insightsLoading } = useHandleSitesLogic()
 
-  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
-
   useEffect(() => {
-    if (crawledInfo?.site_data?.site_url) getInsights({ url: crawledInfo?.site_data?.site_url })
+    if (id) getInsights(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [crawledInfo?.site_data?.site_url])
+  }, [id])
 
   const convertValueToNumber = (str: string) => parseFloat(str?.replace(' s', ''))
 
@@ -44,7 +43,7 @@ const SiteInsights = () => {
 
   return (
     <Container borderRadius boxShadow className="site-insights">
-      <Loader loading={insightsLoading}>
+      <Loader loading={insightsLoading} overlay>
         <Flex vertical gap={100} align="center">
           <Grid gap={16} minWidth={200} minMax={300} className="circles-chart-container">
             <Flex gap={16} vertical align="center" justify="between">

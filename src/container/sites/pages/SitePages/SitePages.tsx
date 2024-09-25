@@ -48,6 +48,7 @@ const SitePages = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPending
     {
       header: 'Last Crawl',
       dataKey: 'last_crawled',
+      render: (text) => formatDate(text),
     },
     {
       header: 'WIDGET',
