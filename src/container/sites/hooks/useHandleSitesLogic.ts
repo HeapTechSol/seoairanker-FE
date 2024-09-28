@@ -233,7 +233,7 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const approveSchema = async (payload: { id: string; schema_types: string[] }) => {
+  const approveSchema = async (payload: { id: string; schema_types: string[], crawl_interval:string }) => {
     try {
       const response = await approveSiteSchema(payload).unwrap()
       toast.success(response?.message, { autoClose: 1000 })

@@ -266,11 +266,11 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         }
       },
     }),
-    approveSiteSchema: builder.mutation<{ message: string }, { id: string; schema_types: string[] }>({
+    approveSiteSchema: builder.mutation<{ message: string }, { id: string; schema_types: string[]; crawl_interval: string }>({
       query: (payload) => ({
         url: `${GENERATE_SITE_SCHEMA}/${payload.id}`,
         method: 'PATCH',
-        body: { schema_types: payload.schema_types },
+        body: { schema_types: payload.schema_types, crawl_interval: payload.crawl_interval },
       }),
     }),
     getSightInsights: builder.query({

@@ -316,10 +316,11 @@ export type SchemaTypes = {
   label: string
   count: string
   ids: string[]
+  selected: boolean
 }
 
 export type SchemaResponseTypes = {
-  data: SchemaTypes[]
+  data: { schema: SchemaTypes[]; crawl_interval: string }
 }
 
 export type NotificationAPIPayloadTypes = {
