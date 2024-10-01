@@ -253,10 +253,10 @@ const AddNewKeywords = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolea
               )}
               <Divider color="common" />
               <Flex gap={16}>
-                <Button onClick={handleSaveKeywords} type="borderRadius" size="sm" loading={isLoading}>
+                <Button onClick={handleSaveKeywords}  size="sm" loading={isLoading}>
                   Save Your Keywords
                 </Button>
-                <Button onClick={clearFormData} variant="text" type="borderRadius" size="sm">
+                <Button onClick={clearFormData} variant="text"  size="sm">
                   Cancel
                 </Button>
               </Flex>

@@ -75,7 +75,6 @@
     &.filled.#{$color} {
       background: colorMapper($color, main);
       color: colorMapper($color, contrastText);
-      box-shadow: var(--button-box-shadow);
       border: 1px solid colorMapper($color, main);
     }
 

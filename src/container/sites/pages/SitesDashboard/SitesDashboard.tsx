@@ -29,6 +29,7 @@ import { ColumnType } from '@/components/Table/types'
 import { SitesAPIResponse } from '@/container/sites/sitesTypes'
 
 import './SitesDashboard.scss'
+import { formatDate } from '@/utils/helper'
 
 const { ADD_SITE, SITE_DETAILS_PAGE, KEYWORDS_RANKING } = EXACT_ROUTES
 
@@ -75,7 +76,7 @@ const SitesDashboard = () => {
         <Typography text={value} color="info" link onClick={() => navigate(isKeywords ? KEYWORDS_RANKING : `${SITE_DETAILS_PAGE}/${record?.id}`)} />
       ),
     },
-    { header: 'Date', dataKey: 'created_at' },
+    { header: 'Date', dataKey: 'created_at', render: (text) => formatDate(text) },
     {
       header: '',
       render: (_, record) => (
@@ -130,7 +131,7 @@ const SitesDashboard = () => {
           <Container className="sites-dashboard-header container-bg" borderRadius boxShadow>
             <Flex justify="between">
               <Input StartIcon={<GoSearch />} name="search_site" placeholder="Search" value={query} onChange={(e) => setQuery(e.target.value)} />
-              <Button onClick={() => navigate(ADD_SITE)} size="sm" type="borderRadius">
+              <Button onClick={() => navigate(ADD_SITE)} size="sm" >
                 Add a New Site
               </Button>
             </Flex>
@@ -148,7 +149,7 @@ const SitesDashboard = () => {
                   <Typography text="It's easy! Just click the button." />
                   <Divider color="primary" />
                   <Table columns={columns} data={sitesList || []} />
-                  <Button onClick={() => navigate(ADD_SITE)} size="sm" type="borderRadius">
+                  <Button onClick={() => navigate(ADD_SITE)} size="sm" >
                     Add a New Site
                   </Button>
                 </Flex>

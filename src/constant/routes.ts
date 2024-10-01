@@ -1,14 +1,13 @@
 export const AUTH = {
-  BASE: '/auth',
-  LOGIN: 'login',
-  SIGNUP: 'signup',
-  PROFILE_PAGE: 'profile',
-  VERIFY_OTP: 'verify_otp',
+  LOGIN: 'signin',
+  SIGNUP: 'onboard',
+  PROFILE_PAGE: 'user-profile',
+  VERIFY_OTP: 'verify-top',
   UNAUTHORIZED: 'unauthorized',
-  RESET_PASSWORD: 'reset_password',
-  CHANGE_PASSWORD: 'change_password',
-  FORGET_PASSWORD: 'forget_password',
-  PERMISSION_DENIED: 'permission_denied',
+  RESET_PASSWORD: 'reset-password',
+  CHANGE_PASSWORD: 'update-password',
+  FORGET_PASSWORD: 'forgot-password',
+  PERMISSION_DENIED: 'permission-denied',
 }
 
 export const BILLING = {
@@ -21,15 +20,15 @@ export const BILLING = {
 }
 
 export const SITES = {
-  BASE: '/sites',
-  ADD_SITE: 'add-site',
+  BASE: '/airanker/websites',
+  ADD_SITE: 'add-website',
   SITES_PAGES: 'pages',
-  SITES_LIST: 'all-sites',
+  SITES_LIST: 'all-websites',
   SITE_SCHEMA_PAGE: 'schema',
   SITE_SETTING_PAGE: 'setting',
   SITES_DASHBOARD: 'dashboard',
-  SITE_INSIGHTS: 'site-insights',
-  SITE_DETAILS_PAGE: 'site-detail',
+  SITE_INSIGHTS: 'website-insights',
+  SITE_DETAILS_PAGE: 'website-detail',
   SCRIPT_SECTION: 'script-section',
   SITE_ACCESS_KEYS: 'access-tokens',
   RECOMMENDATIONS: 'recommendations',
@@ -38,15 +37,15 @@ export const SITES = {
 }
 
 export const EXACT_ROUTES = {
-  LOGIN: `${AUTH.BASE}/${AUTH.LOGIN}`,
+  LOGIN: `/${AUTH.LOGIN}`,
   PROFILE_PAGE: `/${AUTH.PROFILE_PAGE}`,
-  SIGNUP: `${AUTH.BASE}/${AUTH.SIGNUP}`,
-  VERIFY_OTP: `${AUTH.BASE}/${AUTH.VERIFY_OTP}`,
-  UNAUTHORIZED: `${AUTH.BASE}/${AUTH.UNAUTHORIZED}`,
-  RESET_PASSWORD: `${AUTH.BASE}/${AUTH.RESET_PASSWORD}`,
-  PERMISSION_DENIED: `${AUTH.BASE}/${AUTH.PERMISSION_DENIED}`,
-  CHANGE_PASSWORD: `${AUTH.BASE}/${AUTH.CHANGE_PASSWORD}`,
-  FORGET_PASSWORD: `${AUTH.BASE}/${AUTH.FORGET_PASSWORD}`,
+  SIGNUP: `/${AUTH.SIGNUP}`,
+  VERIFY_OTP: `/${AUTH.VERIFY_OTP}`,
+  UNAUTHORIZED: `/${AUTH.UNAUTHORIZED}`,
+  RESET_PASSWORD: `/${AUTH.RESET_PASSWORD}`,
+  PERMISSION_DENIED: `/${AUTH.PERMISSION_DENIED}`,
+  CHANGE_PASSWORD: `/${AUTH.CHANGE_PASSWORD}`,
+  FORGET_PASSWORD: `/${AUTH.FORGET_PASSWORD}`,
 
   PLANS: `${BILLING.BASE}/${BILLING.PLANS}`,
   CHECKOUT: `${BILLING.BASE}/${BILLING.CHECKOUT}`,

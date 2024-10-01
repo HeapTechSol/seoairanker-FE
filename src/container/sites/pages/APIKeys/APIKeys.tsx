@@ -33,7 +33,7 @@ const APIKeys = () => {
                   },
                 }}
               />
-              <Button size="sm" type="borderRadius">
+              <Button size="sm" >
                 Generate New API Key
               </Button>
             </Flex>

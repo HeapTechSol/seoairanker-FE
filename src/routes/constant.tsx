@@ -9,7 +9,7 @@ import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
 import { AUTH, BILLING, EXACT_ROUTES, SITES } from '@/constant/routes'
 import { useAppSelector } from '@/api/store'
 
-const { LOGIN, SIGNUP, RESET_PASSWORD, VERIFY_OTP, CHANGE_PASSWORD, FORGET_PASSWORD, PROFILE_PAGE, BASE: AUTH_BASE } = AUTH
+const { LOGIN, SIGNUP, RESET_PASSWORD, VERIFY_OTP, CHANGE_PASSWORD, FORGET_PASSWORD, PROFILE_PAGE } = AUTH
 
 const { PLANS, BILLING_DETAIL, PAYMENT_HISTORY, UPCOMING_INVOICES, CHECKOUT, BASE: BILLING_BASE } = BILLING
 
@@ -309,7 +309,6 @@ export const routes = createBrowserRouter([
     ],
   },
   {
-    path: AUTH_BASE,
     element: <AuthLayout />,
     children: [
       {

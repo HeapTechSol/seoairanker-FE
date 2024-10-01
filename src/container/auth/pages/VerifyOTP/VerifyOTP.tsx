@@ -30,7 +30,7 @@ const VerifyOTP = () => {
   };
 
   return (
-    <Container width={100} boxShadow borderRadius padding={"60px"} className="auth-form-container">
+    <Container width={100} boxShadow padding={"60px"} className="auth-form-container">
       <Flex vertical gap={24} align="center">
         <Flex vertical gap={12} align="center">
           <Typography text="Verify Your Account" type="h2" />
@@ -60,7 +60,7 @@ const VerifyOTP = () => {
         <Button
           disabled={disabled}
           onClick={verifyOTPHandler}
-          type="borderRadius"
+          
           size="md"
         >
           Verify OTP
@@ -81,7 +81,7 @@ const VerifyOTP = () => {
               )
             }
           />
-          <Button size="sm" disabled={!otpEnabled} type="borderRadius">
+          <Button size="sm" disabled={!otpEnabled} >
             Resend OTP
           </Button>
         </Flex>

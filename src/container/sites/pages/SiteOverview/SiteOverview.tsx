@@ -153,7 +153,7 @@ const SiteOverview = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPend
                     <Typography text={crawledInfo?.site_data?.total_approved || 0} className={'recommendations-overview__left-container__count'} />
                     <Typography text={`of ${crawledInfo?.site_data?.total_count || 0} Available`} />
                   </Flex>
-                  <Button size="sm" type="borderRadius" onClick={() => navigateToTab('automation')}>
+                  <Button size="sm"  onClick={() => navigateToTab('automation')}>
                     Recommendations
                   </Button>
                 </Flex>

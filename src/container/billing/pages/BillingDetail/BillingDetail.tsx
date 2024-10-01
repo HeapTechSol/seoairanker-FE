@@ -38,7 +38,7 @@ const BillingDetail = () => {
     <Container width={100}>
       <Flex vertical gap={16}>
         <Flex gap={16}>
-          <Container boxShadow borderRadius className="billing-details-container lg container-bg" padding={'40px'}>
+          <Container boxShadow className="billing-details-container lg container-bg" padding={'40px'}>
             <Loader loading={isUserQuotaLoading} overlay />
             <Flex vertical gap={12}>
               <Typography text="You're Subscribed" type="h3" />
@@ -107,27 +107,27 @@ const BillingDetail = () => {
                 </Flex>
               </Flex>
               <Flex padding={5} align="center" gap={16}>
-                <Button variant="outlined" type="borderRadius" size="sm" onClick={() => navigate(PLANS)}>
+                <Button variant="outlined"  size="sm" onClick={() => navigate(PLANS)}>
                   Edit Subscription
                 </Button>
-                <Button type="borderRadius" size="sm" onClick={() => setIsShowDeleteModal(true)}>
+                <Button  size="sm" onClick={() => setIsShowDeleteModal(true)}>
                   Cancel Subscription
                 </Button>
               </Flex>
             </Flex>
           </Container>
           <Flex vertical gap={16} justify="between" className="right-section sm ">
-            <Container boxShadow borderRadius className="billing-details-container sub-container container-bg" padding={'40px'}>
+            <Container boxShadow className="billing-details-container sub-container container-bg" padding={'40px'}>
               <Flex vertical gap={16} align="start">
                 <Typography text="Payment Information" type="h3" />
                 <Divider color="primary" />
                 <Typography text={`The card on file for your account ends with **** **** **** ${cardNumber || '####'}.`} />
-                {/* <Button type="borderRadius" size="sm">
+                {/* <Button  size="sm">
                   Update Payment Information
                 </Button> */}
               </Flex>
             </Container>
-            <Container boxShadow borderRadius className="billing-details-container sub-container container-bg" padding={'40px'}>
+            <Container boxShadow className="billing-details-container sub-container container-bg" padding={'40px'}>
               <Flex vertical gap={16} align="start">
                 <Typography text="Thank You" type="h3" />
                 <Divider color="primary" />
@@ -136,7 +136,7 @@ const BillingDetail = () => {
             </Container>
           </Flex>
         </Flex>
-        <Container boxShadow borderRadius width={100} className="billing-details-container container-bg" padding={'40px'}>
+        <Container boxShadow width={100} className="billing-details-container container-bg" padding={'40px'}>
           <Flex vertical gap={16} align="start">
             <Typography text="AI Engine Usage Information" type="h3" />
             <Divider color="primary" />
@@ -182,7 +182,7 @@ const BillingDetail = () => {
             </Flex>
           </Flex>
         </Container>
-        {/* <Container boxShadow borderRadius width={100} className="billing-details-container container-bg" padding={'40px'}>
+        {/* <Container boxShadow width={100} className="billing-details-container container-bg" padding={'40px'}>
           <Flex vertical gap={16} align="start">
             <Typography text="Crawls and Ranking Updates" type="h3" />
             <Divider color="primary" />

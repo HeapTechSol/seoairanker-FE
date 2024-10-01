@@ -19,8 +19,8 @@ const Login = () => {
     useLoginHandler()
 
   return (
-    <Container boxShadow borderRadius width={100} padding={'60px'} className="container-bg">
-      <Flex vertical gap={24} className="auth-form-box">
+    <Container boxShadow borderRadius width={30} padding={'60px'} className="container-bg">
+      <Flex vertical gap={24} className="auth-form-box" justify='end'>
         <Typography text="Sign In" type="h2" />
 
         <Flex vertical gap={24}>
@@ -30,7 +30,6 @@ const Login = () => {
               render={({ field: { onChange, value }, fieldState: { error } }) => {
                 return (
                   <Input
-                    borderRadius
                     type="email"
                     name="email"
                     title="Email"
@@ -55,7 +54,6 @@ const Login = () => {
               render={({ field: { onChange, value }, fieldState: { error } }) => {
                 return (
                   <Input
-                    borderRadius
                     value={value}
                     type="password"
                     name="password"
@@ -75,15 +73,13 @@ const Login = () => {
           </Flex>
         </Flex>
         <Flex vertical gap={12}>
-          <Button size="md" fullWidth loading={isLoading} variant="filled" type="borderRadius" onClick={handleSubmit(loginHandler)}>
+          <Button size="md" fullWidth loading={isLoading} variant="filled" onClick={handleSubmit(loginHandler)}>
             Sign In
           </Button>
           <Button
             size="md"
             fullWidth
-            color="error"
             variant="filled"
-            type="borderRadius"
             StartIcon={<FcGoogle />}
             loading={isGoogleLoading}
             onClick={() => onGoogleLogin()}

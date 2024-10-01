@@ -100,7 +100,7 @@ const CheckoutForm = ({ state }: CheckoutFormProps) => {
   return (
     <Flex vertical align="end" gap={32}>
       <PaymentElement />
-      <Button onClick={handlePayment} loading={loading} type="borderRadius">
+      <Button onClick={handlePayment} loading={loading} >
         {loading ? 'Processing...' : 'Pay'}
       </Button>
     </Flex>

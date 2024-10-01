@@ -46,7 +46,7 @@ const Modal = ({
       variant="outlined"
       onClick={() => onCancel()}
       size="sm"
-      type="borderRadius"
+      
     >
       {cancelText}
     </Button>
@@ -57,7 +57,7 @@ const Modal = ({
       variant="filled"
       loading={requestLoading}
       onClick={() => onSubmit()}
-      type="borderRadius"
+      
       size="sm"
       {...OkButtonProperties}
     >

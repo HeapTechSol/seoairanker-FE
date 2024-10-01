@@ -1,9 +1,10 @@
+import { HTMLAttributes } from 'react'
+
 import { classMapper } from '@/utils/helper'
 
 import { ColorsTypes } from '@/utils/commonTypes'
 
 import './Container.scss'
-import { HTMLAttributes } from 'react'
 
 type ContainerTypes = HTMLAttributes<HTMLDivElement> & {
   className?: string

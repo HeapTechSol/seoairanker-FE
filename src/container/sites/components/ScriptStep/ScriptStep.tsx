@@ -67,7 +67,7 @@ const ScriptStep = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
             }
           />
           <Flex justify="end">
-            <Button variant="outlined" size="sm" onClick={() => handleCopyClick(script)} type="borderRadius">
+            <Button variant="outlined" size="sm" onClick={() => handleCopyClick(script)} >
               Click to copy the code
             </Button>
           </Flex>

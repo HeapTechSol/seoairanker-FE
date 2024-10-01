@@ -17,7 +17,7 @@ const ForgetPassword = () => {
     useForgetPasswordHandler();
 
   return (
-    <Container width={100} boxShadow borderRadius padding={"60px"} className="auth-form-container">
+    <Container width={30} boxShadow padding={"60px"} className="auth-form-container">
       <Flex vertical gap={24} align="center" justify="center">
         <Typography text="Forgot Password" type="h2" />
         <Flex vertical justify="center" gap={16}>
@@ -46,7 +46,7 @@ const ForgetPassword = () => {
           variant="filled"
           fullWidth
           size="md"
-          type="borderRadius"
+          
           onClick={handleSubmit(forgetPasswordHandler)}
         >
           Send OTP

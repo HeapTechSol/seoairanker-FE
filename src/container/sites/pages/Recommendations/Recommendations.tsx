@@ -105,7 +105,7 @@ const Recommendations = ({
                 }
               />
               <Flex gap={16} align="center">
-                <Button type="borderRadius" loading={reCrawlLoading} onClick={reCrawlSite}>
+                <Button  loading={reCrawlLoading} onClick={reCrawlSite}>
                   Regenerate Recommendation
                 </Button>
                 <Typography text={`Last updated ${getTime(crawledInfo?.site_data?.last_crawl || '') || ''}`} />

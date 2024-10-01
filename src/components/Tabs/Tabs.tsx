@@ -102,7 +102,7 @@ const Tabs = <T extends boolean>({
             key={index}
             color={tabColor}
             variant={variant}
-            type="borderRadius"
+            
             className={buttonCSSClasses(index)}
             onClick={() => handleTabClick(index)}
           >

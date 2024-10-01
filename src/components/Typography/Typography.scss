@@ -148,12 +148,27 @@
 
   &.link {
     cursor: pointer;
+  }
+
+  &.link.center {
+    cursor: pointer;
+    align-self: center;
+  }
+
+  &.link.left {
+    cursor: pointer;
     align-self: flex-start;
+  }
+  
+  &.link.right {
+    cursor: pointer;
+    align-self: flex-end;
   }
 
   &.center {
     text-align: center;
   }
+
   &.right {
     text-align: right;
   }

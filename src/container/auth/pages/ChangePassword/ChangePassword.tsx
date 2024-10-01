@@ -17,7 +17,7 @@ const ChangePassword = () => {
     useChangePasswordHandler();
 
   return (
-    <Container width={100} boxShadow borderRadius padding={"40px 80px"}>
+    <Container width={100} boxShadow padding={"40px 80px"}>
       <Flex vertical gap={24} align="center" justify="center">
         <Typography text="Change Password" type="h2" />
         <Flex vertical justify="center" gap={16}>
@@ -86,7 +86,7 @@ const ChangePassword = () => {
           variant="filled"
           fullWidth
           size="md"
-          type="borderRadius"
+          
           onClick={handleSubmit(changePasswordHandler)}
         >
           Change Password

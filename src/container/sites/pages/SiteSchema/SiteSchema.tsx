@@ -45,7 +45,12 @@ const SiteSchema = () => {
     }
   }
 
-  const isUnKnownExits = schemaTypesData?.some((item) => item.label === 'Unknown')
+  const pagesData = schemaTypesData?.schema?.filter((item) => item.label !== 'Unknown')
+
+  useEffect(() => {
+    setSelectedKeys(pagesData?.filter((item) => item.selected)?.map((item) => item.label) || [])
+    setDurationValue(schemaTypesData?.crawl_interval || '')
+  }, [schemaTypesData])
 
   useEffect(() => {
     if (id) getSiteCrawledInfoData({ site_id: id })
@@ -90,11 +95,11 @@ const SiteSchema = () => {
               />
               <Typography text={`Limit page types to generate schemas for:`} />
               <Flex vertical gap={8}>
-                {isUnKnownExits ? (
+                {!pagesData?.length ? (
                   <Typography text="We are generating schema, Once you will got the email that we are done with recommendations, setting for schema will be enabled" />
                 ) : (
                   <>
-                    {schemaTypesData?.map((item, index) => (
+                    {pagesData?.map((item, index) => (
                       <Flex align="center" gap={8} key={`${index}${item.label}`}>
                         <Checkbox
                           name="article"
@@ -120,10 +125,10 @@ const SiteSchema = () => {
             </Flex>
             <Divider margin={24} />
             <Button
-              type="borderRadius"
+              
               loading={approveSchemaLoading}
               disabled={!selectedKeys?.length}
-              onClick={() => approveSchema({ id: id || '', schema_types: selectedKeys })}
+              onClick={() => approveSchema({ id: id || '', schema_types: selectedKeys, crawl_interval: durationValue as string })}
             >
               Save Changes
             </Button>

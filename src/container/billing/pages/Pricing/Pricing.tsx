@@ -78,10 +78,10 @@ const Pricing = () => {
   }
 
   const BUTTON_TEXT = {
-    Basic: 'Request Demo',
+    Basic: 'Get Started',
     Enterprise: 'Get Started',
     Agency: 'Get Started',
-    'Basic Annual': 'Request Demo',
+    'Basic Annual': 'Get Started',
     'Agency Annual': 'Get Started',
     'Enterprise Annual': 'Get Started',
   }

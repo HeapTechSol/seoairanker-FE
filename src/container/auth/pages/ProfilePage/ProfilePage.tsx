@@ -103,7 +103,7 @@ const ProfilePage = () => {
               }}
               control={userProfileControl}
             />
-            <Button type="borderRadius" loading={updateUserLoading} onClick={saveUserProfile(updateProfile)}>
+            <Button  loading={updateUserLoading} onClick={saveUserProfile(updateProfile)}>
               Update Profile
             </Button>
           </Flex>
@@ -151,7 +151,7 @@ const ProfilePage = () => {
             }}
             control={control}
           />
-          <Button variant="filled" size="md" loading={updatePasswordLoading} type="borderRadius" onClick={handleSubmit(changePasswordHandler)}>
+          <Button variant="filled" size="md" loading={updatePasswordLoading}  onClick={handleSubmit(changePasswordHandler)}>
             Change Password
           </Button>
         </Flex>

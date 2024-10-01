@@ -91,13 +91,12 @@ const Stepper = ({
 
         {showInternalButtons && (
           <div className="stepper-controls">
-            <Button variant="outlined" onClick={handleBack} type="borderRadius" disabled={!currentStep || requestLoading}>
+            <Button variant="outlined" onClick={handleBack} disabled={!currentStep || requestLoading}>
               Back
             </Button>
 
             <Button
               variant="filled"
-              type="borderRadius"
               onClick={!requestLoading ? (lastStep ? submitHandler : handleNext) : () => null}
               loading={requestLoading}
               disabled={nextButtonDisabled}

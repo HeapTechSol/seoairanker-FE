@@ -85,7 +85,7 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
           size="sm"
           variant="outlined"
           onClick={(e) => onApprove(e, record.id, record.link_id, record.url, !record.approved)}
-          type="borderRadius"
+          
           color={record.approved ? 'error' : 'success'}
           loading={editedId === record.id && isSingleApproveLoading}
         >
@@ -135,7 +135,7 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
               <Button
                 size="sm"
                 variant="outlined"
-                type="borderRadius"
+                
                 color="success"
                 disabled={isApproved}
                 loading={isSubBulkApproveLoading}
@@ -148,7 +148,7 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
           <Flex vertical align="center" gap={24} className="preview-details-list" padding="0px 40px 40px 40px">
             <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
             {isLoadMore && (
-              <Button color="info" variant="text" type="borderRadius" onClick={handleLoadMore}>
+              <Button color="info" variant="text"  onClick={handleLoadMore}>
                 Load More
               </Button>
             )}

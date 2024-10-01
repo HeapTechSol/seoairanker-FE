@@ -36,7 +36,7 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
     // {
     //   id: 1,
     //   name: (
-    //     <Button fullWidth variant="filled" color="primary" type="borderRadius">
+    //     <Button fullWidth variant="filled" color="primary" >
     //       Download PDF
     //     </Button>
     //   ),
@@ -45,7 +45,7 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
       id: 2,
       onClick: () => exportDataToCSV({ site_id: String(site?.id) }),
       name: (
-        <Button fullWidth variant="filled" color="primary" type="borderRadius">
+        <Button fullWidth variant="filled" color="primary" >
           Download CSV
         </Button>
       ),
@@ -76,7 +76,7 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
           <Flex className="site-info-controls" justify="end" align="center">
             <Tooltip content={'Snippet is not installed'}>
               <Button
-                type="borderRadius"
+                
                 onlyIcon
                 size="sm"
                 color="warning"
@@ -86,7 +86,7 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
               />
             </Tooltip>
             {/* <Button
-              type="borderRadius"
+              
               onlyIcon
               size="sm"
               color="info"
@@ -94,9 +94,9 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
               StartIcon={<IoSettingsOutline />}
               onClick={() => console.log('clicked')}
             /> */}
-            <Button type="borderRadius" onlyIcon size="sm" color="error" variant="text" fill StartIcon={<RiDeleteBin6Line />} onClick={onClick} />
+            <Button  onlyIcon size="sm" color="error" variant="text" fill StartIcon={<RiDeleteBin6Line />} onClick={onClick} />
             <Dropdown options={reportsMenu} onSelect={() => null} className="profile-dropdown-list" dropDownPlacement="right">
-              <Button type="borderRadius" onlyIcon size="sm" color="primary" variant="text" StartIcon={<FaDownload />} onClick={() => null} />
+              <Button  onlyIcon size="sm" color="primary" variant="text" StartIcon={<FaDownload />} onClick={() => null} />
             </Dropdown>
           </Flex>
         </Flex>

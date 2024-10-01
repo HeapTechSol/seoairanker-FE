@@ -164,7 +164,7 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
             <Button
               size="sm"
               variant="outlined"
-              type="borderRadius"
+              
               color="success"
               disabled={isApproved}
               loading={isSubBulkApproveLoading}
@@ -186,7 +186,7 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
                       size="sm"
                       variant="outlined"
                       onClick={(e) => onApprove(e, item.id, item.linkId, !item.approve)}
-                      type="borderRadius"
+                      
                       color={item.approve ? 'error' : 'success'}
                       loading={editedId === item.id && isSingleApproveLoading}
                     >
@@ -197,7 +197,7 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
               ))}
             </Flex>
             {isLoadMore && (
-              <Button color="info" variant="text" type="borderRadius" onClick={handleLoadMore}>
+              <Button color="info" variant="text"  onClick={handleLoadMore}>
                 Load More
               </Button>
             )}

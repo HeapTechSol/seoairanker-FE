@@ -105,7 +105,7 @@ const KeywordsRankingDetail = () => {
                   <Typography text="35,775" className={'recommendations-overview__left-container__count'} />
                   <Typography text="of 40,800 Available" />
                 </Flex>
-                <Button size="sm" type="borderRadius">
+                <Button size="sm" >
                   Recommendations
                 </Button>
               </Flex>

@@ -21,7 +21,7 @@ const SignUp = () => {
   const { control, isLoading, handleSubmit, signUpHandler, alreadyHaveAccountClick } = useSignUpHandler()
 
   return (
-    <Container width={100} boxShadow borderRadius padding={'60px'} className="auth-form-container">
+    <Container width={30} boxShadow padding={'60px'} className="auth-form-container">
       <Flex vertical gap={24}>
         <Typography text="Sign Up" type="h2" />
         <Flex vertical justify="center" gap={24}>
@@ -127,7 +127,7 @@ const SignUp = () => {
           <Typography text="Already have and account?" link onClick={alreadyHaveAccountClick} />
         </Flex>
         <Flex vertical gap={12}>
-          <Button size="md" fullWidth loading={isLoading} variant="filled" type="borderRadius" onClick={handleSubmit(signUpHandler)}>
+          <Button size="md" fullWidth loading={isLoading} variant="filled"  onClick={handleSubmit(signUpHandler)}>
             Sign Up
           </Button>
           <Button
@@ -135,7 +135,7 @@ const SignUp = () => {
             fullWidth
             color="error"
             variant="filled"
-            type="borderRadius"
+            
             StartIcon={<FcGoogle />}
             onClick={() => onGoogleLogin()}
             fill

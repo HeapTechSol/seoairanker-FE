@@ -46,19 +46,19 @@ const Drawer = ({
         <div className="drawer-header">
           {title && <h2 className="drawer-title">{title}</h2>}
           {showCloseIcon && (
-            <Button className="drawer-close" variant="text" type="borderRadius" color="error" onClick={onClose} onlyIcon EndIcon={<IoCloseSharp />} />
+            <Button className="drawer-close" variant="text"  color="error" onClick={onClose} onlyIcon EndIcon={<IoCloseSharp />} />
           )}
         </div>
         <div className="drawer-content">{children}</div>
         {showFooter && (
           <Flex className={`drawer-footer`} justify={footerPosition}>
             {cancelText && (
-              <Button className="drawer-cancel" variant="outlined" onClick={onCancel} type="borderRadius">
+              <Button className="drawer-cancel" variant="outlined" onClick={onCancel} >
                 {cancelText}
               </Button>
             )}
             {submitText && (
-              <Button className="drawer-submit" onClick={onSubmit} type="borderRadius" loading={submitButtonLoading}>
+              <Button className="drawer-submit" onClick={onSubmit}  loading={submitButtonLoading}>
                 {submitText}
               </Button>
             )}

@@ -108,7 +108,7 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
         navigate(LOGIN)
       },
       name: (
-        <Button size="md" color="common" type="borderRadius" variant="text" StartIcon={<IoLogOutOutline />}>
+        <Button size="md" color="common"  variant="text" StartIcon={<IoLogOutOutline />}>
           Log out
         </Button>
       ),
@@ -163,10 +163,10 @@ const TopBar = ({ sidebarRef }: { sidebarRef: React.RefObject<HTMLDivElement> })
           <Flex justify="end" gap={16}>
             {!user?.access_token && (
               <>
-                <Button type="borderRadius" color="info" variant="text" StartIcon={<FaRegUser />} onClick={() => navigate(LOGIN)}>
+                <Button  color="info" variant="text" StartIcon={<FaRegUser />} onClick={() => navigate(LOGIN)}>
                   Login
                 </Button>
-                <Button type="borderRadius" onClick={() => navigate(SIGNUP)}>
+                <Button  onClick={() => navigate(SIGNUP)}>
                   Sign Up
                 </Button>
               </>

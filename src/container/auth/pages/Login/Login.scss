@@ -1,4 +1,11 @@
-.auth-form-container{
+.auth-form-container {
   background-color: var(--container-bg-color);
-  border-radius: 7px;
+}
+
+.auth-form-box{
+  button:last-child{
+    background-color: #09EAEC !important;
+    border-color: #09EAEC !important;
+    color:#000000 !important
+  }
 }

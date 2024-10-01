@@ -48,7 +48,7 @@ const PlanCard = ({
   stripe_price_id,
 }: PlanCard) => {
   return (
-    <Container boxShadow borderRadius padding={40} className="plan-card  container-bg">
+    <Container boxShadow padding={40} className="plan-card  container-bg">
       <Flex vertical gap={20}>
         <Flex gap={20} justify="between" align="center">
           <Typography color={color} type="h1" size="lg" text={type} />
@@ -144,7 +144,7 @@ const PlanCard = ({
             <Button
               size="lg"
               fullWidth
-              type="borderRadius"
+              
               color={buttonColor}
               loading={loading}
               onClick={() => {

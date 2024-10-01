@@ -220,7 +220,7 @@ const KeywordsTrendingChart: React.FC = () => {
             <Button
               size="sm"
               variant="text"
-              type="borderRadius"
+              
               onClick={() => setTypeSelection('ranking')}
               className={`chart-tab ${typeSelection === 'ranking' ? 'active' : ''}`}
             >
@@ -229,7 +229,7 @@ const KeywordsTrendingChart: React.FC = () => {
             <Button
               size="sm"
               variant="text"
-              type="borderRadius"
+              
               onClick={() => setTypeSelection('traffic')}
               className={`chart-tab ${typeSelection === 'traffic' ? 'active' : ''}`}
             >
@@ -240,7 +240,7 @@ const KeywordsTrendingChart: React.FC = () => {
             <Button
               size="sm"
               variant="text"
-              type="borderRadius"
+              
               onClick={() => setDurationSelection(7)}
               className={`chart-btn ${durationSelection === 7 ? 'active' : ''}`}
             >
@@ -249,7 +249,7 @@ const KeywordsTrendingChart: React.FC = () => {
             <Button
               size="sm"
               variant="text"
-              type="borderRadius"
+              
               onClick={() => setDurationSelection(30)}
               className={`chart-btn ${durationSelection === 30 ? 'active' : ''}`}
             >
@@ -258,7 +258,7 @@ const KeywordsTrendingChart: React.FC = () => {
             <Button
               size="sm"
               variant="text"
-              type="borderRadius"
+              
               onClick={() => setDurationSelection(365)}
               className={`chart-btn ${durationSelection === 365 ? 'active' : ''}`}
             >

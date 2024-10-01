@@ -19,8 +19,10 @@ import {
   SchemaResponseTypes,
   ModalTypes,
   ModalDataTypes,
+  AllModalDataTypes,
 } from '../sitesTypes'
 import { MaybeDrafted } from 'node_modules/@reduxjs/toolkit/dist/query/core/buildThunks'
+import { RootState } from '@/api/store'
 
 const {
   ADD_SITE,
@@ -135,17 +137,43 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
       }),
       invalidatesTags: (_result, error) => (error ? [] : ['userQuota']),
       async onQueryStarted(payload, { dispatch, queryFulfilled, getState }) {
-        // @ts-ignore
-        const selectedEntityOfModel = getState().sites?.recommendationData?.data?.find((item) => item.id == payload.filter_conditions.id)
+        const state = getState() as RootState
+
+        const recommendationsByTypeData = sitesAPI.endpoints.getRecommendationsByType.select({
+          page: state.sites?.recommendationData?.page || 1,
+          per_page: state.sites?.recommendationData?.per_page || 10,
+          type: (payload.model as ModalTypes) || state.sites?.recommendationData?.modal,
+          link_id: payload.filter_conditions.link_id || '',
+          site_id: payload.filter_conditions.site_id,
+        })(state)
+
+        const filterActiveData = recommendationsByTypeData?.data?.data?.filter((item) => item.approved)
+
+        const countAlreadyInserted = filterActiveData?.reduce((prev, curr) => {
+          return (prev += Number(curr.count))
+        }, 0)
+
+        const selectedEntityOfModelCount = Number(
+          state.sites?.recommendationData?.data?.find((item) => item.id == payload.filter_conditions.id)?.count || 1
+        )
+
         const updateSiteData = (draft: MaybeDrafted<CrawledInfoAPIResponseTypes>) => {
           if (payload.bulk && !payload.model) {
-            const siteData = { total_approved: draft.data.site_data?.total_approved ? 0 : draft.data.site_data?.total_count }
-            const modalData = draft.data.model_data?.map((item) => ({ ...item, approved: draft.data.site_data?.total_approved ? 0 : item.total }))
+            const siteData = { total_approved: payload.update_data.approved ? draft.data.site_data?.total_count : 0 }
+            const modalData = draft.data.model_data?.map((item) => ({ ...item, approved: payload.update_data.approved ? item.total : 0 }))
             return { siteData, modalData }
           }
+
+          const modalAlreadyApprovedCount = recommendationsByTypeData?.data?.approved_count
           const selectedModal = draft.data.model_data?.find((item) => item.model === payload.model)
+          const greaterNumber = Math.max(modalAlreadyApprovedCount || 0, countAlreadyInserted || 0)
           if (payload.bulk && payload.model && selectedModal) {
-            const siteData = { total_approved: (draft.data.site_data?.total_approved || 0) + selectedModal.total }
+            const siteData = {
+              total_approved:
+                (greaterNumber ? (draft.data.site_data?.total_approved || 0) - greaterNumber : draft.data.site_data?.total_approved || 0) +
+                selectedModal.total,
+            }
+
             const modalData = draft.data.model_data?.map((item) => {
               if (item.model === selectedModal.model) return { ...item, approved: selectedModal.total }
               return item
@@ -153,23 +181,23 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
             return { siteData, modalData }
           }
 
-          if (payload.model && !payload.bulk && selectedEntityOfModel) {
+          if (payload.model && !payload.bulk && selectedEntityOfModelCount) {
             const siteData = {
               total_approved: payload.update_data.approved
-                ? (draft.data.site_data?.total_approved || 0) + (selectedEntityOfModel?.count || 1)
-                : (draft.data.site_data?.total_approved || 0) - (selectedEntityOfModel?.count || 1),
+                ? (draft.data.site_data?.total_approved || 0) + selectedEntityOfModelCount
+                : (draft.data.site_data?.total_approved || 0) - selectedEntityOfModelCount,
             }
-
             const modalData = draft.data.model_data?.map((item) => {
               if (item.model === payload.model)
                 return {
                   ...item,
                   approved: payload.update_data.approved
-                    ? (item.approved || 0) + (selectedEntityOfModel?.count || 1)
-                    : (item.approved || 0) - (selectedEntityOfModel?.count || 1),
+                    ? (item.approved || 0) + selectedEntityOfModelCount
+                    : (item.approved || 0) - selectedEntityOfModelCount,
                 }
               return item
             })
+
             return { siteData, modalData }
           }
         }
@@ -192,44 +220,38 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
           sitesAPI.util.updateQueryData(
             'getRecommendationsByType',
             {
-              // @ts-ignore
-              page: getState().sites?.recommendationData?.page || 1,
-              // @ts-ignore
-              per_page: getState().sites?.recommendationData?.per_page || 10,
-              // @ts-ignore
-              type: (payload.model as ModalTypes) || getState().sites?.recommendationData?.modal,
+              page: state.sites?.recommendationData?.page || 1,
+              per_page: state.sites?.recommendationData?.per_page || 10,
+              type: (payload.model as ModalTypes) || state.sites?.recommendationData?.modal,
               link_id: payload.filter_conditions.link_id || '',
               site_id: payload.filter_conditions.site_id,
             },
-            (draft) => {
+            (draft: GetRecommendationsByModelAPIResponseTypes) => {
               if (payload.bulk && !payload.model) {
                 draft.approved_count = payload.update_data.approved ? draft.total_count : 0
                 draft.unapproved_count = payload.update_data.approved ? 0 : draft.total_count
-                // @ts-ignore
-                draft.data = draft.data?.map((item) => ({ ...item, approved: payload.update_data.approved }))
+                draft.data = draft.data?.map((item) => ({ ...item, approved: payload.update_data.approved })) as AllModalDataTypes
                 return
               }
               if (!payload.bulk) {
-                // @ts-ignore
                 draft.data = draft.data?.map((item) => {
                   if (item.id == payload.filter_conditions.id) {
                     return { ...item, approved: payload.update_data.approved }
                   }
                   return item
-                })
+                }) as AllModalDataTypes
                 draft.approved_count = payload.update_data.approved
-                  ? draft.approved_count + (selectedEntityOfModel.count || 1)
-                  : draft.approved_count - (selectedEntityOfModel.count || 1)
+                  ? draft.approved_count + selectedEntityOfModelCount
+                  : draft.approved_count - selectedEntityOfModelCount
                 draft.unapproved_count = payload.update_data.approved
-                  ? draft.approved_count - (selectedEntityOfModel.count || 1)
-                  : draft.approved_count + (selectedEntityOfModel.count || 1)
+                  ? draft.approved_count - selectedEntityOfModelCount
+                  : draft.approved_count + selectedEntityOfModelCount
                 return
               }
               if (payload.bulk && payload.model) {
                 draft.approved_count = draft.total_count
                 draft.unapproved_count = 0
-                // @ts-ignore
-                draft.data = draft.data?.map((item) => ({ ...item, approved: payload.update_data.approved }))
+                draft.data = draft.data?.map((item) => ({ ...item, approved: payload.update_data.approved })) as AllModalDataTypes
                 return
               }
             }
@@ -244,18 +266,18 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         }
       },
     }),
-    approveSiteSchema: builder.mutation<{ message: string }, { id: string; schema_types: string[] }>({
+    approveSiteSchema: builder.mutation<{ message: string }, { id: string; schema_types: string[]; crawl_interval: string }>({
       query: (payload) => ({
         url: `${GENERATE_SITE_SCHEMA}/${payload.id}`,
         method: 'PATCH',
-        body: { schema_types: payload.schema_types },
+        body: { schema_types: payload.schema_types, crawl_interval: payload.crawl_interval },
       }),
     }),
     getSightInsights: builder.query({
-      query: (payload) => ({
+      query: (id) => ({
         url: SITE_PAGE_INSIGHTS,
         method: 'GET',
-        params: payload,
+        params: { id },
       }),
     }),
     getNotifications: builder.query<NotificationsAPIResponseTypes, NotificationAPIPayloadTypes>({

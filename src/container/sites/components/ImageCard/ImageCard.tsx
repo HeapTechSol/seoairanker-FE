@@ -54,7 +54,7 @@ const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
             size="sm"
             variant="outlined"
             onClick={(e) => onApprove(e, id, linkId, imageUrl, !isApproved)}
-            type="borderRadius"
+            
             color={isApproved ? 'error' : 'success'}
             loading={id === editedId && loading}
           >

@@ -128,8 +128,8 @@ const Settings = () => {
               </Flex>
             </Container>
             <Flex gap={32}>
-              <Button type="borderRadius">Update</Button>
-              <Button type="borderRadius" variant="text" onClick={() => navigate(-1)}>
+              <Button >Update</Button>
+              <Button  variant="text" onClick={() => navigate(-1)}>
                 Cancel
               </Button>
             </Flex>
