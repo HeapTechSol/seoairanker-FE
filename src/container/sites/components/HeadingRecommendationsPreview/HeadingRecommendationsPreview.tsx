@@ -14,7 +14,7 @@ import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommend
 import { EditIcon } from '@/assets/icons/svgs'
 import { HeadingOptimizationDataTypes } from '@/container/sites/sitesTypes'
 import { sitesAPI } from '../../api/sitesAPI'
-import { store } from '@/api/store'
+import { store, useAppSelector } from '@/api/store'
 
 const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { id: siteId } = useParams()
@@ -31,6 +31,7 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
     isSubBulkApproveLoading,
   } = useHandleRecommendations()
 
+  const isApproveAPICallInProgress = useAppSelector(state=>state.sites.isApproveAPICallInProgress)
   const recommendation = recommendationData?.data.find((item) => item.link_id)
 
   const handleAllRecommendations = async () => {
@@ -41,8 +42,8 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
         update_data: { approved: true },
         bulk: true,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'heading_suggestions', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'heading_suggestions', link_id: externalLinkId })
     }
   }
 
@@ -56,8 +57,8 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
         update_data: { approved: status },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'heading_suggestions', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'heading_suggestions', link_id: externalLinkId })
     }
   }
 
@@ -110,8 +111,8 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
         update_data: { approved: true, suggested_heading: text },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'heading_suggestions', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'heading_suggestions', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
@@ -166,7 +167,7 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
               variant="outlined"
               type="borderRadius"
               color="success"
-              disabled={isApproved}
+              disabled={isApproved || isApproveAPICallInProgress}
               loading={isSubBulkApproveLoading}
               onClick={handleAllRecommendations}
             >
@@ -188,6 +189,7 @@ const HeadingRecommendationsPreview = ({ link_id: externalLinkId }: { link_id: s
                       onClick={(e) => onApprove(e, item.id, item.linkId, !item.approve)}
                       type="borderRadius"
                       color={item.approve ? 'error' : 'success'}
+                      disabled={isApproveAPICallInProgress}
                       loading={editedId === item.id && isSingleApproveLoading}
                     >
                       {item.approve ? 'Reject' : 'Approve'}

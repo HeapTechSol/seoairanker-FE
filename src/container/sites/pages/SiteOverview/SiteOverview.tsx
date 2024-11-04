@@ -10,22 +10,21 @@ import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import KeywordProgress from '@/container/sites/components/KeywordProgress/KeywordProgress'
 
-import { VscGraphLine } from 'react-icons/vsc'
+// import { VscGraphLine } from 'react-icons/vsc'
 import { GrInstallOption } from 'react-icons/gr'
 import { FaRegCircleCheck } from 'react-icons/fa6'
 import { MdOutlineRecommend, MdOutlineSchema, MdOutlineWatchLater } from 'react-icons/md'
 
-
-import { EXACT_ROUTES } from '@/constant/routes'
-import { CrawledInfoAPIResponseTypes, ModalTypes } from '@/container/sites/sitesTypes'
+import {  ModalTypes } from '@/container/sites/sitesTypes'
 
 import './SiteOverview.scss'
+import { useAppSelector } from '@/api/store'
 
-const { SCRIPT_SECTION } = EXACT_ROUTES
-
-const SiteOverview = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPending: boolean; crawledInfo: CrawledInfoAPIResponseTypes['data'] }) => {
+const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean;  }) => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+
+  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
   const getModalRecommendationsCountByType = (modal: ModalTypes) => crawledInfo?.model_data?.find((item) => item.model === modal)?.total
 
@@ -47,11 +46,7 @@ const SiteOverview = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPend
         <Flex vertical gap={40} className="top-container">
           <Loader loading={isGetSiteDataPending} overlay />
           <Grid gap={16} minMax={500} minWidth={200}>
-            <Container
-              className="container-bg checklist__item"
-              style={{ cursor: 'pointer' }}
-              onClick={() => navigate(`${SCRIPT_SECTION}/${crawledInfo?.site_data?.id}`)}
-            >
+            <Container className="container-bg checklist__item" style={{ cursor: 'pointer' }} onClick={() => navigateToTab('script')}>
               <Flex>
                 <Flex align="center" gap={16}>
                   <GrInstallOption className="item-icon" />
@@ -64,7 +59,7 @@ const SiteOverview = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPend
                 )}
               </Flex>
             </Container>
-            <Container className="container-bg checklist__item" style={{ cursor: 'pointer' }} onClick={() => navigateToTab('keywords')}>
+            {/* <Container className="container-bg checklist__item" style={{ cursor: 'pointer' }} onClick={() => navigateToTab('keywords')}>
               <Flex>
                 <Flex align="center" gap={16}>
                   <VscGraphLine className="item-icon" />
@@ -76,12 +71,12 @@ const SiteOverview = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPend
                   <MdOutlineWatchLater className="checkmark-icon watch" />
                 )}
               </Flex>
-            </Container>
-            <Container className="container-bg checklist__item">
+            </Container> */}
+            <Container className="container-bg checklist__item" style={{ cursor: 'pointer' }} onClick={() => navigateToTab('automation')}>
               <Flex>
                 <Flex align="center" gap={16}>
                   <MdOutlineRecommend className="item-icon" />
-                  <Typography text="Configure Recommendations" />
+                  <Typography text="Recommendations" />
                 </Flex>
                 {crawledInfo?.site_data?.recommendations_generated ? (
                   <FaRegCircleCheck className="checkmark-icon" />
@@ -90,11 +85,11 @@ const SiteOverview = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPend
                 )}
               </Flex>
             </Container>
-            <Container className="container-bg checklist__item">
+            <Container className="container-bg checklist__item" style={{ cursor: 'pointer' }} onClick={() => navigateToTab('Schema')}>
               <Flex>
                 <Flex align="center" gap={16}>
                   <MdOutlineSchema className="item-icon" />
-                  <Typography text="Configure Schema" />
+                  <Typography text="Schema" />
                 </Flex>
                 {crawledInfo?.site_data?.schema_configured ? (
                   <FaRegCircleCheck className="checkmark-icon" />

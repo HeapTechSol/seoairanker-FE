@@ -21,6 +21,10 @@ export type LoginPayload = {
   password: string
 }
 
+export type ForgotPasswordPayload = {
+  email: string
+}
+
 export type SignUpPayload = {
   firstName: string
   lastName: string
@@ -36,7 +40,12 @@ export type UpdateUserProfilePayload = {
 }
 
 export type UpdateUserPasswordPayload = {
- new_password:string
+  new_password: string
+}
+
+export type ResetUserPasswordPayload = {
+  token: string
+  new_password:string
 }
 
 export type GoogleLoginPayload = {

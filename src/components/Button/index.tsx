@@ -43,7 +43,7 @@ const Button = forwardRef(
       fill: fill,
     })
 
-    const loader = !disabled && loading && <img src={LoadingIcon} alt="loading-icon" />
+    const loader =  loading && <img src={LoadingIcon} alt="loading-icon" />
 
     const onEnterPress = (e: KeyboardEvent<HTMLButtonElement>) => {
       if (e.key === 'Enter') {

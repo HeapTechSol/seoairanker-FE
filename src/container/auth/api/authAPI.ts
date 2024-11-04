@@ -3,7 +3,7 @@ import { APIEndpoint } from '@/constant/apiEndPoints'
 
 import * as authTypes from '../authTypes'
 
-const { LOGIN, SIGNUP, GOOGLE_AUTH, UPDATE_PROFILE, UPDATE_PASSWORD } = APIEndpoint
+const { LOGIN, SIGNUP, GOOGLE_AUTH, UPDATE_PROFILE, UPDATE_PASSWORD, FORGOT_PASSWORD, RESET_PASSWORD } = APIEndpoint
 
 export const authApi = baseQueryApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -42,8 +42,30 @@ export const authApi = baseQueryApi.injectEndpoints({
         body: payload,
       }),
     }),
+    forgotPassword: builder.mutation<{ message: string }, authTypes.ForgotPasswordPayload>({
+      query: (payload) => ({
+        url: FORGOT_PASSWORD,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+    resetPassword: builder.mutation<{ message: string }, authTypes.ResetUserPasswordPayload>({
+      query: (payload) => ({
+        url: RESET_PASSWORD,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
   }),
   overrideExisting: false,
 })
 
-export const { useLazySignInQuery, useLazySignUpQuery, useUpdateUserProfileMutation, useUpdateUserPasswordMutation, useLazyGoogleAuthQuery } = authApi
+export const {
+  useLazySignInQuery,
+  useLazySignUpQuery,
+  useLazyGoogleAuthQuery,
+  useResetPasswordMutation,
+  useForgotPasswordMutation,
+  useUpdateUserProfileMutation,
+  useUpdateUserPasswordMutation,
+} = authApi

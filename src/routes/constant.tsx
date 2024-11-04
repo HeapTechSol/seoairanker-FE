@@ -22,7 +22,7 @@ const {
   SITES_DASHBOARD,
   SITE_SCHEMA_PAGE,
   SITE_ACCESS_KEYS,
-  KEYWORDS_RANKING,
+  // KEYWORDS_RANKING,
   SITE_DETAILS_PAGE,
   SITE_SETTING_PAGE,
   ADD_SITES_NEW_KEYWORDS,
@@ -67,7 +67,11 @@ export const routes = createBrowserRouter([
         async lazy() {
           const { default: Pricing } = await import('../container/billing/pages/Pricing/Pricing')
           return {
-            Component: (props) => <Pricing {...props} />,
+            Component: (props) => (
+              <ProtectedRoute>
+                <Pricing {...props} />
+              </ProtectedRoute>
+            ),
           }
         },
       },
@@ -139,30 +143,29 @@ export const routes = createBrowserRouter([
         async lazy() {
           const { default: Recommendations } = await import('../container/sites/pages/Recommendations/Recommendations')
           const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
-          const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
           return {
             Component: (props) => (
               <ProtectedRoute>
-                <Recommendations {...props} isGetSiteDataPending={isGetSiteDataPending} crawledInfo={crawledInfo} />
+                <Recommendations {...props} isGetSiteDataPending={isGetSiteDataPending} />
               </ProtectedRoute>
             ),
           }
         },
       },
-      {
-        path: KEYWORDS_RANKING,
-        errorElement: <ErrorBoundary />,
-        async lazy() {
-          const { default: KeywordsRankingDetail } = await import('../container/sites/pages/KeywordsRankingDetail/KeywordsRankingDetail')
-          return {
-            Component: (props) => (
-              <ProtectedRoute>
-                <KeywordsRankingDetail {...props} />
-              </ProtectedRoute>
-            ),
-          }
-        },
-      },
+      // {
+      //   path: KEYWORDS_RANKING,
+      //   errorElement: <ErrorBoundary />,
+      //   async lazy() {
+      //     const { default: KeywordsRankingDetail } = await import('../container/sites/pages/KeywordsRankingDetail/KeywordsRankingDetail')
+      //     return {
+      //       Component: (props) => (
+      //         <ProtectedRoute>
+      //           <KeywordsRankingDetail {...props} />
+      //         </ProtectedRoute>
+      //       ),
+      //     }
+      //   },
+      // },
       {
         path: ADD_SITE,
         errorElement: <ErrorBoundary />,
@@ -240,11 +243,10 @@ export const routes = createBrowserRouter([
         async lazy() {
           const { default: SitePages } = await import('../container/sites/pages/SitePages/SitePages')
           const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
-          const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
           return {
             Component: (props) => (
               <ProtectedRoute>
-                <SitePages {...props} isGetSiteDataPending={isGetSiteDataPending} crawledInfo={crawledInfo} />
+                <SitePages {...props} isGetSiteDataPending={isGetSiteDataPending} />
               </ProtectedRoute>
             ),
           }

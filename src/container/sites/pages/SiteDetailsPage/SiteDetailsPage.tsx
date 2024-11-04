@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom'
 import Flex from '@/components/Flex'
 import Tabs from '@/components/Tabs/Tabs'
 import SitePages from '../SitePages/SitePages'
+import ScriptPage from '../ScriptPage/ScriptPage'
+import SiteSchema from '../SiteSchema/SiteSchema'
 import SiteOverview from '../SiteOverview/SiteOverview'
 import Container from '@/components/Container/Container'
 import AddNewKeywords from '../AddNewKeywords/AddNewKeywords'
@@ -12,28 +14,32 @@ import RecommendationSuspense from '@/container/sites/components/Recommendations
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 
-import { CrawledInfoAPIResponseTypes } from '@/container/sites/sitesTypes'
 
 import './SiteDetailsPage.scss'
 
 const SiteDetailsPage = () => {
   const { id } = useParams()
-  const { getSiteCrawledInfoData, isGetSiteDataPending, crawledInfo } = useHandleSitesLogic()
+  const { getSiteCrawledInfoData, isGetSiteDataPending , crawledInfo} = useHandleSitesLogic()
 
   const tabs = [
     {
       title: 'Site Overview',
       key: 'site_overview',
-      content: <SiteOverview isGetSiteDataPending={isGetSiteDataPending} crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}/>,
+      content: <SiteOverview isGetSiteDataPending={isGetSiteDataPending}/>,
     },
     {
       title: 'Automations',
       key: 'automation',
-      content: <Recommendations isGetSiteDataPending={isGetSiteDataPending} crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']} />,
+      content: <Recommendations isGetSiteDataPending={isGetSiteDataPending}/>,
     },
     { title: 'Keywords', key: 'keywords', content: <AddNewKeywords isGetSiteDataPending={isGetSiteDataPending} /> },
-    { title: 'Pages', key: 'pages', content: <SitePages isGetSiteDataPending={isGetSiteDataPending} crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}/> },
-    // { title: 'Speed Metrics', content: <SiteInsights /> },
+    {
+      title: 'Pages',
+      key: 'pages',
+      content: <SitePages isGetSiteDataPending={isGetSiteDataPending}/>,
+    },
+    { title: 'Schema', key: 'schema', content: <SiteSchema />, hidden: true },
+    { title: 'Script', key: 'script', content: <ScriptPage />, hidden: true },
   ]
 
   useEffect(() => {

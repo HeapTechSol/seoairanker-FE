@@ -106,6 +106,7 @@ export type planDetailDescription = [
 
 export type PlanDataType = {
   id: string
+  active?:boolean
   name: 'Basic' | 'Pro' | 'Enterprise' | 'Basic Annual' | 'Pro Annual' | 'Enterprise Annual'
   duration: string
   base_price: number

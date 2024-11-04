@@ -1,22 +1,80 @@
 .plan-card {
   min-width: 270px;
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: space-between;
 
-  sup{
-    color:var(--color-common-main)
+  &.active {
+    outline: 1px solid green;
   }
 
-  .btn{
+  .ribbon {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+  }
+  
+  .ribbon__content {
+    left: -29px;
+    top: 17px;
+    transform: rotate(45deg);
+    position: absolute;
+    display: block;
+    width: 225px;
+    padding: 4px 0;
+    background-color: colorMapper(primary, main);
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    text-align: center;
+    border: 2px dotted #fff;
+    outline: 5px solid #f5cd79;
+  }
+  
+  .ribbon::before,
+  .ribbon::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    border-style: solid;
+    border-width: 5px;
+  }
+  
+  .ribbon::before {
+    top: 0;
+    left: 0;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-color: #f19066;
+  }
+  
+  .ribbon::after {
+    bottom: 0;
+    right: 0;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-color: #f19066;
+  }
+  
+
+  sup {
+    color: var(--color-common-main);
+  }
+
+  .btn {
     margin-top: 70px;
   }
 
-  svg line,rect {
+  svg line,
+  rect {
     stroke: white;
   }
 }
-
 
 @media screen and (max-width: 650px) {
   .plan-card {

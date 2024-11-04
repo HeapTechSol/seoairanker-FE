@@ -12,6 +12,7 @@ import { CrawledInfoAPIResponseTypes, ModalTypes } from '@/container/sites/sites
 import { classMapper } from '@/utils/helper'
 
 import './RecommendationOverview.scss'
+import { useAppSelector } from '@/api/store'
 
 type RecommendationsListType = {
   id: string
@@ -38,8 +39,10 @@ const RecommendationOverview = ({
 }) => {
   const [statusType, setStatusType] = useState<boolean>(false)
 
+  const isApproveAPICallInProgress = useAppSelector(state=>state.sites.isApproveAPICallInProgress)
+
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
-  const { handleUpdateRecommendations, isBulkApproveLoading } = useHandleRecommendations()
+  const { handleUpdateRecommendations, isBulkApproveLoading, getRecommendationByType } = useHandleRecommendations()
 
   const handleApproveAllRecommendations = async (status: boolean) => {
     setStatusType(status)
@@ -48,8 +51,8 @@ const RecommendationOverview = ({
       update_data: { approved: status },
       bulk: true,
     })
-    await getSiteCrawledInfoData({ site_id: site_id, link_id: externalLinkId })
-    // await getRecommendationByType({ page: 1, per_page: selectedKey === 'missing_alt_images' ? 20 : 10, type: selectedKey, link_id: externalLinkId })
+     getSiteCrawledInfoData({ site_id: site_id, link_id: externalLinkId })
+     getRecommendationByType({ page: 1, per_page: selectedKey === 'missing_alt_images' ? 20 : 10, type: selectedKey, link_id: externalLinkId })
   }
 
   const isAllApproved = crawledInfo?.site_data?.total_approved == crawledInfo?.site_data?.total_count
@@ -76,7 +79,7 @@ const RecommendationOverview = ({
         fullWidth
         variant="outlined"
         color="success"
-        disabled={isAllApproved}
+        disabled={isAllApproved || isApproveAPICallInProgress}
         loading={statusType === true && isBulkApproveLoading}
         onClick={() => handleApproveAllRecommendations(true)}
       >
@@ -87,6 +90,7 @@ const RecommendationOverview = ({
           fullWidth
           variant="outlined"
           color="error"
+          disabled={isApproveAPICallInProgress}
           loading={statusType === false && isBulkApproveLoading}
           onClick={() => handleApproveAllRecommendations(false)}
         >

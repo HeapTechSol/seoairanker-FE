@@ -1,12 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { CrawledInfoAPIResponseTypes, GetRecommendationsByModelAPIResponseTypes, NotificationsAPIResponseTypes } from './sitesTypes'
+import { CrawledInfoAPIResponseTypes, GetPageSchemaByTypesAPIResponseTypes, GetRecommendationsByModelAPIResponseTypes, NotificationsAPIResponseTypes, SchemaPagesListAPIResponseTypes } from './sitesTypes'
 import { sitesAPI } from './api/sitesAPI'
 
 type initialType = {
   isGetSiteDataPending: boolean
+  isApproveAPICallInProgress: boolean
   crawledInfo: CrawledInfoAPIResponseTypes['data']
   notificationsData: NotificationsAPIResponseTypes
+  schemaPagesTypeList:SchemaPagesListAPIResponseTypes['data']
+  schemaPagesData: GetPageSchemaByTypesAPIResponseTypes
   recommendationData: GetRecommendationsByModelAPIResponseTypes
 }
 const initialState: initialType = {
@@ -22,6 +25,9 @@ const initialState: initialType = {
     model_data: [],
   },
   isGetSiteDataPending: false,
+  isApproveAPICallInProgress: false,
+  schemaPagesTypeList:[],
+  schemaPagesData: { total: 0, data: [], page: 1, approved: 0, unapproved_count: 0 },
   recommendationData: { approved_count: 0, data: [], page: 1, total_count: 0, unapproved_count: 0 },
 }
 
@@ -38,6 +44,12 @@ export const sitesSlicer = createSlice({
     setRecommendationsData: (state, action: PayloadAction<GetRecommendationsByModelAPIResponseTypes>) => {
       state.recommendationData = action.payload
     },
+    setSchemaPagesData: (state, action: PayloadAction<GetPageSchemaByTypesAPIResponseTypes>) => {
+      state.schemaPagesData = action.payload
+    },
+    setSchemaPagesList: (state, action: PayloadAction<SchemaPagesListAPIResponseTypes['data']>) => {
+      state.schemaPagesTypeList = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(sitesAPI.endpoints.getSiteCrawledInfo.matchPending, (state) => {
@@ -50,9 +62,18 @@ export const sitesSlicer = createSlice({
       state.isGetSiteDataPending = false
       state.crawledInfo = payload.data
     })
+    builder.addMatcher(sitesAPI.endpoints.approveRecommendations.matchPending, (state) => {
+      state.isApproveAPICallInProgress = true
+    })
+    builder.addMatcher(sitesAPI.endpoints.approveRecommendations.matchRejected, (state) => {
+      state.isApproveAPICallInProgress = false
+    })
+    builder.addMatcher(sitesAPI.endpoints.approveRecommendations.matchFulfilled, (state) => {
+      state.isApproveAPICallInProgress = false
+    })
   },
 })
 
-export const { setNotificationsData, setRecommendationsData } = sitesSlicer.actions
+export const { setNotificationsData, setRecommendationsData, setSchemaPagesData, setSchemaPagesList } = sitesSlicer.actions
 
 export default sitesSlicer.reducer

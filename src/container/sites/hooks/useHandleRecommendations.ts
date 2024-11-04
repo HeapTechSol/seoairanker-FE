@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux'
 import { setRecommendationsData } from '../sitesSlice'
 import { uniqBy } from '@/utils/helper'
 import { useState } from 'react'
+import { useAppSelector } from '@/api/store'
 
 const useHandleRecommendations = () => {
   const { id: siteId } = useParams()
@@ -26,13 +27,16 @@ const useHandleRecommendations = () => {
   const [reCrawlSite, { isLoading: reCrawlLoading }] = useReCrawlSiteMutation()
   const [reCrawlSitePage, { isLoading: reCrawlPageLoading }] = useReCrawlSitePageMutation()
   const [approveRecommendations] = useApproveRecommendationsMutation()
-  const [getRecommendationsByType, { isFetching: recommendationDataLoading, data: recommendationData }] = useLazyGetRecommendationsByTypeQuery()
+  
+  const [getRecommendationsByType, { isFetching: recommendationDataLoading }] = useLazyGetRecommendationsByTypeQuery()
+
+  const recommendationData = useAppSelector(state=>state.sites.recommendationData)
 
   const handleUpdateRecommendations = async (payload: ApproveRecommendationsPayloadTypes) => {
     try {
       if (!payload.model && payload.bulk) setIsBulkApproveLoading(true)
-      if (payload.model && payload.bulk) setIsSubBulkApproveLoading(true)
-      if (payload.model && !payload.bulk) setIsSingleApproveLoading(true)
+      else if (payload.model && payload.bulk) setIsSubBulkApproveLoading(true)
+      else if (payload.model && !payload.bulk) setIsSingleApproveLoading(true)
       const data = await approveRecommendations(payload).unwrap()
       toast.success(data?.message || '')
     } catch (error) {

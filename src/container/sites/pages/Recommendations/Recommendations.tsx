@@ -18,18 +18,12 @@ import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
 
 import { getTime } from '@/utils/helper'
-// import { useAppSelector } from '@/api/store'
+import { useAppSelector } from '@/api/store'
 import { CrawledInfoAPIResponseTypes, ModalTypes } from '@/container/sites/sitesTypes'
 
 import './Recommendations.scss'
 
-const Recommendations = ({
-  isGetSiteDataPending,
-  crawledInfo,
-}: {
-  isGetSiteDataPending: boolean
-  crawledInfo: CrawledInfoAPIResponseTypes['data']
-}) => {
+const Recommendations = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean }) => {
   const { id: siteId } = useParams()
   const [queryText, setQueryText] = useState<string>('')
   const [link_id, setLink_id] = useState<string>('')
@@ -37,7 +31,7 @@ const Recommendations = ({
   const { reCrawlLoading, handleReCrawlSite } = useHandleRecommendations()
   const { getPathSearchResults, getSiteCrawledInfoData } = useHandleSitesLogic()
 
-  // const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
   const defaultModal = crawledInfo?.model_data?.find((modal) => modal.total > 0)
 
@@ -58,7 +52,7 @@ const Recommendations = ({
     type: item.model,
     totalCount: item.total,
     used: item.approved,
-    title: recommendationTitles[item.model],
+    title: recommendationTitles[item.model as keyof typeof recommendationTitles],
   }))
 
   const reCrawlSite = () => {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Table from '@/components/Table'
@@ -22,14 +22,18 @@ import { LuRefreshCcw } from 'react-icons/lu'
 
 import { formatDate } from '@/utils/helper'
 import { ColumnType } from '@/components/Table/types'
-import { CrawledInfoAPIResponseTypes, SiteLinksDataTypes } from '@/container/sites/sitesTypes'
+import { SiteLinksDataTypes } from '@/container/sites/sitesTypes'
 
 import './SitePages.scss'
+import { useAppSelector } from '@/api/store'
 
-const SitePages = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPending: boolean; crawledInfo: CrawledInfoAPIResponseTypes['data'] }) => {
+const SitePages = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean }) => {
   const { id: siteId } = useParams()
+  const [searchParams] = useSearchParams()
   const [selectedRowKeys, SetSelectedRowKeys] = useState<string[]>([])
   const [editedId, setEditedId] = useState<string>('')
+
+  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
   const { handleGetSiteLinks, siteLinks, siteLinksLoading } = useHandleSitesLogic()
   const { reCrawlPageLoading, handleReCrawlSitePage } = useHandleRecommendations()
@@ -48,6 +52,7 @@ const SitePages = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPending
     {
       header: 'Last Crawl',
       dataKey: 'last_crawled',
+      render: (text) => formatDate(text),
     },
     {
       header: 'WIDGET',
@@ -104,11 +109,16 @@ const SitePages = ({ isGetSiteDataPending, crawledInfo }: { isGetSiteDataPending
     })
   }
 
+  const schema_type = searchParams.get('schema_type')
+
+  console.log('*****************', schema_type)
+
   useEffect(() => {
     handleGetSiteLinks({
       site_id: siteId as string,
       page: 1,
       per_page: 10,
+      schema_type: schema_type?.toLowerCase() || '',
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

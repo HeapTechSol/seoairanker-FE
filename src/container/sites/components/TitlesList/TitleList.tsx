@@ -18,7 +18,7 @@ import { MissingTitlesDataTypes } from '@/container/sites/sitesTypes'
 
 import './TitlesList.scss'
 import { sitesAPI } from '../../api/sitesAPI'
-import { store } from '@/api/store'
+import { store, useAppSelector } from '@/api/store'
 
 const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { id: siteId } = useParams()
@@ -37,6 +37,7 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   } = useHandleRecommendations()
 
   const recommendation = recommendationData?.data.find((item) => item.link_id)
+  const isApproveAPICallInProgress = useAppSelector(state=>state.sites.isApproveAPICallInProgress)
 
   const handleAllRecommendations = async () => {
     if (siteId) {
@@ -46,8 +47,8 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
         update_data: { approved: true },
         bulk: true,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
   }
 
@@ -61,8 +62,8 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
         update_data: { approved: status },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
   }
 
@@ -90,15 +91,15 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
         update_data: { approved: true, suggested_title: text },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
   }
 
   const columns: ColumnType<MissingTitlesDataTypes>[] = [
-    { header: 'Link', dataKey: 'url', render: (text: string) => <TruncateText text={text} line={1}></TruncateText> },
+    { header: 'Link', dataKey: 'url', render: (text: string) => <TruncateText text={text} width={220} line={1}></TruncateText> },
     {
       header: 'Title',
       dataKey: 'suggested_title',
@@ -130,6 +131,7 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
             onClick={(e) => onApprove(e, record.id, record.link_id, record.url, !record.approved)}
             type="borderRadius"
             color={record.approved ? 'error' : 'success'}
+            disabled={isApproveAPICallInProgress}
             loading={editedId === record.id && isSingleApproveLoading}
           >
             {record.approved ? 'Reject' : 'Approve'}
@@ -181,7 +183,7 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
                 variant="outlined"
                 type="borderRadius"
                 color="success"
-                disabled={isApproved}
+                disabled={isApproved || isApproveAPICallInProgress}
                 loading={isSubBulkApproveLoading}
                 onClick={handleAllRecommendations}
               >

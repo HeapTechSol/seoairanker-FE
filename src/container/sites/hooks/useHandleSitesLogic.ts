@@ -43,18 +43,15 @@ const useHandleSitesLogic = () => {
     resolver: zodResolver(ADD_SITE_WIZARD_VALIDATIONS[currentStep]),
   })
 
-
-  // const userQuota = useAppSelector((state) => state.billing.userQuota)
+  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+  const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
   const notificationsData = useAppSelector((state) => state.sites.notificationsData)
-
-  // const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota as number) >= (userQuota?.total_sites_quota as number)
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()
-  const [getSiteCrawledInfo, { isLoading: isGetSiteDataPending, data: crawledInfo }] = useLazyGetSiteCrawledInfoQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
-  const [approveSiteSchema, { isLoading: approveSchemaLoading }] = useApproveSiteSchemaMutation()
   const [getSites, { isLoading: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
+  const [approveSiteSchema, { isLoading: approveSchemaLoading }] = useApproveSiteSchemaMutation()
   const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
   const [getNotifications, { isLoading: getNotificationLoading }] = useLazyGetNotificationsQuery()
   const [getSiteLinks, { isLoading: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
@@ -63,6 +60,7 @@ const useHandleSitesLogic = () => {
   const [getSightInsights, { isLoading: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
   const [getSitePathSearchResults, { isLoading: sitePathSearchLoading }] = useLazyGetSitePathSearchResultsQuery()
   const [getSchemaTypes, { isLoading: schemaTypesLoading, data: schemaTypesData }] = useLazyGetSchemaTypesQuery()
+  const [getSiteCrawledInfo] = useLazyGetSiteCrawledInfoQuery()
 
   const stepsCount = steps(control)?.length
 
@@ -161,9 +159,9 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const getInsights = async (payload: { url: string }) => {
+  const getInsights = async (id: string) => {
     try {
-      await getSightInsights(payload, true).unwrap()
+      await getSightInsights(id, true).unwrap()
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -217,7 +215,7 @@ const useHandleSitesLogic = () => {
 
   const getSiteCrawledInfoData = async (payload: { site_id: string; link_id?: string }) => {
     try {
-      await getSiteCrawledInfo(payload).unwrap()
+      await getSiteCrawledInfo(payload, false).unwrap()
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -233,7 +231,7 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const approveSchema = async (payload: { id: string; schema_types: string[] }) => {
+  const approveSchema = async (payload: { id: string; schema_types: string[]; crawl_interval: string }) => {
     try {
       const response = await approveSiteSchema(payload).unwrap()
       toast.success(response?.message, { autoClose: 1000 })
@@ -283,9 +281,9 @@ const useHandleSitesLogic = () => {
     handleReadNotification,
     getNotificationLoading,
     getSiteCrawledInfoData,
-    crawledInfo: crawledInfo?.data,
     handleForwardButtonPress,
     handlePreviousButtonPress,
+    crawledInfo: crawledInfo,
     sitesList: sitesList?.data || [],
     insightsData: insightsData?.result,
   }

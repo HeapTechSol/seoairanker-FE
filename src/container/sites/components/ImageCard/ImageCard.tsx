@@ -10,6 +10,7 @@ import OptimizedImage from '@/components/OptimizedImage/OptimizedImage'
 import { EditIcon } from '@/assets/icons/svgs'
 
 import './ImageCard.scss'
+import { useAppSelector } from '@/api/store'
 
 type ImageCardProps = {
   id: string
@@ -28,6 +29,9 @@ type ImageCardProps = {
 
 const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
   ({ id, index, altText, loading, editedId, imageUrl, linkId, occurrenceLabel, onApprove, handleBlur, isApproved, editSuggestionHandler }, ref) => {
+
+  const isApproveAPICallInProgress = useAppSelector(state=>state.sites.isApproveAPICallInProgress)
+
     return (
       <Container borderRadius boxShadow className="image-container" padding={8}>
         <Flex vertical gap={12} align="center">
@@ -56,6 +60,7 @@ const ImageCard = forwardRef<HTMLElement, ImageCardProps>(
             onClick={(e) => onApprove(e, id, linkId, imageUrl, !isApproved)}
             type="borderRadius"
             color={isApproved ? 'error' : 'success'}
+            disabled={isApproveAPICallInProgress}
             loading={id === editedId && loading}
           >
             {isApproved ? 'Reject' : 'Approve'}

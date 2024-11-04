@@ -1,23 +1,22 @@
-import { Controller } from "react-hook-form";
+import { Controller } from 'react-hook-form'
 
-import Flex from "@/components/Flex";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
-import Container from "@/components/Container/Container";
-import Typography from "@/components/Typography/Typography";
+import Flex from '@/components/Flex'
+import Input from '@/components/Input'
+import Button from '@/components/Button'
+import Container from '@/components/Container/Container'
+import Typography from '@/components/Typography/Typography'
 
-import useForgetPasswordHandler from "@/container/auth/hooks/useForgetPasswordHandler";
+import useForgetPasswordHandler from '@/container/auth/hooks/useForgetPasswordHandler'
 
 import { MdOutlineEmail } from 'react-icons/md'
 
-import "./ForgetPassword.scss";
+import './ForgetPassword.scss'
 
 const ForgetPassword = () => {
-  const { control, handleSubmit, forgetPasswordHandler } =
-    useForgetPasswordHandler();
+  const { control, handleSubmit, forgetPasswordHandler, forgotPasswordLoading } = useForgetPasswordHandler()
 
   return (
-    <Container width={100} boxShadow borderRadius padding={"60px"} className="auth-form-container">
+    <Container width={100} boxShadow borderRadius padding={'60px'} className="auth-form-container">
       <Flex vertical gap={24} align="center" justify="center">
         <Typography text="Forgot Password" type="h2" />
         <Flex vertical justify="center" gap={16}>
@@ -34,10 +33,10 @@ const ForgetPassword = () => {
                   onChange={onChange}
                   value={value}
                   error={error?.message}
-                  StartIcon={<MdOutlineEmail/>}
+                  StartIcon={<MdOutlineEmail />}
                   placeholder="Enter your email"
                 />
-              );
+              )
             }}
             control={control}
           />
@@ -47,13 +46,14 @@ const ForgetPassword = () => {
           fullWidth
           size="md"
           type="borderRadius"
+          loading={forgotPasswordLoading}
           onClick={handleSubmit(forgetPasswordHandler)}
         >
-          Send OTP
+          Recover Password
         </Button>
       </Flex>
     </Container>
-  );
-};
+  )
+}
 
-export default ForgetPassword;
+export default ForgetPassword

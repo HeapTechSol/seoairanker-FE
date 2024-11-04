@@ -17,11 +17,12 @@ import {
   NotificationAPIPayloadTypes,
   GetSitePathSearchResultsResponseTypes,
   SchemaResponseTypes,
-  ModalTypes,
-  ModalDataTypes,
-  AllModalDataTypes,
+  GetSchemaTypesPayloadTypes,
+  SchemaPagesListPayloadTypes,
+  SchemaPagesListAPIResponseTypes,
+  ApproveSchemaPayloadTypes,
+  GetPageSchemaByTypesAPIResponseTypes,
 } from '../sitesTypes'
-import { MaybeDrafted } from 'node_modules/@reduxjs/toolkit/dist/query/core/buildThunks'
 import { RootState } from '@/api/store'
 
 const {
@@ -38,11 +39,14 @@ const {
   SITE_CRAWLING_INFO,
   GENERATE_SITE_SCHEMA,
   NOTIFICATION_LISTING,
+  GET_SCHEMA_PAGES_TYPES,
   SAVE_SELECTED_KEYWORDS,
   APPROVE_RECOMMENDATIONS,
   LINKS_PATH_SEARCH_RESULTS,
+  GET_SCHEMA_RECOMMENDATIONS,
   GET_RECOMMENDATIONS_BY_TYPE,
   EXPORT_RECOMMENDATIONS_TO_CSV,
+  APPROVE_SCHEMA_RECOMMENDATIONS,
 } = APIEndpoint
 
 export const sitesAPI = baseQueryApi.injectEndpoints({
@@ -87,6 +91,12 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         params: params,
       }),
     }),
+    getSchemaPagesList: builder.query<SchemaPagesListAPIResponseTypes, SchemaPagesListPayloadTypes>({
+      query: (params) => ({
+        url: `${GET_SCHEMA_PAGES_TYPES}/${params.site_id}${params?.link_id ? `?link_id=${params.link_id}` : ''}`,
+        method: 'GET',
+      }),
+    }),
     getSitePathSearchResults: builder.query<GetSitePathSearchResultsResponseTypes, { path: string; site_id: string }>({
       query: (params) => ({
         url: `${LINKS_PATH_SEARCH_RESULTS}/${params.site_id}`,
@@ -112,7 +122,56 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'GET',
         params: { type: params.type, per_page: params.per_page, page: params.page },
       }),
+      async onQueryStarted(payload, { dispatch, queryFulfilled, getState }) {
+        try {
+          const { data } = await queryFulfilled
+          const state = getState() as RootState
+
+          dispatch(
+            sitesAPI.util.updateQueryData('getRecommendationsByType', payload, (draft) => {
+              if (state?.sites?.recommendationData?.data && Array.isArray(draft.data) && data.page > 1) {
+                // @ts-ignore
+                draft.data = [...state?.sites?.recommendationData?.data, ...data.data]
+              }
+              draft.page = data.page
+              draft.total_count = data.total_count
+              draft.per_page = data.per_page
+            })
+          )
+        } catch (error) {
+          console.error('Error appending pagination data:', error)
+        }
+      },
     }),
+
+    getSchemaPagesData: builder.query<GetPageSchemaByTypesAPIResponseTypes, GetSchemaTypesPayloadTypes & { site_id: string; link_id?: string }>({
+      query: (params) => ({
+        url: `${GET_SCHEMA_RECOMMENDATIONS}/${params.site_id}/${params.type}${params?.link_id ? `?link_id=${params.link_id}` : ''}`,
+        method: 'GET',
+        params: { per_page: params.per_page, page: params.page },
+      }),
+      async onQueryStarted(payload, { dispatch, queryFulfilled, getState }) {
+        try {
+          const { data } = await queryFulfilled
+          const state = getState() as RootState
+
+          dispatch(
+            sitesAPI.util.updateQueryData('getSchemaPagesData', payload, (draft) => {
+              if (state?.sites?.recommendationData?.data && Array.isArray(draft.data) && data.page > 1) {
+                // @ts-ignore
+                draft.data = [...state?.sites?.recommendationData?.data, ...data.data]
+              }
+              draft.page = data.page
+              draft.total = data.total
+              draft.per_page = data.per_page
+            })
+          )
+        } catch (error) {
+          console.error('Error appending pagination data:', error)
+        }
+      },
+    }),
+
     reCrawlSite: builder.mutation<GetRecommendationsByModelAPIResponseTypes, { site_id: string; siteUrl: string }>({
       query: (payload) => ({
         url: RE_CRAWL_SITE,
@@ -136,148 +195,27 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         body: payload,
       }),
       invalidatesTags: (_result, error) => (error ? [] : ['userQuota']),
-      async onQueryStarted(payload, { dispatch, queryFulfilled, getState }) {
-        const state = getState() as RootState
-
-        const recommendationsByTypeData = sitesAPI.endpoints.getRecommendationsByType.select({
-          page: state.sites?.recommendationData?.page || 1,
-          per_page: state.sites?.recommendationData?.per_page || 10,
-          type: (payload.model as ModalTypes) || state.sites?.recommendationData?.modal,
-          link_id: payload.filter_conditions.link_id || '',
-          site_id: payload.filter_conditions.site_id,
-        })(state)
-
-        const filterActiveData = recommendationsByTypeData?.data?.data?.filter((item) => item.approved)
-
-        const countAlreadyInserted = filterActiveData?.reduce((prev, curr) => {
-          return (prev += Number(curr.count))
-        }, 0)
-
-        const selectedEntityOfModelCount = Number(
-          state.sites?.recommendationData?.data?.find((item) => item.id == payload.filter_conditions.id)?.count || 1
-        )
-
-        const updateSiteData = (draft: MaybeDrafted<CrawledInfoAPIResponseTypes>) => {
-          if (payload.bulk && !payload.model) {
-            const siteData = { total_approved: payload.update_data.approved ? draft.data.site_data?.total_count : 0 }
-            const modalData = draft.data.model_data?.map((item) => ({ ...item, approved: payload.update_data.approved ? item.total : 0 }))
-            return { siteData, modalData }
-          }
-
-          const modalAlreadyApprovedCount = recommendationsByTypeData?.data?.approved_count
-          const selectedModal = draft.data.model_data?.find((item) => item.model === payload.model)
-          const greaterNumber = Math.max(modalAlreadyApprovedCount || 0, countAlreadyInserted || 0)
-          if (payload.bulk && payload.model && selectedModal) {
-            const siteData = {
-              total_approved:
-                (greaterNumber ? (draft.data.site_data?.total_approved || 0) - greaterNumber : draft.data.site_data?.total_approved || 0) +
-                selectedModal.total,
-            }
-
-            const modalData = draft.data.model_data?.map((item) => {
-              if (item.model === selectedModal.model) return { ...item, approved: selectedModal.total }
-              return item
-            })
-            return { siteData, modalData }
-          }
-
-          if (payload.model && !payload.bulk && selectedEntityOfModelCount) {
-            const siteData = {
-              total_approved: payload.update_data.approved
-                ? (draft.data.site_data?.total_approved || 0) + selectedEntityOfModelCount
-                : (draft.data.site_data?.total_approved || 0) - selectedEntityOfModelCount,
-            }
-            const modalData = draft.data.model_data?.map((item) => {
-              if (item.model === payload.model)
-                return {
-                  ...item,
-                  approved: payload.update_data.approved
-                    ? (item.approved || 0) + selectedEntityOfModelCount
-                    : (item.approved || 0) - selectedEntityOfModelCount,
-                }
-              return item
-            })
-
-            return { siteData, modalData }
-          }
-        }
-
-        const siteDetails = dispatch(
-          sitesAPI.util.updateQueryData(
-            'getSiteCrawledInfo',
-            { site_id: payload.filter_conditions.site_id, link_id: payload.filter_conditions.link_id },
-            (draft) => {
-              draft.data = {
-                ...draft.data,
-                site_data: { ...draft.data.site_data, ...updateSiteData(draft)?.siteData } as CrawledInfoAPIResponseTypes['data']['site_data'],
-                model_data: updateSiteData(draft)?.modalData as ModalDataTypes[],
-              }
-            }
-          )
-        )
-
-        const modelDetailsByType = dispatch(
-          sitesAPI.util.updateQueryData(
-            'getRecommendationsByType',
-            {
-              page: state.sites?.recommendationData?.page || 1,
-              per_page: state.sites?.recommendationData?.per_page || 10,
-              type: (payload.model as ModalTypes) || state.sites?.recommendationData?.modal,
-              link_id: payload.filter_conditions.link_id || '',
-              site_id: payload.filter_conditions.site_id,
-            },
-            (draft: GetRecommendationsByModelAPIResponseTypes) => {
-              if (payload.bulk && !payload.model) {
-                draft.approved_count = payload.update_data.approved ? draft.total_count : 0
-                draft.unapproved_count = payload.update_data.approved ? 0 : draft.total_count
-                draft.data = draft.data?.map((item) => ({ ...item, approved: payload.update_data.approved })) as AllModalDataTypes
-                return
-              }
-              if (!payload.bulk) {
-                draft.data = draft.data?.map((item) => {
-                  if (item.id == payload.filter_conditions.id) {
-                    return { ...item, approved: payload.update_data.approved }
-                  }
-                  return item
-                }) as AllModalDataTypes
-                draft.approved_count = payload.update_data.approved
-                  ? draft.approved_count + selectedEntityOfModelCount
-                  : draft.approved_count - selectedEntityOfModelCount
-                draft.unapproved_count = payload.update_data.approved
-                  ? draft.approved_count - selectedEntityOfModelCount
-                  : draft.approved_count + selectedEntityOfModelCount
-                return
-              }
-              if (payload.bulk && payload.model) {
-                draft.approved_count = draft.total_count
-                draft.unapproved_count = 0
-                draft.data = draft.data?.map((item) => ({ ...item, approved: payload.update_data.approved })) as AllModalDataTypes
-                return
-              }
-            }
-          )
-        )
-
-        try {
-          await queryFulfilled
-        } catch {
-          siteDetails.undo()
-          modelDetailsByType.undo()
-        }
-      },
     }),
-    approveSiteSchema: builder.mutation<{ message: string }, { id: string; schema_types: string[] }>({
+    approveSchemaRecommendation: builder.mutation<{ message: string }, ApproveSchemaPayloadTypes>({
+      query: (payload) => ({
+        url: `${APPROVE_SCHEMA_RECOMMENDATIONS}/${payload.website_id}`,
+        method: 'post',
+        body: payload,
+      }),
+      invalidatesTags: (_result, error) => (error ? [] : ['userQuota']),
+    }),
+    approveSiteSchema: builder.mutation<{ message: string }, { id: string; schema_types: string[]; crawl_interval: string }>({
       query: (payload) => ({
         url: `${GENERATE_SITE_SCHEMA}/${payload.id}`,
         method: 'PATCH',
-        body: { schema_types: payload.schema_types },
+        body: { schema_types: payload.schema_types, crawl_interval: payload.crawl_interval },
       }),
     }),
     getSightInsights: builder.query({
-      query: (payload) => ({
+      query: (id) => ({
         url: SITE_PAGE_INSIGHTS,
         method: 'GET',
-        params: payload,
+        params: { id },
       }),
     }),
     getNotifications: builder.query<NotificationsAPIResponseTypes, NotificationAPIPayloadTypes>({
@@ -339,7 +277,10 @@ export const {
   useLazyGetNotificationsQuery,
   useLazyGetSightInsightsQuery,
   useLazyGetSiteCrawledInfoQuery,
+  useLazyGetSchemaPagesListQuery,
+  useLazyGetSchemaPagesDataQuery,
   useApproveRecommendationsMutation,
   useLazyGetSitePathSearchResultsQuery,
   useLazyGetRecommendationsByTypeQuery,
+  useApproveSchemaRecommendationMutation,
 } = sitesAPI

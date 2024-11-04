@@ -35,8 +35,8 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
         update_data: { approved: status },
         bulk: false,
       })
-    await getSiteCrawledInfoData({ site_id: siteId || '', link_id: externalLinkId })
-    // await getRecommendationByType({ page: 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
+     getSiteCrawledInfoData({ site_id: siteId || '', link_id: externalLinkId })
+     getRecommendationByType({ page: 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
   }
 
   const editSuggestionHandler = (index: number, id: string) => {
@@ -63,8 +63,8 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
         update_data: { approved: true, alt_text: text },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: recommendationData?.page as number, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: recommendationData?.page as number, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')

@@ -78,20 +78,20 @@ const Pricing = () => {
   }
 
   const BUTTON_TEXT = {
-    Basic: 'Request Demo',
+    Basic: 'Get Started',
     Enterprise: 'Get Started',
     Agency: 'Get Started',
-    'Basic Annual': 'Request Demo',
+    'Basic Annual': 'Get Started',
     'Agency Annual': 'Get Started',
     'Enterprise Annual': 'Get Started',
   }
 
   const COLORS = {
-    Basic: 'warning',
-    Enterprise: 'primary',
-    Agency: 'info',
-    'Basic Annual': 'warning',
-    'Agency Annual': 'primary',
+    Basic: 'success',
+    Agency: 'warning',
+    Enterprise: 'info',
+    'Basic Annual': 'success',
+    'Agency Annual': 'warning',
     'Enterprise Annual': 'info',
   }
 
@@ -100,9 +100,13 @@ const Pricing = () => {
     Enterprise: EnterpriseIcon,
     Agency: PersonIcon,
     'Basic Annual': AgencyIcon,
-    'Agency Annual': EnterpriseIcon,
-    'Enterprise Annual': PersonIcon,
+    'Agency Annual': PersonIcon,
+    'Enterprise Annual': EnterpriseIcon,
   }
+  const monthlyPlans = [...(allPlansList?.data?.monthly || [])]
+  const sortedMonthlyPlans = monthlyPlans?.sort((a, b) => Number(a.id) - Number(b.id))
+  const annuallyPlans = [...(allPlansList?.data?.annually || [])]
+  const sortedAnnuallyPlans = annuallyPlans?.sort((a, b) => Number(a.id) - Number(b.id))
 
   const displaySiteQuota = (plan: PlanDataType) => {
     return [
@@ -112,6 +116,8 @@ const Pricing = () => {
       { amount: plan?.team_members_quota || 0, text: 'Team Members' },
     ]
   }
+
+  console.log('sortedMonthlyPlans', sortedMonthlyPlans)
 
   useEffect(() => {
     getPlansList()
@@ -135,10 +141,11 @@ const Pricing = () => {
               <Container className="plan-card-container">
                 <Flex gap={16} justify="center" className="plan-card-flex">
                   <Grid>
-                    {allPlansList?.data?.monthly?.map((item, index) => (
+                    {sortedMonthlyPlans?.map((item, index) => (
                       <PlanCard
-                        key={`${index}PlanCard`}
+                        key={`${index}MonthlyPlanCard`}
                         duration="Monthly"
+                        isActive={item.active}
                         amount={totalAmount(item.name, item.base_price, item?.extra_addons)}
                         setValue={setValue}
                         Icon={ICONS[item?.name as keyof typeof ICONS]}
@@ -172,9 +179,9 @@ const Pricing = () => {
               <Container className="plan-card-container">
                 <Flex gap={16} justify="center" className="plan-card-flex">
                   <Grid>
-                    {allPlansList?.data?.annually?.map((item, index) => (
+                    {sortedAnnuallyPlans?.map((item, index) => (
                       <PlanCard
-                        key={`${index}PlanCard`}
+                        key={`${index}YearlyPlanCard`}
                         duration="Year"
                         amount={totalAmount(item.name, item.base_price, item?.extra_addons)}
                         setValue={setValue}

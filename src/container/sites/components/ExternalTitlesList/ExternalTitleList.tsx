@@ -17,7 +17,7 @@ import { MissingTitlesDataTypes } from '@/container/sites/sitesTypes'
 
 import './ExternalTitlesList.scss'
 import { sitesAPI } from '../../api/sitesAPI'
-import { store } from '@/api/store'
+import { store, useAppSelector } from '@/api/store'
 
 const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { id: siteId } = useParams()
@@ -33,6 +33,8 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
     isSubBulkApproveLoading,
   } = useHandleRecommendations()
 
+  const isApproveAPICallInProgress = useAppSelector(state=>state.sites.isApproveAPICallInProgress)
+
   const recommendation = recommendationData?.data.find((item) => item.link_id)
 
   const handleAllRecommendations = async () => {
@@ -43,8 +45,8 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
         update_data: { approved: true },
         bulk: true,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'external_links', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'external_links', link_id: externalLinkId })
     }
   }
 
@@ -58,8 +60,8 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
         update_data: { approved: status },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'external_links', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'external_links', link_id: externalLinkId })
     }
   }
 
@@ -69,7 +71,7 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
       dataKey: 'url',
       render: (text, record) => (
         <Flex justify="start" align="center">
-          <TruncateText text={text} line={1}></TruncateText> {record.label && record.label}
+          <TruncateText text={text} width={220} line={1}></TruncateText> {record.label && record.label}
         </Flex>
       ),
     },
@@ -87,6 +89,7 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
           onClick={(e) => onApprove(e, record.id, record.link_id, record.url, !record.approved)}
           type="borderRadius"
           color={record.approved ? 'error' : 'success'}
+          disabled={isApproveAPICallInProgress}
           loading={editedId === record.id && isSingleApproveLoading}
         >
           {record.approved ? 'Reject' : 'Approve'}
@@ -137,7 +140,7 @@ const ExternalTitleList = ({ link_id: externalLinkId }: { link_id: string }) => 
                 variant="outlined"
                 type="borderRadius"
                 color="success"
-                disabled={isApproved}
+                disabled={isApproved || isApproveAPICallInProgress}
                 loading={isSubBulkApproveLoading}
                 onClick={handleAllRecommendations}
               >

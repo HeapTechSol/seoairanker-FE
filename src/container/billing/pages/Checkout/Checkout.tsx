@@ -33,8 +33,10 @@ const Checkout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const sum = stateAddOns?.reduce((prev, curr) => prev + curr.amount, 0)
-  const total = sum + state?.amount
+  // const sum = stateAddOns?.reduce((prev, curr) => prev + curr.amount, 0)
+  // const total = sum + state?.amount
+
+  console.log('state', state)
 
   const appearance = {
     mode: 'setup',
@@ -73,10 +75,16 @@ const Checkout = () => {
                     </Flex>
                   ))}
               </Flex>
+              {/* <Flex justify="between">
+                <Typography text={'Trial Amount '} size="lg" inline />
+                <Typography text={`${currencyNumberWithDollar({ value: 0, showUSD: false })}`} type="h3" inline />
+              </Flex> */}
               <Flex justify="between">
                 <Typography text={'Total'} type="h2" />
-                <Typography text={`${currencyNumberWithDollar({ value: total || 0, showUSD: false })}`} type="h2" />
+                <Typography text={`${currencyNumberWithDollar({ value: 0, showUSD: false })}`} type="h2" />
               </Flex>
+              After your subscription, a 7-day trial period will begin. You will be charged according to your plan after the trial period expires and
+              based on your usage at the end of each billing cycle. You will not be charged before trial ends. You can cancel at any time before then.
             </Flex>
           </Container>
           <Container padding={40} className="container-bg" width={45}>
