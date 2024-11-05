@@ -1,3 +1,27 @@
 .site-schema-page {
   padding: 40px;
 }
+
+
+.recommendations-container {
+
+  .recommendations-status {
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover {
+      .body-text {
+        color: var(--hovered-text-color);
+      }
+      background-color: var(--bg-hover-color);
+    }
+    &.active {
+      background-color: var(--bg-hover-color);
+      .body-text {
+        color: var(--hovered-text-color);
+      }
+    }
+  }
+  .btn {
+    margin-top: 16px;
+  }
+}

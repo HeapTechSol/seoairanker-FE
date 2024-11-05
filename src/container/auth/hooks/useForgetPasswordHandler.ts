@@ -1,30 +1,31 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from 'react-toastify'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { forgetPasswordInitialValues } from "../utils";
-import { ForgetPasswordSchema } from "@/utils/validations";
-import { ForgetPasswordPayloadTypes } from "../pages/SignUp/types";
-import { useNavigate } from "react-router-dom";
-import { EXACT_ROUTES } from "@/constant/routes";
-
-const { VERIFY_OTP } = EXACT_ROUTES;
+import { ErrorTypes } from '@/utils/commonTypes'
+import { forgetPasswordInitialValues } from '../utils'
+import { useForgotPasswordMutation } from '../api/authAPI'
+import { ForgetPasswordSchema } from '@/utils/validations'
+import { ForgetPasswordPayloadTypes } from '../pages/SignUp/types'
 
 const useForgetPasswordHandler = () => {
-  const navigate = useNavigate();
   const { control, handleSubmit } = useForm({
     defaultValues: forgetPasswordInitialValues,
     resolver: zodResolver(ForgetPasswordSchema),
-  });
+  })
 
-  const forgetPasswordHandler = (values: ForgetPasswordPayloadTypes) => {
+  const [forgotPassword, { isLoading: forgotPasswordLoading }] = useForgotPasswordMutation()
+
+  const forgetPasswordHandler = async (values: ForgetPasswordPayloadTypes) => {
     try {
-      navigate(VERIFY_OTP, { state: { email: values?.email } });
+      const response = await forgotPassword({ email: values.email }).unwrap()
+      toast.success(response?.message, { autoClose: 1000 })
     } catch (error) {
-      console.log(error);
+      if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
-  };
+  }
 
-  return { control, handleSubmit, forgetPasswordHandler };
-};
+  return { control, handleSubmit, forgetPasswordHandler, forgotPasswordLoading }
+}
 
-export default useForgetPasswordHandler;
+export default useForgetPasswordHandler

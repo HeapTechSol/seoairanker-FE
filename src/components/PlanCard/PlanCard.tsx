@@ -10,7 +10,7 @@ import RangeSelector from '../RangeSelector/RangeSelector'
 
 import { PlanDefaultValuesTypes, PlanTypes, strongTextGenerator } from '@/constant/plans'
 
-import { currencyConverter } from '@/utils/helper'
+import { classMapper, currencyConverter } from '@/utils/helper'
 
 import './PlanCard.scss'
 
@@ -22,6 +22,7 @@ export type PlanCard = PlanTypes & {
   loading: boolean
   itemAmount: number
   planId: string
+  isActive?: boolean
 }
 
 const PlanCard = ({
@@ -42,13 +43,19 @@ const PlanCard = ({
   setValue,
   itemAmount,
   loading = false,
+  isActive = false,
   duration = 'Monthly',
   handleSubmit,
   planId,
   stripe_price_id,
 }: PlanCard) => {
   return (
-    <Container boxShadow padding={40} className="plan-card  container-bg">
+    <Container boxShadow borderRadius padding={40} className={classMapper('plan-card  container-bg', { active: isActive })}>
+      {isActive && (
+        <div className="ribbon">
+          <span className="ribbon__content">Active</span>
+        </div>
+      )}
       <Flex vertical gap={20}>
         <Flex gap={20} justify="between" align="center">
           <Typography color={color} type="h1" size="lg" text={type} />
@@ -144,7 +151,7 @@ const PlanCard = ({
             <Button
               size="lg"
               fullWidth
-              
+              type="borderRadius"
               color={buttonColor}
               loading={loading}
               onClick={() => {

@@ -7,7 +7,7 @@ import Button from '@/components/Button'
 import TruncateText from '@/components/TruncateText'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
-import ShimmerPlaceholder from '@/components/ShimmerPlaceholder/ShimmerPlaceholder'
+import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
@@ -18,7 +18,7 @@ import { MissingTitlesDataTypes } from '@/container/sites/sitesTypes'
 
 import './TitlesList.scss'
 import { sitesAPI } from '../../api/sitesAPI'
-import { store } from '@/api/store'
+import { store, useAppSelector } from '@/api/store'
 
 const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { id: siteId } = useParams()
@@ -37,6 +37,7 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   } = useHandleRecommendations()
 
   const recommendation = recommendationData?.data.find((item) => item.link_id)
+  const isApproveAPICallInProgress = useAppSelector(state=>state.sites.isApproveAPICallInProgress)
 
   const handleAllRecommendations = async () => {
     if (siteId) {
@@ -46,8 +47,8 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
         update_data: { approved: true },
         bulk: true,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
   }
 
@@ -61,8 +62,8 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
         update_data: { approved: status },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
   }
 
@@ -90,15 +91,15 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
         update_data: { approved: true, suggested_title: text },
         bulk: false,
       })
-      await getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-      // await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
+       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
   }
 
   const columns: ColumnType<MissingTitlesDataTypes>[] = [
-    { header: 'Link', dataKey: 'url', render: (text: string) => <TruncateText text={text} line={1}></TruncateText> },
+    { header: 'Link', dataKey: 'url', render: (text: string) => <TruncateText text={text} width={220} line={1}></TruncateText> },
     {
       header: 'Title',
       dataKey: 'suggested_title',
@@ -128,8 +129,9 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
             size="sm"
             variant="outlined"
             onClick={(e) => onApprove(e, record.id, record.link_id, record.url, !record.approved)}
-            
+            type="borderRadius"
             color={record.approved ? 'error' : 'success'}
+            disabled={isApproveAPICallInProgress}
             loading={editedId === record.id && isSingleApproveLoading}
           >
             {record.approved ? 'Reject' : 'Approve'}
@@ -179,9 +181,9 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
               <Button
                 size="sm"
                 variant="outlined"
-                
+                type="borderRadius"
                 color="success"
-                disabled={isApproved}
+                disabled={isApproved || isApproveAPICallInProgress}
                 loading={isSubBulkApproveLoading}
                 onClick={handleAllRecommendations}
               >
@@ -192,7 +194,7 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
           <Flex vertical align="center" gap={24} className="preview-details-list" padding="0px 40px 40px 40px">
             <Table columns={columns} data={(recommendationData?.data as MissingTitlesDataTypes[]) || []} />
             {isLoadMore && (
-              <Button color="info" variant="text"  onClick={handleLoadMore}>
+              <Button color="info" variant="text" type="borderRadius" onClick={handleLoadMore}>
                 Load More
               </Button>
             )}

@@ -9,44 +9,44 @@ import Typography from '@/components/Typography/Typography'
 import ShimmerPlaceholder from '@/components/RadarLoader/ShimmerPlaceholder'
 
 import useHandleSitesLogic from '@/container/sites/hooks/useHandleSitesLogic'
-import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
+import useSchemaRecommendations from '@/container/sites/hooks/useSchemaRecommendations'
 
-import { EditIcon } from '@/assets/icons/svgs'
-import { MetaTitleDataTypes } from '@/container/sites/sitesTypes'
-import { store, useAppSelector } from '@/api/store'
 import { sitesAPI } from '../../api/sitesAPI'
+import { EditIcon } from '@/assets/icons/svgs'
+import { SitePagesSchemaTypes } from '@/container/sites/sitesTypes'
+import { store, useAppSelector } from '@/api/store'
 
-const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
+const SchemaPreview = ({ link_id: externalLinkId, selectedKey, selectedLabel }: { link_id: string; selectedKey: string; selectedLabel: string }) => {
   const { id: siteId } = useParams()
-  const [editedId, setEditedId] = useState<string>()
+  const [editedId, setEditedId] = useState<string>('')
   const editableRefs = useRef<(HTMLElement | null)[]>([])
 
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
   const {
-    recommendationData,
-    getRecommendationByType,
-    recommendationDataLoading,
-    handleUpdateRecommendations,
+    schemaPagesData,
+    getSchemaPages,
+    schemaPagesLoading,
+    handleUpdateSchemaStatus,
     isSingleApproveLoading,
     isSubBulkApproveLoading,
-  } = useHandleRecommendations()
+    schemaPagesTypesLoading,
+  } = useSchemaRecommendations()
 
-  const isApproveAPICallInProgress = useAppSelector(state=>state.sites.isApproveAPICallInProgress)
+  const isApproveAPICallInProgress = useAppSelector((state) => state.sites.isApproveAPICallInProgress)
 
-  const isApproved = recommendationData?.total_count === recommendationData?.approved_count
-
-  const recommendation = recommendationData?.data.find((item) => item.link_id)
+  const isApproved = schemaPagesData?.total === schemaPagesData?.approved
 
   const handleAllRecommendations = async () => {
     if (siteId) {
-      await handleUpdateRecommendations({
-        model: 'missing_meta_titles',
-        filter_conditions: { link_id: recommendation?.link_id, site_id: siteId },
-        update_data: { approved: true },
+      await handleUpdateSchemaStatus({
+        schemaType: selectedKey,
+        entryId: '',
         bulk: true,
+        approved: true,
+        website_id: siteId,
       })
-       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_titles', link_id: externalLinkId })
+      getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+      getSchemaPages({ page: 1, per_page: 10, type: selectedKey, link_id: externalLinkId })
     }
   }
 
@@ -54,14 +54,16 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
     setEditedId(type_id)
     e.stopPropagation()
     if (siteId) {
-      await handleUpdateRecommendations({
-        model: 'missing_meta_titles',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
-        update_data: { approved: status },
+      await handleUpdateSchemaStatus({
+        schemaType: selectedKey,
+        entryId: type_id,
         bulk: false,
+        link_id: linkId,
+        approved: status,
+        website_id: siteId,
       })
-       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_titles', link_id: externalLinkId })
+      getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+      getSchemaPages({ page: 1, per_page: 10, type: selectedKey, link_id: externalLinkId })
     }
   }
 
@@ -82,34 +84,35 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
   const handleBlur = async (e: FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId: string) => {
     const text = e.target.innerText
     if (siteId && currentText != text) {
-      await handleUpdateRecommendations({
-        model: 'missing_meta_titles',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
-        update_data: { approved: true, suggested_title: text },
-        bulk: false,
+      await handleUpdateSchemaStatus({
+        schemaType: selectedKey,
+        entryId: type_id,
+        bulk: true,
+        approved: true,
+        link_id: linkId,
+        website_id: siteId,
       })
-       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_titles', link_id: externalLinkId })
+      getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+      getSchemaPages({ page: 1, per_page: 10, type: selectedKey, link_id: externalLinkId })
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')
   }
 
-  const isLoadMore = (recommendationData?.total_count || 0) > (recommendationData?.data?.length || 0)
+  const isLoadMore = (schemaPagesData?.total || 0) > (schemaPagesData?.data?.length || 0)
 
   const handleLoadMore = () => {
-    getRecommendationByType({ page: (recommendationData?.page || 0) + 1, per_page: 10, type: 'missing_meta_titles', link_id: externalLinkId })
+    getSchemaPages({ page: (schemaPagesData?.page || 0) + 1, per_page: 10, type: selectedKey, link_id: externalLinkId })
   }
 
   useEffect(() => {
-    getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_titles', link_id: externalLinkId })
     const interval = setInterval(() => {
       const afterCached = sitesAPI.endpoints.getRecommendationsByType.select({
         site_id: siteId || '',
         link_id: externalLinkId,
         page: 1,
         per_page: 10,
-        type: 'missing_meta_titles',
+        type: 'page_schemas',
       })(store.getState())
       if (afterCached?.status === 'fulfilled') {
         clearInterval(interval)
@@ -120,16 +123,8 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [externalLinkId])
 
-  const renderAccordionDescription = (item: MetaTitleDataTypes, index: number) => (
+  const renderAccordionDescription = (item: SitePagesSchemaTypes, index: number) => (
     <Flex vertical gap={4}>
-      {!!item?.existing_meta_title?.length && (
-        <>
-          <Typography text="Content:" />
-          <Typography text={`Title tag is currently ${item?.existing_meta_title?.length} characters vs 30-65 recommended`} color="warning" />
-        </>
-      )}
-      <Typography text="Existing:" />
-      <Typography text={item?.existing_meta_title || ''} color="warning" />
       <Flex align="center" gap={16}>
         <Typography text="Suggestion:" />
         <span style={{ cursor: 'pointer' }} className="pointer-icon-fill" onClick={() => editSuggestionHandler(index, item.id)}>
@@ -138,16 +133,16 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
       </Flex>
       <Typography
         color="warning"
-        text={item?.suggested_title}
+        text={item?.generated_schema}
         contentEditable={item.id === editedId}
-        onBlur={(e) => handleBlur(e, item.id, index, item?.suggested_title, item.link_path)}
+        onBlur={(e) => handleBlur(e, item.id, index, item?.generated_schema, item.link_path)}
         ref={(el) => (editableRefs.current[index] = el)}
       />
     </Flex>
   )
 
-  const optimizedTitlesList = (recommendationData?.data as MetaTitleDataTypes[])?.map((item, index) => ({
-    url: item?.link_path,
+  const optimizedTitlesList = (schemaPagesData?.data as SitePagesSchemaTypes[])?.map((item, index) => ({
+    url: item?.url,
     link_id: item.link_id,
     content: renderAccordionDescription(item, index),
     approve: item.approved,
@@ -156,12 +151,12 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
 
   return (
     <Container borderRadius boxShadow width={70} className="recommendation-list-container container-bg">
-      <ShimmerPlaceholder loading={recommendationDataLoading}>
+      <ShimmerPlaceholder loading={schemaPagesLoading || schemaPagesTypesLoading}>
         <Flex vertical gap={16}>
           <Flex align="start" padding="40px 40px 0px 40px">
             <Flex vertical gap={16}>
-              <Typography type="h3" text="Optimize Titles" />
-              <Typography text="Currently Google will show up to 60 characters in the title of your search results, so use them! We've added suggested titles below which you may want to edit and approve. In general, we recommend including what the page is about, your brand name, as well as some adjectives or modifiers." />
+              <Typography type="h3" text={selectedLabel || ''} />
+              <Typography text={`This category has ${schemaPagesData?.total} customizations. Click to edit`} />
             </Flex>
             <Button
               size="sm"
@@ -172,7 +167,7 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
               loading={isSubBulkApproveLoading}
               onClick={handleAllRecommendations}
             >
-              Approve All ({recommendationData?.approved_count || 0}/{recommendationData?.total_count || 0})
+              Approve All ({schemaPagesData?.approved || 0}/{schemaPagesData?.total || 0})
             </Button>
           </Flex>
           <Flex justify="center" align="center" wrap gap={8} className="preview-details-list" padding="0px 40px 40px 40px">
@@ -211,4 +206,4 @@ const TitlePreview = ({ link_id: externalLinkId }: { link_id: string }) => {
   )
 }
 
-export default TitlePreview
+export default SchemaPreview

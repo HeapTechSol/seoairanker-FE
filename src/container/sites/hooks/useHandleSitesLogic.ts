@@ -43,11 +43,12 @@ const useHandleSitesLogic = () => {
     resolver: zodResolver(ADD_SITE_WIZARD_VALIDATIONS[currentStep]),
   })
 
-
-  // const userQuota = useAppSelector((state) => state.billing.userQuota)
+  const userQuota = useAppSelector((state) => state.billing.userQuota)
+  const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
+  const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
   const notificationsData = useAppSelector((state) => state.sites.notificationsData)
 
-  // const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota as number) >= (userQuota?.total_sites_quota as number)
+  const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota as number) >= (userQuota?.total_sites_quota as number)
 
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()
@@ -62,7 +63,7 @@ const useHandleSitesLogic = () => {
   const [getSightInsights, { isLoading: insightsLoading, data: insightsData }] = useLazyGetSightInsightsQuery()
   const [getSitePathSearchResults, { isLoading: sitePathSearchLoading }] = useLazyGetSitePathSearchResultsQuery()
   const [getSchemaTypes, { isLoading: schemaTypesLoading, data: schemaTypesData }] = useLazyGetSchemaTypesQuery()
-  const [getSiteCrawledInfo, { isLoading: isGetSiteDataPending, data: crawledInfo }] = useLazyGetSiteCrawledInfoQuery()
+  const [getSiteCrawledInfo] = useLazyGetSiteCrawledInfoQuery()
 
   const stepsCount = steps(control)?.length
 
@@ -86,10 +87,10 @@ const useHandleSitesLogic = () => {
   }
 
   const handleForwardButtonPress = () => {
-    // if (isSiteQuotaExceeded) {
-    //   toast.error('You cannot add a new site, your quota to add site is exceeded')
-    //   return
-    // }
+    if (isSiteQuotaExceeded) {
+      toast.error('You cannot add a new site, your quota to add site is exceeded')
+      return
+    }
     handleSubmit(handleNext)()
   }
 
@@ -215,9 +216,9 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const getSiteCrawledInfoData = async (payload: { site_id: string; link_id?: string }) => {
+  const getSiteCrawledInfoData = async (payload: { site_id: string; link_id?: string } ) => {
     try {
-      await getSiteCrawledInfo(payload).unwrap()
+      await getSiteCrawledInfo(payload, false).unwrap()
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -233,7 +234,7 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const approveSchema = async (payload: { id: string; schema_types: string[], crawl_interval:string }) => {
+  const approveSchema = async (payload: { id: string; schema_types: string[]; crawl_interval: string }) => {
     try {
       const response = await approveSiteSchema(payload).unwrap()
       toast.success(response?.message, { autoClose: 1000 })
@@ -283,7 +284,7 @@ const useHandleSitesLogic = () => {
     handleReadNotification,
     getNotificationLoading,
     getSiteCrawledInfoData,
-    crawledInfo: crawledInfo?.data,
+    crawledInfo: crawledInfo,
     handleForwardButtonPress,
     handlePreviousButtonPress,
     sitesList: sitesList?.data || [],

@@ -3,7 +3,7 @@ import { Control, Controller } from 'react-hook-form'
 import Flex from '@/components/Flex'
 import Input from '@/components/Input'
 import Divider from '@/components/Divider/Divider'
-// import ToggleButton from '@/components/ToggleButton'
+import ToggleButton from '@/components/ToggleButton'
 import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 // import RangeSelector from '@/components/RangeSelector/RangeSelector'
@@ -67,7 +67,7 @@ const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
             text={`Current Limit: ${pages >= (userQuota?.total_pages_quota || 0) ? 'unlimited' : pages || ''} ${
               userQuota?.total_pages_quota
             } Included in your plan`}
-          />
+          /> */}
           <Flex align="center" gap={16}>
             <Controller
               render={({ field: { onChange, value } }) => <ToggleButton onChange={onChange} checked={value} />}
@@ -75,7 +75,7 @@ const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
               control={control}
             />
             <Typography text="Use AI Engine to generate JSON Schemas for pages?" />
-          </Flex> */}
+          </Flex>
         </Flex>
       </Flex>
     </Container>

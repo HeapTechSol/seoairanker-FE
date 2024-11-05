@@ -39,11 +39,31 @@ export type SiteLinksDataTypes = {
   page_language: string
 }
 
+export type SitePagesSchemaTypes = {
+  id: string
+  link_id: string
+  website_id: number
+  page_id: number
+  schema_type: string
+  approved: boolean
+  generated_schema: string
+  created_at: string
+  updated_at: string
+  link_path: string
+  url:string
+}
+
 export type SiteLinksAPIResponseTypes = {
   page: number
   per_page: number
   total_count: number
   data: SiteLinksDataTypes[]
+}
+
+export type SchemaPagesListAPIResponseTypes = {
+  success: boolean
+  message: string
+  data: { schema_type: string; count: string; label: string }[]
 }
 
 export type PathSearchResults = {
@@ -63,12 +83,15 @@ export type GetSitePathSearchResultsResponseTypes = {
 
 export type ModalTypes =
   | 'og_tags'
+  | 'page_schemas'
   | 'external_links'
   | 'missing_alt_images'
   | 'missing_meta_titles'
   | 'heading_suggestions'
   | 'missing_link_title_attr'
   | 'missing_meta_descriptions'
+
+export type SchemaPageTypes = string
 
 export type ModalDataTypes = {
   total: number
@@ -119,11 +142,18 @@ export type CrawledInfoAPIResponseTypes = {
 }
 
 export type GetRecommendationsByTypesPayloadTypes = { type: ModalTypes; per_page: number; page: number }
+export type GetSchemaTypesPayloadTypes = { type: SchemaPageTypes; per_page: number; page: number }
 
 export type SiteLinkPayloadTypes = {
   page: number
   site_id: string
   per_page: number
+  schema_type?: string
+}
+
+export type SchemaPagesListPayloadTypes = {
+  site_id: string
+  link_id?: string
 }
 
 export type GetKeywordsPayload = {
@@ -210,6 +240,7 @@ export type HeadingOptimizationDataTypes = {
 
 export type AllModalDataTypes =
   | OgTagsDataTypes[]
+  | SitePagesSchemaTypes[]
   | ImagesAltDataTypes[]
   | MetaTitleDataTypes[]
   | MissingTitlesDataTypes[]
@@ -220,6 +251,16 @@ export type GetRecommendationsByModelAPIResponseTypes = {
   page: number
   total_count: number
   approved_count: number
+  data: AllModalDataTypes
+  unapproved_count: number
+  modal?: ModalTypes
+  per_page?: number
+}
+
+export type GetPageSchemaByTypesAPIResponseTypes = {
+  page: number
+  total: number
+  approved: number
   data: AllModalDataTypes
   unapproved_count: number
   modal?: ModalTypes
@@ -238,6 +279,15 @@ export type ApproveRecommendationsPayloadTypes = {
     suggested_heading?: string
   }
   filter_conditions: { site_id: string; id?: string; url?: string; link_id?: string }
+}
+
+export type ApproveSchemaPayloadTypes = {
+  entryId: string
+  schemaType: string
+  website_id: string
+  bulk?:boolean
+  approved:boolean,
+  link_id?:string
 }
 
 export type AddSitePayloadTypes = {

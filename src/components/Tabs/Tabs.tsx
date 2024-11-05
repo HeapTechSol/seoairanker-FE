@@ -11,6 +11,7 @@ import './Tabs.scss'
 type BaseTab = {
   title: string
   content: React.ReactNode
+  hidden?: boolean
 }
 
 type TabWithKey = BaseTab & {
@@ -96,19 +97,21 @@ const Tabs = <T extends boolean>({
   return (
     <div className={tabsCSSClasses}>
       <div className={tabsButtonContainerCSSClasses}>
-        {tabs.map((tab, index) => (
-          <Button
-            size={size}
-            key={index}
-            color={tabColor}
-            variant={variant}
-            
-            className={buttonCSSClasses(index)}
-            onClick={() => handleTabClick(index)}
-          >
-            {tab.title}
-          </Button>
-        ))}
+        {tabs
+          ?.filter((item) => !item.hidden)
+          ?.map((tab, index) => (
+            <Button
+              size={size}
+              key={index}
+              color={tabColor}
+              variant={variant}
+              type="borderRadius"
+              className={buttonCSSClasses(index)}
+              onClick={() => handleTabClick(index)}
+            >
+              {tab.title}
+            </Button>
+          ))}
       </div>
       <div className={tabsContentCSSClasses}>{tabs[activeIndex].content}</div>
     </div>
