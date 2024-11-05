@@ -89,7 +89,8 @@ export type ModalTypes =
   | 'missing_meta_titles'
   | 'heading_suggestions'
   | 'missing_link_title_attr'
-  | 'missing_meta_descriptions'
+  | 'missing_meta_descriptions' |
+    'cannonical_tags'
 
 export type SchemaPageTypes = string
 
@@ -202,6 +203,17 @@ export type OgTagsDataTypes = {
   suggested_og_tag: string
 }
 
+export type ConicalDataTypes = {
+  id: string
+  count: string
+  label: string
+  link_id: string
+  link_path: string
+  approved: boolean
+  existing_og_tag: string
+  generated_canonical: string
+}
+
 export type MetaTitleDataTypes = {
   id: string
   count: string
@@ -245,7 +257,7 @@ export type AllModalDataTypes =
   | MetaTitleDataTypes[]
   | MissingTitlesDataTypes[]
   | MetaDescriptionDataTypes[]
-  | HeadingOptimizationDataTypes[]
+  | HeadingOptimizationDataTypes[] | ConicalDataTypes[]
 
 export type GetRecommendationsByModelAPIResponseTypes = {
   page: number

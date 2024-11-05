@@ -2,8 +2,10 @@ import TitleList from '../TitlesList/TitleList'
 import ImagesList from '../ImagesList/ImagesList'
 import TitlePreview from '../TitlePreview/TitlePreview'
 import SocialPreview from '../SocialPreview/SocialPreview'
+import ConicalTagPreview from '../ConicalTagsPreview/ConicalTagPreview'
 import ExternalTitleList from '../ExternalTitlesList/ExternalTitleList'
 import DescriptionPreview from '../DescriptionPreview/DescriptionPreview'
+
 import HeadingRecommendationsPreview from '../HeadingRecommendationsPreview/HeadingRecommendationsPreview'
 
 import { ModalTypes } from '@/container/sites/sitesTypes'
@@ -27,6 +29,8 @@ const RecommendationList = ({ selectedKey, link_id, defaultKey }: { selectedKey:
         return <SocialPreview link_id={link_id} />
       case 'heading_suggestions':
         return <HeadingRecommendationsPreview link_id={link_id} />
+      case 'cannonical_tags':
+        return <ConicalTagPreview link_id={link_id} /> 
     }
   }
 

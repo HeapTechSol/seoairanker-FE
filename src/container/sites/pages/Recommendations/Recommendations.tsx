@@ -45,6 +45,7 @@ const Recommendations = ({ isGetSiteDataPending }: { isGetSiteDataPending: boole
     missing_meta_descriptions: 'Add Meta Description',
     missing_meta_titles: 'Optimize Title',
     external_links: 'External Link Target',
+    cannonical_tags: 'Add Canonical URL Tag',
   }
 
   const recommendationsList = crawledInfo?.model_data?.map((item, index) => ({
