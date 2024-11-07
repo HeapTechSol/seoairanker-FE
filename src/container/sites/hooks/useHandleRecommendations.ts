@@ -27,17 +27,18 @@ const useHandleRecommendations = () => {
   const [reCrawlSite, { isLoading: reCrawlLoading }] = useReCrawlSiteMutation()
   const [reCrawlSitePage, { isLoading: reCrawlPageLoading }] = useReCrawlSitePageMutation()
   const [approveRecommendations] = useApproveRecommendationsMutation()
-  
+
   const [getRecommendationsByType, { isFetching: recommendationDataLoading }] = useLazyGetRecommendationsByTypeQuery()
 
-  const recommendationData = useAppSelector(state=>state.sites.recommendationData)
+  const recommendationData = useAppSelector((state) => state.sites.recommendationData)
 
-  const handleUpdateRecommendations = async (payload: ApproveRecommendationsPayloadTypes) => {
+  const handleUpdateRecommendations = async (payload: ApproveRecommendationsPayloadTypes, callBack: () => Promise<void>) => {
     try {
       if (!payload.model && payload.bulk) setIsBulkApproveLoading(true)
       else if (payload.model && payload.bulk) setIsSubBulkApproveLoading(true)
       else if (payload.model && !payload.bulk) setIsSingleApproveLoading(true)
       const data = await approveRecommendations(payload).unwrap()
+      await callBack()
       toast.success(data?.message || '')
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
@@ -60,8 +61,8 @@ const useHandleRecommendations = () => {
           ...data,
           data: ((isScrolling ? uniqueData : data?.data) as AllModalDataTypes) || [],
           modal: payload.type,
-          page:payload.page,
-          per_page:payload.per_page,
+          page: payload.page,
+          per_page: payload.per_page,
         })
       )
     } catch (error) {

@@ -26,18 +26,24 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { recommendationData, getRecommendationByType, recommendationDataLoading, handleUpdateRecommendations, isSingleApproveLoading } =
     useHandleRecommendations()
 
+  const refreshRecommendations = async () => {
+    await getSiteCrawledInfoData({ site_id: siteId || '', link_id: externalLinkId })
+    await getRecommendationByType({ page: 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
+  }
+
   const onApprove = async (e: React.SyntheticEvent, type_id: string, linkId: string, imageUrl: string, status: boolean) => {
     setEditedId(type_id)
     e.stopPropagation()
     if (siteId)
-      await handleUpdateRecommendations({
-        model: 'missing_alt_images',
-        filter_conditions: { id: type_id, link_id: linkId, url: imageUrl, site_id: siteId },
-        update_data: { approved: status },
-        bulk: false,
-      })
-     getSiteCrawledInfoData({ site_id: siteId || '', link_id: externalLinkId })
-     getRecommendationByType({ page: 1, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
+      await handleUpdateRecommendations(
+        {
+          model: 'missing_alt_images',
+          filter_conditions: { id: type_id, link_id: linkId, url: imageUrl, site_id: siteId },
+          update_data: { approved: status },
+          bulk: false,
+        },
+        refreshRecommendations
+      )
   }
 
   const editSuggestionHandler = (index: number, id: string) => {
@@ -58,14 +64,15 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
     setEditedId(type_id)
     const text = e.target.innerText
     if (siteId && currentText != text && text) {
-      await handleUpdateRecommendations({
-        model: 'images',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
-        update_data: { approved: true, alt_text: text },
-        bulk: false,
-      })
-       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-       getRecommendationByType({ page: recommendationData?.page as number, per_page: 20, type: 'missing_alt_images', link_id: externalLinkId })
+      await handleUpdateRecommendations(
+        {
+          model: 'images',
+          filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
+          update_data: { approved: true, alt_text: text },
+          bulk: false,
+        },
+        refreshRecommendations
+      )
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')

@@ -31,20 +31,26 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
     isSingleApproveLoading,
   } = useHandleRecommendations()
 
-  const isApproveAPICallInProgress = useAppSelector(state=>state.sites.isApproveAPICallInProgress)
+  const isApproveAPICallInProgress = useAppSelector((state) => state.sites.isApproveAPICallInProgress)
 
   const recommendation = recommendationData?.data?.find((item) => item.link_id)
 
+  const refreshRecommendations = async () => {
+    await getSiteCrawledInfoData({ site_id: siteId || '', link_id: externalLinkId })
+    await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
+  }
+
   const handleAllRecommendations = async () => {
     if (siteId) {
-      await handleUpdateRecommendations({
-        model: 'missing_meta_descriptions',
-        filter_conditions: { link_id: recommendation?.link_id, site_id: siteId },
-        update_data: { approved: true },
-        bulk: true,
-      })
-       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
+      await handleUpdateRecommendations(
+        {
+          model: 'missing_meta_descriptions',
+          filter_conditions: { link_id: recommendation?.link_id, site_id: siteId },
+          update_data: { approved: true },
+          bulk: true,
+        },
+        refreshRecommendations
+      )
     }
   }
 
@@ -52,14 +58,15 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
     setEditedId(type_id)
     e.stopPropagation()
     if (siteId) {
-      await handleUpdateRecommendations({
-        model: 'missing_meta_descriptions',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
-        update_data: { approved: status },
-        bulk: false,
-      })
-       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
+      await handleUpdateRecommendations(
+        {
+          model: 'missing_meta_descriptions',
+          filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
+          update_data: { approved: status },
+          bulk: false,
+        },
+        refreshRecommendations
+      )
     }
   }
 
@@ -119,14 +126,15 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
   const handleBlur = async (e: React.FocusEvent<HTMLElement>, type_id: string, index: number, currentText: string, linkId: string) => {
     const text = e.target.innerText
     if (siteId && currentText != text) {
-      await handleUpdateRecommendations({
-        model: 'missing_meta_descriptions',
-        filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
-        update_data: { approved: true, suggested_description: text },
-        bulk: false,
-      })
-       getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
-       getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
+      await handleUpdateRecommendations(
+        {
+          model: 'missing_meta_descriptions',
+          filter_conditions: { id: type_id, link_id: linkId, site_id: siteId },
+          update_data: { approved: true, suggested_description: text },
+          bulk: false,
+        },
+        refreshRecommendations
+      )
     }
     const element = editableRefs.current[index]
     element?.setAttribute('contentEditable', 'false')

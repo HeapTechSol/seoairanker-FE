@@ -37,6 +37,7 @@ export type SiteLinksDataTypes = {
   updatedAt: string
   last_crawled: string
   page_language: string
+  snippet_installed:boolean
 }
 
 export type SitePagesSchemaTypes = {

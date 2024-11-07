@@ -19,13 +19,14 @@ import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommend
 
 import { MdBlock } from 'react-icons/md'
 import { LuRefreshCcw } from 'react-icons/lu'
+import { FaRegCircleCheck } from 'react-icons/fa6'
 
 import { formatDate } from '@/utils/helper'
+import { useAppSelector } from '@/api/store'
 import { ColumnType } from '@/components/Table/types'
 import { SiteLinksDataTypes } from '@/container/sites/sitesTypes'
 
 import './SitePages.scss'
-import { useAppSelector } from '@/api/store'
 
 const SitePages = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean }) => {
   const { id: siteId } = useParams()
@@ -57,10 +58,19 @@ const SitePages = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean }) 
     {
       header: 'WIDGET',
       textAlign: 'center',
-      render: () => (
-        <Tooltip content="Looks like widgets is not installed on this page">
-          <Button StartIcon={<MdBlock />} onlyIcon noPadding variant="text" color="error" />
-        </Tooltip>
+      dataKey: 'snippet_installed',
+      render: (val) => (
+        <>
+          {val ? (
+            <Tooltip content="Widgets is installed on this page">
+              <FaRegCircleCheck className="checkmark-icon" />
+            </Tooltip>
+          ) : (
+            <Tooltip content="Looks like widgets is not installed on this page">
+              <Button StartIcon={<MdBlock />} onlyIcon noPadding variant="text" color="error" />
+            </Tooltip>
+          )}
+        </>
       ),
     },
     {

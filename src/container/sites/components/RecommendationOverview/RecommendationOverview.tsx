@@ -39,20 +39,26 @@ const RecommendationOverview = ({
 }) => {
   const [statusType, setStatusType] = useState<boolean>(false)
 
-  const isApproveAPICallInProgress = useAppSelector(state=>state.sites.isApproveAPICallInProgress)
+  const isApproveAPICallInProgress = useAppSelector((state) => state.sites.isApproveAPICallInProgress)
 
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
   const { handleUpdateRecommendations, isBulkApproveLoading, getRecommendationByType } = useHandleRecommendations()
 
+  const refreshRecommendations = async () => {
+    await getSiteCrawledInfoData({ site_id: site_id, link_id: externalLinkId })
+    await getRecommendationByType({ page: 1, per_page: selectedKey === 'missing_alt_images' ? 20 : 10, type: selectedKey, link_id: externalLinkId })
+  }
+
   const handleApproveAllRecommendations = async (status: boolean) => {
     setStatusType(status)
-    await handleUpdateRecommendations({
-      filter_conditions: { site_id: site_id },
-      update_data: { approved: status },
-      bulk: true,
-    })
-     getSiteCrawledInfoData({ site_id: site_id, link_id: externalLinkId })
-     getRecommendationByType({ page: 1, per_page: selectedKey === 'missing_alt_images' ? 20 : 10, type: selectedKey, link_id: externalLinkId })
+    await handleUpdateRecommendations(
+      {
+        filter_conditions: { site_id: site_id },
+        update_data: { approved: status },
+        bulk: true,
+      },
+      refreshRecommendations
+    )
   }
 
   const isAllApproved = crawledInfo?.site_data?.total_approved == crawledInfo?.site_data?.total_count

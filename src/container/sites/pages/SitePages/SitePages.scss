@@ -1,4 +1,8 @@
 .site-pages-container {
   position: relative;
 
+  .checkmark-icon {
+      color: colorMapper(success, main);
+    }
+
 }

@@ -15,12 +15,12 @@ import { GrInstallOption } from 'react-icons/gr'
 import { FaRegCircleCheck } from 'react-icons/fa6'
 import { MdOutlineRecommend, MdOutlineSchema, MdOutlineWatchLater } from 'react-icons/md'
 
-import {  ModalTypes } from '@/container/sites/sitesTypes'
+import { ModalTypes } from '@/container/sites/sitesTypes'
 
 import './SiteOverview.scss'
 import { useAppSelector } from '@/api/store'
 
-const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean;  }) => {
+const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean }) => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
@@ -155,78 +155,105 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean;
               </Container>
               <Container width={70} className="recommendations-overview__right-container">
                 <Grid gap={16} minWidth={100} minMax={200}>
-                  <Container className="recommendations-overview__right-container__batch">
-                    <Flex gap={8} vertical>
-                      <Typography
-                        text={getModalRecommendationsCountByType('heading_suggestions') || 0}
-                        className={'recommendations-overview__right-container__batch__count'}
-                      />
-                      <Typography text="Optimize Headline Tags" />
-                    </Flex>
-                  </Container>
-                  <Container className="recommendations-overview__right-container__batch">
-                    <Flex gap={8} vertical>
-                      <Typography
-                        text={getModalRecommendationsCountByType('missing_meta_titles') || 0}
-                        className={'recommendations-overview__right-container__batch__count'}
-                      />
-                      <Typography text="Optimize Title" />
-                    </Flex>
-                  </Container>
-                  <Container className="recommendations-overview__right-container__batch">
-                    <Flex gap={8} vertical>
-                      <Typography
-                        text={getModalRecommendationsCountByType('og_tags') || 0}
-                        className={'recommendations-overview__right-container__batch__count'}
-                      />
-                      <Typography text="Add a Social Preview" />
-                    </Flex>
-                  </Container>
-                  <Container className="recommendations-overview__right-container__batch">
-                    <Flex gap={8} vertical>
-                      <Typography
-                        text={getModalRecommendationsCountByType('missing_meta_descriptions') || 0}
-                        className={'recommendations-overview__right-container__batch__count'}
-                      />
-                      <Typography text="Add Meta Description" />
-                    </Flex>
-                  </Container>
-                  <Container className="recommendations-overview__right-container__batch">
-                    <Flex gap={8} vertical>
-                      <Typography
-                        text={getModalRecommendationsCountByType('heading_suggestions') || 0}
-                        className={'recommendations-overview__right-container__batch__count'}
-                      />
-                      <Typography text="Add an H1 Tag" />
-                    </Flex>
-                  </Container>
-                  <Container className="recommendations-overview__right-container__batch">
-                    <Flex gap={8} vertical>
-                      <Typography
-                        text={getModalRecommendationsCountByType('missing_link_title_attr') || 0}
-                        className={'recommendations-overview__right-container__batch__count'}
-                      />
-                      <Typography text="Links Missing Titles" />
-                    </Flex>
-                  </Container>
-                  <Container className="recommendations-overview__right-container__batch">
-                    <Flex gap={8} vertical>
-                      <Typography
-                        text={getModalRecommendationsCountByType('external_links') || 0}
-                        className={'recommendations-overview__right-container__batch__count'}
-                      />
-                      <Typography text="External Link Target" />
-                    </Flex>
-                  </Container>
-                  <Container className="recommendations-overview__right-container__batch">
-                    <Flex gap={8} vertical>
-                      <Typography
-                        text={getModalRecommendationsCountByType('missing_alt_images') || 0}
-                        className={'recommendations-overview__right-container__batch__count'}
-                      />
-                      <Typography text="No Image Alt/Title Text" />
-                    </Flex>
-                  </Container>
+                  {!!getModalRecommendationsCountByType('heading_suggestions') && (
+                    <Container className="recommendations-overview__right-container__batch">
+                      <Flex gap={8} vertical>
+                        <Typography
+                          text={getModalRecommendationsCountByType('heading_suggestions') || 0}
+                          className={'recommendations-overview__right-container__batch__count'}
+                        />
+                        <Typography text="Optimize Headline Tags" />
+                      </Flex>
+                    </Container>
+                  )}
+                  {!!getModalRecommendationsCountByType('missing_meta_titles') && (
+                    <Container className="recommendations-overview__right-container__batch">
+                      <Flex gap={8} vertical>
+                        <Typography
+                          text={getModalRecommendationsCountByType('missing_meta_titles') || 0}
+                          className={'recommendations-overview__right-container__batch__count'}
+                        />
+                        <Typography text="Optimize Title" />
+                      </Flex>
+                    </Container>
+                  )}
+                  {!!getModalRecommendationsCountByType('og_tags') && (
+                    <Container className="recommendations-overview__right-container__batch">
+                      <Flex gap={8} vertical>
+                        <Typography
+                          text={getModalRecommendationsCountByType('og_tags') || 0}
+                          className={'recommendations-overview__right-container__batch__count'}
+                        />
+                        <Typography text="Add a Social Preview" />
+                      </Flex>
+                    </Container>
+                  )}
+                  {!!getModalRecommendationsCountByType('missing_meta_descriptions') && (
+                    <Container className="recommendations-overview__right-container__batch">
+                      <Flex gap={8} vertical>
+                        <Typography
+                          text={getModalRecommendationsCountByType('missing_meta_descriptions') || 0}
+                          className={'recommendations-overview__right-container__batch__count'}
+                        />
+                        <Typography text="Add Meta Description" />
+                      </Flex>
+                    </Container>
+                  )}
+                  {!!getModalRecommendationsCountByType('heading_suggestions') && (
+                    <Container className="recommendations-overview__right-container__batch">
+                      <Flex gap={8} vertical>
+                        <Typography
+                          text={getModalRecommendationsCountByType('heading_suggestions') || 0}
+                          className={'recommendations-overview__right-container__batch__count'}
+                        />
+                        <Typography text="Add an H1 Tag" />
+                      </Flex>
+                    </Container>
+                  )}
+                  {!!getModalRecommendationsCountByType('missing_link_title_attr') && (
+                    <Container className="recommendations-overview__right-container__batch">
+                      <Flex gap={8} vertical>
+                        <Typography
+                          text={getModalRecommendationsCountByType('missing_link_title_attr') || 0}
+                          className={'recommendations-overview__right-container__batch__count'}
+                        />
+                        <Typography text="Links Missing Titles" />
+                      </Flex>
+                    </Container>
+                  )}
+                  {!!getModalRecommendationsCountByType('external_links') && (
+                    <Container className="recommendations-overview__right-container__batch">
+                      <Flex gap={8} vertical>
+                        <Typography
+                          text={getModalRecommendationsCountByType('external_links') || 0}
+                          className={'recommendations-overview__right-container__batch__count'}
+                        />
+                        <Typography text="External Link Target" />
+                      </Flex>
+                    </Container>
+                  )}
+                  {!!getModalRecommendationsCountByType('missing_alt_images') && (
+                    <Container className="recommendations-overview__right-container__batch">
+                      <Flex gap={8} vertical>
+                        <Typography
+                          text={getModalRecommendationsCountByType('missing_alt_images') || 0}
+                          className={'recommendations-overview__right-container__batch__count'}
+                        />
+                        <Typography text="No Image Alt/Title Text" />
+                      </Flex>
+                    </Container>
+                  )}
+                  {!!getModalRecommendationsCountByType('cannonical_tags') && (
+                    <Container className="recommendations-overview__right-container__batch">
+                      <Flex gap={8} vertical>
+                        <Typography
+                          text={getModalRecommendationsCountByType('cannonical_tags') || 0}
+                          className={'recommendations-overview__right-container__batch__count'}
+                        />
+                        <Typography text="Add Canonical URL Tag" />
+                      </Flex>
+                    </Container>
+                  )}
                 </Grid>
               </Container>
             </Flex>
