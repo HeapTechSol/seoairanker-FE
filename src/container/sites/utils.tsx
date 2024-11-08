@@ -47,7 +47,7 @@ export const ADD_SITE_WIZARD_VALIDATIONS = [
         invalid_type_error: requiredMessage('Site URL'),
         required_error: requiredMessage('Site URL'),
       })
-      .regex(URL_REGEX, 'Site URL is invalid')
+      // .regex(URL_REGEX, 'Site URL is invalid')
       .min(5, requiredMessage('Site URL')),
     pages: z.number().optional(),
     jsonSchemas: z.boolean().optional(),
