@@ -16,7 +16,6 @@ import { AddSitePayloadTypes } from '@/container/sites/sitesTypes'
 import './AddSite.scss'
 
 const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
-  
   // const userQuota = useAppSelector((state) => state.billing.userQuota)
 
   // const pages = useWatch({ control, name: 'pages' })
@@ -75,6 +74,14 @@ const AddSite = ({ control }: { control: Control<AddSitePayloadTypes> }) => {
               control={control}
             />
             <Typography text="Use AI Engine to generate JSON Schemas for pages?" />
+          </Flex>
+          <Flex align="center" gap={16}>
+            <Controller
+              render={({ field: { onChange, value } }) => <ToggleButton onChange={onChange} checked={value} />}
+              name="ai_generation"
+              control={control}
+            />
+            <Typography text="AI Generation" />
           </Flex>
         </Flex>
       </Flex>

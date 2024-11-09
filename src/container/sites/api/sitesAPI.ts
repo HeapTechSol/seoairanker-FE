@@ -69,7 +69,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         },
       }),
     }),
-    saveKeywords: builder.mutation<SitesAPIResponseTypes, AddKeyWordsPayloadTypes>({
+    saveKeywords: builder.mutation<{message:string}, AddKeyWordsPayloadTypes>({
       query: (payload) => ({
         url: SAVE_SELECTED_KEYWORDS,
         method: 'POST',

@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",
-    "build": "NODE_OPTIONS='--max-old-space-size=4096' tsc && NODE_OPTIONS='--max-old-space-size=4096' vite build",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' tsc && NODE_OPTIONS='--max-old-space-size=4096' vite build && npm run obfuscate",
+    "obfuscate": "javascript-obfuscator dist --output dist --compact true --control-flow-flattening true --dead-code-injection true --debug-protection true --disable-console-output true --string-array true --string-array-encoding rc4",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
   },
@@ -52,6 +53,7 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "javascript-obfuscator": "^4.1.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.4"
   },

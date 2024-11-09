@@ -310,6 +310,7 @@ export type AddSitePayloadTypes = {
   language: string
   jsonSchemas: boolean
   businessType: string
+  ai_generation: boolean
   keywords: MaybeNull<KeywordsDataTypes[]>
 }
 

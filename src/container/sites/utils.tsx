@@ -17,7 +17,6 @@ import { Unknown } from '@/utils/commonTypes'
 import { KeywordsDataTypes } from './sitesTypes'
 import { ColumnType } from '@/components/Table/types'
 import { APIKeysDataTypes } from '../billing/billingTypes'
-import { URL_REGEX } from '@/utils/regex'
 
 const { requiredMessage } = CommonValidations
 
@@ -25,6 +24,7 @@ export const ADD_SITE_WIZARD_DEFAULT_VALUES = {
   siteUrl: '',
   pages: 10500,
   jsonSchemas: true,
+  ai_generation: true,
   businessType: '',
   country: '',
   language: '',
@@ -51,6 +51,7 @@ export const ADD_SITE_WIZARD_VALIDATIONS = [
       .min(5, requiredMessage('Site URL')),
     pages: z.number().optional(),
     jsonSchemas: z.boolean().optional(),
+    ai_generation: z.boolean().optional(),
   }),
   z
     .object({

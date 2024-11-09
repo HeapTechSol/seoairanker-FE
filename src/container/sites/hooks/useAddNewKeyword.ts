@@ -33,8 +33,8 @@ const useAddNewKeyword = () => {
 
   const onSaveKeywords = async (values: AddKeywordsDefaultValues) => {
     try {
-      await saveKeywords({ ...values, keywords: values.keywords.split('\n'), site_id: siteId || '' }).unwrap()
-      toast.success('Keywords saved successfully')
+      const data = await saveKeywords({ ...values, keywords: values.keywords.split('\n'), site_id: siteId || '' }).unwrap()
+      toast.success(data.message || '')
       navigateToTab('site_overview')
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
