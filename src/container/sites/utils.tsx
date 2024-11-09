@@ -17,6 +17,7 @@ import { Unknown } from '@/utils/commonTypes'
 import { KeywordsDataTypes } from './sitesTypes'
 import { ColumnType } from '@/components/Table/types'
 import { APIKeysDataTypes } from '../billing/billingTypes'
+// import { URL_REGEX } from '@/utils/regex'
 
 const { requiredMessage } = CommonValidations
 
