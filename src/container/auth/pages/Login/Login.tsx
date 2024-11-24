@@ -46,7 +46,7 @@ const Login = () => {
               }}
               control={control}
             />
-            <Typography link size="sm" text="Don't have an account?" onClick={onNoAccountClick} />
+            {/* <Typography link size="sm" text="Don't have an account?" onClick={onNoAccountClick} /> */}
           </Flex>
           <Flex vertical gap={4}>
             <Controller
