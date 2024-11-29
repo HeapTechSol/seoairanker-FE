@@ -15,7 +15,7 @@ import { RiLockPasswordLine } from 'react-icons/ri'
 import './Login.scss'
 
 const Login = () => {
-  const { control, isLoading, isGoogleLoading, handleSubmit, loginHandler, onGoogleLogin, onNoAccountClick, onForgetPasswordClick } =
+  const { control, isLoading, isGoogleLoading, handleSubmit, loginHandler, onGoogleLogin, onForgetPasswordClick } =
     useLoginHandler()
 
   return (
