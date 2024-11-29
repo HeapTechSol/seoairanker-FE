@@ -8,14 +8,15 @@ import Typography from '@/components/Typography/Typography'
 
 import useLoginHandler from '@/container/auth/hooks/useLoginHandler'
 
-import { FcGoogle } from 'react-icons/fc'
+// import { FcGoogle } from 'react-icons/fc'
 import { MdOutlineEmail } from 'react-icons/md'
 import { RiLockPasswordLine } from 'react-icons/ri'
 
 import './Login.scss'
 
 const Login = () => {
-  const { control, isLoading, isGoogleLoading, handleSubmit, loginHandler, onGoogleLogin, onForgetPasswordClick } =
+  //isGoogleLoading, onGoogleLogin
+  const { control, isLoading, handleSubmit, loginHandler, onForgetPasswordClick } =
     useLoginHandler()
 
   return (
@@ -76,7 +77,7 @@ const Login = () => {
           <Button size="md" fullWidth loading={isLoading} variant="filled" onClick={handleSubmit(loginHandler)}>
             Sign In
           </Button>
-          <Button
+          {/* <Button
             size="md"
             fullWidth
             variant="filled"
@@ -86,7 +87,7 @@ const Login = () => {
             fill
           >
             Sign in with Google
-          </Button>
+          </Button> */}
         </Flex>
       </Flex>
     </Container>
