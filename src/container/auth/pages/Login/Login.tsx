@@ -76,7 +76,7 @@ const Login = () => {
           <Button size="md" fullWidth loading={isLoading} variant="filled" onClick={handleSubmit(loginHandler)}>
             Sign In
           </Button>
-          {/* <Button
+          <Button
             size="md"
             fullWidth
             variant="filled"
@@ -86,7 +86,7 @@ const Login = () => {
             fill
           >
             Sign in with Google
-          </Button> */}
+          </Button>
         </Flex>
       </Flex>
     </Container>
