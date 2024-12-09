@@ -46,6 +46,7 @@ const {
   GET_SCHEMA_RECOMMENDATIONS,
   GET_RECOMMENDATIONS_BY_TYPE,
   EXPORT_RECOMMENDATIONS_TO_CSV,
+  EXPORT_RECOMMENDATIONS_TO_PDF,
   APPROVE_SCHEMA_RECOMMENDATIONS,
 } = APIEndpoint
 
@@ -69,7 +70,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         },
       }),
     }),
-    saveKeywords: builder.mutation<{message:string}, AddKeyWordsPayloadTypes>({
+    saveKeywords: builder.mutation<{ message: string }, AddKeyWordsPayloadTypes>({
       query: (payload) => ({
         url: SAVE_SELECTED_KEYWORDS,
         method: 'POST',
@@ -231,6 +232,17 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+    exportToPdf: builder.query<Blob, { site_id: string }>({
+      query: (payload) => ({
+        url: `${EXPORT_RECOMMENDATIONS_TO_PDF}/${payload.site_id}`,
+        method: 'GET',
+        responseHandler: (response) => response.blob(),
+        headers: {
+          'Accept': 'application/pdf', // Expect a PDF
+        },
+        responseType: 'blob', // Ensure the response is treated as binary
+      })
+    }),
     readNotification: builder.query<NotificationsAPIResponseTypes, { id: string }>({
       query: (params) => ({
         url: `${NOTIFICATION_LISTING}/${params.id}/read`,
@@ -267,6 +279,7 @@ export const {
   useReCrawlSiteMutation,
   useSaveKeywordsMutation,
   useLazyExportToCSVQuery,
+  useLazyExportToPdfQuery,
   useLazyGetSiteLinksQuery,
   useLazyGetSiteScriptQuery,
   useLazyGetSchemaTypesQuery,

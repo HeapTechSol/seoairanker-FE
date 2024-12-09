@@ -18,6 +18,7 @@ import {
   useLazyGetSiteCrawledInfoQuery,
   useLazyGetSitePathSearchResultsQuery,
   useLazyExportToCSVQuery,
+  useLazyExportToPdfQuery,
   useLazyGetSiteScriptQuery,
   useLazyGetSchemaTypesQuery,
   useApproveSiteSchemaMutation,
@@ -56,6 +57,7 @@ const useHandleSitesLogic = () => {
   const [getSites, { isLoading: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
   const [approveSiteSchema, { isLoading: approveSchemaLoading }] = useApproveSiteSchemaMutation()
   const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
+  const [exportToPdf, { }] = useLazyExportToPdfQuery()
   const [getNotifications, { isLoading: getNotificationLoading }] = useLazyGetNotificationsQuery()
   const [getSiteLinks, { isLoading: siteLinksLoading, data: siteLinks }] = useLazyGetSiteLinksQuery()
   const [getSiteScript, { isLoading: scriptLoading, data: siteScript }] = useLazyGetSiteScriptQuery()
@@ -216,7 +218,41 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const getSiteCrawledInfoData = async (payload: { site_id: string; link_id?: string } ) => {
+  const exportDataToPDF = async (site_id: { site_id: string }) => {
+    try {
+      // Fetch the PDF blob from your backend
+      const response = await exportToPdf(site_id).unwrap();
+
+      console.log('##response', response);
+
+      // If response is already a Blob, skip calling response.blob()
+      const blob = response instanceof Blob ? response : await response.blob();
+
+      // Create a Blob URL
+      const url = URL.createObjectURL(blob);
+
+      // Create an anchor element for downloading the file
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `file-${site_id.site_id}.pdf`; // Downloaded file name
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      // Revoke the Blob URL to free memory
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      // Handle errors gracefully
+      if ((error as ErrorTypes)?.data?.message) {
+        toast.error((error as ErrorTypes)?.data?.message);
+      } else {
+        console.error('Error downloading PDF:', error);
+      }
+    }
+  };
+
+
+  const getSiteCrawledInfoData = async (payload: { site_id: string; link_id?: string }) => {
     try {
       await getSiteCrawledInfo(payload, false).unwrap()
     } catch (error) {
@@ -267,6 +303,7 @@ const useHandleSitesLogic = () => {
     schemaTypesData: schemaTypesData?.data,
     getSchemaTypesData,
     exportDataToCSV,
+    exportDataToPDF,
     keywordsLoading,
     insightsLoading,
     exportCSVLoading,

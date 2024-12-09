@@ -27,20 +27,23 @@ const { SITE_DETAILS_PAGE, KEYWORDS_RANKING } = EXACT_ROUTES
 const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () => void }) => {
   const navigate = useNavigate()
 
-  const { exportDataToCSV } = useHandleSitesLogic()
+  const { exportDataToCSV, exportDataToPDF } = useHandleSitesLogic()
   // exportCSVLoading, csvData,
 
   const isKeywords = false
 
+  console.log('##site', site);
+
   const reportsMenu = [
-    // {
-    //   id: 1,
-    //   name: (
-    //     <Button fullWidth variant="filled" color="primary" >
-    //       Download PDF
-    //     </Button>
-    //   ),
-    // },
+    {
+      id: 1,
+      onClick: () => exportDataToPDF({ site_id: String(site?.id) }),
+      name: (
+        <Button fullWidth variant="filled" color="primary" >
+          Download PDF
+        </Button>
+      ),
+    },
     {
       id: 2,
       onClick: () => exportDataToCSV({ site_id: String(site?.id) }),
@@ -51,6 +54,8 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
       ),
     },
   ]
+
+  if (site?.total_approved_count > 0) { }
 
   return (
     <Container borderRadius boxShadow className="added-site-info-container container-bg">
@@ -76,7 +81,7 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
           <Flex className="site-info-controls" justify="end" align="center">
             <Tooltip content={'Snippet is not installed'}>
               <Button
-                
+
                 onlyIcon
                 size="sm"
                 color="warning"
@@ -94,9 +99,9 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
               StartIcon={<IoSettingsOutline />}
               onClick={() => console.log('clicked')}
             /> */}
-            <Button  onlyIcon size="sm" color="error" variant="text" fill StartIcon={<RiDeleteBin6Line />} onClick={onClick} />
+            <Button onlyIcon size="sm" color="error" variant="text" fill StartIcon={<RiDeleteBin6Line />} onClick={onClick} />
             <Dropdown options={reportsMenu} onSelect={() => null} className="profile-dropdown-list" dropDownPlacement="right">
-              <Button  onlyIcon size="sm" color="primary" variant="text" StartIcon={<FaDownload />} onClick={() => null} />
+              <Button onlyIcon size="sm" color="primary" variant="text" StartIcon={<FaDownload />} onClick={() => null} />
             </Dropdown>
           </Flex>
         </Flex>
