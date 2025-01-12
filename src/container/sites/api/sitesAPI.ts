@@ -268,11 +268,18 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
       }),
       invalidatesTags: (_result, error) => (error ? [] : ['sitesList', 'userQuota']),
     }),
+    getWebsiteSummar: builder.query({
+      query: (id) => ({
+        url: `websites/website-summary/${id}`,
+        method: 'GET',
+      })
+    }),
   }),
   overrideExisting: false,
 })
 
 export const {
+  useGetWebsiteSummarQuery,
   useAddSiteMutation,
   useLazyGetSitesQuery,
   useDeleteSiteMutation,

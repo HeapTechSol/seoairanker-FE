@@ -1,6 +1,7 @@
 .tooltip-container {
   position: relative;
   display: inline-block;
+  z-index: 11;
 }
 
 .tooltip {
@@ -11,7 +12,8 @@
   border-radius: 4px;
   font-size: 14px;
   z-index: 1000;
-  white-space: nowrap;
+  // white-space: nowrap;
+  min-width: 400px;
 
   &::before {
     content: '';

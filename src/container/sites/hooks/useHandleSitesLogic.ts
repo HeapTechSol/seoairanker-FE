@@ -221,13 +221,7 @@ const useHandleSitesLogic = () => {
   const exportDataToPDF = async (site_id: { site_id: string }) => {
     try {
       // Fetch the PDF blob from your backend
-      const response = await exportToPdf(site_id).unwrap();
-
-      console.log('##response', response);
-
-      // If response is already a Blob, skip calling response.blob()
-      const blob = response instanceof Blob ? response : await response.blob();
-
+      const blob = await exportToPdf(site_id).unwrap();
       // Create a Blob URL
       const url = URL.createObjectURL(blob);
 

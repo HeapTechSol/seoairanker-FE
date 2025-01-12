@@ -15,7 +15,7 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children, placement = 'top' 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node) &&
-          triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
+        triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
         setIsVisible(false);
       }
     };

@@ -32,8 +32,6 @@ const AddedSiteCard = ({ site, onClick }: { site: SitesAPIResponse; onClick: () 
 
   const isKeywords = false
 
-  console.log('##site', site);
-
   const reportsMenu = [
     {
       id: 1,
