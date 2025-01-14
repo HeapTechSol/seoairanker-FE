@@ -24,6 +24,14 @@ import './SiteOverview.scss'
 import { useAppSelector } from '@/api/store'
 import { useGetWebsiteSummarQuery } from '../../api/sitesAPI'
 
+
+// Types for props and mappers
+type IconMapper = Record<string, JSX.Element>;
+type FieldMapper = Record<string, { title: string; desc: string }>;
+type DomainInfo = { checks: Record<string, any> };
+type PageMetrics = { links_external: number; links_internal: number;[key: string]: any };
+
+
 const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean }) => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -47,7 +55,7 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
     })
   }
 
-  const iconMapper = {
+  const iconMapper: IconMapper = {
     ssl: <GrLock />,
     sitemap: <GrDocumentText />,
     robots: <GrDocumentText />,
@@ -62,89 +70,32 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
     deprecated_html_tags: <MdOutlineSchema />,
   };
 
-  const fieldsMapper = {
-    'ssl': { title: 'SSL Enabled', desc: 'Indicates whether a target website has an SSL certificate (providing https:// connection) http2 – indicates whether a target website is using the HTTP2 protocol.' },
-    'sitemap': { title: 'Sitemap Found', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' },
-    'robots': { title: 'Robots.txt Exists', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' },
-    'links_external': { title: 'External Links', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' },
-    'links_internal': { title: 'Internal Links', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' },
-    'duplicate_title': { title: 'Duplicate Titles', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' },
-    'duplicate_description': { title: 'Duplicate Descriptions', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' },
-    'duplicate_content': { title: 'Duplicate Content', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' },
-    'broken_links': { title: 'Broken Links', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' },
-    'broken_resources': { title: 'Broken Resources (Images/JS/CSS)', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' },
-    'non_indexable': { title: 'Non Indexable Pages', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' },
-    'deprecated_html_tags': { title: 'Obselete html tags', desc: 'Indicates whether a page has duplicate title tags. The number of such pages. An important issue for the OnPage Score' }
-  };
-
-  const WebsiteChecklist = ({ domainInfo, pageMetrics }) => {
-    // Combine domain checks and page metrics checks
-    const checks = {
-      ...domainInfo.checks,
-      links_external: pageMetrics.links_external,
-      links_internal: pageMetrics.links_internal,
-      duplicate_title: pageMetrics.duplicate_title,
-      duplicate_description: pageMetrics.duplicate_description,
-      duplicate_content: pageMetrics.duplicate_content,
-      broken_links: pageMetrics.broken_links,
-      broken_resources: pageMetrics.broken_resources,
-      non_indexable: pageMetrics.non_indexable,
-      deprecated_html_tags: pageMetrics.checks.deprecated_html_tags,
-    };
-
-    return (
-      <Grid gap={16} minMax={500} minWidth={200}>
-        {Object.entries(fieldsMapper).map(([key, object]) => {
-          const value = checks[key];
-          const leftIcon = iconMapper[key] || <GrBug />;
-          const isPositive = value > 0;
-          const rightContent = isPositive ? (
-            <Flex align="center" justify='end' gap={16}>
-              <Typography text={value} />
-              <FaRegCircleCheck className="checkmark-icon ms-2" style={{ color: 'green' }} />
-            </Flex>
-          ) : (
-            <FaRegTimesCircle className="checkmark-icon" style={{ color: 'red' }} />
-          );
-
-          return (
-            <Container
-              key={key}
-              className="container-bg checklist__item"
-            >
-              <Flex justify='between'>
-                <Flex align="center" gap={16}>
-                  {leftIcon}
-                  <Typography text={object?.title} />
-                  <Tooltip content={object?.desc}>
-                    <FaInfoCircle />
-                  </Tooltip>
-                </Flex>
-                <Flex align="center" justify='end'>{rightContent}</Flex>
-              </Flex>
-            </Container>
-          );
-        })}
-      </Grid>
-    );
+  const fieldsMapper: FieldMapper = {
+    ssl: { title: 'SSL Enabled', desc: 'Indicates whether a target website has an SSL certificate (providing https:// connection).' },
+    sitemap: { title: 'Sitemap Found', desc: 'Indicates whether a sitemap.xml file exists.' },
+    robots: { title: 'Robots.txt Exists', desc: 'Indicates whether a robots.txt file exists.' },
+    links_external: { title: 'External Links', desc: 'Number of external links on the website.' },
+    links_internal: { title: 'Internal Links', desc: 'Number of internal links within the website.' },
+    duplicate_title: { title: 'Duplicate Titles', desc: 'Pages with duplicate title tags.' },
+    duplicate_description: { title: 'Duplicate Descriptions', desc: 'Pages with duplicate meta descriptions.' },
+    duplicate_content: { title: 'Duplicate Content', desc: 'Pages with duplicate content.' },
+    broken_links: { title: 'Broken Links', desc: 'Links that are broken or lead to non-existent pages.' },
+    broken_resources: { title: 'Broken Resources', desc: 'Broken images, JavaScript, or CSS resources.' },
+    non_indexable: { title: 'Non Indexable Pages', desc: 'Pages that are not indexable by search engines.' },
+    deprecated_html_tags: { title: 'Deprecated HTML Tags', desc: 'Use of obsolete or deprecated HTML tags.' },
   };
 
   const wesbiteSummary = data?.data;
 
-  const domainInfo = {
+  const domainInfo: DomainInfo = {
     checks: {
       ssl: wesbiteSummary?.domain_info?.checks?.ssl,
       sitemap: wesbiteSummary?.domain_info?.checks?.sitemap,
       robots: wesbiteSummary?.domain_info?.checks?.robots_txt,
-      start_page_deny_flag: false,
-      http2: true,
-      test_canonicalization: true,
-      test_page_not_found: true,
-      test_https_redirect: true,
     },
   };
 
-  const pageMetrics = {
+  const pageMetrics: PageMetrics = {
     links_external: wesbiteSummary?.page_metrics?.links_external,
     links_internal: wesbiteSummary?.page_metrics?.links_internal,
     duplicate_title: wesbiteSummary?.page_metrics?.duplicate_title,
@@ -154,8 +105,49 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
     broken_resources: wesbiteSummary?.page_metrics?.broken_resources,
     non_indexable: wesbiteSummary?.page_metrics?.non_indexable,
     checks: {
-      deprecated_html_tags: 0,
+      deprecated_html_tags: wesbiteSummary?.page_metrics?.deprecated_html_tags || 0,
     },
+  };
+
+
+  const WebsiteChecklist: React.FC<{ domainInfo: DomainInfo; pageMetrics: PageMetrics }> = ({ domainInfo, pageMetrics }) => {
+    const checks = {
+      ...domainInfo.checks,
+      ...pageMetrics,
+    };
+
+    const negativeOfPositiveValues = ['broken_links', 'non_indexable', 'broken_resources'];
+    return (
+      <Grid gap={16} minMax={500} minWidth={200}>
+        {Object.entries(fieldsMapper).map(([key, object]) => {
+          const value = checks[key];
+          let isPositive = !isNaN(parseFloat(value)) && isFinite(value) && value >= 0 || value;
+          if (negativeOfPositiveValues?.includes(key) && value !== 0) isPositive = false;
+
+          return (
+            <Container key={key} className="container-bg checklist__item">
+              <Flex justify="between">
+                <Flex align="center" gap={16}>
+                  {iconMapper[key] || <GrBug />}
+                  <Typography text={object.title} />
+                  <Tooltip content={object.desc}>
+                    <FaInfoCircle />
+                  </Tooltip>
+                </Flex>
+                <Flex align="center" justify="end" gap={16}>
+                  <Typography text={value?.toString() || 'N/A'} />
+                  {isPositive ? (
+                    <FaRegCircleCheck className="checkmark-icon" style={{ color: 'green' }} />
+                  ) : (
+                    <FaRegTimesCircle className="checkmark-icon" style={{ color: 'red' }} />
+                  )}
+                </Flex>
+              </Flex>
+            </Container>
+          );
+        })}
+      </Grid>
+    );
   };
 
   return (
