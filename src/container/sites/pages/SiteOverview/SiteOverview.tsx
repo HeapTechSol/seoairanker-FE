@@ -104,9 +104,7 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
     broken_links: wesbiteSummary?.page_metrics?.broken_links,
     broken_resources: wesbiteSummary?.page_metrics?.broken_resources,
     non_indexable: wesbiteSummary?.page_metrics?.non_indexable,
-    checks: {
-      deprecated_html_tags: wesbiteSummary?.page_metrics?.deprecated_html_tags || 0,
-    },
+    deprecated_html_tags: wesbiteSummary?.page_metrics?.deprecated_html_tags || 0,
   };
 
 
@@ -116,13 +114,20 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
       ...pageMetrics,
     };
 
-    const negativeOfPositiveValues = ['broken_links', 'non_indexable', 'broken_resources'];
     return (
       <Grid gap={16} minMax={500} minWidth={200}>
         {Object.entries(fieldsMapper).map(([key, object]) => {
           const value = checks[key];
-          let isPositive = !isNaN(parseFloat(value)) && isFinite(value) && value >= 0 || value;
-          if (negativeOfPositiveValues?.includes(key) && value !== 0) isPositive = false;
+          // let isPositive = !isNaN(parseFloat(value)) && isFinite(value) && value > 0 || value;
+          // Define positivity/negativity rules
+          let isPositive = value;
+          if (key === 'duplicate_description' || key === 'duplicate_title' || key === 'duplicate_content' || key === 'deprecated_html_tags') {
+            isPositive = value === 0; // 0 is positive
+          } else if (key === 'broken_links' || key === 'non_indexable' || key === 'broken_resources') {
+            isPositive = value === 0; // 0 is positive, >0 is negative
+          } else if (key === 'links_external') {
+            isPositive = value > 0; // >0 is positive, 0 is negative
+          }
 
           return (
             <Container key={key} className="container-bg checklist__item">
@@ -135,7 +140,7 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
                   </Tooltip>
                 </Flex>
                 <Flex align="center" justify="end" gap={16}>
-                  <Typography text={value?.toString() || 'N/A'} />
+                  {!isNaN(parseFloat(value)) && isFinite(value) && <Typography text={value?.toString() || 'N/A'} />}
                   {isPositive ? (
                     <FaRegCircleCheck className="checkmark-icon" style={{ color: 'green' }} />
                   ) : (
