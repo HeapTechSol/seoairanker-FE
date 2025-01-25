@@ -78,10 +78,11 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
       }),
       invalidatesTags: (_result, error) => (error ? [] : ['sitesList', 'userQuota']),
     }),
-    getSites: builder.query<SitesAPIResponseTypes, void>({
-      query: () => ({
+    getSites: builder.query<SitesAPIResponseTypes, { page: number; per_page: number, query: string }>({
+      query: (payload) => ({
         url: SITES_LIST,
         method: 'GET',
+        params: payload,
       }),
       providesTags: ['sitesList'],
     }),
@@ -107,9 +108,9 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
         },
       }),
     }),
-    getSiteCrawledInfo: builder.query<CrawledInfoAPIResponseTypes, { site_id: string; link_id?: string }>({
+    getSiteCrawledInfo: builder.query<CrawledInfoAPIResponseTypes, { site_id: string; query?: string }>({
       query: (payload) => ({
-        url: `${SITE_CRAWLING_INFO}/${payload.site_id}${payload?.link_id ? `?link_id=${payload.link_id}` : ''}`,
+        url: `${SITE_CRAWLING_INFO}/${payload.site_id}${payload?.query ? `?query=${payload.query}` : ''}`,
         method: 'GET',
       }),
       providesTags: ['recommendationsData'],

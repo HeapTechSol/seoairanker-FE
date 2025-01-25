@@ -14,6 +14,7 @@ import Container from '@/components/Container/Container'
 import Typography from '@/components/Typography/Typography'
 import NoDataPlaceholder from '@/components/NoDataPlaceholder/NoDataPlaceholder'
 import AddedSiteCard from '@/container/sites/components/AddedSiteCard/AddedSiteCard'
+import Pagination from '@/components/Pagination/Pagination'
 
 import { EXACT_ROUTES } from '@/constant/routes'
 
@@ -57,13 +58,17 @@ const SitesDashboard = () => {
   } = useHandleSitesLogic()
 
   useEffect(() => {
-    getSitesList()
+    getSitesList({ page: 1, per_page: 10, query })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [query])
 
   const deleteSite = (id: number) => {
     setSiteId(id)
     setIsShowDeleteModal(true)
+  }
+
+  const handleLoadMore = async () => {
+    await getSitesList({ page: (sitesList?.page || 1) + 1, per_page: 10, query })
   }
 
   const isKeywords = false
@@ -88,9 +93,11 @@ const SitesDashboard = () => {
     },
   ]
 
-  const isSitesExist = !!sitesList?.length
+  const isSitesExist = !!sitesList?.data?.length
 
-  const filteredSiteList = sitesList?.filter((site) => site?.site_url?.includes(query))
+  let filteredSiteList = sitesList?.data;
+
+  console.log('filteredSiteList', filteredSiteList)
 
   // const toggleDrawer = () => {
   //   setIsDrawerOpen(!isDrawerOpen)
@@ -142,13 +149,19 @@ const SitesDashboard = () => {
                 {filteredSiteList?.map((site, index) => (
                   <AddedSiteCard site={site} onClick={() => deleteSite(site.id)} key={`${index}-AddSiteCard`} />
                 ))}
+                <Pagination
+                  pageSize={10}
+                  currentPage={sitesList?.page || 1}
+                  totalCount={Number(sitesList?.total_count) || 0}
+                  onPageChange={handleLoadMore}
+                />
               </Flex>
               <Container borderRadius boxShadow className="sites-history container-bg">
                 <Flex vertical gap={16} align="start">
                   <Typography type="h3" text="Add Your Site" />
                   <Typography text="It's easy! Just click the button." />
                   <Divider color="primary" />
-                  <Table columns={columns} data={sitesList || []} />
+                  <Table columns={columns} data={sitesList?.data || []} />
                   <Button onClick={() => navigate(ADD_SITE)} size="sm" >
                     Add a New Site
                   </Button>

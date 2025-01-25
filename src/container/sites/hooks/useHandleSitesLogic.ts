@@ -30,7 +30,7 @@ import { ErrorTypes } from '@/utils/commonTypes'
 import { createSingleExcelFile } from '@/utils/handleCSV'
 import { useAppDispatch, useAppSelector } from '@/api/store'
 import { AddSitePayloadTypes, GetKeywordsPayload, NotificationAPIPayloadTypes, SiteLinkPayloadTypes } from '../sitesTypes'
-import { setNotificationsData } from '../sitesSlice'
+import { setNotificationsData, setUserWebsitesData } from '../sitesSlice'
 
 const { SITES_DASHBOARD } = EXACT_ROUTES
 
@@ -48,6 +48,7 @@ const useHandleSitesLogic = () => {
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
   const isGetSiteDataPending = useAppSelector((state) => state.sites.isGetSiteDataPending)
   const notificationsData = useAppSelector((state) => state.sites.notificationsData)
+  const userWebsitesData = useAppSelector((state) => state.sites.userWebsitesData)
 
   const isSiteQuotaExceeded = (userQuota?.remaining_sites_quota as number) >= (userQuota?.total_sites_quota as number)
 
@@ -104,9 +105,19 @@ const useHandleSitesLogic = () => {
     }
   }
 
-  const getSitesList = async () => {
+  const getSitesList = async (payload: { page: number; per_page: number, query: string }) => {
     try {
-      await getSites().unwrap()
+      const response = await getSites(payload).unwrap()
+      const mergedData = [...(userWebsitesData?.data || []), ...response.data]
+      const uniqueData = uniqBy(mergedData, (item) => item.id)
+      const isScrolling = payload.page > 1
+      dispatch(
+        setUserWebsitesData({
+          page: payload.page,
+          total_count: response.total_count,
+          data: isScrolling ? uniqueData : response.data,
+        })
+      )
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -246,9 +257,10 @@ const useHandleSitesLogic = () => {
   };
 
 
-  const getSiteCrawledInfoData = async (payload: { site_id: string; link_id?: string }) => {
+  const getSiteCrawledInfoData = async (payload: { site_id: string; query?: string }) => {
     try {
-      await getSiteCrawledInfo(payload, false).unwrap()
+      const data = await getSiteCrawledInfo(payload, false).unwrap();
+      return data;
     } catch (error) {
       if ((error as ErrorTypes)?.data?.message) toast.error((error as ErrorTypes)?.data?.message)
     }
@@ -318,7 +330,7 @@ const useHandleSitesLogic = () => {
     crawledInfo: crawledInfo,
     handleForwardButtonPress,
     handlePreviousButtonPress,
-    sitesList: sitesList?.data || [],
+    sitesList: userWebsitesData,
     insightsData: insightsData?.result,
   }
 }

@@ -33,9 +33,28 @@ const Recommendations = ({ isGetSiteDataPending }: { isGetSiteDataPending: boole
 
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
-  const defaultModal = crawledInfo?.model_data?.find((modal) => modal.total > 0)
 
-  const [key, setKey] = useState<ModalTypes>(defaultModal?.model as ModalTypes)
+  type DataObject = {
+    [key: string]: {
+      approved: number;
+      unapproved: number;
+      total: number;
+    };
+  };
+
+  const getKeyWithHighestCount = (data: DataObject, field: keyof DataObject[string]) => {
+    let maxKey = 'missing_link_title_attr';
+    let maxCount = -Infinity;
+    Object.entries(data).forEach(([key, values]) => {
+      if (values[field] > maxCount) {
+        maxCount = values[field];
+        maxKey = key;
+      }
+    });
+    return maxKey as ModalTypes;
+  };
+  const defaultModal: ModalTypes = getKeyWithHighestCount(crawledInfo?.categories || {}, 'total');
+  const [key, setKey] = useState<ModalTypes>(defaultModal)
 
   const recommendationTitles = {
     missing_alt_images: 'No Image Alt/Title Text',
@@ -48,12 +67,12 @@ const Recommendations = ({ isGetSiteDataPending }: { isGetSiteDataPending: boole
     cannonical_tags: 'Add Canonical URL Tag',
   }
 
-  const recommendationsList = crawledInfo?.model_data?.map((item, index) => ({
+  const recommendationsList = crawledInfo?.categories && Object.entries(crawledInfo?.categories)?.map(([key, item], index) => ({
     id: String(index),
-    type: item.model,
+    type: key,
     totalCount: item.total,
     used: item.approved,
-    title: recommendationTitles[item.model as keyof typeof recommendationTitles],
+    title: recommendationTitles[key as keyof typeof recommendationTitles],
   }))
 
   const reCrawlSite = () => {
@@ -67,7 +86,7 @@ const Recommendations = ({ isGetSiteDataPending }: { isGetSiteDataPending: boole
 
   const handleSelectResult = async (result: { id: string | number; label: string }) => {
     setLink_id(result.id as string)
-    await getSiteCrawledInfoData({ site_id: siteId || '', link_id: result.id as string })
+    await getSiteCrawledInfoData({ site_id: siteId || '' })
   }
 
   const handleClearFilters = async (isFilterApplied: boolean) => {
@@ -87,20 +106,19 @@ const Recommendations = ({ isGetSiteDataPending }: { isGetSiteDataPending: boole
             <Flex vertical gap={16}>
               <Typography text="SEO Automation Recommendations" type="h2" />
               <Typography
-                text={`Below is the list of SEO recommendations for ${
-                  crawledInfo?.site_data?.site_url || ''
-                } that can be implemented automatically. First review changes, and then click Approve to deploy changes automatically. You can approve or unapprove changes across your entire site or to individual pages by clicking the Category titles.`}
+                text={`Below is the list of SEO recommendations for ${crawledInfo?.site_data?.site_url || ''
+                  } that can be implemented automatically. First review changes, and then click Approve to deploy changes automatically. You can approve or unapprove changes across your entire site or to individual pages by clicking the Category titles.`}
               />
               <Typography
                 text={
                   <>
-                    There are currently <Typography text={`${crawledInfo?.site_data?.total_approved || 0} Approved`} color="success" inline /> out of{' '}
-                    <Typography text={`${crawledInfo?.site_data?.total_count || 0} total`} inline type="h6" /> Optimizations.
+                    There are currently <Typography text={`${crawledInfo?.total?.approved || 0} Approved`} color="success" inline /> out of{' '}
+                    <Typography text={`${crawledInfo?.total?.total || 0} total`} inline type="h6" /> Optimizations.
                   </>
                 }
               />
               <Flex gap={16} align="center">
-                <Button  loading={reCrawlLoading} onClick={reCrawlSite}>
+                <Button loading={reCrawlLoading} onClick={reCrawlSite}>
                   Regenerate Recommendation
                 </Button>
                 <Typography text={`Last updated ${getTime(crawledInfo?.site_data?.last_crawl || '') || ''}`} />
@@ -139,12 +157,12 @@ const Recommendations = ({ isGetSiteDataPending }: { isGetSiteDataPending: boole
           <RecommendationOverview
             recommendationsList={recommendationsList || []}
             onClick={(e) => setKey(e)}
-            selectedKey={key || (defaultModal?.model as ModalTypes)}
+            selectedKey={key || (defaultModal)}
             site_id={siteId || ''}
             link_id={link_id}
             crawledInfo={crawledInfo as CrawledInfoAPIResponseTypes['data']}
           />
-          <RecommendationList selectedKey={key} link_id={link_id} defaultKey={defaultModal?.model as ModalTypes} />
+          <RecommendationList selectedKey={key} link_id={link_id} defaultKey={defaultModal} />
         </Flex>
       </Flex>
     </Container>

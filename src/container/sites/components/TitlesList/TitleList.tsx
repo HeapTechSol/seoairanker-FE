@@ -40,7 +40,7 @@ const TitleList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const isApproveAPICallInProgress = useAppSelector((state) => state.sites.isApproveAPICallInProgress)
 
   const refreshRecommendations = async () => {
-    await getSiteCrawledInfoData({ site_id: siteId || '', link_id: externalLinkId })
+    await getSiteCrawledInfoData({ site_id: siteId || '' })
     await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_link_title_attr', link_id: externalLinkId })
   }
 

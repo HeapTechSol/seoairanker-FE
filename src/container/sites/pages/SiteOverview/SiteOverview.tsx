@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams, useParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import Flex from '@/components/Flex'
 import Button from '@/components/Button'
@@ -17,18 +17,19 @@ import { FaRegCircleCheck } from 'react-icons/fa6'
 import { FaRegTimesCircle, FaInfoCircle } from 'react-icons/fa';
 import { MdOutlineRecommend, MdOutlineSchema, MdOutlineWatchLater } from 'react-icons/md'
 import { GrLock, GrDocumentText, GrLink, GrUnlink, GrBug } from 'react-icons/gr'; // Example icons, customize as needed
+import { GrInProgress } from "react-icons/gr";
+import { MdDangerous } from "react-icons/md";
 
 import { ModalTypes } from '@/container/sites/sitesTypes'
 
 import './SiteOverview.scss'
 import { useAppSelector } from '@/api/store'
-import { useGetWebsiteSummarQuery } from '../../api/sitesAPI'
 
 
 // Types for props and mappers
 type IconMapper = Record<string, JSX.Element>;
 type FieldMapper = Record<string, { title: string; desc: string }>;
-type DomainInfo = { checks: Record<string, any> };
+type DomainInfo = { checks: Record<string, any>;[key: string]: any };
 type PageMetrics = { links_external: number; links_internal: number;[key: string]: any };
 
 
@@ -36,12 +37,12 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
-  const { id } = useParams();
-  const { data } = useGetWebsiteSummarQuery(id);
-
   const crawledInfo = useAppSelector((state) => state.sites.crawledInfo)
 
-  const getModalRecommendationsCountByType = (modal: ModalTypes) => crawledInfo?.model_data?.find((item) => item.model === modal)?.total
+  const getModalRecommendationsCountByType = (modal: ModalTypes) => {
+    const entry = Object.entries(crawledInfo?.categories || {}).find(([key]) => key === modal);
+    return entry ? entry[1]?.total : undefined;
+  };
 
   const keywordInfo = crawledInfo?.site_data?.keywordsSummary
 
@@ -83,33 +84,97 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
     broken_resources: { title: 'Broken Resources', desc: 'Broken images, JavaScript, or CSS resources.' },
     non_indexable: { title: 'Non Indexable Pages', desc: 'Pages that are not indexable by search engines.' },
     deprecated_html_tags: { title: 'Deprecated HTML Tags', desc: 'Use of obsolete or deprecated HTML tags.' },
+    total_pages: { title: 'Total Pages', desc: 'The total number of crawled pages' },
+    onpage_score: {
+      title: 'On Page Score', desc: `This shows how this Website is optimized on a 100-point scale
+this field shows how website is optimized considering critical on-page issues and warnings detected;
+100 is the highest possible score that means website does not have any critical on-page issues and important warnings` },
+    duplicate_meta_tags: {
+      title: 'Duplicate Meta Tags', desc: `Number of pages with duplicate meta tags
+the number of pages with more than one meta tag of the same type` },
+    large_page_size: {
+      title: 'Large Page Size', desc: `Number of heavy pages
+the number of pages that have a size exceeding 1 megabyte` },
+    no_h1_tag: {
+      title: 'Missing H1 Tag', desc: `number of pages with empty or absent h1 tags`
+    },
+    seo_friendly_url: {
+      title: 'Large Page Size', desc: `Number of pages with seo-frienldy urls
+the ‘SEO-friendliness’ of a page URL is checked by four parameters` }
   };
 
-  const wesbiteSummary = data?.data;
+  type CrawlErrorMapper = {
+    site_unreachable: string;
+    forbidden_meta_tag: string;
+    forbidden_robots: string;
+    forbidden_http_header: string;
+    too_many_redirects: string;
+    unknown: string;
+    [key: string]: string; // Allows indexing with any string key
+  };
+
+  const crawlErrorMapper: CrawlErrorMapper = {
+    'site_unreachable': 'Our crawler could not reach this website. something must be wrong on your website.',
+    'forbidden_meta_tag': 'First crawled page contains the <meta robots=”noindex”> tag.',
+    'forbidden_robots': 'Robots.txt forbids crawling the website',
+    'forbidden_http_header': 'HTTP header of the page contains “X-Robots-Tag: noindex”.',
+    'too_many_redirects': 'First crawled page has more than 10 redirects',
+    'unknown': 'The reason is unknown'
+  }
+
+  type WesbiteSummary = {
+    domain_info?: {
+      checks: {
+        ssl?: boolean;
+        sitemap?: boolean;
+        robots_txt?: boolean;
+      };
+      extended_crawl_status: string,
+      total_pages: number
+    };
+    page_metrics?: {
+      links_external: number;
+      links_internal: number;
+      duplicate_title?: number;
+      duplicate_description?: number;
+      duplicate_content?: number;
+      broken_links?: number;
+      broken_resources?: number;
+      non_indexable?: number;
+      deprecated_html_tags?: number;
+      onpage_score?: number
+    };
+  };
+
+  const wesbiteSummary = crawledInfo?.site_data?.crawl_summary as WesbiteSummary;
 
   const domainInfo: DomainInfo = {
     checks: {
       ssl: wesbiteSummary?.domain_info?.checks?.ssl,
       sitemap: wesbiteSummary?.domain_info?.checks?.sitemap,
       robots: wesbiteSummary?.domain_info?.checks?.robots_txt,
+      extended_crawl_status: wesbiteSummary?.domain_info?.extended_crawl_status
     },
+    total_pages: wesbiteSummary?.domain_info?.total_pages
   };
 
   const pageMetrics: PageMetrics = {
-    links_external: wesbiteSummary?.page_metrics?.links_external,
-    links_internal: wesbiteSummary?.page_metrics?.links_internal,
-    duplicate_title: wesbiteSummary?.page_metrics?.duplicate_title,
-    duplicate_description: wesbiteSummary?.page_metrics?.duplicate_description,
-    duplicate_content: wesbiteSummary?.page_metrics?.duplicate_content,
-    broken_links: wesbiteSummary?.page_metrics?.broken_links,
-    broken_resources: wesbiteSummary?.page_metrics?.broken_resources,
-    non_indexable: wesbiteSummary?.page_metrics?.non_indexable,
+    links_external: wesbiteSummary?.page_metrics?.links_external || 0,
+    links_internal: wesbiteSummary?.page_metrics?.links_internal || 0,
+    duplicate_title: wesbiteSummary?.page_metrics?.duplicate_title || 0,
+    duplicate_description: wesbiteSummary?.page_metrics?.duplicate_description || 0,
+    duplicate_content: wesbiteSummary?.page_metrics?.duplicate_content || 0,
+    broken_links: wesbiteSummary?.page_metrics?.broken_links || 0,
+    broken_resources: wesbiteSummary?.page_metrics?.broken_resources || 0,
+    non_indexable: wesbiteSummary?.page_metrics?.non_indexable || 0,
     deprecated_html_tags: wesbiteSummary?.page_metrics?.deprecated_html_tags || 0,
+    onpage_score: wesbiteSummary?.page_metrics?.onpage_score || 0,
   };
 
 
   const WebsiteChecklist: React.FC<{ domainInfo: DomainInfo; pageMetrics: PageMetrics }> = ({ domainInfo, pageMetrics }) => {
     const checks = {
+      ...domainInfo,
       ...domainInfo.checks,
       ...pageMetrics,
     };
@@ -160,6 +225,22 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
       <Flex vertical gap={40}>
         <Flex vertical gap={30} className="top-container">
           <Loader loading={isGetSiteDataPending} overlay />
+          {wesbiteSummary?.domain_info?.extended_crawl_status && wesbiteSummary?.domain_info?.extended_crawl_status !== 'no_errors' && <Container className="container-bg checklist__item error">
+            <Flex>
+              <Flex align="center" gap={16}>
+                <MdDangerous className="item-icon" style={{ color: 'red' }} />
+                <Typography text={'Error: ' + crawlErrorMapper[wesbiteSummary?.domain_info?.extended_crawl_status]} />
+              </Flex>
+            </Flex>
+          </Container>}
+          {crawledInfo?.site_data?.crawl_in_progress && <Container className="container-bg checklist__item" style={{ cursor: 'pointer' }}>
+            <Flex>
+              <Flex align="center" gap={16}>
+                <GrInProgress className="item-icon rotating-icon" />
+                <Typography text={'Pages in queue: ' + crawledInfo?.site_data?.crawl_summary?.crawl_status?.pages_in_queue + ', Pages processed: ' + crawledInfo?.site_data?.crawl_summary?.crawl_status?.pages_crawled} />
+              </Flex>
+            </Flex>
+          </Container>}
           <Grid gap={16} minMax={500} minWidth={200}>
             <Container className="container-bg checklist__item" style={{ cursor: 'pointer' }} onClick={() => navigateToTab('script')}>
               <Flex>
@@ -180,7 +261,7 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
                   <MdOutlineRecommend className="item-icon" />
                   <Typography text="Recommendations" />
                 </Flex>
-                {crawledInfo?.site_data?.recommendations_generated ? (
+                {crawledInfo?.total?.total ? (
                   <FaRegCircleCheck className="checkmark-icon" />
                 ) : (
                   <MdOutlineWatchLater className="checkmark-icon watch" />
@@ -253,8 +334,8 @@ const SiteOverview = ({ isGetSiteDataPending }: { isGetSiteDataPending: boolean 
                 <Flex vertical gap={32} align="start" justify="between">
                   <Typography text="Recommendations" type="h3" />
                   <Flex gap={16}>
-                    <Typography text={crawledInfo?.site_data?.total_approved || 0} className={'recommendations-overview__left-container__count'} />
-                    <Typography text={`of ${crawledInfo?.site_data?.total_count || 0} Available`} />
+                    <Typography text={crawledInfo?.total?.approved || 0} className={'recommendations-overview__left-container__count'} />
+                    <Typography text={`of ${crawledInfo?.total?.total || 0} Available`} />
                   </Flex>
                   <Button size="sm" onClick={() => navigateToTab('automation')}>
                     Recommendations

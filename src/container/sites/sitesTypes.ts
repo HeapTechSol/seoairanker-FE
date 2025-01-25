@@ -24,7 +24,11 @@ export type SitesAPIResponse = {
   screenshot_url: MaybeNull<string>
 }
 
+
+
 export type SitesAPIResponseTypes = {
+  total_count: string
+  page?: number,
   data: SitesAPIResponse[]
 }
 
@@ -37,7 +41,7 @@ export type SiteLinksDataTypes = {
   updatedAt: string
   last_crawled: string
   page_language: string
-  snippet_installed:boolean
+  snippet_installed: boolean
 }
 
 export type SitePagesSchemaTypes = {
@@ -51,7 +55,7 @@ export type SitePagesSchemaTypes = {
   created_at: string
   updated_at: string
   link_path: string
-  url:string
+  url: string
 }
 
 export type SiteLinksAPIResponseTypes = {
@@ -91,15 +95,15 @@ export type ModalTypes =
   | 'heading_suggestions'
   | 'missing_link_title_attr'
   | 'missing_meta_descriptions' |
-    'cannonical_tags'
+  'cannonical_tags'
 
 export type SchemaPageTypes = string
 
-export type ModalDataTypes = {
-  total: number
-  approved: number
-  model: ModalTypes
-}
+export type CategoriesDataTypes = {
+  total?: number;
+  approved?: number;
+  [key: string]: any;
+};
 
 export type SiteDataTypes = {
   id: number
@@ -119,7 +123,14 @@ export type SiteDataTypes = {
   snippet_installed: boolean
   crawl_in_progress: boolean
   keywords_add_to_track: boolean
-  recommendations_generated: boolean
+  recommendations_generated: boolean,
+  crawl_summary: {
+    crawl_status: {
+      pages_in_queue: number,
+      pages_crawled: number
+    }
+    crawl_progress: string
+  }
   keywordsSummary: {
     id: number
     website_id: number
@@ -138,8 +149,9 @@ export type SiteDataTypes = {
 
 export type CrawledInfoAPIResponseTypes = {
   data: {
-    model_data: ModalDataTypes[]
-    site_data: MaybeNull<SiteDataTypes>
+    categories: MaybeNull<CategoriesDataTypes>
+    site_data: MaybeNull<SiteDataTypes>,
+    total: { total?: number, approved: number, unapproved: number },
   }
 }
 
@@ -298,9 +310,9 @@ export type ApproveSchemaPayloadTypes = {
   entryId: string
   schemaType: string
   website_id: string
-  bulk?:boolean
-  approved:boolean,
-  link_id?:string
+  bulk?: boolean
+  approved: boolean,
+  link_id?: string
 }
 
 export type AddSitePayloadTypes = {

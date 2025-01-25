@@ -36,7 +36,7 @@ const DescriptionPreview = ({ link_id: externalLinkId }: { link_id: string }) =>
   const recommendation = recommendationData?.data?.find((item) => item.link_id)
 
   const refreshRecommendations = async () => {
-    await getSiteCrawledInfoData({ site_id: siteId || '', link_id: externalLinkId })
+    await getSiteCrawledInfoData({ site_id: siteId || '' })
     await getRecommendationByType({ page: 1, per_page: 10, type: 'missing_meta_descriptions', link_id: externalLinkId })
   }
 

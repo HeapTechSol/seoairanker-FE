@@ -1,14 +1,16 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { CrawledInfoAPIResponseTypes, GetPageSchemaByTypesAPIResponseTypes, GetRecommendationsByModelAPIResponseTypes, NotificationsAPIResponseTypes, SchemaPagesListAPIResponseTypes } from './sitesTypes'
+import { CrawledInfoAPIResponseTypes, GetPageSchemaByTypesAPIResponseTypes, GetRecommendationsByModelAPIResponseTypes, NotificationsAPIResponseTypes, SchemaPagesListAPIResponseTypes, SitesAPIResponseTypes } from './sitesTypes'
 import { sitesAPI } from './api/sitesAPI'
+import { MaybeNull } from '@/utils/commonTypes'
 
 type initialType = {
   isGetSiteDataPending: boolean
   isApproveAPICallInProgress: boolean
-  crawledInfo: CrawledInfoAPIResponseTypes['data']
+  crawledInfo: CrawledInfoAPIResponseTypes['data'],
+  userWebsitesData: MaybeNull<SitesAPIResponseTypes>
   notificationsData: NotificationsAPIResponseTypes
-  schemaPagesTypeList:SchemaPagesListAPIResponseTypes['data']
+  schemaPagesTypeList: SchemaPagesListAPIResponseTypes['data']
   schemaPagesData: GetPageSchemaByTypesAPIResponseTypes
   recommendationData: GetRecommendationsByModelAPIResponseTypes
 }
@@ -22,11 +24,13 @@ const initialState: initialType = {
   },
   crawledInfo: {
     site_data: null,
-    model_data: [],
+    categories: {},
+    total: { total: 0, approved: 0, unapproved: 0 }
   },
+  userWebsitesData: null,
   isGetSiteDataPending: false,
   isApproveAPICallInProgress: false,
-  schemaPagesTypeList:[],
+  schemaPagesTypeList: [],
   schemaPagesData: { total: 0, data: [], page: 1, approved: 0, unapproved_count: 0 },
   recommendationData: { approved_count: 0, data: [], page: 1, total_count: 0, unapproved_count: 0 },
 }
@@ -49,6 +53,9 @@ export const sitesSlicer = createSlice({
     },
     setSchemaPagesList: (state, action: PayloadAction<SchemaPagesListAPIResponseTypes['data']>) => {
       state.schemaPagesTypeList = action.payload
+    },
+    setUserWebsitesData: (state, action: PayloadAction<MaybeNull<SitesAPIResponseTypes>>) => {
+      state.userWebsitesData = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -74,6 +81,6 @@ export const sitesSlicer = createSlice({
   },
 })
 
-export const { setNotificationsData, setRecommendationsData, setSchemaPagesData, setSchemaPagesList } = sitesSlicer.actions
+export const { setNotificationsData, setRecommendationsData, setSchemaPagesData, setSchemaPagesList, setUserWebsitesData } = sitesSlicer.actions
 
 export default sitesSlicer.reducer
