@@ -45,7 +45,7 @@ const SchemaPreview = ({ link_id: externalLinkId, selectedKey, selectedLabel }: 
         approved: true,
         website_id: siteId,
       })
-      getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+      getSiteCrawledInfoData({ site_id: siteId })
       getSchemaPages({ page: 1, per_page: 10, type: selectedKey, link_id: externalLinkId })
     }
   }
@@ -62,7 +62,7 @@ const SchemaPreview = ({ link_id: externalLinkId, selectedKey, selectedLabel }: 
         approved: status,
         website_id: siteId,
       })
-      getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+      getSiteCrawledInfoData({ site_id: siteId })
       getSchemaPages({ page: 1, per_page: 10, type: selectedKey, link_id: externalLinkId })
     }
   }
@@ -92,7 +92,7 @@ const SchemaPreview = ({ link_id: externalLinkId, selectedKey, selectedLabel }: 
         link_id: linkId,
         website_id: siteId,
       })
-      getSiteCrawledInfoData({ site_id: siteId, link_id: externalLinkId })
+      getSiteCrawledInfoData({ site_id: siteId })
       getSchemaPages({ page: 1, per_page: 10, type: selectedKey, link_id: externalLinkId })
     }
     const element = editableRefs.current[index]

@@ -45,7 +45,7 @@ const RecommendationOverview = ({
   const { handleUpdateRecommendations, isBulkApproveLoading, getRecommendationByType } = useHandleRecommendations()
 
   const refreshRecommendations = async () => {
-    await getSiteCrawledInfoData({ site_id: site_id, link_id: externalLinkId })
+    await getSiteCrawledInfoData({ site_id: site_id })
     await getRecommendationByType({ page: 1, per_page: selectedKey === 'missing_alt_images' ? 20 : 10, type: selectedKey, link_id: externalLinkId })
   }
 

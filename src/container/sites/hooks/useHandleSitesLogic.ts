@@ -55,7 +55,7 @@ const useHandleSitesLogic = () => {
   const [addSite, { isLoading }] = useAddSiteMutation()
   const [readNotification] = useLazyReadNotificationQuery()
   const [deleteSite, { isLoading: deleteSideLoading }] = useDeleteSiteMutation()
-  const [getSites, { isLoading: sitesListLoading, data: sitesList }] = useLazyGetSitesQuery()
+  const [getSites, { isLoading: sitesListLoading }] = useLazyGetSitesQuery()
   const [approveSiteSchema, { isLoading: approveSchemaLoading }] = useApproveSiteSchemaMutation()
   const [exportToCSV, { isFetching: exportCSVLoading, data: csvData }] = useLazyExportToCSVQuery()
   const [exportToPdf, { }] = useLazyExportToPdfQuery()

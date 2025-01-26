@@ -96,7 +96,7 @@ the number of pages with more than one meta tag of the same type` },
       title: 'Large Page Size', desc: `Number of heavy pages
 the number of pages that have a size exceeding 1 megabyte` },
     no_h1_tag: {
-      title: 'Missing H1 Tag', desc: `number of pages with empty or absent h1 tags`
+      title: 'Missing H1 Tag', desc: `Number of pages with empty or absent h1 tags`
     },
     seo_friendly_url: {
       title: 'Large Page Size', desc: `Number of pages with seo-frienldy urls
@@ -128,6 +128,10 @@ the ‘SEO-friendliness’ of a page URL is checked by four parameters` }
         ssl?: boolean;
         sitemap?: boolean;
         robots_txt?: boolean;
+        seo_friendly_url: number,
+        duplicate_meta_tags: number,
+        large_page_size: number,
+        no_h1_tag: number
       };
       extended_crawl_status: string,
       total_pages: number
@@ -146,29 +150,34 @@ the ‘SEO-friendliness’ of a page URL is checked by four parameters` }
     };
   };
 
-  const wesbiteSummary = crawledInfo?.site_data?.crawl_summary as WesbiteSummary;
+  const websiteSummary = crawledInfo?.site_data?.crawl_summary as WesbiteSummary;
 
   const domainInfo: DomainInfo = {
     checks: {
-      ssl: wesbiteSummary?.domain_info?.checks?.ssl,
-      sitemap: wesbiteSummary?.domain_info?.checks?.sitemap,
-      robots: wesbiteSummary?.domain_info?.checks?.robots_txt,
-      extended_crawl_status: wesbiteSummary?.domain_info?.extended_crawl_status
+      ssl: websiteSummary?.domain_info?.checks?.ssl,
+      sitemap: websiteSummary?.domain_info?.checks?.sitemap,
+      robots: websiteSummary?.domain_info?.checks?.robots_txt,
+      extended_crawl_status: websiteSummary?.domain_info?.extended_crawl_status,
+      seo_friendly_url: websiteSummary?.domain_info?.checks?.seo_friendly_url,
+      duplicate_meta_tags: websiteSummary?.domain_info?.checks?.duplicate_meta_tags,
+      large_page_size: websiteSummary?.domain_info?.checks?.large_page_size,
+      no_h1_tag: websiteSummary?.domain_info?.checks?.no_h1_tag
+
     },
-    total_pages: wesbiteSummary?.domain_info?.total_pages
+    total_pages: websiteSummary?.domain_info?.total_pages
   };
 
   const pageMetrics: PageMetrics = {
-    links_external: wesbiteSummary?.page_metrics?.links_external || 0,
-    links_internal: wesbiteSummary?.page_metrics?.links_internal || 0,
-    duplicate_title: wesbiteSummary?.page_metrics?.duplicate_title || 0,
-    duplicate_description: wesbiteSummary?.page_metrics?.duplicate_description || 0,
-    duplicate_content: wesbiteSummary?.page_metrics?.duplicate_content || 0,
-    broken_links: wesbiteSummary?.page_metrics?.broken_links || 0,
-    broken_resources: wesbiteSummary?.page_metrics?.broken_resources || 0,
-    non_indexable: wesbiteSummary?.page_metrics?.non_indexable || 0,
-    deprecated_html_tags: wesbiteSummary?.page_metrics?.deprecated_html_tags || 0,
-    onpage_score: wesbiteSummary?.page_metrics?.onpage_score || 0,
+    links_external: websiteSummary?.page_metrics?.links_external || 0,
+    links_internal: websiteSummary?.page_metrics?.links_internal || 0,
+    duplicate_title: websiteSummary?.page_metrics?.duplicate_title || 0,
+    duplicate_description: websiteSummary?.page_metrics?.duplicate_description || 0,
+    duplicate_content: websiteSummary?.page_metrics?.duplicate_content || 0,
+    broken_links: websiteSummary?.page_metrics?.broken_links || 0,
+    broken_resources: websiteSummary?.page_metrics?.broken_resources || 0,
+    non_indexable: websiteSummary?.page_metrics?.non_indexable || 0,
+    deprecated_html_tags: websiteSummary?.page_metrics?.deprecated_html_tags || 0,
+    onpage_score: websiteSummary?.page_metrics?.onpage_score || 0,
   };
 
 
@@ -225,11 +234,11 @@ the ‘SEO-friendliness’ of a page URL is checked by four parameters` }
       <Flex vertical gap={40}>
         <Flex vertical gap={30} className="top-container">
           <Loader loading={isGetSiteDataPending} overlay />
-          {wesbiteSummary?.domain_info?.extended_crawl_status && wesbiteSummary?.domain_info?.extended_crawl_status !== 'no_errors' && <Container className="container-bg checklist__item error">
+          {websiteSummary?.domain_info?.extended_crawl_status && websiteSummary?.domain_info?.extended_crawl_status !== 'no_errors' && <Container className="container-bg checklist__item error">
             <Flex>
               <Flex align="center" gap={16}>
                 <MdDangerous className="item-icon" style={{ color: 'red' }} />
-                <Typography text={'Error: ' + crawlErrorMapper[wesbiteSummary?.domain_info?.extended_crawl_status]} />
+                <Typography text={'Error: ' + crawlErrorMapper[websiteSummary?.domain_info?.extended_crawl_status]} />
               </Flex>
             </Flex>
           </Container>}
@@ -282,7 +291,7 @@ the ‘SEO-friendliness’ of a page URL is checked by four parameters` }
               </Flex>
             </Container>
           </Grid>
-          {wesbiteSummary && <>
+          {websiteSummary && <>
             <Typography type='h2' text='Website Summary' />
             <Divider margin={0} color="common" />
             <WebsiteChecklist domainInfo={domainInfo} pageMetrics={pageMetrics} />
