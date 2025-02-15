@@ -8,6 +8,7 @@ import ImageCard from '../ImageCard/ImageCard'
 import Container from '@/components/Container/Container'
 import ShimmerPlaceholder from '@/components/ShimmerPlaceholder/ShimmerPlaceholder'
 import useHandleRecommendations from '@/container/sites/hooks/useHandleRecommendations'
+import RecommendationsHeader from '../RecommendationsHeader';
 
 import { sitesAPI } from '@/container/sites/api/sitesAPI'
 import { ImagesAltDataTypes } from '@/container/sites/sitesTypes'
@@ -20,6 +21,7 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
   const { id: siteId } = useParams()
   const [editedId, setEditedId] = useState<string>('')
   const editableRefs = useRef<(HTMLElement | null)[]>([])
+  const [filterValue, setFilterValue] = useState<string>('')
 
   const { getSiteCrawledInfoData } = useHandleSitesLogic()
 
@@ -103,9 +105,35 @@ const ImagesList = ({ link_id: externalLinkId }: { link_id: string }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [externalLinkId])
 
+  const bulkUpdate = async () => {
+    if (siteId) {
+      await handleUpdateRecommendations(
+        {
+          model: 'missing_alt_images',
+          filter_conditions: { site_id: siteId },
+          update_data: { approved: true },
+          bulk: true,
+        },
+        refreshRecommendations
+      )
+    }
+  }
+
   return (
     <Container borderRadius boxShadow padding={40} width={70} className="images-listing container-bg">
       <ShimmerPlaceholder loading={recommendationDataLoading} count={20} width={236} height={194} gap={8} flexDirection="row">
+        <RecommendationsHeader
+          filterValue={filterValue}
+          setFilterValue={setFilterValue}
+          title="Images Title/Alt"
+          loading={isSingleApproveLoading}
+          onClick={() => bulkUpdate()}
+          total_count={recommendationData?.total_count}
+          disabled={isSingleApproveLoading}
+          approved_count={recommendationData?.approved_count}
+          addPadding={false}
+        //description="Images with no alt/title"
+        />
         <Flex vertical align="center" gap={24}>
           <Grid gap={8} minWidth={190} minMax={200}>
             {(recommendationData?.data as ImagesAltDataTypes[])?.map((item, index) => (

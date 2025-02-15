@@ -1,0 +1,13 @@
+.recommendation-header-container {
+  &__title {
+    white-space: nowrap;
+  }
+
+  &__select {
+    width: 150px;
+
+    .options-list {
+      padding: 6px !important;
+    }
+  }
+}

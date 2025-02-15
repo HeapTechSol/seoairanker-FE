@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { debounce } from 'lodash';
 
 import Flex from '@/components/Flex'
 import Input from '@/components/Input'
@@ -57,18 +58,27 @@ const SitesDashboard = () => {
     // handlePreviousButtonPress,
   } = useHandleSitesLogic()
 
+  const debouncedFetchSites = useCallback(
+    debounce((query: string) => {
+      getSitesList({ page: 1, per_page: 10, query });
+    }, 500), // Adjust debounce delay as needed (300ms)
+    []
+  );
+
+  const handleLoadMore = async (pageNumber: number) => {
+    await getSitesList({ page: pageNumber, per_page: 10, query })
+  }
+
   useEffect(() => {
-    getSitesList({ page: 1, per_page: 10, query })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query])
+    debouncedFetchSites(query);
+    return () => {
+      debouncedFetchSites.cancel(); // Cleanup debounce on unmount or query change
+    };
+  }, [query, debouncedFetchSites]);
 
   const deleteSite = (id: number) => {
     setSiteId(id)
     setIsShowDeleteModal(true)
-  }
-
-  const handleLoadMore = async (pageNumber: number) => {
-    await getSitesList({ page: pageNumber, per_page: 10, query })
   }
 
   const isKeywords = false
@@ -92,6 +102,7 @@ const SitesDashboard = () => {
       ),
     },
   ]
+
 
   const isSitesExist = !!sitesList?.data?.length
 
