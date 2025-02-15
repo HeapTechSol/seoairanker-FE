@@ -67,8 +67,8 @@ const SitesDashboard = () => {
     setIsShowDeleteModal(true)
   }
 
-  const handleLoadMore = async () => {
-    await getSitesList({ page: (sitesList?.page || 1) + 1, per_page: 10, query })
+  const handleLoadMore = async (pageNumber: number) => {
+    await getSitesList({ page: pageNumber, per_page: 10, query })
   }
 
   const isKeywords = false

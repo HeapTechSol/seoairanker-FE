@@ -174,7 +174,7 @@ export const sitesAPI = baseQueryApi.injectEndpoints({
       },
     }),
 
-    reCrawlSite: builder.mutation<GetRecommendationsByModelAPIResponseTypes, { site_id: string; siteUrl: string }>({
+    reCrawlSite: builder.mutation<GetRecommendationsByModelAPIResponseTypes, { site_id: string; }>({
       query: (payload) => ({
         url: RE_CRAWL_SITE,
         method: 'POST',

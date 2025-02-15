@@ -46,7 +46,7 @@ const SiteSchema = () => {
     useHandleSitesLogic()
 
   const reCrawlSite = () => {
-    if (id && crawledInfo.site_data?.site_url) handleReCrawlSite({ site_id: id || '', siteUrl: crawledInfo.site_data?.site_url })
+    if (id && crawledInfo.site_data?.site_url) handleReCrawlSite({ site_id: id || '' })
   }
 
   const handleSchemaSelection = (selected: boolean, item: SchemaTypes) => {
@@ -93,7 +93,7 @@ const SiteSchema = () => {
   useEffect(() => {
     setSelectedKeys(pagesData?.filter((item) => item.selected)?.map((item) => item.label) || [])
     setDurationValue(schemaTypesData?.crawl_interval || '')
-     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [schemaTypesData])
 
   useEffect(() => {
@@ -114,9 +114,8 @@ const SiteSchema = () => {
             <Flex vertical gap={16}>
               <Typography text="Schema Markup Automation" type="h2" />
               <Typography
-                text={`Below is the list of AI Schema Markup Categories for ${
-                  crawledInfo?.site_data?.site_url || ''
-                } that can be implemented automatically. First review Schema Markup, and then click Approve to deploy changes automatically. You can approve or unapprove changes across your entire site or to individual pages by clicking the Category titles.`}
+                text={`Below is the list of AI Schema Markup Categories for ${crawledInfo?.site_data?.site_url || ''
+                  } that can be implemented automatically. First review Schema Markup, and then click Approve to deploy changes automatically. You can approve or unapprove changes across your entire site or to individual pages by clicking the Category titles.`}
               />
             </Flex>
           </Container>
@@ -179,7 +178,7 @@ const SiteSchema = () => {
             </Flex>
             <Divider margin={24} />
             <Button
-              
+
               loading={approveSchemaLoading}
               disabled={!selectedKeys?.length}
               onClick={() => approveSchema({ id: id || '', schema_types: selectedKeys, crawl_interval: durationValue as string })}

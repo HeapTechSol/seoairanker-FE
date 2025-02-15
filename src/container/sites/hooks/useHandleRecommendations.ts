@@ -70,7 +70,7 @@ const useHandleRecommendations = () => {
     }
   }
 
-  const handleReCrawlSite = async (payload: { site_id: string; siteUrl: string }) => {
+  const handleReCrawlSite = async (payload: { site_id: string; }) => {
     try {
       await reCrawlSite(payload).unwrap()
       toast.success('Recommendation regeneration started, we will notify you once we are done.')

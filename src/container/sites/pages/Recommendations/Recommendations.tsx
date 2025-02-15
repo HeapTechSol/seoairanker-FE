@@ -43,7 +43,7 @@ const Recommendations = ({ isGetSiteDataPending }: { isGetSiteDataPending: boole
   };
 
   const getKeyWithHighestCount = (data: DataObject, field: keyof DataObject[string]) => {
-    let maxKey = 'missing_link_title_attr';
+    let maxKey = 'missing_meta_titles';
     let maxCount = -Infinity;
     Object.entries(data).forEach(([key, values]) => {
       if (values[field] > maxCount) {
@@ -76,7 +76,7 @@ const Recommendations = ({ isGetSiteDataPending }: { isGetSiteDataPending: boole
   }))
 
   const reCrawlSite = () => {
-    if (siteId && crawledInfo.site_data?.site_url) handleReCrawlSite({ site_id: siteId, siteUrl: crawledInfo.site_data?.site_url })
+    if (siteId) handleReCrawlSite({ site_id: siteId })
   }
 
   const handleSearch = async (query: string) => {
