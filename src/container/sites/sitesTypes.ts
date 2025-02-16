@@ -94,8 +94,10 @@ export type ModalTypes =
   | 'missing_meta_titles'
   | 'heading_suggestions'
   | 'missing_link_title_attr'
-  | 'missing_meta_descriptions' |
-  'cannonical_tags'
+  | 'missing_meta_descriptions'
+  | 'cannonical_tags'
+  | 'non_indexable_pages'
+
 
 export type SchemaPageTypes = string
 

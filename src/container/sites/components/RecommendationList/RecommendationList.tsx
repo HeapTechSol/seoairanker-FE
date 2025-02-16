@@ -3,6 +3,7 @@ import ImagesList from '../ImagesList/ImagesList'
 import TitlePreview from '../TitlePreview/TitlePreview'
 import SocialPreview from '../SocialPreview/SocialPreview'
 import ConicalTagPreview from '../ConicalTagsPreview/ConicalTagPreview'
+import NonIndexablePages from '../NonIndexablePages/NonIndexablePages'
 import ExternalTitleList from '../ExternalTitlesList/ExternalTitleList'
 import DescriptionPreview from '../DescriptionPreview/DescriptionPreview'
 
@@ -12,7 +13,7 @@ import { ModalTypes } from '@/container/sites/sitesTypes'
 
 import './RecommendationList.scss'
 
-const RecommendationList = ({ selectedKey, link_id, defaultKey }: { selectedKey: string; link_id: string, defaultKey:ModalTypes }) => {
+const RecommendationList = ({ selectedKey, link_id, defaultKey }: { selectedKey: string; link_id: string, defaultKey: ModalTypes }) => {
   const renderList = () => {
     switch (selectedKey || defaultKey) {
       case 'missing_alt_images':
@@ -30,7 +31,9 @@ const RecommendationList = ({ selectedKey, link_id, defaultKey }: { selectedKey:
       case 'heading_suggestions':
         return <HeadingRecommendationsPreview link_id={link_id} />
       case 'cannonical_tags':
-        return <ConicalTagPreview link_id={link_id} /> 
+        return <ConicalTagPreview link_id={link_id} />
+      case 'non_indexable_pages':
+        return <NonIndexablePages link_id={link_id} />
     }
   }
 
