@@ -97,6 +97,7 @@ export type ModalTypes =
   | 'missing_meta_descriptions'
   | 'cannonical_tags'
   | 'non_indexable_pages'
+  | 'keywords'
 
 
 export type SchemaPageTypes = string

@@ -4,6 +4,7 @@ import TitlePreview from '../TitlePreview/TitlePreview'
 import SocialPreview from '../SocialPreview/SocialPreview'
 import ConicalTagPreview from '../ConicalTagsPreview/ConicalTagPreview'
 import NonIndexablePages from '../NonIndexablePages/NonIndexablePages'
+import MetaKeywords from '../MetaKeywords/MetaKeywords'
 import ExternalTitleList from '../ExternalTitlesList/ExternalTitleList'
 import DescriptionPreview from '../DescriptionPreview/DescriptionPreview'
 
@@ -34,6 +35,8 @@ const RecommendationList = ({ selectedKey, link_id, defaultKey }: { selectedKey:
         return <ConicalTagPreview link_id={link_id} />
       case 'non_indexable_pages':
         return <NonIndexablePages link_id={link_id} />
+      case 'keywords':
+        return <MetaKeywords link_id={link_id} />
     }
   }
 
